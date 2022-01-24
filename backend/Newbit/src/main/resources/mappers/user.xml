@@ -15,4 +15,11 @@
 		where user_code = #{userCode}
 	</update>
 	
+	<select id="getFollowerList" parameterType="int" resultType="userDto">
+		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_intro `userIntro`, case when exists (select * from follow f where f.following_code = u.user_code and f.user_code = #{userCode}) then true else false end `isFollow`
+from user u
+where u.user_code in (select user_code from follow where following_code = #{userCode})
+	</select>
+	
+	
 </mapper>
