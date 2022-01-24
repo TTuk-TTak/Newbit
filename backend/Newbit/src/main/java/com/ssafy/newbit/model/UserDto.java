@@ -12,27 +12,27 @@ public class UserDto {
 	
 	@ApiModelProperty(value = "회원 코드")
 	private int userCode;
-	@ApiModelProperty(value = "회원 이메일")
+	@ApiModelProperty(value = "이메일")
 	private String userEmail;
-	@ApiModelProperty(value = "회원 아이디")
+	@ApiModelProperty(value = "아이디")
 	private String userId;
-	@ApiModelProperty(value = "회원 닉네임")
+	@ApiModelProperty(value = "닉네임")
 	private String userNick;
-	@ApiModelProperty(value = "회원 비밀번호")
+	@ApiModelProperty(value = "비밀번호")
 	private String userPassword;
-	@ApiModelProperty(value = "회원 가입일")
+	@ApiModelProperty(value = "가입일")
 	private String userDate;
-	@ApiModelProperty(value = "회원 프로필사진")
+	@ApiModelProperty(value = "프로필 사진")
 	private String userImg;
-	@ApiModelProperty(value = "회원 게시글 수")
+	@ApiModelProperty(value = "게시글 수")
 	private int userPostCount;
-	@ApiModelProperty(value = "회원 팔로워 수")
+	@ApiModelProperty(value = "팔로워 수")
 	private int userFollowerCount;
-	@ApiModelProperty(value = "회원 팔로잉 수")
+	@ApiModelProperty(value = "팔로잉 수")
 	private int userFollowingCount;
-	@ApiModelProperty(value = "회원 한줄 소개")
+	@ApiModelProperty(value = "한줄 소개")
 	private String userIntro;
-	@ApiModelProperty(value = "회원 관심키워드")
+	@ApiModelProperty(value = "관심키워드")
 	private String userKeyword;
 	
 	public UserDto(String userEmail, String userId, String userNick, String userPassword) {
