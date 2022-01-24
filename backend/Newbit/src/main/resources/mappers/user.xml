@@ -15,4 +15,10 @@
 		where user_code = #{userCode}
 	</update>
 	
+	<select id="getFollowingList" parameterType="int" resultType="userDto">
+		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_intro `userIntro`
+		from user u
+		where u.user_code in (select following_code from follow where user_code = #{userCode})
+	</select>
+	
 </mapper>

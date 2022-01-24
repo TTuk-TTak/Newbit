@@ -11,6 +11,8 @@ import com.ssafy.newbit.model.UserDto;
 public interface UserMapper {
 
 	public int editUserInfo(UserDto userDto) throws SQLException;
+
+	List<UserDto> getFollowingList(int userCode) throws SQLException;
 	
 	
 }
