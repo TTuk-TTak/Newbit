@@ -37,7 +37,7 @@ public class FollowController {
 
 	// 팔로우 리스트 조회
 	@ApiOperation(value = "팔로우 리스트 조회", notes = "회원 코드에 해당하는 회원의 팔로우 리스트를 반환한다.", response = UserDto.class)
-	@GetMapping
+	@GetMapping("/following")
 	public ResponseEntity<List<UserDto>> getFollowingList(@RequestParam("uid") int userCode) throws Exception {
 		logger.info("getFollowingList - 호출 : " + userCode);
 		return new ResponseEntity<List<UserDto>>(userService.getFollowingList(userCode), HttpStatus.OK);
