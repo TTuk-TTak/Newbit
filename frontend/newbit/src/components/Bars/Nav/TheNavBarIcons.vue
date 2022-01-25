@@ -9,10 +9,10 @@
       <v-icon>mdi-bell</v-icon>
     </v-btn>
     <!-- 3-1. 비 로그인 사용자: 로그인 버튼 -->
-    <v-btn 
+    <v-btn
       v-if="isLoggedIn === false"
       icon
-      >
+    >
       <v-icon>mdi-login</v-icon>
     </v-btn>
     <!-- 3-2. 로그인 된 사용자: 메뉴 확인 -->
@@ -30,7 +30,7 @@
           <v-avatar
             color="indigo"
             size="36"
-            >
+          >
             <span>36</span>
           </v-avatar>
         </v-btn>
@@ -50,14 +50,14 @@
         </v-list-item>
         <!-- 2. 설정 -->
         <v-list-item>
-            <v-icon>mdi-cog</v-icon>
+          <v-icon>mdi-cog</v-icon>
           <v-list-item-content>
             <v-list-item-title>설정</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <!-- 3. 로그아웃 -->
         <v-list-item>
-            <v-icon>mdi-logout</v-icon>
+          <v-icon>mdi-logout</v-icon>
           <v-list-item-content>
             <v-list-item-title>로그아웃</v-list-item-title>
           </v-list-item-content>
@@ -79,5 +79,4 @@ export default {
 </script>
 
 <style>
-
 </style>
