@@ -4,6 +4,10 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import NotFound from '@/views/Error/NotFound.vue'
 
+import Signup from '@/views/User/Signup.vue'
+import SignupComplete from '@/views/User/SignupComplete.vue'
+import Login from '@/views/User/Login.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -13,8 +17,27 @@ const routes = [
     component: Home
   },
 
+  //Authentication
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: Signup
+  },
 
-// 404 Error
+  {
+    path: '/signup-complete',
+    name: 'SignupComplete',
+    component: SignupComplete
+  },
+
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+
+
+  // 404 Error
   {
     path: '*',
     name: 'NotFound',
