@@ -25,7 +25,7 @@ const routes = [
   },
 
   {
-    path: '/signup-complete',
+    path: '/signup/complete',
     name: 'SignupComplete',
     component: SignupComplete
   },
