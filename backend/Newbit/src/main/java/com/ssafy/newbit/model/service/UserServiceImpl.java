@@ -26,4 +26,10 @@ public class UserServiceImpl implements UserService {
 	public List<UserDto> getFollowingList(int userCode) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).getFollowingList(userCode);
 	}
+
+	@Override
+	public UserDto getUser(int userCode) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).getUser(userCode);
+	}
+
 }

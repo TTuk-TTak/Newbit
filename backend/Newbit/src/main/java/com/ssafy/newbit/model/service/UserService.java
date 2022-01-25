@@ -8,7 +8,7 @@ import com.ssafy.newbit.model.UserDto;
 public interface UserService {
 
 	public boolean editUserInfo(UserDto memberDto) throws Exception;
-
 	List<UserDto> getFollowingList(int userCode) throws Exception;
+	public UserDto getUser(int userCode) throws Exception;
 	
 }
