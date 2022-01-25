@@ -7,5 +7,4 @@ import org.springframework.context.annotation.Configuration;
 @MapperScan(
 		basePackages = "com.ssafy.newbit.model.mapper"
 )
-
 public class DatabaseConfig {}

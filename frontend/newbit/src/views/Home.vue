@@ -1,15 +1,31 @@
 <template>
-  <hello-world />
+  <v-container>
+    <v-row>
+      <v-col
+        cols="3"
+      >
+        <h1>프로필 바</h1>
+      </v-col>
+      <v-col>
+        <content-feed></content-feed>
+      </v-col>
+      <v-col
+        cols='2'
+      >
+        <h1>키워드 바</h1>
+      </v-col>
+    </v-row>
+
+  </v-container>
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
+import ContentFeed from '@/views/Feed/ContentFeed.vue'
 
   export default {
     name: 'Home',
-
     components: {
-      HelloWorld,
+      ContentFeed,
     },
   }
 </script>

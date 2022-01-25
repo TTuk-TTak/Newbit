@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.newbit.model.mapper.UserMapper">
+
+	<update id="editUserInfo" parameterType="userDto">
+		update	user
+		set user_id = #{userId},
+			user_nick = #{userNick},
+		    user_password = #{userPassword},
+		    user_intro = #{userIntro},
+		    user_Img = #{userImg},
+		    user_keyword = #{userKeyword}
+		where user_code = #{userCode}
+	</update>
+	
+	<select id="getFollowingList" parameterType="int" resultType="userDto">
+		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_intro `userIntro`
+		from user u
+		where u.user_code in (select following_code from follow where user_code = #{userCode})
+	</select>
+
+	<select id="getUser" parameterType="int" resultType="userDto">
+		select user_id `userId`, user_nick `userNick`, user_img `userImg`, user_postcount `userPostCount`, user_followercount `userFollowerCount`, user_followingcount `userFollowingCount`, user_intro `userIntro`, user_keyword `userKeyword`
+		from user
+		where user_code = #{userCode}
+	</select>
+
+	<select id="getFollowerList" parameterType="int" resultType="userDto">
+		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_intro `userIntro`, case when exists (select * from follow f where f.following_code = u.user_code and f.user_code = #{userCode}) then true else false end `isFollow`
+from user u
+    where u.user_code in (select user_code from follow where following_code = #{userCode})
+	</select>
+	
+</mapper>
