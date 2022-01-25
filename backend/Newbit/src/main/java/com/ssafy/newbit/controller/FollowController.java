@@ -43,4 +43,12 @@ public class FollowController {
 		return new ResponseEntity<List<UserDto>>(userService.getFollowingList(userCode), HttpStatus.OK);
 	}
 	
+	// 팔로워 리스트 조회
+	@ApiOperation(value = "팔로워 리스트 조회", notes = "회원 코드에 해당하는 회원의 팔로워 리스트를 반환한다.", response = UserDto.class)
+	@GetMapping("/follower")
+	public ResponseEntity<List<UserDto>> getFollowerList(@RequestParam("uid") int userCode) throws Exception {
+		logger.info("getFollowerList - 호출 : " + userCode);
+		return new ResponseEntity<List<UserDto>>(userService.getFollowerList(userCode), HttpStatus.OK);
+	}
+	
 }

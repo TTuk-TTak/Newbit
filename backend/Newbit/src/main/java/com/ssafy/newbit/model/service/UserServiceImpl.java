@@ -32,4 +32,9 @@ public class UserServiceImpl implements UserService {
 		return sqlSession.getMapper(UserMapper.class).getUser(userCode);
 	}
 
+  @Override
+	public List<UserDto> getFollowerList(int userCode) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).getFollowerList(userCode);
+	}
+  
 }
