@@ -13,6 +13,9 @@ import io.swagger.annotations.ApiParam;
 import com.ssafy.newbit.model.CommentDto;
 import com.ssafy.newbit.model.PostDto;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,9 +53,35 @@ public class CommentController {
 		logger.info("writeComment 호출 : " + commentDto.getCommentText());
 		if (commentService.writeComment(commentDto)) {
 			//postService.updateComment(commentDto.getPostCode());
+			HashMap<String, Integer> map = new HashMap<String, Integer>();
+			map.put("postCode", commentDto.getPostCode());
+			map.put("count", 1);
+			postService.updateComment(map);
+			
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<CommentDto>> listComment(@RequestParam @ApiParam(value = "해당 게시글 코드에 달린 모든 댓글 반환", required = true) int pid) throws Exception {
+		logger.info("listComment 호출 : "+pid);
+		return new ResponseEntity<List<CommentDto>>(commentService.listComment(pid), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "댓글 삭제", notes = "댓글코드에 해당하는 게시글 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("/{commentCode}")
+	public ResponseEntity<String> deleteComment(@PathVariable("commentCode") @ApiParam(value = "삭제할 게시글의 코드", required = true) int commentCode) throws Exception {
+		logger.info("deleteComment 호출 : " + commentCode);
+		int postCode = commentService.getPostCode(commentCode);
+		if (commentService.deleteComment(commentCode)) {
+			HashMap<String, Integer> map = new HashMap<String, Integer>();
+			map.put("postCode", postCode);
+			map.put("count", -1);
+			postService.updateComment(map);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 	
 	

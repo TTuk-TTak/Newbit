@@ -19,7 +19,6 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public boolean writeComment(CommentDto commentDto) throws Exception {
 		// TODO Auto-generated method stubs
-		System.out.println(commentDto.getPostCode());
 		return sqlSession.getMapper(CommentMapper.class).writeComment(commentDto) == 1;
 	}
 
@@ -34,5 +33,12 @@ public class CommentServiceImpl implements CommentService {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(CommentMapper.class).deleteComment(commentCode) == 1;
 	}
+
+	@Override
+	public int getPostCode(int commentCode) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(CommentMapper.class).getPostCode(commentCode);
+	}
+	
 
 }

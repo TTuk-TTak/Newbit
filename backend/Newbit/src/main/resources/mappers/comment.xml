@@ -14,12 +14,12 @@
 	</insert>
 
 	<delete id="deleteComment" parameterType="int">
-		delete from post
+		delete from comment
 		where
 		comment_code = #{commentCode}
 	</delete>
 
-	<select id="listComment" parameterType="int">
+	<select id="listComment" parameterType="int" resultType="com.ssafy.newbit.model.CommentDto">
 		select comment_code as
 		commentCode, user_code as userCode, post_code as postCode,
 		comment_time as commentTime,
@@ -29,5 +29,12 @@
 		where
 		post_code = #{postCode}
 	</select>
+	
+	<select id="getPostCode" parameterType="int" resultType="int">
+		select post_code as postCode
+		from comment
+		where comment_code = #{commentCode}
+	</select>
+	
 
 </mapper>
