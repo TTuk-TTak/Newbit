@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.newbit.model.mapper.CommentMapper">
+
+
+	<insert id="writeComment"
+		parameterType="com.ssafy.newbit.model.CommentDto">
+		insert into comment (user_code, post_code, comment_time,
+		comment_text, comment_depth, comment_parent)
+		values (#{userCode},
+		#{postCode}, now(), #{commentText}, #{commentDepth},
+		#{commentParent})
+	</insert>
+
+	<delete id="deleteComment" parameterType="int">
+		delete from post
+		where
+		comment_code = #{commentCode}
+	</delete>
+
+	<select id="listComment" parameterType="int">
+		select comment_code as
+		commentCode, user_code as userCode, post_code as postCode,
+		comment_time as commentTime,
+		comment_text as commentText, comment_depth
+		as commentDepth, comment_parent as commentParent
+		from comment
+		where
+		post_code = #{postCode}
+	</select>
+
+</mapper>

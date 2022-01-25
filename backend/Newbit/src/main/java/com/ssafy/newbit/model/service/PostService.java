@@ -2,7 +2,6 @@ package com.ssafy.newbit.model.service;
 
 import java.util.*;
 
-import org.springframework.stereotype.Service;
 
 import com.ssafy.newbit.model.PostDto;
 import com.ssafy.newbit.model.PostTextDto;
