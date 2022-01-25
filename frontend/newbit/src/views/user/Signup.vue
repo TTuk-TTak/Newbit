@@ -71,6 +71,7 @@
                   <v-btn
                     @click="signup(credentials)"
                     class="font-weight-bold"
+                    color="black"
                     dark
                     x-large
                     block

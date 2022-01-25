@@ -44,6 +44,7 @@
                   <v-btn
                     @click="login(credentials)"
                     class="font-weight-bold"
+                    color="black"
                     dark
                     x-large
                     block
