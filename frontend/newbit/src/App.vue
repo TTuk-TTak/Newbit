@@ -1,8 +1,11 @@
 <template>
   <v-app>
     <the-nav></the-nav>
-    <v-main id="main" class="container">
-      <router-view/>
+    <v-main
+      id="main"
+      class="container"
+    >
+      <router-view />
     </v-main>
   </v-app>
 </template>
@@ -17,7 +20,7 @@ export default {
   },
 
   data: () => ({
-  
+
   }),
 
 };
@@ -65,6 +68,7 @@ export default {
 
 #main {
   max-width: 1000px;
+  background-color: var(--v-background-base);
 }
 
 
