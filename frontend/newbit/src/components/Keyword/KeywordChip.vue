@@ -1,5 +1,8 @@
 <template>
-  <v-chip>{{text}}</v-chip>
+  <v-chip
+    color='keywordChipBackground'
+    text-color='keywordChipText'
+  >{{text}}</v-chip>
 </template>
 
 <script>

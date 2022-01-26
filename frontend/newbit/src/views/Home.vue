@@ -7,6 +7,7 @@
         <h1>프로필 바</h1>
       </v-col>
       <v-col>
+        <not-found></not-found>
         <content-feed></content-feed>
       </v-col>
       <v-col
@@ -20,12 +21,14 @@
 </template>
 
 <script>
+import NotFound from '@/views/Error/NotFound.vue'
 import ContentFeed from '@/views/Feed/ContentFeed.vue'
 
   export default {
     name: 'Home',
     components: {
       ContentFeed,
+      NotFound,
     },
   }
 </script>

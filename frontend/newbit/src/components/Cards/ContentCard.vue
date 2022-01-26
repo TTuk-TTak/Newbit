@@ -8,8 +8,10 @@
       :src="`${content.thumbnail}`"
       class="my-2"
     ></v-img>
-    <!-- 컨텐츠 타이틀 -->
-    <v-card-title>{{ content.title }}</v-card-title>
+    <!-- 1. 컨텐츠 타이틀 -->
+    <v-card-title
+      class="py-1"
+    >{{ content.title }}</v-card-title>
     <!-- 컨텐츠 본문 -->
     <v-card-text
       class="content-text"
@@ -17,7 +19,9 @@
       <div>{{ content.text }}</div>
     </v-card-text>
     <!-- 키워드 -->
-    <v-card-text>
+    <v-card-text
+      class="py-1"
+    >
       <v-chip-group>
         <keyword-chip
           v-for="keyword in keywordSample"
@@ -29,7 +33,7 @@
     </v-card-text>
     <!-- 하단 소개 및 공유버튼 -->
     <v-card-actions
-      class='justify-space-between'
+      class='pt-0 justify-space-between'
     >
       <div>
         <v-avatar
