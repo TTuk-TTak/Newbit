@@ -1,9 +1,12 @@
 <template>
-  <v-chip-group>
-    <keyword-chip></keyword-chip>
-    <keyword-chip></keyword-chip>
-    <keyword-chip></keyword-chip>
-  </v-chip-group>
+  <div>
+    <h3>관심키워드</h3>
+    <v-chip-group>
+      <keyword-chip></keyword-chip>
+      <keyword-chip></keyword-chip>
+      <keyword-chip></keyword-chip>
+    </v-chip-group>
+  </div>
 </template>
 
 <script>
@@ -18,5 +21,4 @@ export default {
 </script>
 
 <style>
-
 </style>
