@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.newbit.model.mapper.PostMapper">
+
+	<insert id="writePost"
+		parameterType="com.ssafy.newbit.model.PostDto">
+		insert into post(user_code, content_code, techblog_code,
+		post_text, post_date)
+		<if test="contentCode != null">
+			values (#{userCode}, #{contentCode},
+			#{techblogCode},
+			#{postText}, now())
+		</if>
+		<if test="contentCode == null">
+			values (#{userCode}, #{postText}, now())
+		</if>
+
+	</insert>
+
+	<select id="getPost" parameterType="int"
+		resultType="com.ssafy.newbit.model.PostDto">
+		select post_code `postCode`, user_code `userCode`,
+		content_code `contentCode`, techblog_code `techblogCode`,
+		post_text
+		`postText`, post_like `postLike`,
+		post_comment `postComment`,
+		post_date
+		`postDate`, post_scrap `postScrap`,
+		post_edit `postEdit`
+		from post
+		where post_code = #{postCode}
+	</select>
+
+	<select id="listPost" parameterType="HashMap"
+		resultType="com.ssafy.newbit.model.PostDto">
+		select post_code as postCode, user_code as userCode,
+		content_code as
+		contentCode, techblog_code as techblogCode,
+		post_text as postText,
+		post_like as postLike,
+		post_comment as postComment, post_date as
+		postDate, post_scrap as postScrap,
+		post_edit as
+		postEdit
+		from post p
+
+		where (p.user_code in
+		<choose>
+			<when test="followingList.size != 0">
+				<foreach collection="followingList" item="item"
+					index="index" separator="," open="(" close=")">
+					#{item}
+				</foreach>
+			</when>
+		</choose>
+		)
+		<if test="lastPostCode != null and lastPostCode != 0">
+			and (p.post_code  <![CDATA[<]]> #{lastPostCode})
+		</if>
+		order by p.post_code desc
+		limit #{size}
+	</select>
+
+	<select id="listUserPost" parameterType="HashMap"
+		resultType="com.ssafy.newbit.model.PostDto">
+		select post_code as postCode, user_code as userCode,
+		content_code as
+		contentCode, techblog_code as techblogCode,
+		post_text as
+		postText,
+		post_like as postLike,
+		post_comment as postComment, post_date
+		as
+		postDate, post_scrap as postScrap,
+		post_edit as
+		postEditdit
+		from post
+		where user_code = #{userCode}
+		<if test="lastPostCode != null and lastPostCode != 0">
+			and (post_code  <![CDATA[<]]> #{lastPostCode})
+		</if>
+		order by post_code desc
+		limit #{size}
+	</select>
+
+	<update id="editPost"
+		parameterType="com.ssafy.newbit.model.PostTextDto">
+		update post
+		set post_text = #{postText}, post_edit = 1
+		where post_code =#{postCode}
+	</update>
+
+	<delete id="deletePost" parameterType="int">
+		delete from post
+		where
+		post_code = #{postCode}
+	</delete>
+
+	<update id="updateScrap" parameterType="int">
+		update post
+		set post_scarp
+		= post_scrap+1
+		where post_code = #{post_code}
+	</update>
+
+	<update id="updateLike" parameterType="int">
+		update post
+		set post_like =
+		post_like + 1
+		where post_code = #{post_code}
+	</update>
+
+
+	<update id="updateComment" parameterType="HashMap">
+		update post
+		set
+		post_comment = post_comment + #{count}
+		where post_code = #{postCode}
+	</update>
+
+	<select id="getFollowingList" parameterType="int"
+		resultType="int">
+		select following_code
+		from follow
+		where user_code =
+		#{userCode}
+	</select>
+
+</mapper>
