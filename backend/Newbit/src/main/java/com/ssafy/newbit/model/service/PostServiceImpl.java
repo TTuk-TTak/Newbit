@@ -1,5 +1,6 @@
 package com.ssafy.newbit.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -74,9 +75,14 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public void updateComment(int postCode) throws Exception {
+	public void updateComment(HashMap<String, Integer> map) throws Exception {
 		// TODO Auto-generated method stub
-		sqlSession.getMapper(PostMapper.class).updateComment(postCode);
+		System.out.println(map.get("count"));
+		System.out.println(map.get("postCode"));
+		sqlSession.getMapper(PostMapper.class).updateComment(map);
+		
 	}
+
+	
 
 }
