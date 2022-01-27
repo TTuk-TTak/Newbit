@@ -1,15 +1,15 @@
 package com.ssafy.newbit.model;
 
 import io.swagger.annotations.ApiModel;
-
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+
 @ApiModel(value = "UserDto : 회원정보", description = "회원의 상세 정보를 나타낸다.")
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
+@Data
 public class UserDto {
-	
 	@ApiModelProperty(value = "회원 코드")
 	private int userCode;
 	@ApiModelProperty(value = "이메일")
@@ -34,25 +34,9 @@ public class UserDto {
 	private String userIntro;
 	@ApiModelProperty(value = "관심키워드")
 	private String userKeyword;
-	
-	public UserDto(String userEmail, String userId, String userNick, String userPassword) {
-		this.userEmail = userEmail;
-		this.userId = userId;
-		this.userNick = userNick;
-		this.userPassword = userPassword;
-	}
-	
-	public UserDto(int userCode, String userId, String userNick, String userPassword, String userImg, String userIntro,
-			String userKeyword) {
-		this.userCode = userCode;
-		this.userId = userId;
-		this.userNick = userNick;
-		this.userPassword = userPassword;
-		this.userImg = userImg;
-		this.userIntro = userIntro;
-		this.userKeyword = userKeyword;
-	}
 
+	
+	
 	public int getUserCode() {
 		return userCode;
 	}
