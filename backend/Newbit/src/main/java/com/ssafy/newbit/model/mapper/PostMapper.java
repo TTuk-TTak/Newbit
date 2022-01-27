@@ -19,5 +19,5 @@ public interface PostMapper {
 	
 	public void updateScrap(int postCode) throws SQLException;
 	public void updateLike(int postCode) throws SQLException;
-	public void updateComment(int postCode) throws SQLException;
+	public void updateComment(HashMap<String, Integer> map) throws SQLException;
 }
