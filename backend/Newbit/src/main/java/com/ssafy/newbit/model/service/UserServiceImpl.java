@@ -90,6 +90,12 @@ public class UserServiceImpl implements UserService{
   @Override
 	public List<UserDto> getFollowerList(int userCode) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).getFollowerList(userCode);
+  }
+
+  @Override
+	@Transactional
+	public boolean editUserInfo(UserDto userDto) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).editUserInfo(userDto) == 1;
 	}
   
 }

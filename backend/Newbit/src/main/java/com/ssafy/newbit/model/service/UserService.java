@@ -17,4 +17,6 @@ public interface UserService {
 	List<UserDto> getFollowingList(int userCode) throws Exception;
 	List<UserDto> getFollowerList(int userCode) throws Exception;
 	
+	public boolean editUserInfo(UserDto usersDto) throws Exception;
+
 }
