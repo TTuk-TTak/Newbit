@@ -31,5 +31,5 @@ public interface UserMapper {
 	public UserDto getUser(int userCode) throws SQLException;
 	List<UserDto> getFollowingList(int userCode) throws SQLException;
 	List<UserDto> getFollowerList(int userCode) throws SQLException;
-
+	
 }
