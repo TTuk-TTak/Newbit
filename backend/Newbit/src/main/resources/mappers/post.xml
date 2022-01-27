@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.newbit.model.mapper.PostMapper">
+
+	<insert id="writePost"
+		parameterType="com.ssafy.newbit.model.PostDto">
+		insert into post(user_code, content_code, techblog_code,
+		post_text,
+		post_date)
+		<if test="contentCode != null">
+			values (#{userCode}, #{contentCode},
+			#{techblogCode},
+			#{postText}, now())
+		</if>
+		<if test="contentCode == null">
+			values (#{userCode}, #{postText}, now())
+		</if>
+
+	</insert>
+
+	<select id="getPost" parameterType="int"
+		resultType="com.ssafy.newbit.model.PostDto">
+		select post_code as postCode, user_code as userCode,
+		content_code as contentCode, techblog_code as techblogCode,
+		post_text
+		as postText, post_like as postLike,
+		post_comment as postComment,
+		post_date as postDate, post_scrap as postScrap, 
+		post_edit as postEdit
+		from post
+		where post_code = #{postCode}
+	</select>
+
+	<select id="listPost" parameterType="int"
+		resultType="com.ssafy.newbit.model.PostDto">
+		select post_code as postCode, user_code as userCode,
+		content_code as
+		contentCode, techblog_code as techblogCode,
+		post_text as postText,
+		post_like as postLike,
+		post_comment as postComment, post_date as
+		postDate, post_scrap as postScrap, 
+		post_edit as
+		postEdit
+		from post
+			order by post_code desc
+	</select>
+
+	<select id="listUserPost" parameterType="int"
+		resultType="com.ssafy.newbit.model.PostDto">
+		select post_code as postCode, user_code as userCode,
+		content_code as
+		contentCode, techblog_code as techblogCode,
+		post_text as postText,
+		post_like as postLike,
+		post_comment as postComment, post_date as
+		postDate, post_scrap as postScrap, 
+		post_edit as
+		postEditdit
+		from post
+		where user_code = #{userCode}
+		order by post_code desc
+	</select>
+
+	<update id="editPost"
+		parameterType="com.ssafy.newbit.model.PostTextDto">
+		update post
+		set post_text = #{postText}, post_edit = 1
+		where post_code =#{postCode}
+	</update>
+
+	<delete id="deletePost" parameterType="int">
+		delete from post
+		where
+		post_code = #{postCode}
+	</delete>
+
+	<update id="updateScrap" parameterType="int">
+		update post
+		set post_scarp
+		= post_scrap+1
+		where post_code = #{post_code}
+	</update>
+
+	<update id="updateLike" parameterType="int">
+		update post
+		set post_like =
+		post_like+1
+		where post_code = #{post_code}
+	</update>
+
+
+	<update id="updateComment" parameterType="int">
+		update post
+		set
+		post_comment = post_comment+1
+		where post_code = #{post_code}
+	</update>
+
+</mapper>
