@@ -52,12 +52,8 @@ public class CommentController {
 	public ResponseEntity<String> writeComment(@RequestBody @ApiParam(value = "댓글 정보.", required = true) CommentDto commentDto) throws Exception {
 		logger.info("writeComment 호출 : " + commentDto.getCommentText());
 		if (commentService.writeComment(commentDto)) {
-<<<<<<< HEAD
-			//postService.updateComment(commentDto.getPostCode());
-=======
 			
 			//댓글 작성하면 댓글이 달린 게시글의 post_comment 1 증가 
->>>>>>> feat/#S06P12A101-43/F06-2/post_list
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			map.put("postCode", commentDto.getPostCode());
 			map.put("count", 1);
@@ -78,25 +74,17 @@ public class CommentController {
 	@DeleteMapping("/{commentCode}")
 	public ResponseEntity<String> deleteComment(@PathVariable("commentCode") @ApiParam(value = "삭제할 게시글의 코드", required = true) int commentCode) throws Exception {
 		logger.info("deleteComment 호출 : " + commentCode);
-<<<<<<< HEAD
-		int postCode = commentService.getPostCode(commentCode);
-		if (commentService.deleteComment(commentCode)) {
-=======
 		
 		int postCode = commentService.getPostCode(commentCode); //받아오는 정보에 게시글의 postCode가 없어 getPostCode()로 찾아옴
 	
 		if (commentService.deleteComment(commentCode)) {
 		
 			//댓글 삭세하면 댓글이 달린 게시글의 post_comment 1 감소 
->>>>>>> feat/#S06P12A101-43/F06-2/post_list
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			map.put("postCode", postCode);
 			map.put("count", -1);
 			postService.updateComment(map);
-<<<<<<< HEAD
-=======
 		
->>>>>>> feat/#S06P12A101-43/F06-2/post_list
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);

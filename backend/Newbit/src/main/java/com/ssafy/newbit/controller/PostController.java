@@ -1,9 +1,6 @@
 package com.ssafy.newbit.controller;
 
-<<<<<<< HEAD
-=======
 import java.util.HashMap;
->>>>>>> feat/#S06P12A101-43/F06-2/post_list
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,50 +44,16 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 
-<<<<<<< HEAD
-	@ApiOperation(value = "게시글 쓰기", notes = "새로운 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)	
-	@PostMapping
-	public ResponseEntity<String> writeArticle(@RequestBody @ApiParam(value = "게시글 정보.", required = true) PostDto postDto) throws Exception {
-=======
 	@ApiOperation(value = "게시글 쓰기", notes = "새로운 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeArticle(
 			@RequestBody @ApiParam(value = "게시글 정보.", required = true) PostDto postDto) throws Exception {
->>>>>>> feat/#S06P12A101-43/F06-2/post_list
 		if (postService.writePost(postDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-<<<<<<< HEAD
-	
-	@ApiOperation(value = "특정 게시글 조회", notes = "게시글 코드에 해당하는 게시글의 정보를 반환한다.", response = PostDto.class)
-	@GetMapping("/{postCode}")
-	public ResponseEntity<PostDto> getPost(@PathVariable("postCode") @ApiParam(value = "얻어올 게시글의 코드", required = true) int postCode) throws Exception {
-		logger.info("getPost 호출 : " + postCode);
-		return new ResponseEntity<PostDto>(postService.getPost(postCode), HttpStatus.OK);
-	}
-	
-
-	@GetMapping
-	@ApiOperation(value = "소셜 피드 전체 게시글 조회", notes = "내가 쓰거나 공유한 글 + 내가 팔로우하는 사람들 글 정보를 반환", response = List.class)
-	public ResponseEntity<List<PostDto>> listPost(@RequestParam @ApiParam(value = "소셜 피드 목록을 얻기 위한 유저 코드", required = true) int uid) throws Exception {
-		logger.info("listPost 호출");
-		return new ResponseEntity<List<PostDto>>(postService.listPost(uid), HttpStatus.OK);
-	}
-	
-	@ApiOperation(value = "특정 유저 전체 게시글 조회", notes = "특정 유저가 쓰거나 공유한 모든 글 정보를 반환", response = List.class)
-	@GetMapping("/user")
-	public ResponseEntity<List<PostDto>> listUserPost(@RequestParam @ApiParam(value = "조회할 특정 유저 코드", required = true) int uid) throws Exception {
-		logger.info("listUserPost 호출 : "+uid);
-		return new ResponseEntity<List<PostDto>>(postService.listUserPost(uid), HttpStatus.OK);
-	}
-	
-	@ApiOperation(value = "게시글 삭제", notes = "게시글코드에 해당하는 게시글 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@DeleteMapping("/{postCode}")
-	public ResponseEntity<String> deletePost(@PathVariable("postCode") @ApiParam(value = "삭제할 게시글의 코드", required = true) int postCode) throws Exception {
-=======
 	@ApiOperation(value = "특정 게시글 조회", notes = "게시글 코드에 해당하는 게시글의 정보를 반환한다.", response = PostDto.class)
 	@GetMapping("/{postCode}")
 	public ResponseEntity<PostDto> getPost(
@@ -141,21 +104,12 @@ public class PostController {
 	@DeleteMapping("/{postCode}")
 	public ResponseEntity<String> deletePost(
 			@PathVariable("postCode") @ApiParam(value = "삭제할 게시글의 코드", required = true) int postCode) throws Exception {
->>>>>>> feat/#S06P12A101-43/F06-2/post_list
 		logger.info("deletePost 호출 : " + postCode);
 		if (postService.deletePost(postCode)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
-<<<<<<< HEAD
-	
-	@ApiOperation(value = "게시글 수정", notes = "게시글 내용(post_text)를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PatchMapping
-	public ResponseEntity<String> editPost(@RequestBody @ApiParam(value = "수정할 게시글의 내용과 게시글 코드에 해당하는 정보", required = true) PostTextDto PostTextDto) throws Exception{
-		logger.info("editPost 호출" + PostTextDto.getPostCode());
-		if(postService.editPost(PostTextDto)) {
-=======
 
 	@ApiOperation(value = "게시글 수정", notes = "게시글 내용(post_text)를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PatchMapping
@@ -164,7 +118,6 @@ public class PostController {
 			throws Exception {
 		logger.info("editPost 호출" + PostTextDto.getPostCode());
 		if (postService.editPost(PostTextDto)) {
->>>>>>> feat/#S06P12A101-43/F06-2/post_list
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
