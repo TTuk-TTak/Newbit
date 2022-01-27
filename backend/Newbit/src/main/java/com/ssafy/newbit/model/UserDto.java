@@ -34,6 +34,26 @@ public class UserDto {
 	private String userIntro;
 	@ApiModelProperty(value = "관심키워드")
 	private String userKeyword;
+	@ApiModelProperty(value = "팔로우여부")
+	private Boolean isFollow;
+	
+	public UserDto(String userEmail, String userId, String userNick, String userPassword) {
+		this.userEmail = userEmail;
+		this.userId = userId;
+		this.userNick = userNick;
+		this.userPassword = userPassword;
+	}
+	
+	public UserDto(int userCode, String userId, String userNick, String userPassword, String userImg, String userIntro,
+			String userKeyword) {
+		this.userCode = userCode;
+		this.userId = userId;
+		this.userNick = userNick;
+		this.userPassword = userPassword;
+		this.userImg = userImg;
+		this.userIntro = userIntro;
+		this.userKeyword = userKeyword;
+	}
 
 	
 	
@@ -133,4 +153,12 @@ public class UserDto {
 		this.userKeyword = userKeyword;
 	}
 
+	public Boolean getIsFollow() {
+		return isFollow;
+	}
+
+	public void setIsFollow(Boolean isFollow) {
+		this.isFollow = isFollow;
+	}
+	
 }

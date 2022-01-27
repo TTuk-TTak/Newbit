@@ -81,4 +81,15 @@ public class UserServiceImpl implements UserService{
     		System.out.println("사용 불가능 이메일");
         return cnt==0;
     }
+
+	@Override
+	public List<UserDto> getFollowingList(int userCode) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).getFollowingList(userCode);
+	}
+
+  @Override
+	public List<UserDto> getFollowerList(int userCode) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).getFollowerList(userCode);
+	}
+  
 }
