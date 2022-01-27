@@ -8,5 +8,5 @@ import com.ssafy.newbit.model.UserDto;
 public interface UserService {
 
 	public boolean editUserInfo(UserDto memberDto) throws Exception;
-	
+
 }

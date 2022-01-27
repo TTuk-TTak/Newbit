@@ -41,6 +41,7 @@ public class UserController {
 		if (userService.editUserInfo(userDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
+    
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 }

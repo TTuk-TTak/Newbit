@@ -147,6 +147,5 @@ public class UserDto {
 
 	public void setUserKeyword(String userKeyword) {
 		this.userKeyword = userKeyword;
-	}
-
+	}               
 }

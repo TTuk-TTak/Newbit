@@ -12,5 +12,4 @@ public interface UserMapper {
 
 	public int editUserInfo(UserDto userDto) throws SQLException;
 	
-	
 }

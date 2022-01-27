@@ -14,5 +14,5 @@
 		    user_keyword = #{userKeyword}
 		where user_code = #{userCode}
 	</update>
-	
+
 </mapper>

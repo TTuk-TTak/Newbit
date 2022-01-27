@@ -20,5 +20,6 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public boolean editUserInfo(UserDto userDto) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).editUserInfo(userDto) == 1;
+    
 	}
 }
