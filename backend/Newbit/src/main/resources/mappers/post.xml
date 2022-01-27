@@ -5,6 +5,7 @@
 
 	<insert id="writePost"
 		parameterType="com.ssafy.newbit.model.PostDto">
+<<<<<<< HEAD
 			insert into post(user_code, content_code, techblog_code,
 			post_text, post_date)
 			<if test="contentCode != null">
@@ -15,6 +16,18 @@
 			<if test="contentCode == null">
 				values (#{userCode}, #{postText}, now())
 			</if>
+=======
+		insert into post(user_code, content_code, techblog_code,
+		post_text, post_date)
+		<if test="contentCode != null">
+			values (#{userCode}, #{contentCode},
+			#{techblogCode},
+			#{postText}, now())
+		</if>
+		<if test="contentCode == null">
+			values (#{userCode}, #{postText}, now())
+		</if>
+>>>>>>> feat/#S06P12A101-43/F06-2/post_list
 
 	</insert>
 
@@ -22,15 +35,27 @@
 		resultType="com.ssafy.newbit.model.PostDto">
 		select post_code `postCode`, user_code `userCode`,
 		content_code `contentCode`, techblog_code `techblogCode`,
+<<<<<<< HEAD
 		post_text `postText`, post_like `postLike`,
 		post_comment `postComment`,
 		post_date `postDate`, post_scrap `postScrap`, 
+=======
+		post_text
+		`postText`, post_like `postLike`,
+		post_comment `postComment`,
+		post_date
+		`postDate`, post_scrap `postScrap`,
+>>>>>>> feat/#S06P12A101-43/F06-2/post_list
 		post_edit `postEdit`
 		from post
 		where post_code = #{postCode}
 	</select>
 
+<<<<<<< HEAD
 	<select id="listPost" parameterType="int"
+=======
+	<select id="listPost" parameterType="HashMap"
+>>>>>>> feat/#S06P12A101-43/F06-2/post_list
 		resultType="com.ssafy.newbit.model.PostDto">
 		select post_code as postCode, user_code as userCode,
 		content_code as
@@ -38,6 +63,7 @@
 		post_text as postText,
 		post_like as postLike,
 		post_comment as postComment, post_date as
+<<<<<<< HEAD
 		postDate, post_scrap as postScrap, 
 		post_edit as
 		postEdit
@@ -45,19 +71,61 @@
 	</select>
 
 	<select id="listUserPost" parameterType="int"
+=======
+		postDate, post_scrap as postScrap,
+		post_edit as
+		postEdit
+		from post p
+
+		where (p.user_code in
+		<choose>
+			<when test="followingList.size != 0">
+				<foreach collection="followingList" item="item"
+					index="index" separator="," open="(" close=")">
+					#{item}
+				</foreach>
+			</when>
+		</choose>
+		)
+		<if test="lastPostCode != null and lastPostCode != 0">
+			and (p.post_code  <![CDATA[<]]> #{lastPostCode})
+		</if>
+		order by p.post_code desc
+		limit #{size}
+	</select>
+
+	<select id="listUserPost" parameterType="HashMap"
+>>>>>>> feat/#S06P12A101-43/F06-2/post_list
 		resultType="com.ssafy.newbit.model.PostDto">
 		select post_code as postCode, user_code as userCode,
 		content_code as
 		contentCode, techblog_code as techblogCode,
+<<<<<<< HEAD
 		post_text as postText,
 		post_like as postLike,
 		post_comment as postComment, post_date as
 		postDate, post_scrap as postScrap, 
+=======
+		post_text as
+		postText,
+		post_like as postLike,
+		post_comment as postComment, post_date
+		as
+		postDate, post_scrap as postScrap,
+>>>>>>> feat/#S06P12A101-43/F06-2/post_list
 		post_edit as
 		postEditdit
 		from post
 		where user_code = #{userCode}
+<<<<<<< HEAD
 		order by post_code desc
+=======
+		<if test="lastPostCode != null and lastPostCode != 0">
+			and (post_code  <![CDATA[<]]> #{lastPostCode})
+		</if>
+		order by post_code desc
+		limit #{size}
+>>>>>>> feat/#S06P12A101-43/F06-2/post_list
 	</select>
 
 	<update id="editPost"
@@ -82,7 +150,12 @@
 
 	<update id="updateLike" parameterType="int">
 		update post
+<<<<<<< HEAD
 		set post_like =	post_like + 1
+=======
+		set post_like =
+		post_like + 1
+>>>>>>> feat/#S06P12A101-43/F06-2/post_list
 		where post_code = #{post_code}
 	</update>
 
@@ -94,4 +167,15 @@
 		where post_code = #{postCode}
 	</update>
 
+<<<<<<< HEAD
+=======
+	<select id="getFollowingList" parameterType="int"
+		resultType="int">
+		select following_code
+		from follow
+		where user_code =
+		#{userCode}
+	</select>
+
+>>>>>>> feat/#S06P12A101-43/F06-2/post_list
 </mapper>

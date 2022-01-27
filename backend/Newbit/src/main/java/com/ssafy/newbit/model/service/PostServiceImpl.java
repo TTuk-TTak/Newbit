@@ -29,9 +29,15 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
+<<<<<<< HEAD
 	public List<PostDto> listPost(int userCode) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(PostMapper.class).listPost(userCode);
+=======
+	public List<PostDto> listPost(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(PostMapper.class).listPost(map);
+>>>>>>> feat/#S06P12A101-43/F06-2/post_list
 	}
 
 	@Override
@@ -57,9 +63,15 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
+<<<<<<< HEAD
 	public List<PostDto> listUserPost(int userCode) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(PostMapper.class).listUserPost(userCode);
+=======
+	public List<PostDto> listUserPost(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(PostMapper.class).listUserPost(map);
+>>>>>>> feat/#S06P12A101-43/F06-2/post_list
 	}
 
 	@Override
@@ -83,6 +95,15 @@ public class PostServiceImpl implements PostService{
 		
 	}
 
+<<<<<<< HEAD
+=======
+	@Override
+	public List<Integer> getFollowingList(int userCode) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(PostMapper.class).getFollowingList(userCode);
+	}
+
+>>>>>>> feat/#S06P12A101-43/F06-2/post_list
 	
 
 }
