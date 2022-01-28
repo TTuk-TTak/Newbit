@@ -1,5 +1,7 @@
 <template>
-  <v-btn>
+  <v-btn
+    :class="styleObject"
+  >
     {{ message }}
   </v-btn>
 </template>
@@ -10,8 +12,12 @@ export default {
   data() {
     return {
       // 1/24 임시로 생성. 추후 prop으로 대체 필요. . 
-      isFollowed: true,
-      message: this.isFollowed ? '언팔로우' : '팔로우'
+      isFollowed: false,
+      message: this.isFollowed ? '언팔로우' : '팔로우',
+      styleObject:  {
+        color: this.isFollowed === true ? '#0D0E23' : '#C4C4C4',
+        class: this.isFollowed === true ? 'btnDarkText--text' : 'btnLiteText--text',
+      },
     }
   }
 }
