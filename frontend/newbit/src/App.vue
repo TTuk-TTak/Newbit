@@ -67,17 +67,8 @@ export default {
 }
 
 #main {
-<<<<<<< HEAD
   max-width: 1500px;
   /* background-color: '#FFFFFF'; */
-=======
-  max-width: 1000px;
-  background-color: white;
-}
-
-#app {
-  background-color: var(--v-background-base);
->>>>>>> master
 }
 
 
