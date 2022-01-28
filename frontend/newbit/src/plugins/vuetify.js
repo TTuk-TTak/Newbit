@@ -11,6 +11,8 @@ export default new Vuetify({
     themes: {
       light: {
         background: '#E5E5E5',
+        backgroundDark: '#0D0E23',
+        feedBackground: '#FFFFFF',
         // Vue 기본 설정. 
         primary: '#1976D2',
         secondary: '#424242',

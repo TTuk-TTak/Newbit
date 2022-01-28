@@ -3,7 +3,7 @@
     <the-nav></the-nav>
     <v-main
       id="main"
-      class="container"
+      class="container p-1"
     >
       <router-view />
     </v-main>
@@ -60,15 +60,15 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* color: #f7f7eb; */
-  /* background-color: var(--v-background-base) !important; */
+  background-color: var(--v-background-base);
 
   padding: 0;
   position: relative;
 }
 
 #main {
-  max-width: 1000px;
-  background-color: var(--v-background-base);
+  max-width: 1500px;
+  /* background-color: '#FFFFFF'; */
 }
 
 

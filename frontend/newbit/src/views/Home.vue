@@ -2,30 +2,38 @@
   <v-container>
     <v-row>
       <v-col cols="3">
+        <post-create-modal
+          :isOpened='true'
+        ></post-create-modal>
         <the-profile-bar></the-profile-bar>
       </v-col>
       <v-col>
-        <not-found></not-found>
-        <content-feed></content-feed>
+        <content-feed
+          class="p-0"
+        ></content-feed>
       </v-col>
       <v-col cols='2'>
-        <h1>키워드 바</h1>
+        <the-keyword-bar></the-keyword-bar>
       </v-col>
     </v-row>
-
   </v-container>
 </template>
 
 <script>
-
-import ContentFeed from '@/views/Feed/ContentFeed.vue'
 import TheProfileBar from '@/views/Bars/TheProfileBar.vue'
+import TheKeywordBar from '@/views/Bars/TheKeywordBar.vue'
+import ContentFeed from '@/views/Feed/ContentFeed.vue'
+
+import PostCreateModal from '@/components/Modals/PostCreateModal.vue'
+
 
 export default {
   name: 'Home',
   components: {
-    ContentFeed,
     TheProfileBar,
+    TheKeywordBar,
+    ContentFeed,
+    PostCreateModal,
   },
 }
 </script>

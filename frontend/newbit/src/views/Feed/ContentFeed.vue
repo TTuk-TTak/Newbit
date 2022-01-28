@@ -1,12 +1,20 @@
 <template>
-  <div>
+  <v-card
+    class="pa-2"
+    color='feedBackground'>
     <keyword-toggler></keyword-toggler>
-    <v-tabs>
+    <v-tabs
+      slider-color='#C4C4C4'
+    >
       <v-tab>인기 컨텐츠</v-tab>
       <v-tab>최신 컨텐츠</v-tab>
+      <hr>
     </v-tabs>
-    <v-row>
+    <v-row
+      class='pa-2'
+    >
       <v-col
+        class="pa-2"
         v-for="n in 3"
         :key="n"
         cols="6"
@@ -14,7 +22,7 @@
         <content-card></content-card>
       </v-col>
     </v-row>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -32,4 +40,5 @@ export default {
 </script>
 
 <style>
+
 </style>

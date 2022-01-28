@@ -1,7 +1,10 @@
 <template>
   <v-chip
-    color='keywordChipBackground'
-    text-color='keywordChipText'
+    class="ma-1"
+    :color='isActive ? `keywordChipText` : `keywordChipBackground`'
+    :text-color='isActive ? `keywordChipBackground` : `keywordChipText`'
+    @click="toggleChip"
+    small
   >{{text}}</v-chip>
 </template>
 
@@ -12,9 +15,13 @@ export default {
     text: String,
   },
   data: () => ({
-
+    isActive: false,
   }),
-
+  methods: {
+    toggleChip: function () {
+      this.isActive = !this.isActive
+    }
+  }
 
 }
 </script>

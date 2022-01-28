@@ -2,7 +2,6 @@
   <v-container
     class='justify-center'
   >
-    <follow-btn></follow-btn>
     <v-card
       class="container justify-center"
     >
@@ -38,13 +37,11 @@
 <script>
 
 import BtnDark from '@/components/Commons/BtnDark.vue'
-import FollowBtn from '@/components/Commons/FollowBtn.vue'
 
 export default {
   name: 'NotFound',
   components: {
     BtnDark,
-    FollowBtn,
   },
 }
 </script>
