@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar
-      color="grey darken-3"
+      color="backgroundDark"
       dense
       dark
     >

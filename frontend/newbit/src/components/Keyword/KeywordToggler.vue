@@ -1,7 +1,6 @@
 <template>
   <v-chip-group
-    multiple
-    active-class="primary--text"
+    column
   >
     <keyword-chip
       v-for="tag in tags"
@@ -22,6 +21,18 @@ export default {
   data: () => {
     return {
       tags: [
+        'UI/UX',
+        'Vue.js',
+        'Frontend',
+        'Backend',
+        'JS',
+        'Python',
+        'UI/UX',
+        'Vue.js',
+        'Frontend',
+        'Backend',
+        'JS',
+        'Python',
         'UI/UX',
         'Vue.js',
         'Frontend',
