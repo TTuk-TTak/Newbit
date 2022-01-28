@@ -8,6 +8,9 @@ import Signup from '@/views/User/Signup.vue'
 import SignupComplete from '@/views/User/SignupComplete.vue'
 import Login from '@/views/User/Login.vue'
 
+import ProfileDetail from '@/views/Profile/ProfileDetail.vue'
+import ProfileEdit from '@/views/Profile/ProfileEdit.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -36,6 +39,17 @@ const routes = [
     component: Login
   },
 
+  //Profile  
+  {
+    path: '/profile/detail',
+    name: 'ProfileDetail',
+    component: ProfileDetail
+  },
+  {
+    path: '/profile/edit',
+    name: 'ProfileEdit',
+    component: ProfileEdit
+  },
 
   // 404 Error
   {
