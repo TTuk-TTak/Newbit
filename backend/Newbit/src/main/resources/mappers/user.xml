@@ -1,9 +1,56 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+	
 <mapper namespace="com.ssafy.newbit.model.mapper.UserMapper">
+	<!--  회원가입  -->
+	<insert id="addUser" parameterType="com.ssafy.newbit.model.UserDto" >  
+		insert into user(user_email, user_id, user_nick, user_password, user_date) 
+		values(#{userEmail}, #{userId}, #{userNick}, #{userPassword}, now())
+	</insert>
+	
+	<!--  아이디 중복체크 -->
+	<select id="checkId" parameterType="String" resultType="int">
+        SELECT COUNT(user_id) FROM USER WHERE user_id= #{userId}
+    </select>
+    
+    <!--  이메일 중복체크 -->
+	<select id="checkEmail" parameterType="String" resultType="int">
+        SELECT COUNT(user_email) FROM USER WHERE user_email= #{userEmail}
+    </select>
 
+	<!--  for  프로필 조회 -->
+	<select id="getUser" parameterType="int"
+		resultType="com.ssafy.newbit.model.UserDto">
+		select user_id `userId`, user_nick `userNick`, user_img `userImg`, 
+		user_postcount `userPostCount`, user_followercount `userFollowerCount`, user_followingcount `userFollowingCount`,
+		user_intro `userIntro`, user_keyword `userKeyword`
+		from user
+		where user_code = #{userCode}
+	</select>
+	
+  <!--  팔로잉 리스트 조회 -->
+	<select id="getFollowingList" parameterType="int" resultType="userDto">
+		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_intro `userIntro`
+		from user u
+		where u.user_code in (select following_code from follow where user_code = #{userCode})
+	</select>
+
+  <!--  특정 유저 정보 조회 -->
+	<select id="getUser" parameterType="int" resultType="userDto">
+		select user_id `userId`, user_nick `userNick`, user_img `userImg`, user_postcount `userPostCount`, user_followercount `userFollowerCount`, user_followingcount `userFollowingCount`, user_intro `userIntro`, user_keyword `userKeyword`
+		from user
+		where user_code = #{userCode}
+	</select>
+
+  <!--  팔로워 리스트 조회 -->
+	<select id="getFollowerList" parameterType="int" resultType="userDto">
+		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_intro `userIntro`, case when exists (select * from follow f where f.following_code = u.user_code and f.user_code = #{userCode}) then true else false end `isFollow`
+from user u
+    where u.user_code in (select user_code from follow where following_code = #{userCode})
+	</select>
+	
+  <!--  회원 정보 수정 -->
 	<update id="editUserInfo" parameterType="userDto">
 		update	user
 		set user_id = #{userId},
@@ -14,23 +61,5 @@
 		    user_keyword = #{userKeyword}
 		where user_code = #{userCode}
 	</update>
-	
-	<select id="getFollowingList" parameterType="int" resultType="userDto">
-		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_intro `userIntro`
-		from user u
-		where u.user_code in (select following_code from follow where user_code = #{userCode})
-	</select>
 
-	<select id="getUser" parameterType="int" resultType="userDto">
-		select user_id `userId`, user_nick `userNick`, user_img `userImg`, user_postcount `userPostCount`, user_followercount `userFollowerCount`, user_followingcount `userFollowingCount`, user_intro `userIntro`, user_keyword `userKeyword`
-		from user
-		where user_code = #{userCode}
-	</select>
-
-	<select id="getFollowerList" parameterType="int" resultType="userDto">
-		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_intro `userIntro`, case when exists (select * from follow f where f.following_code = u.user_code and f.user_code = #{userCode}) then true else false end `isFollow`
-from user u
-    where u.user_code in (select user_code from follow where following_code = #{userCode})
-	</select>
-	
 </mapper>
