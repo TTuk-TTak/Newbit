@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="app">
     <the-nav></the-nav>
     <v-main
       id="main"
@@ -29,6 +29,10 @@ export default {
 <style>
 #main {
   max-width: 1000px;
+  background-color: white;
+}
+
+#app {
   background-color: var(--v-background-base);
 }
 </style>
