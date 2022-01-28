@@ -48,6 +48,13 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<!-- Security -->
+		<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
+		
 		<!-- Lombok -->
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>

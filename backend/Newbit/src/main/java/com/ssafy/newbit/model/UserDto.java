@@ -1,15 +1,15 @@
 package com.ssafy.newbit.model;
 
 import io.swagger.annotations.ApiModel;
-
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+
 @ApiModel(value = "UserDto : 회원정보", description = "회원의 상세 정보를 나타낸다.")
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
+@Data
 public class UserDto {
-	
 	@ApiModelProperty(value = "회원 코드")
 	private int userCode;
 	@ApiModelProperty(value = "이메일")
@@ -55,6 +55,8 @@ public class UserDto {
 		this.userKeyword = userKeyword;
 	}
 
+	
+	
 	public int getUserCode() {
 		return userCode;
 	}
