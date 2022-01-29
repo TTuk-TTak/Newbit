@@ -6,7 +6,8 @@
 	<insert id="writePost"
 		parameterType="com.ssafy.newbit.model.PostDto">
 		insert into post(user_code, content_code, techblog_code,
-		post_text, post_date)
+		post_text,
+		post_date)
 		<if test="contentCode != null">
 			values (#{userCode}, #{contentCode},
 			#{techblogCode},
@@ -29,7 +30,8 @@
 		`postDate`, post_scrap `postScrap`,
 		post_edit `postEdit`
 		from post
-		where post_code = #{postCode}
+		where
+		post_code = #{postCode}
 	</select>
 
 	<select id="listPost" parameterType="HashMap"
@@ -46,17 +48,15 @@
 		from post p
 
 		where (p.user_code in
-		<choose>
-			<when test="followingList.size != 0">
-				<foreach collection="followingList" item="item"
-					index="index" separator="," open="(" close=")">
-					#{item}
-				</foreach>
-			</when>
-		</choose>
+		<foreach collection="followingList" item="item" index="index"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+
 		)
 		<if test="lastPostCode != null and lastPostCode != 0">
-			and (p.post_code  <![CDATA[<]]> #{lastPostCode})
+			and (p.post_code  <![CDATA[<]]>
+			#{lastPostCode})
 		</if>
 		order by p.post_code desc
 		limit #{size}
@@ -78,7 +78,8 @@
 		from post
 		where user_code = #{userCode}
 		<if test="lastPostCode != null and lastPostCode != 0">
-			and (post_code  <![CDATA[<]]> #{lastPostCode})
+			and (post_code  <![CDATA[<]]>
+			#{lastPostCode})
 		</if>
 		order by post_code desc
 		limit #{size}

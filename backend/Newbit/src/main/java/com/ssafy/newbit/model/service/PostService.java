@@ -17,7 +17,6 @@ public interface PostService {
 	public void updateScrap(int postCode) throws Exception;
 	public void updateLike(int postCode) throws Exception;
 	public void updateComment(HashMap<String, Integer> map) throws Exception;
-	
 	public List<Integer> getFollowingList(int userCode) throws Exception;
 	
 }
