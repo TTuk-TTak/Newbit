@@ -46,7 +46,7 @@ public class ContentCotroller {
 	@ApiOperation(value = "추천 피드 최신 콘텐츠 조회", notes = "키워드에 해당하는 최신 콘텐츠 목록을 반환", response = List.class)
 	@GetMapping("/new")
 	public ResponseEntity<List<ContentDto>> newContentList(
-			@RequestParam @ApiParam(value = "가져올 게시글에 해당하는 키워드 문자열", required = true) String keyword) throws Exception {
+			@RequestParam @ApiParam(value = "최신 게시글 목록을 가져오기 위해 필요한 정보", required = true)int lastcontentcode, int size, String keyword) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		List<String> keywordList = new ArrayList<>();
@@ -59,8 +59,9 @@ public class ContentCotroller {
 		}
 		map.put("keywordList", keywordList);
 
-		map.put("keyword", "java");
-		map.put("keyword1", "ios");
+		
+		map.put("lastContentCode", lastcontentcode);
+		map.put("size",size);
 		logger.info("newContentList 호출 : " + keyword);
 
 		return new ResponseEntity<List<ContentDto>>(contentService.newListContent(map), HttpStatus.OK);

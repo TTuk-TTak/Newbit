@@ -31,4 +31,6 @@ public class PostDto {
 	//private int postReport;
 	@ApiModelProperty(value = "게시글 수정 여부")
 	private boolean postEdit;
+	@ApiModelProperty(value = "유저가 현재 게시글을 좋아요 설정했는지 여부")
+	private boolean liked;
 }

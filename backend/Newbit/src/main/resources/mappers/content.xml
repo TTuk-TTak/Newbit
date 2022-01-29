@@ -34,7 +34,12 @@
 				content_keyword like concat('%',#{item},'%')
 			</foreach>
 		</if>
+		<if test="lastContentCode != null and lastContentCode != 0">
+			and (content_code  <![CDATA[<]]>
+			#{lastContentCode})
+		</if>
 		order by content_date desc
+		limit #{size}
 	</select>
 
 </mapper>

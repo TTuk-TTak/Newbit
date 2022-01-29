@@ -26,4 +26,6 @@ public class ContentDto {
 	private String contentDate;
 	@ApiModelProperty(value = "콘텐츠 키워드")
 	private String contentKeyword;
+	@ApiModelProperty(value = "유저가 현재 컨텐츠를 좋아요 설정했는지 여부")
+	private boolean liked;
 }
