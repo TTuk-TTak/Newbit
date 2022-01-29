@@ -1,6 +1,6 @@
 package com.ssafy.newbit.model.service;
 
-import java.util.HashMap;
+import java.util.*;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,9 @@ public class ContentServiceImpl implements ContentService {
 	private SqlSession sqlSession;
 
 	@Override
-	public boolean newListContent(HashMap<String, Object> map) throws Exception {
+	public List<ContentDto> newListContent(HashMap<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.getMapper(ContentMapper.class).newListContent(map) ==1;
+		return sqlSession.getMapper(ContentMapper.class).newListContent(map);
 	}
 
 	@Override

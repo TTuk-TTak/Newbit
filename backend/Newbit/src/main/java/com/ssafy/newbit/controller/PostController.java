@@ -109,7 +109,7 @@ public class PostController {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
-	}
+	}	
 
 	@ApiOperation(value = "게시글 수정", notes = "게시글 내용(post_text)를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PatchMapping

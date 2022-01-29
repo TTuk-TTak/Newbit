@@ -18,16 +18,6 @@
 	<select id="checkEmail" parameterType="String" resultType="int">
         SELECT COUNT(user_email) FROM USER WHERE user_email= #{userEmail}
     </select>
-
-	<!--  for  프로필 조회 -->
-	<select id="getUser" parameterType="int"
-		resultType="com.ssafy.newbit.model.UserDto">
-		select user_id `userId`, user_nick `userNick`, user_img `userImg`, 
-		user_postcount `userPostCount`, user_followercount `userFollowerCount`, user_followingcount `userFollowingCount`,
-		user_intro `userIntro`, user_keyword `userKeyword`
-		from user
-		where user_code = #{userCode}
-	</select>
 	
 	<select id="getFollowingList" parameterType="int" resultType="userDto">
 		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_intro `userIntro`
@@ -38,7 +28,7 @@
 	<select id="getUser" parameterType="int" resultType="userDto">
 		select user_id `userId`, user_nick `userNick`, user_img `userImg`, user_postcount `userPostCount`, user_followercount `userFollowerCount`, user_followingcount `userFollowingCount`, user_intro `userIntro`, user_keyword `userKeyword`
 		from user
-		where user_code = #{userCode}
+		where user_code	 = #{userCode}
 	</select>
 
 	<select id="getFollowerList" parameterType="int" resultType="userDto">

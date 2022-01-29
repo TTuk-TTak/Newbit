@@ -5,44 +5,36 @@
 
 
 	<select id="getContent" parameterType="int"
-		resultType="com.ssafy.newbit.model.PostDto">
+		resultType="com.ssafy.newbit.model.ContentDto">
 		select content_code `contentCode`, techblog_code
 		`techblogCode`, content_title `contentTitle`, content_text
 		`contentText`, content_url `contentUrl`,
-		content_img `contentImg`, content_date `contentDate`, content_keyword `contentKeyword`
-		from content
+		content_img `contentImg`,
+		content_date `contentDate`, content_keyword `contentKeyword`
+		from
+		content
 		where content_code = #{contentCode}
 	</select>
 
 	<select id="newListContent" parameterType="HashMap"
-		resultType="com.ssafy.newbit.model.PostDto">
-		select post_code as postCode, user_code as userCode,
-		content_code as
-		contentCode, techblog_code as techblogCode,
-		post_text as postText,
-		post_like as postLike,
-		post_comment as postComment, post_date as
-		postDate, post_scrap as postScrap,
-		post_edit as
-		postEdit
-		from post p
+		resultType="com.ssafy.newbit.model.ContentDto">
+		select content_code `contentCode`, techblog_code
+		`techblogCode`,
+		content_title `contentTitle`, content_text
+		`contentText`, content_url
+		`contentUrl`,
+		content_img `contentImg`, content_date `contentDate`,
+		content_keyword `contentKeyword`
+		from content
 
-		where (p.user_code in
-		<choose>
-			<when test="followingList.size != 0">
-				<foreach collection="followingList" item="item"
-					index="index" separator="," open="(" close=")">
-					#{item}
-				</foreach>
-			</when>
-		</choose>
-		)
-		<if test="lastPostCode != null and lastPostCode != 0">
-			and (p.post_code  <![CDATA[<]]>
-			#{lastPostCode})
+		<if test="keywordList.size != 0">
+ 		where
+			<foreach collection="keywordList" item="item" index="index"
+				separator="or" open="(" close=")">
+				content_keyword like concat('%',#{item},'%')
+			</foreach>
 		</if>
-		order by p.post_code desc
-		limit #{size}
+		order by content_date desc
 	</select>
 
 </mapper>

@@ -1,9 +1,10 @@
 package com.ssafy.newbit.controller;
 
-import java.util.List;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,6 +32,7 @@ public class ContentCotroller {
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
+	@Autowired
 	private ContentService contentService;
 
 	@GetMapping
@@ -40,6 +42,28 @@ public class ContentCotroller {
 		logger.info("getContent 호출 : " + cid);
 		return new ResponseEntity<ContentDto>(contentService.getContent(cid), HttpStatus.OK);
 	}
-	
-	
+
+	@ApiOperation(value = "추천 피드 최신 콘텐츠 조회", notes = "키워드에 해당하는 최신 콘텐츠 목록을 반환", response = List.class)
+	@GetMapping("/new")
+	public ResponseEntity<List<ContentDto>> newContentList(
+			@RequestParam @ApiParam(value = "가져올 게시글에 해당하는 키워드 문자열", required = true) String keyword) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+
+		List<String> keywordList = new ArrayList<>();
+
+		StringTokenizer st = new StringTokenizer(keyword, "_");
+		while (st.hasMoreTokens()) {
+			String str = st.nextToken();
+			if (!str.equals("null"))
+				keywordList.add(str);
+		}
+		map.put("keywordList", keywordList);
+
+		map.put("keyword", "java");
+		map.put("keyword1", "ios");
+		logger.info("newContentList 호출 : " + keyword);
+
+		return new ResponseEntity<List<ContentDto>>(contentService.newListContent(map), HttpStatus.OK);
+	}
+
 }
