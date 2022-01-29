@@ -14,9 +14,15 @@ public interface PostService {
 	public boolean deletePost(int postCode) throws Exception;
 	public PostDto getPost(int postCode) throws Exception;
 	
-	public void updateScrap(int postCode) throws Exception;
-	public void updateLike(int postCode) throws Exception;
+	public void updateScrap(HashMap<String, Integer> map) throws Exception;
+	public void updateLike(HashMap<String, Integer> map) throws Exception;
 	public void updateComment(HashMap<String, Integer> map) throws Exception;
+	
 	public List<Integer> getFollowingList(int userCode) throws Exception;
 	
+	public boolean likePost(HashMap<String, Integer> map) throws Exception;
+	public boolean scrapPost(HashMap<String, Integer> map) throws Exception;
+	
+	public boolean deleteLikePost(HashMap<String, Integer> map) throws Exception;
+	public boolean deleteScrapPost(HashMap<String, Integer> map) throws Exception;
 }

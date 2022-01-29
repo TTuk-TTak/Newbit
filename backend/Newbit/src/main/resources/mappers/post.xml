@@ -100,16 +100,16 @@
 
 	<update id="updateScrap" parameterType="int">
 		update post
-		set post_scarp
-		= post_scrap+1
-		where post_code = #{post_code}
+		set post_scrap
+		= post_scrap + #{count}
+		where post_code = #{pid}
 	</update>
 
 	<update id="updateLike" parameterType="int">
 		update post
 		set post_like =
-		post_like + 1
-		where post_code = #{post_code}
+		post_like + #{count}
+		where post_code = #{pid}
 	</update>
 
 
@@ -127,5 +127,25 @@
 		where user_code =
 		#{userCode}
 	</select>
+
+	<insert id="likePost" parameterType="Hashmap">
+		insert into postlike
+		(user_code, post_code, post_like_time)
+		values (#{uid}, #{pid}, now())
+	</insert>
+	<insert id="scrapPost" parameterType="map">
+	insert into postscrap
+		(user_code, post_code, post_scrap_time)
+		values (#{uid}, #{pid}, now())
+	</insert>
+	<delete id="deleteLikePost" parameterType="map">
+		delete from postlike
+		where
+		post_code = #{pid} and user_code=#{uid}
+	</delete>
+	<delete id="deleteScrapPost" parameterType="map">
+	delete from postscrap	
+		where
+		post_code = #{pid} and user_code=#{uid}</delete>
 
 </mapper>

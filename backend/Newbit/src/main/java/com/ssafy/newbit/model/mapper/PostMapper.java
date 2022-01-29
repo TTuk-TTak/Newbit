@@ -17,9 +17,16 @@ public interface PostMapper {
 	public int deletePost(int postCode) throws SQLException;
 	public PostDto getPost(int postCode) throws SQLException;
 	
-	public void updateScrap(int postCode) throws SQLException;
-	public void updateLike(int postCode) throws SQLException;
+	public void updateScrap(HashMap<String, Integer> map) throws SQLException;
+	public void updateLike(HashMap<String, Integer> map) throws SQLException;
 	public void updateComment(HashMap<String, Integer> map) throws SQLException;
 	
 	public List<Integer> getFollowingList(int userCode) throws SQLException;
+	
+	public int likePost(HashMap<String, Integer> map) throws SQLException;
+	public int scrapPost(HashMap<String, Integer> map) throws SQLException;
+	
+	
+	public int deleteLikePost(HashMap<String, Integer> map) throws SQLException;
+	public int deleteScrapPost(HashMap<String, Integer> map) throws SQLException;
 }

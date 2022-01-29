@@ -2,6 +2,7 @@ package com.ssafy.newbit.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -118,6 +119,64 @@ public class PostController {
 			throws Exception {
 		logger.info("editPost 호출" + PostTextDto.getPostCode());
 		if (postService.editPost(PostTextDto)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+	}
+	
+	@PostMapping("/like")
+	@ApiOperation(value = "게시글 좋아요 추가", notes = "게시글 좋아요 테이블에 유저-좋아요한 게시글 코드 데이터 추가, 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	public ResponseEntity<String> likePost(
+			@RequestBody @ApiParam(value = "좋아요할 사용자와 게시글 정보", required = true) HashMap<String, Integer> map) throws Exception {
+		if (postService.likePost(map)) {
+			map.put("count", 1);
+			postService.updateLike(map);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+
+	}
+	
+	@PostMapping("/scrap")
+	@ApiOperation(value = "게시글 스크랩 추가", notes = "게시글 스크랩 테이블에 유저-스크랩한 게시글 코드 데이터 추가, 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	public ResponseEntity<String> scrapPost(
+			@RequestBody @ApiParam(value = "	좋아요할 사용자와 게시글 정보", required = true) HashMap<String, Integer> map) throws Exception {
+		if (postService.scrapPost(map)) {
+			map.put("count", 1);
+			postService.updateScrap(map);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+
+	}
+	
+	
+	@ApiOperation(value = "게시글 좋아요 삭제", notes = "게시글코드에 해당하는 게시글 좋아요를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("/like")
+	public ResponseEntity<String> deleteLikePost(
+			@RequestParam @ApiParam(value = "좋아요 삭제할 게시글의 코드", required = true) int uid, int pid) throws Exception {
+		logger.info("deleteLikePost 호출 : ");
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("uid", uid);
+		map.put("pid", pid);
+		map.put("count", -1);
+		if (postService.deleteLikePost(map)) {
+			postService.updateLike(map);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+	}
+	@ApiOperation(value = "게시글 스크랩 삭제", notes = "게시글코드에 해당하는 게시글 스크랩을 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("/scrap")
+	public ResponseEntity<String> deleteScrapPost(
+			@RequestParam @ApiParam(value = "스크랩 삭제할 게시글의 코드", required = true) int uid, int pid) throws Exception {
+		logger.info("deleteScrapPost 호출 : ");
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("uid", uid);
+		map.put("pid", pid);
+		map.put("count", -1);
+		if (postService.deleteScrapPost(map)) {
+			postService.updateScrap(map);
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
