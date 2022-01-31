@@ -59,26 +59,25 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public List<PostDto> listUserPost(HashMap<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.getMapper(PostMapper.class).listUserPost(map);
+		List<PostDto> list = sqlSession.getMapper(PostMapper.class).listUserPost(map);
+		return list;
 	}
 
 	@Override
-	public void updateScrap(int postCode) throws Exception {
+	public void updateScrap(HashMap<String, Integer> map) throws Exception {
 		// TODO Auto-generated method stub
-		sqlSession.getMapper(PostMapper.class).updateScrap(postCode);
+		sqlSession.getMapper(PostMapper.class).updateScrap(map);
 	}
 
 	@Override
-	public void updateLike(int postCode) throws Exception {
+	public void updateLike(HashMap<String, Integer> map) throws Exception {
 		// TODO Auto-generated method stub
-		sqlSession.getMapper(PostMapper.class).updateLike(postCode);
+		sqlSession.getMapper(PostMapper.class).updateLike(map);
 	}
 
 	@Override
 	public void updateComment(HashMap<String, Integer> map) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println(map.get("count"));
-		System.out.println(map.get("postCode"));
 		sqlSession.getMapper(PostMapper.class).updateComment(map);
 		
 	}
@@ -89,6 +88,41 @@ public class PostServiceImpl implements PostService{
 		return sqlSession.getMapper(PostMapper.class).getFollowingList(userCode);
 	}
 
+	@Override
+	public boolean likePost(HashMap<String, Integer> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(PostMapper.class).likePost(map) == 1;
+	}
+
+	@Override
+	public boolean scrapPost(HashMap<String, Integer> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(PostMapper.class).scrapPost(map) == 1;
+	}
+
+	@Override
+	public boolean deleteLikePost(HashMap<String, Integer> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(PostMapper.class).deleteLikePost(map) == 1;
+	}
+
+	@Override
+	public boolean deleteScrapPost(HashMap<String, Integer> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(PostMapper.class).deleteScrapPost(map) == 1;
+	}
+
+	@Override
+	public boolean userLikePost(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(PostMapper.class).userLikePost(map) == 1;
+	} 
+
+	@Override
+	public boolean userScrapPost(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(PostMapper.class).userScrapPost(map) == 1;
+	} 
 	
 
 }
