@@ -147,5 +147,17 @@
 	delete from postscrap	
 		where
 		post_code = #{pid} and user_code=#{uid}</delete>
+		
+	<select id = "userLikePost" parameterType="Hashmap" resultType ="int">
+		select coalesce((select 1 
+    	FROM postlike
+   		where user_code = #{userCode} and post_code = #{postCode}), 0)
+	</select>
+	
+		<select id = "userScrapPost" parameterType="Hashmap" resultType ="int">
+		select coalesce((select 1 
+    	FROM postscrap
+   		where user_code = #{userCode} and post_code = #{postCode}), 0)
+	</select>
 
 </mapper>

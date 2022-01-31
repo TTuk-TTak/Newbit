@@ -59,7 +59,8 @@ public class PostServiceImpl implements PostService{
 	@Override
 	public List<PostDto> listUserPost(HashMap<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.getMapper(PostMapper.class).listUserPost(map);
+		List<PostDto> list = sqlSession.getMapper(PostMapper.class).listUserPost(map);
+		return list;
 	}
 
 	@Override
@@ -111,6 +112,17 @@ public class PostServiceImpl implements PostService{
 		return sqlSession.getMapper(PostMapper.class).deleteScrapPost(map) == 1;
 	}
 
+	@Override
+	public boolean userLikePost(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(PostMapper.class).userLikePost(map) == 1;
+	} 
+
+	@Override
+	public boolean userScrapPost(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(PostMapper.class).userScrapPost(map) == 1;
+	} 
 	
 
 }

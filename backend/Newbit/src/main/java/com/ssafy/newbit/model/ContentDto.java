@@ -28,4 +28,8 @@ public class ContentDto {
 	private String contentKeyword;
 	@ApiModelProperty(value = "유저가 현재 컨텐츠를 좋아요 설정했는지 여부")
 	private boolean liked;
+	@ApiModelProperty(value = "유저가 현재 컨텐츠를 스크랩했는지 여부")
+	private boolean scrapped;
+	
+
 }

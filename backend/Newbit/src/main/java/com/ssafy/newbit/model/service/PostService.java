@@ -25,4 +25,7 @@ public interface PostService {
 	
 	public boolean deleteLikePost(HashMap<String, Integer> map) throws Exception;
 	public boolean deleteScrapPost(HashMap<String, Integer> map) throws Exception;
+	
+	public boolean userLikePost(HashMap<String, Object> map) throws Exception;
+	public boolean userScrapPost(HashMap<String, Object> map) throws Exception;
 }

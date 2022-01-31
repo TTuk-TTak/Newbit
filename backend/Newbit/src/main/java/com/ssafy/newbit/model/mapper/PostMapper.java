@@ -29,4 +29,7 @@ public interface PostMapper {
 	
 	public int deleteLikePost(HashMap<String, Integer> map) throws SQLException;
 	public int deleteScrapPost(HashMap<String, Integer> map) throws SQLException;
+	
+	public int userLikePost(HashMap<String, Object> map) throws SQLException;
+	public int userScrapPost(HashMap<String, Object> map) throws SQLException;
 }
