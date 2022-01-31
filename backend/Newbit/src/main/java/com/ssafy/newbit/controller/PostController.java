@@ -98,18 +98,27 @@ public class PostController {
 	@ApiOperation(value = "특정 유저 전체 게시글 조회", notes = "특정 유저가 쓰거나 공유한 모든 글 정보를 반환", response = List.class)
 	@GetMapping("/user")
 	public ResponseEntity<List<PostDto>> listUserPost(
-			@RequestParam @ApiParam(value = "특정 유저의 게시글 목록을 얻기 위한 정보", required = true) int uid, int lastpostcode,
+			@RequestParam @ApiParam(value = "특정 유저의 게시글 목록을 얻기 위한 정보", required = true) int uid, int userid, int lastpostcode,
 			int size) throws Exception {
 
-		logger.info("listUserPost 호출 : " + uid);
+		logger.info("listUserPost 호출 : " + userid);
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
-		map.put("userCode", uid);
+		map.put("userCode", userid);
 		map.put("lastPostCode", lastpostcode);
 		map.put("size", size);
-
-		return new ResponseEntity<List<PostDto>>(postService.listUserPost(map), HttpStatus.OK);
+		
+		List<PostDto> list = postService.listUserPost(map);
+		for (PostDto p : list) {
+			HashMap<String, Object> hm = new HashMap<String, Object>();
+			hm.put("userCode", uid); //현재 로그인한 유저의 아이디
+			hm.put("postCode", p.getPostCode());
+			
+			p.setLiked(postService.userLikePost(hm)); //좋아요 여부 설정 
+			p.setScrapped(postService.userScrapPost(hm)); //스크랩 여부 설정
+		}
+		return new ResponseEntity<List<PostDto>>(list, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "게시글 삭제", notes = "게시글코드에 해당하는 게시글 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
