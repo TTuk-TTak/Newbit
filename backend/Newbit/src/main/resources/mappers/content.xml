@@ -28,10 +28,11 @@
 		from content
 
 		<if test="keywordList.size != 0">
- 		where
+			where
 			<foreach collection="keywordList" item="item" index="index"
 				separator="or" open="(" close=")">
-				content_keyword like concat('%',#{item},'%')
+				content_keyword like
+				concat('%',#{item},'%')
 			</foreach>
 		</if>
 		<if test="lastContentCode != null and lastContentCode != 0">
@@ -41,5 +42,64 @@
 		order by content_date desc
 		limit #{size}
 	</select>
+	<update id="updateScrap" parameterType="int">
+		update content
+		set
+		content_scrap
+		= content_scrap + #{count}
+		where content_code = #{cid}
+	</update>
+
+	<update id="updateLike" parameterType="int">
+		update content
+		set
+		content_like =
+		content_like + #{count}
+		where content_code = #{cid}
+	</update>
+
+
+	<update id="updateRead" parameterType="int">
+		update content
+		set
+		content_read =
+		content_read + #{count}
+		where content_code = #{cid}
+	</update>
+
+	<insert id="likeContent" parameterType="Hashmap">
+		insert into contentlike
+		(user_code, content_code, content_like_date)
+		values (#{uid}, #{cid},
+		now())
+	</insert>
+	<insert id="scrapContent" parameterType="map">
+		insert into contentscrap
+		(user_code, content_code, content_scrap_time)
+		values
+		(#{uid}, #{cid}, now())
+	</insert>
+
+	<insert id="readContent" parameterType="Hashmap">
+		insert into contentread
+		(user_code, content_code, content_read_date)
+		values (#{uid}, #{cid},
+		now())
+	</insert>
+	<select id="userLikeContent" parameterType="Hashmap"
+		resultType="int">
+		select coalesce((select 1
+		FROM contentlike
+		where user_code = #{userCode} and content_code = #{contentCode}), 0)
+	</select>
+
+	<select id="userScrapContent" parameterType="Hashmap"
+		resultType="int">
+		select coalesce((select 1
+		FROM contentscrap
+		where user_code = #{userCode} and content_code = #{contentCode}), 0)
+	</select>
+
+
 
 </mapper>

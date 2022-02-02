@@ -30,6 +30,8 @@ public class ContentDto {
 	private boolean liked;
 	@ApiModelProperty(value = "유저가 현재 컨텐츠를 스크랩했는지 여부")
 	private boolean scrapped;
+	@ApiModelProperty(value = "유저가 현재 컨텐츠를 읽었는지 여부")
+	private boolean read;
 	
 
 }
