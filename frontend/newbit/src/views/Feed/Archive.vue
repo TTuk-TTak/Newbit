@@ -1,12 +1,12 @@
 <template>
   <v-card>
-    SocialFeed
+    Archive
   </v-card>
 </template>
 
 <script>
 export default {
-  name: 'SocialFeed',
+
 }
 </script>
 
