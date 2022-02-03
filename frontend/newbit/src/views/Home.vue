@@ -20,12 +20,15 @@
 <script>
 import TheProfileBar from '@/views/Bars/TheProfileBar.vue'
 import TheKeywordBar from '@/views/Bars/TheKeywordBar.vue'
-import ContentFeed from '@/views/Feed/ContentFeed.vue'
 
 import PostCreateModal from '@/components/Modals/PostCreateModal.vue'
 import LoginModal from '@/components/Modals/LoginModal/LoginModal.vue'
 import FirstLoginModal from '@/components/Modals/FirstLoginModal.vue'
 
+import PostDetail from '@/views/PostDetail/PostDetail.vue'
+
+import PostCard from '@/components/Cards/PostCard.vue'
+// import ContentFeed from '@/views/Feed/ContentFeed.vue'
 
 export default {
   name: 'Home',
