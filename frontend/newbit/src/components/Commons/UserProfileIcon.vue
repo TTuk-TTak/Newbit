@@ -1,5 +1,7 @@
 <template>
-  <v-avatar>
+  <v-avatar
+    size='32'
+  >
     <img
       :src="imgUrl"
       alt="Img"

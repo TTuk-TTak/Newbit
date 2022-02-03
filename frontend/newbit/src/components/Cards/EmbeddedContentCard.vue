@@ -21,7 +21,7 @@
           <v-col class='py-0' cols=12>
             <h3>{{ content.title }}</h3>
           </v-col>
-          <v-col class='py-0' cols=12>
+          <v-col class='content-text  py-0' cols=12>
             <p class="mb-0">{{ content.text }}</p>
           </v-col>
           <v-col class='pa-0' cols=12>
@@ -89,5 +89,10 @@ export default {
 </script>
 
 <style>
-
+.content-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 </style>
