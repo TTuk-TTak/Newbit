@@ -21,6 +21,13 @@ public class ContentServiceImpl implements ContentService {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(ContentMapper.class).newListContent(map);
 	}
+	
+	@Override
+	public List<ContentDto> hotListContent(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(ContentMapper.class).newListContent(map);
+	}
+
 
 	@Override
 	public ContentDto getContent(int contentCode) throws Exception {

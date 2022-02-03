@@ -6,6 +6,7 @@ import java.util.*;
 import com.ssafy.newbit.model.ContentDto;
 public interface ContentMapper {
 	public  List<ContentDto> newListContent(HashMap<String, Object> map) throws SQLException;
+	public  List<ContentDto> hotListContent(HashMap<String, Object> map) throws SQLException;
 	public ContentDto getContent(int contentCode) throws SQLException;
 	
 	public void updateScrap(HashMap<String, Integer> map) throws SQLException;

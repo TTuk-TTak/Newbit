@@ -8,6 +8,7 @@ import com.ssafy.newbit.model.ContentDto;
 
 public interface ContentService {
 	public List<ContentDto> newListContent(HashMap<String, Object> map) throws Exception;
+	public List<ContentDto> hotListContent(HashMap<String, Object> map) throws Exception;
 	public ContentDto getContent(int contentCode) throws Exception;
 
 	public void updateScrap(HashMap<String, Integer> map) throws Exception;

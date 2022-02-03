@@ -46,10 +46,10 @@ public class ContentCotroller {
 		return new ResponseEntity<ContentDto>(contentService.getContent(cid), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "추천 피드 최신 콘텐츠 조회", notes = "키워드에 해당하는 최신 콘텐츠 목록을 반환", response = List.class)
-	@GetMapping("/new")
+	@ApiOperation(value = "추천 피드 콘텐츠 조회", notes = "키워드에 해당하는 콘텐츠 목록을 정렬 기준으로 반환", response = List.class)
+	@GetMapping("/list")
 	public ResponseEntity<List<ContentDto>> newContentList(
-			@RequestParam @ApiParam(value = "최신 게시글 목록을 가져오기 위해 필요한 정보", required = true)int uid, int lastcontentcode, int size, String keyword) throws Exception {
+			@RequestParam @ApiParam(value = "게시글 목록을 가져오기 위해 필요한 정보", required = true)String sorting, int uid, int lastcontentcode, int size, String keyword) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		List<String> keywordList = new ArrayList<>();
@@ -61,7 +61,7 @@ public class ContentCotroller {
 				keywordList.add(str);
 		}
 		map.put("keywordList", keywordList);
-
+		map.put("type", sorting);
 		
 		map.put("lastContentCode", lastcontentcode);
 		map.put("size",size);
@@ -106,7 +106,6 @@ public class ContentCotroller {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
-
 	}
 	@ApiOperation(value = "콘텐츠 좋아요 삭제", notes = "콘텐츠코드에 해당하는 콘텐츠 좋아요를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("/like")

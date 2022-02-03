@@ -39,7 +39,12 @@
 			and (content_code  <![CDATA[<]]>
 			#{lastContentCode})
 		</if>
-		order by content_date desc
+		<if test="type== 'new'">
+			order by content_date desc
+		</if>
+		<if test="type== 'hot'">
+			order by content_read desc
+		</if>
 		limit #{size}
 	</select>
 	<update id="updateScrap" parameterType="int">
@@ -77,7 +82,8 @@
 		insert into contentscrap
 		(user_code, content_code, content_scrap_time)
 		values
-		(#{uid}, #{cid}, now())
+		(#{uid}, #{cid},
+		now())
 	</insert>
 
 	<insert id="readContent" parameterType="Hashmap">
@@ -90,14 +96,16 @@
 		resultType="int">
 		select coalesce((select 1
 		FROM contentlike
-		where user_code = #{userCode} and content_code = #{contentCode}), 0)
+		where user_code =
+		#{userCode} and content_code = #{contentCode}), 0)
 	</select>
 
 	<select id="userScrapContent" parameterType="Hashmap"
 		resultType="int">
 		select coalesce((select 1
 		FROM contentscrap
-		where user_code = #{userCode} and content_code = #{contentCode}), 0)
+		where user_code =
+		#{userCode} and content_code = #{contentCode}), 0)
 	</select>
 
 
