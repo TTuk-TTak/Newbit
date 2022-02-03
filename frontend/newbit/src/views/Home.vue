@@ -1,16 +1,14 @@
 <template>
   <v-container>
+    <login-modal :isLogged='true'></login-modal>
+    <first-login-modal :isLogged='true'></first-login-modal>
     <v-row>
       <v-col cols="3">
-        <post-create-modal
-          :isOpened='true'
-        ></post-create-modal>
+        <post-create-modal :isOpened='false'></post-create-modal>
         <the-profile-bar></the-profile-bar>
       </v-col>
       <v-col>
-        <content-feed
-          class="p-0"
-        ></content-feed>
+        <content-feed class="p-0"></content-feed>
       </v-col>
       <v-col cols='2'>
         <the-keyword-bar></the-keyword-bar>
@@ -25,6 +23,8 @@ import TheKeywordBar from '@/views/Bars/TheKeywordBar.vue'
 import ContentFeed from '@/views/Feed/ContentFeed.vue'
 
 import PostCreateModal from '@/components/Modals/PostCreateModal.vue'
+import LoginModal from '@/components/Modals/LoginModal/LoginModal.vue'
+import FirstLoginModal from '@/components/Modals/FirstLoginModal.vue'
 
 
 export default {
@@ -34,6 +34,8 @@ export default {
     TheKeywordBar,
     ContentFeed,
     PostCreateModal,
+    LoginModal,
+    FirstLoginModal,
   },
 }
 </script>
