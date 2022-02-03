@@ -56,7 +56,7 @@
         text
         small
         >
-        {{ showReply ? '숨기기' : '댓글 5개 보기'}}
+        {{ showReply ? '숨기기' : '답글 5개 보기'}}
       </v-btn>
     </v-row>
     <v-divider class="mt-2"></v-divider>
