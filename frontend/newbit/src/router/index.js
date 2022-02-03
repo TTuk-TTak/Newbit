@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '../views/Home.vue'
+import Home from '@/views/Home.vue'
 import NotFound from '@/views/Error/NotFound.vue'
 
 import Signup from '@/views/User/Signup.vue'
@@ -11,15 +11,55 @@ import Login from '@/views/User/Login.vue'
 import ProfileDetail from '@/views/Profile/ProfileDetail.vue'
 import ProfileEdit from '@/views/Profile/ProfileEdit.vue'
 
+import ContentFeed from '@/views/Feed/ContentFeed.vue'
+import SocialFeed from '@/views/Feed/SocialFeed.vue'
+import Archive from '@/views/Feed/Archive.vue'
+
+import PostDetail from '@/views/PostDetail/PostDetail.vue'
+
+
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
-  },
+    component: Home,
+    children: [
+      // feed
+      {
+        path: 'social',
+        component: SocialFeed
+      },
+      {
+        path: 'social/:id',
+        component: PostDetail
+      },
+      {
+        path: 'content',
+        component: ContentFeed
+      },
+      {
+        path: 'archive',
+        component: Archive
+      },
+      {
+        path: '',
+        redirect: 'social' // default 
+      },
 
+      //Profile  
+      {
+        path: 'profile/detail',
+        name: 'ProfileDetail',
+        component: ProfileDetail
+      },
+      {
+        path: 'profile/edit',
+        name: 'ProfileEdit',
+        component: ProfileEdit
+      },
+    ]
+  },
   //Authentication
   {
     path: '/signup',
@@ -37,18 +77,6 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
-  },
-
-  //Profile  
-  {
-    path: '/profile/detail',
-    name: 'ProfileDetail',
-    component: ProfileDetail
-  },
-  {
-    path: '/profile/edit',
-    name: 'ProfileEdit',
-    component: ProfileEdit
   },
 
   // 404 Error
