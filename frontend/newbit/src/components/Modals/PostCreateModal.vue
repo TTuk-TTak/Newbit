@@ -36,8 +36,7 @@
           placeholder="게시글을 작성해주세요."
           rows='8'
           maxlength='500'
-          :hint='`(` + postText.length + ` /500)`'
-          persistent-hint
+          counter='500'
           no-resize
           flat
           solo
@@ -49,7 +48,7 @@
 
         <v-card-actions>
           <btn-dark
-            class='grow mb-3'
+            class='grow my-2'
             message='글 작성'
           ></btn-dark>
         </v-card-actions>
