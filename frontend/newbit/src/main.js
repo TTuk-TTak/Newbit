@@ -8,8 +8,8 @@ import VueApexCharts from "vue-apexcharts";
 Vue.use(VueApexCharts);
 Vue.component("apexchart", VueApexCharts);
 
-
 Vue.config.productionTip = false
+Vue.prototype.$serverURL = process.env.VUE_APP_SERVER_URL
 
 new Vue({
   router,
