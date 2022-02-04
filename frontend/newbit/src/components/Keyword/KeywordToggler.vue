@@ -1,4 +1,8 @@
 <template>
+  <!-- <div>
+    {{ keywords }}
+    <keyword-chip></keyword-chip>
+  </div> -->
   <v-chip-group
     column
   >
@@ -41,6 +45,15 @@ export default {
         'JS',
         'Python',
       ],
+    }
+  },
+  computed: {
+    keywords: function () {
+      // const keywordObject = {}
+      // for (let key in this.$KEYWORDS) {
+      //   const value = this.$KEYWORDS[key]
+      // }
+      return Object.values(this.$KEYWORDS)
     }
   },
 }
