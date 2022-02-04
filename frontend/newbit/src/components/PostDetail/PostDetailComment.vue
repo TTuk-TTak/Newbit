@@ -9,7 +9,6 @@
           @click="clickReplyBtn()" 
           plain 
           text
-          right
           >
             {{ isReplying ? '작성 취소' : '답글 작성'}}
           </v-btn>
@@ -20,9 +19,7 @@
     <v-row 
       v-if="isReplying"
       class="ml-5 my-2 px-5">
-      <user-profile-icon
-        :imgUrl="`https://avatars0.githubusercontent.com/u/9064066?v=4&s=460`"
-      ></user-profile-icon>
+      <v-icon>mdi-arrow-right-bottom</v-icon>
       <v-textarea 
         v-model="reply.text"
         class="ml-2 py-0"

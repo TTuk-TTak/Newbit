@@ -1,7 +1,7 @@
 <template>
 
   <v-card
-    class="ma-1 py-0"
+    class="ma-1 py-0" 
   >
     <v-row>
       <v-col 
@@ -19,13 +19,17 @@
         cols=8>
         <v-row class="px-2 pt-3">
           <v-col class='py-0' cols=12>
-            <h3>{{ content.title }}</h3>
+            <h3
+              class="pa-0"
+            >{{ content.title }}</h3>
           </v-col>
-          <v-col class='content-text  py-0' cols=12>
-            <p class="mb-0">{{ content.text }}</p>
+          <v-col class='py-0' cols=12>
+            <v-card-text class="content-text mb-0 pa-0">{{ content.text }}</v-card-text>
           </v-col>
           <v-col class='pa-0' cols=12>
-          <v-chip-group>
+          <v-chip-group
+            class="py-0"
+          >
             <keyword-chip
               v-for="keyword in keywordSample"
               :key="keyword"
@@ -36,7 +40,7 @@
           </v-col>
           <!-- 하단 블로그 소개 및 아이콘 -->
           <v-row
-            class="pa-2 container justify-space-between align-center"
+            class="pa-2 pt-0 container justify-space-between align-center"
           >
             <div
               class="pl-3 align-center"
@@ -48,7 +52,7 @@
               >
               <span>20</span>
               </v-avatar>
-              <span>어썸한 블로그</span>
+              <span class="ml-1">어썸한 블로그</span>
             </div>
             <div class="pr-4">
               <v-btn icon>
@@ -77,7 +81,7 @@ export default {
     isVertical: true,
     content: {
       title: '카드 타이틀',
-      text: '이 편지는 영국에서 최초로 시작되어 일년에 한바퀴를 돌면서 받는 사람에게 행운을 주었고 지금은 당신에게로 옮겨진 이 편지는 4일 안에 당신 곁을 떠나야 합니다. 이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.',
+      text: '이 편지는 영국에서 최초로 시작되어 일년에 한바퀴를 돌면서 받는 사람에게 행운을 주었고 지금은 당신에게로 옮겨진 이 편지는 4일 안에 당신 곁을 떠나야 합니다. 이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다. 이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.',
       url: 'https://picsum.photos/500/300?image=55',
       thumbnail: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
       likes: 0,
