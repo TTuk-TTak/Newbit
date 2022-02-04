@@ -44,21 +44,22 @@
           >
             <span>SL</span>
           </v-avatar>
-          <v-list-item-content>
+          <v-list-item-content class="ml-2">
             <v-list-item-title>Surim Lee</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-divider></v-divider>
         <!-- 2. 설정 -->
         <v-list-item>
           <v-icon>mdi-cog</v-icon>
-          <v-list-item-content>
+          <v-list-item-content class="ml-2">
             <v-list-item-title>설정</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <!-- 3. 로그아웃 -->
         <v-list-item>
           <v-icon>mdi-logout</v-icon>
-          <v-list-item-content>
+          <v-list-item-content class="ml-2">
             <v-list-item-title>로그아웃</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
