@@ -3,8 +3,8 @@
     class="ma-1"
     :color='isActive ? `keywordChipText` : `keywordChipBackground`'
     :text-color='isActive ? `keywordChipBackground` : `keywordChipText`'
-    @click="toggleChip"
     small
+    @click="toggleChip"
   >{{text}}</v-chip>
 </template>
 
@@ -13,14 +13,17 @@ export default {
   name: 'KeywordChip',
   props: {
     text: String,
+    isToggleAvailable: Boolean,
   },
   data: () => ({
     isActive: false,
   }),
   methods: {
     toggleChip: function () {
-      this.isActive = !this.isActive
-    }
+      if (this.isToggleAvailable) {
+        this.isActive = !this.isActive
+      }
+    },
   }
 
 }
