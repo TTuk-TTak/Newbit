@@ -1,5 +1,6 @@
 <template>
   <div class="px-10">
+    {{ KEYWORDS }}
     <v-tabs>
       <v-tabs-slider></v-tabs-slider>
       <v-tab
