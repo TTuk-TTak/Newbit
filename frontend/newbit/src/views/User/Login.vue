@@ -5,7 +5,7 @@
       justify="center"
       dense
     >
-      <v-col cols="4">
+      <v-col cols="5">
         <v-card
           class="rounded-xl"
           elevation="3"
