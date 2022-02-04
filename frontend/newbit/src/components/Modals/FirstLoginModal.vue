@@ -33,7 +33,7 @@
             <keyword-selector></keyword-selector>
           </div>
           <div v-else-if="page === 2">
-            <follow-list></follow-list>
+            <follow-recommendation></follow-recommendation>
           </div>
           <div
             v-else-if="page === 3"
@@ -122,7 +122,7 @@
 
 <script>
 import KeywordSelector from '@/components/Keyword/KeywordSelector.vue'
-import FollowList from '@/components/Commons/FollowList.vue'
+import FollowRecommendation from '@/components/Modals/FollowModal/FollowRecommendation.vue'
 
 
 export default {
@@ -130,7 +130,7 @@ export default {
   props: {
     isLogged: Boolean,
   },
-  components: { KeywordSelector, FollowList },
+  components: { KeywordSelector, FollowRecommendation },
   data () {
     return {
       credentials: {

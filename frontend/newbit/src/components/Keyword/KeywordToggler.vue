@@ -1,12 +1,13 @@
 <template>
-  <v-chip-group
-    column
-  >
+  <v-chip-group column>
     <keyword-chip
       v-for="tag in tags"
       :key="tag"
       :text="tag"
       :isToggleAvailable='true'
+      :isSmall='true'
+      :isLabel='false'
+      :isFixed='false'
     ></keyword-chip>
   </v-chip-group>
 </template>
@@ -17,7 +18,7 @@ import KeywordChip from '@/components/Keyword/KeywordChip.vue'
 export default {
   name: 'KeywordToggler',
   components: {
-    KeywordChip,    
+    KeywordChip,
   },
   data: () => {
     return {
@@ -47,5 +48,4 @@ export default {
 </script>
 
 <style>
-
 </style>
