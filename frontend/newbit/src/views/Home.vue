@@ -8,7 +8,7 @@
         <the-profile-bar></the-profile-bar>
       </v-col>
       <v-col>
-        <content-feed class="p-0"></content-feed>
+        <router-view></router-view>
       </v-col>
       <v-col cols='2'>
         <the-keyword-bar></the-keyword-bar>
@@ -25,20 +25,16 @@ import PostCreateModal from '@/components/Modals/PostCreateModal.vue'
 import LoginModal from '@/components/Modals/LoginModal/LoginModal.vue'
 import FirstLoginModal from '@/components/Modals/FirstLoginModal.vue'
 
-import PostDetail from '@/views/PostDetail/PostDetail.vue'
-
-import PostCard from '@/components/Cards/PostCard.vue'
-// import ContentFeed from '@/views/Feed/ContentFeed.vue'
 
 export default {
   name: 'Home',
   components: {
     TheProfileBar,
     TheKeywordBar,
-    ContentFeed,
-    PostCreateModal,
+
     LoginModal,
     FirstLoginModal,
+    PostCreateModal,
   },
 }
 </script>
