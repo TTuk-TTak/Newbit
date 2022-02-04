@@ -1,9 +1,27 @@
 <template>
   <div>
-    <!-- 1. 검색 아이콘 -->
-    <v-btn icon>
-      <v-icon>mdi-magnify</v-icon>
-    </v-btn>
+    <!-- 1. 검색 아이콘 및 다이얼로그 -->
+    <v-dialog
+      overlay-opacity=0.1
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          elevation="0" 
+          v-bind="attrs"
+          v-on="on"
+          icon
+        >
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
+      </template>
+        <!-- color="rgba(26, 26, 26, 0.2)">마지막으로 본 게시글 중 가장 낮은 번호 혹은 0,  -->
+      <v-card>
+        <v-card-text>
+          <search-modal></search-modal>
+        </v-card-text>
+      </v-card>
+      
+    </v-dialog>
     <!-- 2. 알람 아이콘 -->
     <v-btn icon>
       <v-icon>mdi-bell</v-icon>
@@ -36,7 +54,7 @@
         </v-btn>
       </template>
       <v-list>
-        <!-- 1.프로필 사진 -->
+        <!-- 1) 프로필 사진 -->
         <v-list-item>
           <v-avatar
             color="indigo"
@@ -56,7 +74,7 @@
             <v-list-item-title>설정</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <!-- 3. 로그아웃 -->
+        <!-- 3) 로그아웃 -->
         <v-list-item>
           <v-icon>mdi-logout</v-icon>
           <v-list-item-content class="ml-2">
@@ -69,8 +87,13 @@
 </template>
 
 <script>
+import SearchModal from '@/components/Modals/SearchModal.vue'
+
 export default {
   name: 'TheNavBarIcons',
+  components: {
+    SearchModal,
+  },
   data: () => {
     return {
       isLoggedIn: true
@@ -79,5 +102,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#searchModal {
+  position: absolute !important;
+  top: 48px !important;
+}
+
+
 </style>
