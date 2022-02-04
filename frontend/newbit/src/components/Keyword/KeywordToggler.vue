@@ -10,6 +10,7 @@
       v-for="tag in tags"
       :key="tag"
       :text="tag"
+      :isToggleAvailable='true'
     ></keyword-chip>
   </v-chip-group>
 </template>
