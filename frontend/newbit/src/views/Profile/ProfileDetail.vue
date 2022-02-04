@@ -18,11 +18,53 @@
           <p>개발자 천모씨</p>
           <p>재밌게 협업 진행해보고 싶습니다. 자기소개 하는 부분.</p>
           <div>
-            <span class="mr-6">게시물</span>
-            <span class="mr-6">팔로워</span>
-            <span>팔로잉</span>
+            <v-btn
+              elevation="0"
+              v-bind="attrs"
+              v-on="on"
+              plain
+              rounded
+              shaped
+            >
+              게시물
+            </v-btn>
+            <v-dialog
+              v-model="dialog1"
+              width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  elevation="0"
+                  v-bind="attrs"
+                  v-on="on"
+                  plain
+                  rounded
+                  shaped
+                >
+                  팔로워
+                </v-btn>
+              </template>
+              <follow-modal category="follower"></follow-modal>
+            </v-dialog>
+            <v-dialog
+              v-model="dialog2"
+              width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  elevation="0"
+                  v-bind="attrs"
+                  v-on="on"
+                  plain
+                  rounded
+                  shaped
+                >
+                  팔로잉
+                </v-btn>
+              </template>
+              <follow-modal category="following"></follow-modal>
+            </v-dialog>
           </div>
-
         </v-col>
         <v-col
           cols="2"
@@ -65,7 +107,6 @@
                 <v-list-item
                   v-for="item in items"
                   :key="item.category"
-                  class="p"
                 >
                   <v-list-item-content>
                     <v-list-item-title v-text="item.category"></v-list-item-title>
@@ -92,6 +133,8 @@
 import FavoredKeywordBar from '@/components/Keyword/FavoredKeywordBar.vue'
 import ProfileDetailRadarGraph from '@/views/Profile/Detail/ProfileDetailRadarGraph.vue'
 import ProfileDetailDailyGraph from '@/views/Profile/Detail/ProfileDetailDailyGraph.vue'
+import FollowModal from '@/components/Modals/FollowModal.vue'
+
 
 
 export default {
@@ -99,10 +142,14 @@ export default {
     FavoredKeywordBar,
     ProfileDetailRadarGraph,
     ProfileDetailDailyGraph,
+    FollowModal,
   },
   data: () => ({
     isVertical: false,
     toggle: 'article',
+
+    dialog1: false,
+    dialog2: false,
 
     items: [
       { category: '프론트엔드', preference: 8 },
@@ -124,8 +171,7 @@ export default {
       if (this.toggle === 'article') {
         this.toggle = 'activity'
       }
-
-    }
+    },
   }
 }
 </script>
