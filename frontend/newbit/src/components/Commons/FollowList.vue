@@ -20,20 +20,18 @@
       </v-list-item-content>
 
       <v-list-item-action>
-        <v-btn
-          rounded
-          elevation="2"
-          class="font-weight-bold border"
-        >
-          팔로우
-        </v-btn>
+        <follow-btn></follow-btn>
       </v-list-item-action>
     </v-list-item>
   </v-list>
 </template>
 
 <script>
+import FollowBtn from '@/components/Commons/FollowBtn.vue'
+
+
 export default {
+  components: { FollowBtn },
   data: () => ({
     files: [
       {

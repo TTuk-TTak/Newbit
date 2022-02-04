@@ -1,22 +1,12 @@
 <template>
-  <v-app
-    v-if="toggle"
-    id="app"
-  >
-    <the-nav></the-nav>
+  <v-app id="app">
+    <the-nav v-if="toggle"></the-nav>
     <v-main
       id="main"
       class="container p-1"
     >
       <router-view />
     </v-main>
-  </v-app>
-  <!-- signup, login 페이지를 위해 케이스를 나눈다. vuex로 toggle의 boolean 값을 관리하여 Signup, Login 페이지 Router push 시 아래 출력 -->
-  <v-app
-    v-else
-    id="app"
-  >
-    <router-view />
   </v-app>
 </template>
 
