@@ -17,7 +17,7 @@
             src="https://cdn.vuetifyjs.com/images/john.jpg"
             alt="John"
           >
-        </v-avatar>
+        </v-avatar>  
         <span class="ml-2">{{ post.userCode }}</span>
         <span class="ml-2">{{ post.date }}</span>
         <span v-if="post.edit"> (수정됨)</span>  
@@ -63,7 +63,6 @@
       v-if="post.contentCode"
       class="mt-5 mx-3"
     ></embedded-content-card>
-    
     <!-- 2-2. 본문 -->
     <v-card-text
       class="mb-0 pb-0"
