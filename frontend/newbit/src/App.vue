@@ -8,7 +8,6 @@
       <router-view />
     </v-main>
   </v-app>
-  <!-- signup, login 페이지를 위해 케이스를 나눈다. vuex로 toggle의 boolean 값을 관리하여 Signup, Login 페이지 Router push 시 아래 출력 -->
 </template>
 
 <script>
@@ -21,7 +20,7 @@ export default {
   },
 
   data: () => ({
-    toggle: false
+    toggle: true
   }),
 
 };

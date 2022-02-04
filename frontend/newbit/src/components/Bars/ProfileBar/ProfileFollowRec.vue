@@ -29,11 +29,7 @@
           offset="2"
           align-self="center"
         >
-          <v-btn
-            small
-            block
-            rounded
-          >팔로우</v-btn>
+          <follow-btn></follow-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -41,7 +37,10 @@
 </template>
 
 <script>
+import FollowBtn from '@/components/Commons/FollowBtn.vue'
+
 export default {
+  components: { FollowBtn },
 
 }
 </script>
