@@ -4,16 +4,6 @@
       v-model="dialog"
       width="45%"
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="red lighten-2"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Click Me
-        </v-btn>
-      </template>
       <v-card class="rounded-xl ma-0 pa-0">
         <v-container>
           <v-row>
@@ -45,11 +35,15 @@ import LoginModalDefault from '@/components/Modals/LoginModal/LoginModalDefault.
 
 
 export default {
+  name: 'LoginModal',
+  props: {
+    isLogged: Boolean,
+  },
   components: { LoginModalDefault },
 
   data () {
     return {
-      dialog: false,
+      dialog: !this.isLogged
     }
   },
   methods: {
