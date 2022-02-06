@@ -1,21 +1,22 @@
 <template>
 
   <v-card
-    class="ma-1 py-0" 
+    class="ma-1 pt-3 pb-3" 
+    outlined
   >
     <v-row>
       <v-col 
         class="py-0"
         cols=4 
         >
-        <v-img
-          height='auto'
-          class="rounded-l ml-auto"
+        <v-img 
+          class="rounded-l mb-0"
+          height="100%"
           :src="content.thumbnail"
         ></v-img>
       </v-col>
       <v-col 
-        class="d-flex align-between"
+        class="align-between"
         cols=8>
         <v-row class="px-2 pt-3">
           <v-col class='py-0' cols=12>
@@ -23,14 +24,15 @@
               class="pa-0"
             >{{ content.title }}</h3>
           </v-col>
-          <v-col class='py-0' cols=12>
-            <v-card-text class="content-text mb-0 pa-0">{{ content.text }}</v-card-text>
+          <v-col class='py-0 my-0 mt-1' cols=12>
+            <v-card-text class="content-text mb-0 pa-0 ">{{ content.text }}</v-card-text>
           </v-col>
-          <v-col class='pa-0' cols=12>
+          <v-col class='pa-0 mt-0' cols=12>
           <v-chip-group
-            class="py-0"
+            class="py-0 ml-2" 
           >
             <keyword-chip
+              class="embeddedkeyword"
               v-for="keyword in keywordSample"
               :key="keyword"
               :text="keyword"
@@ -40,10 +42,10 @@
           </v-col>
           <!-- 하단 블로그 소개 및 아이콘 -->
           <v-row
-            class="pa-2 pt-0 container justify-space-between align-center"
+            class="pl-0 pt-0 ml-0 container justify-space-between bloginfo "
           >
             <div
-              class="pl-3 align-center"
+              class="pl-3 mt-4 mb-3"
             >
               <v-avatar
                 color="primary"
@@ -52,9 +54,9 @@
               >
               <span>20</span>
               </v-avatar>
-              <span class="ml-1">어썸한 블로그</span>
+              <span class="ml-2">어썸한 블로그</span>
             </div>
-            <div class="pr-4">
+            <div class="pr-4 pb-1 mt-2 pt-0">
               <v-btn icon>
                 <v-icon>mdi-share</v-icon>
               </v-btn>
@@ -92,11 +94,31 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .content-text {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
+  font-family: 'KoPub Dotum';
+  font-weight: 400;
+  color : #272727;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* 키워드칩 */
+.embeddedkeyword {
+  font-family: 'KoPub Dotum';
+  font-weight: 400;
+}
+
+/* 블로그명 */
+.bloginfo {
+  font-family: 'KoPub Dotum';
+  font-weight: 400;
+  color : #7E7E7E;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
 </style>

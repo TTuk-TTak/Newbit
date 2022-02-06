@@ -2,15 +2,15 @@
   <v-container>
     <login-modal :isLogged='true'></login-modal>
     <first-login-modal :isLogged='true'></first-login-modal>
-    <v-row>
-      <v-col cols="3">
+    <v-row justify="center">
+      <v-col cols="3" class="pr-5 mr-5">
         <post-create-modal :isOpened='false'></post-create-modal>
         <the-profile-bar></the-profile-bar>
       </v-col>
-      <v-col>
+      <v-col cols="6">
         <router-view></router-view>
       </v-col>
-      <v-col cols='2'>
+      <v-col cols='2' class="ml-5 mr-10">
         <the-keyword-bar></the-keyword-bar>
       </v-col>
     </v-row>

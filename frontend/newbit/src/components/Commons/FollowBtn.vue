@@ -1,5 +1,9 @@
 <template>
-  <v-btn
+  <v-btn style="padding-left:25px; padding-right:25px"
+    rounded
+    depressed
+    outlined
+    color = "#0d0e23"
     :class="styleObject"
   >
     {{ message }}
