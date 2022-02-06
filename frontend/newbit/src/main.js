@@ -19,6 +19,8 @@ Vue.config.productionTip = false
 Vue.prototype.$serverURL = process.env.VUE_APP_SERVER_URL
 
 // 키워드 목록
+// 1. 대분류: Languages, Frontend, Backend, 일반
+// 2. 소분류: Key==보여질 이름 Value == queryString에 사용할 이름
 Vue.prototype.$KEYWORDS = {
   'Languages': {
     'C': 'clanguage',
@@ -40,7 +42,7 @@ Vue.prototype.$KEYWORDS = {
     'Node.js': 'Node.js',
     'PHP': 'PHP', 
     'Database': 'Database',
-    'Dev/Ops': '데브옵스',
+    'DevOps': '데브옵스',
     'SpringBoot': 'SpringBoot',    
   },
   '일반': {
