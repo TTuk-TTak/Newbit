@@ -47,6 +47,13 @@ from user u
 		values (#{from}, #{to})
 	</insert>
 	
+	<!-- 팔로잉 삭제 -->
+	<delete id="unfollowUser" parameterType="map">
+		delete from follow
+		where
+		user_code = #{from} and following_code=#{to}
+	</delete>
+	
   <!--  회원 정보 수정 -->
 	<update id="editUserInfo" parameterType="userDto">
 		update	user
