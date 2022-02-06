@@ -72,6 +72,7 @@
       large
       color="#0d0e23"
       class="font-weight-bold mb-3"
+      style="font-size: 1.15em; font-weight: 500;"
     >
       로그인하기
     </v-btn>
@@ -82,7 +83,7 @@
       large
       color="#0d0e23"
       dark
-      class="font-weight-bold"
+      style="font-size: 1.15em; font-weight: 500;"
     >
       회원가입하기
     </v-btn>
