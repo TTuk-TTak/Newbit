@@ -133,7 +133,7 @@
 import FavoredKeywordBar from '@/components/Keyword/FavoredKeywordBar.vue'
 import ProfileDetailRadarGraph from '@/views/Profile/Detail/ProfileDetailRadarGraph.vue'
 import ProfileDetailDailyGraph from '@/views/Profile/Detail/ProfileDetailDailyGraph.vue'
-import FollowModal from '@/components/Modals/FollowModal/FollowModal.vue'
+import FollowModal from '@/components/Modals/FollowModal.vue'
 
 
 
