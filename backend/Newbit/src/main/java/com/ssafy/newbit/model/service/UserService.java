@@ -3,15 +3,17 @@ package com.ssafy.newbit.model.service;
 import java.sql.SQLException;
 import java.util.*;
 
+//import com.ssafy.newbit.controller.UserDetail;
 import com.ssafy.newbit.model.UserDto;
 
 
 
-public interface UserService {
+public interface UserService{
 	public boolean addUser(UserDto userDto) throws Exception;
 	public UserDto getUser(int userCode) throws Exception;
 	public boolean checkId(String userId) throws Exception;
 	public boolean checkEmail(String userEmail) throws Exception;
+	public boolean checkLogin(String userEmail,  String userPassword) throws Exception;
 
 	//public boolean editUserInfo(UserDto memberDto) throws Exception;
 	List<UserDto> getFollowingList(int userCode) throws Exception;

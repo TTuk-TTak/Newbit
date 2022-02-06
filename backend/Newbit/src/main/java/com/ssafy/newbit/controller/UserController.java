@@ -1,6 +1,5 @@
 package com.ssafy.newbit.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -19,18 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.newbit.model.UserDto;
 import com.ssafy.newbit.model.service.UserService;
+import com.ssafy.newbit.jwt.JwtProvider;
+
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-
 //////////////////여기서 부터 직접 추가한 import
 import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
-import javax.annotation.PostConstruct;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,11 +38,12 @@ import com.ssafy.newbit.model.mapper.UserMapper;
 
 
 
+
 @Api("유저 컨트롤러  API")
 @CrossOrigin(origins = { "*" })
 @RequestMapping("/user")		
 @RestController
-public class UserController {
+public class UserController{
 
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	private static final String SUCCESS = "success";
@@ -54,8 +51,11 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private JwtProvider jwtProvider;
 
 	
+	///////////////////////////    회원 가입       //////////////////////////////////////////////
 	@ApiOperation(value = "사용자 추가", notes = "회원가입한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)	
 	@PostMapping("/signup")
 	public ResponseEntity<String> addUser(@RequestBody @ApiParam(value = "유저 정보.", required = true) UserDto userDto)throws Exception{  //@ApiParam(value = "유저 정보.", required = true)	//throws Exception
@@ -79,7 +79,7 @@ public class UserController {
 		if (userService.checkId(userId) == true) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "이메일 중복 체크", notes = "중복된 이메일이 있는지 확인한다.", response = UserDto.class)
@@ -89,9 +89,55 @@ public class UserController {
 		if (userService.checkEmail(userEmail) == true) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 
+	
+	
+	///////////////////////////    로그인       //////////////////////////////////////////////
+
+	@ApiOperation(value = "로그인 확인", notes = "사용자 로그인 시도가 타당한지 확인합니다..", response = Map.class)
+	@PostMapping("/login")
+	public ResponseEntity<Map<String, String>> checkLogin(@RequestBody @ApiParam(value = "사용자의 이메일&아이디", required = true) Map<String,String> user)throws Exception{ 
+		logger.info("checkLogin 호출 : ");		// "checkLogin 호출 : " + user
+		Map<String, String> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		try {
+			boolean TF = userService.checkLogin(user.get("userEmail"), user.get("userPassword"));
+			if(TF == true) {
+				String token = jwtProvider.createToken(user.get("userEmail"), "User");// key, data, subject
+				//response.setHeader("jwt-auth-token", token); // client에 token 전달 
+				logger.debug("로그인 토큰정보 : {}", token);
+				resultMap.put("access-token", token);
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;				
+			} else {
+				resultMap.put("message", FAIL);
+				status = HttpStatus.ACCEPTED;
+			}
+		} catch (Exception e) {
+			logger.error("로그인 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, String>>(resultMap, status);
+	
+	}
+	
+	
+	/////////////////////////////JWT 확인용 /////////////////////////////////////////////////////
+
+    // 접근확인
+    @PostMapping("/jwttest")
+    public Map userResponseTest() {
+        Map<String, String> result = new HashMap<>();
+        result.put("result","Jwt Pass!!");
+        return result;
+    }
+
+    /////////////////////////////정보수정 /////////////////////////////////////////////////////
+	
+	
 	// 회원정보 수정
 	@ApiOperation(value = "회원 정보 수정", notes = "수정할 회원 정보를 입력한다. DB 수정 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PatchMapping

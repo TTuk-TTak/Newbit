@@ -1,6 +1,7 @@
 package com.ssafy.newbit.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class UserServiceImpl implements UserService{
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
+	
+	
 	// 회원가입
 	@Override
 	public boolean addUser(UserDto userDto) throws Exception {
@@ -82,17 +85,34 @@ public class UserServiceImpl implements UserService{
         return cnt==0;
     }
 
+    // 로그인 확인
+    @Override
+    public boolean checkLogin(String userEmail, String userPassword) throws Exception{
+    	System.out.println("로그인 가능여부: " + userEmail);
+    	// db에서 가져온 encoded password
+    	String pwd = sqlSession.getMapper(UserMapper.class).checkLogin(userEmail);
+    	// 비밀번호 비교 TF
+    	boolean TF = passwordEncoder.matches(userPassword, pwd);
+    	if(TF == true)
+    		System.out.println("로그인 가능 아이디");
+    	else{
+    		System.out.println("로그인 불가능 아이디");
+    	}
+        return TF==true;
+    }
+    
+
 	@Override
 	public List<UserDto> getFollowingList(int userCode) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).getFollowingList(userCode);
 	}
 
-  @Override
+    @Override
 	public List<UserDto> getFollowerList(int userCode) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).getFollowerList(userCode);
-  }
+    }
 
-  @Override
+    @Override
 	@Transactional
 	public boolean editUserInfo(UserDto userDto) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).editUserInfo(userDto) == 1;

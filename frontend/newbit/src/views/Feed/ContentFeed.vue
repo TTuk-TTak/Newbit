@@ -15,9 +15,9 @@
     >
       <v-col
         class="pa-2"
-        v-for="n in 3"
+        v-for="n in 21"
         :key="n"
-        cols="6"
+        cols="4"
       >
         <content-card></content-card>
       </v-col>
