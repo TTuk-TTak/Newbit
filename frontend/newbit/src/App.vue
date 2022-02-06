@@ -3,7 +3,7 @@
     <the-nav v-if="toggle"></the-nav>
     <v-main
       id="main"
-      class="container p-1"
+      class="container"
       style="margin-top:50px"
     >
       <router-view />
@@ -60,7 +60,6 @@ export default {
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* 바탕색 */
   background-color: #f2f2f4;
 
   padding: 0;
