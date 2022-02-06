@@ -27,6 +27,8 @@ import io.swagger.annotations.ApiParam;
 
 //////////////////여기서 부터 직접 추가한 import
 import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -66,11 +68,12 @@ public class UserController{
 	}
 
 	@ApiOperation(value = "특정 사용자 조회", notes = "사용자 코드에 해당하는 사용자의 정보를 반환한다.", response = UserDto.class)
-	@GetMapping("/{userCode}")
-	public ResponseEntity<UserDto> getUser(@PathVariable("userCode") @ApiParam(value = "얻어올 사용자의 코드", required = true) int userCode)throws Exception{ 
+	@GetMapping("")
+	public ResponseEntity<UserDto> getUser(@RequestParam("uid") @ApiParam(value = "얻어올 사용자의 코드", required = true) int userCode)throws Exception{ 
 		logger.info("getUser 호출 : " + userCode);
 		return new ResponseEntity<UserDto>(userService.getUser(userCode), HttpStatus.OK);
 	}
+	
 	
 	@ApiOperation(value = "아이디 중복 체크", notes = "중복된 아이디가 있는지 확인한다.", response = UserDto.class)
 	@PostMapping("/idCheck")
