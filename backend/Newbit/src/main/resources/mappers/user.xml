@@ -40,6 +40,13 @@ from user u
     where u.user_code in (select user_code from follow where following_code = #{userCode})
 	</select>
 	
+	<!-- 팔로잉 추가 -->
+	<insert id="followUser" parameterType="Hashmap">
+		insert into follow
+		(user_code, following_code)
+		values (#{from}, #{to})
+	</insert>
+	
   <!--  회원 정보 수정 -->
 	<update id="editUserInfo" parameterType="userDto">
 		update	user

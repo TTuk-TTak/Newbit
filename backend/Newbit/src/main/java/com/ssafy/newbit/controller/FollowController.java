@@ -1,5 +1,6 @@
 package com.ssafy.newbit.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +50,18 @@ public class FollowController {
 	public ResponseEntity<List<UserDto>> getFollowerList(@RequestParam("uid") int userCode) throws Exception {
 		logger.info("getFollowerList - 호출 : " + userCode);
 		return new ResponseEntity<List<UserDto>>(userService.getFollowerList(userCode), HttpStatus.OK);
+	}
+
+	// 팔로잉 추가
+	@ApiOperation(value = "팔로잉 추가", notes = "follow 테이블에 팔로잉한 유저-팔로잉할 유저 코드 데이터 추가, 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PostMapping
+	public ResponseEntity<String> followUser(
+			@RequestBody @ApiParam(value = "팔로잉하는 유저(나) 코드와 팔로잉할 유저 코드", required = true) HashMap<String, Integer> map)
+			throws Exception {
+		if (userService.followUser(map)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 	
 }

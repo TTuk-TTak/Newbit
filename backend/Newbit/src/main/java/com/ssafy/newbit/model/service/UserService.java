@@ -18,5 +18,6 @@ public interface UserService {
 	List<UserDto> getFollowerList(int userCode) throws Exception;
 	
 	public boolean editUserInfo(UserDto usersDto) throws Exception;
+	public boolean followUser(HashMap<String,Integer> map) throws Exception;
 
 }
