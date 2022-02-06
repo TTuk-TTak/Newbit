@@ -17,7 +17,7 @@ import KeywordChip from '@/components/Keyword/KeywordChip.vue'
 export default {
   name: 'KeywordToggler',
   components: {
-    KeywordChip,    
+    KeywordChip,
   },
   data: () => {
     return {
@@ -39,5 +39,4 @@ export default {
 </script>
 
 <style>
-
 </style>

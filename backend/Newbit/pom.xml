@@ -48,12 +48,18 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- Security -->
+		<!-- Security for Password Hashing-->
 		<dependency>
     		<groupId>org.springframework.boot</groupId>
     		<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		
+		<!-- for JWT -->
+		<dependency>
+    		<groupId>io.jsonwebtoken</groupId>
+    		<artifactId>jjwt</artifactId>
+    		<version>0.9.0</version>
+		</dependency>
 		
 		<!-- Lombok -->
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->

@@ -1,10 +1,11 @@
 <template>
   <v-chip
     class="ma-1"
+    :class="{ short: isFixed }"
     :color='isActive ? `keywordChipText` : `keywordChipBackground`'
     :text-color='isActive ? `keywordChipBackground` : `keywordChipText`'
-    small
     @click="toggleChip"
+    small
   >{{text}}</v-chip>
 </template>
 
@@ -30,5 +31,4 @@ export default {
 </script>
 
 <style>
-
 </style>
