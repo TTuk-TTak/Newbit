@@ -16,6 +16,8 @@ Vue.use(VueApexCharts);
 Vue.component("apexchart", VueApexCharts);
 
 Vue.config.productionTip = false
+
+// 서버 URL
 Vue.prototype.$serverURL = process.env.VUE_APP_SERVER_URL
 
 // 키워드 목록

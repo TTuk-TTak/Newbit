@@ -9,7 +9,7 @@
       >
         <v-tab>읽고 싶은 글</v-tab>
         <v-tab>읽었던 글</v-tab>
-    </v-tabs>
+      </v-tabs>
     </v-row>
     <v-row>
       <v-col
