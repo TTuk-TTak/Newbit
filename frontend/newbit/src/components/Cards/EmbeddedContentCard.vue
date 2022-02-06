@@ -32,6 +32,7 @@
             class="py-0 ml-2" 
           >
             <keyword-chip
+              class="embeddedkeyword"
               v-for="keyword in keywordSample"
               :key="keyword"
               :text="keyword"
@@ -104,7 +105,7 @@ export default {
 }
 
 /* 키워드칩 */
-.v-chip .v-chip__content {
+.embeddedkeyword {
   font-family: 'KoPub Dotum';
   font-weight: 400;
 }
