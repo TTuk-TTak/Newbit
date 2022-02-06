@@ -13,6 +13,7 @@ import com.ssafy.newbit.model.mapper.PostMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 public class PostServiceImpl implements PostService{
 	

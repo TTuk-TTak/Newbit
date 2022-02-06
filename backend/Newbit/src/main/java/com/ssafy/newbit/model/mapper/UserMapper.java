@@ -2,6 +2,7 @@ package com.ssafy.newbit.model.mapper;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -26,6 +27,7 @@ public interface UserMapper {
 	public int checkId(String userId) throws Exception;
 	public int checkEmail(String userEmail) throws Exception;
 	public static final PasswordEncoder passwordEncoder = null;
+	public String checkLogin(String userEmail) throws SQLException;
 	
 	public int editUserInfo(UserDto userDto) throws SQLException;
 	public UserDto getUser(int userCode) throws SQLException;
