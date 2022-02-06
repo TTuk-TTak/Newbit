@@ -8,7 +8,7 @@ import lombok.*;
 @ApiModel(value = "UserDto : 회원정보", description = "회원의 상세 정보를 나타낸다.")
 @Getter
 @Setter
-@Data
+//@Data
 public class UserDto {
 	@ApiModelProperty(value = "회원 코드")
 	private int userCode;
@@ -37,11 +37,20 @@ public class UserDto {
 	@ApiModelProperty(value = "팔로우여부")
 	private Boolean isFollow;
 	
+	/*
 	public UserDto(String userEmail, String userId, String userNick, String userPassword) {
 		this.userEmail = userEmail;
 		this.userId = userId;
 		this.userNick = userNick;
 		this.userPassword = userPassword;
+	}
+	
+	public UserDto(String userEmail, String userId, String userNick, String userPassword, String userDate) {
+		this.userEmail = userEmail;
+		this.userId = userId;
+		this.userNick = userNick;
+		this.userPassword = userPassword;
+		this.userDate = userDate;
 	}
 	
 	public UserDto(int userCode, String userId, String userNick, String userPassword, String userImg, String userIntro,
@@ -54,6 +63,18 @@ public class UserDto {
 		this.userIntro = userIntro;
 		this.userKeyword = userKeyword;
 	}
+	
+	//select user_id `userId`, user_nick `userNick`, user_img `userImg`, user_postcount `userPostCount`, user_followercount `userFollowerCount`, user_followingcount `userFollowingCount`, user_intro `userIntro`, user_keyword `userKeyword`
+	public UserDto(String userId, String userNick, String userImg, int userPostCount, int userFollowerCount, int userFollowingCount, String userIntro, String userKeyword) {
+		this.userId = userId;
+		this.userNick = userNick;
+		this.userImg = userImg;
+		this.userPostCount = userPostCount;
+		this.userFollowerCount = userFollowerCount;
+		this.userFollowingCount = userFollowingCount;
+		this.userIntro = userIntro;
+		this.userKeyword = userKeyword;
+	}*/
 
 	
 	

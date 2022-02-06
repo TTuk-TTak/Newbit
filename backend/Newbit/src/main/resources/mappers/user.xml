@@ -4,7 +4,7 @@
 	
 <mapper namespace="com.ssafy.newbit.model.mapper.UserMapper">
 	<!--  회원가입  -->
-	<insert id="addUser" parameterType="com.ssafy.newbit.model.UserDto" >  
+	<insert id="addUser" parameterType="userDto" ><!--  com.ssafy.newbit.model.UserDto -->  
 		insert into user(user_email, user_id, user_nick, user_password, user_date) 
 		values(#{userEmail}, #{userId}, #{userNick}, #{userPassword}, now())
 	</insert>
@@ -18,6 +18,15 @@
 	<select id="checkEmail" parameterType="String" resultType="int">
         SELECT COUNT(user_email) FROM USER WHERE user_email= #{userEmail}
     </select>
+    
+    
+    <!--  로그인 유저체크 -->
+	<select id="checkLogin" parameterType="String" resultType="String">
+        <!--select COUNT(user_email) FROM USER WHERE user_email= #{userEmail} AND user_password= #{userPassword} -->
+        select user_password from user where user_email = #{userEmail}
+    </select>
+
+
 	
   <!--  팔로잉 리스트 조회 -->
 	<select id="getFollowingList" parameterType="int" resultType="userDto">
