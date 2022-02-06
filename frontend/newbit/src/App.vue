@@ -4,6 +4,7 @@
     <v-main
       id="main"
       class="container p-1"
+      style="margin-top:50px"
     >
       <router-view />
     </v-main>

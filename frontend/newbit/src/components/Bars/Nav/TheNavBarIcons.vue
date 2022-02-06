@@ -5,7 +5,7 @@
       overlay-opacity=0.1
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
+        <v-btn class="mr-3"
           elevation="0" 
           v-bind="attrs"
           v-on="on"
@@ -23,7 +23,7 @@
       
     </v-dialog>
     <!-- 2. 알람 아이콘 -->
-    <v-btn icon>
+    <v-btn icon class="mr-4">
       <v-icon>mdi-bell</v-icon>
     </v-btn>
     <!-- 3-1. 비 로그인 사용자: 로그인 버튼 -->
