@@ -1,11 +1,14 @@
 <template>
   <v-chip
-    class="ma-1"
+    class="ma-1 justify-center"
+    :class="{ short: isFixed }"
     :color='isActive ? `keywordChipText` : `keywordChipBackground`'
     :text-color='isActive ? `keywordChipBackground` : `keywordChipText`'
-    small
     @click="toggleChip"
-  >{{text}}</v-chip>
+    :small='isSmall'
+    :large='!isSmall'
+    :label='isLabel'
+  ><span>{{text}}</span></v-chip>
 </template>
 
 <script>
@@ -14,6 +17,9 @@ export default {
   props: {
     text: String,
     isToggleAvailable: Boolean,
+    isSmall: Boolean,
+    isLabel: Boolean,
+    isFixed: Boolean,
   },
   data: () => ({
     isActive: false,
@@ -30,5 +36,12 @@ export default {
 </script>
 
 <style>
-
+.short {
+  width: 150px;
+}
+.short span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>
