@@ -1,33 +1,34 @@
 <template>
-  <div>
-    <h3>팔로우 추천</h3>
-    <v-divider></v-divider>
+  <div class="ml-3">
+    <h2>팔로우 추천</h2>
     <v-container>
       <v-row
         v-for="n in 4"
         :key="n"
       >
         <v-col
-          cols="3"
+          cols="2"
           align-self="center"
-          class="pa-2"
+          class="pa-1"
         >
+          <v-avatar size="40">
           <v-img
-            class="v-avatar"
+            class="v-avatar image"
             src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
-          ></v-img>
-        </v-col>
-        <v-col
-          cols="3"
-          class="pa-0"
-          align-self="center"
-        >
-          <span>hello</span>
+          />
+        </v-avatar>
         </v-col>
         <v-col
           cols="4"
-          offset="2"
+          class="pa-0 ml-2"
           align-self="center"
+        >
+          <span style="font-size:1.2em">user name</span>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col
+          class="mr-3"
+          cols="3"
         >
           <follow-btn></follow-btn>
         </v-col>

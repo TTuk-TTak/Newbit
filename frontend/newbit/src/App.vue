@@ -60,8 +60,8 @@ export default {
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* color: #f7f7eb; */
-  background-color: var(--v-background-base);
+  /* 바탕색 */
+  background-color: #f2f2f4;
 
   padding: 0;
   position: relative;
