@@ -5,15 +5,11 @@
     <keyword-chip></keyword-chip>
   </div> -->
   <v-chip-group column>
-    >>>>>>> master
     <keyword-chip
       v-for="tag in tags"
       :key="tag"
       :text="tag"
       :isToggleAvailable='true'
-      :isSmall='true'
-      :isLabel='false'
-      :isFixed='false'
     ></keyword-chip>
   </v-chip-group>
 </template>

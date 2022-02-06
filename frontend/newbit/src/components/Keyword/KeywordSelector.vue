@@ -22,49 +22,37 @@
       class="mt-3 mb-9"
     >
       <div v-if="toggle === 'frontend'">
-        <keyword-chip
+        <keyword-chip2
           v-for="frontendTag in frontendTags"
           :key="frontendTag"
           :text="frontendTag"
-          :isToggleAvailable='true'
-          :isSmall='false'
-          :isLabel='true'
-          :isFixed='true'
-        ></keyword-chip>
+        ></keyword-chip2>
       </div>
       <div v-else-if="toggle === 'backend'">
-        <keyword-chip
+        <keyword-chip2
           v-for="backendTag in backendTags"
           :key="backendTag"
           :text="backendTag"
-          :isToggleAvailable='true'
-          :isSmall='false'
-          :isLabel='true'
-          :isFixed='true'
-        ></keyword-chip>
+        ></keyword-chip2>
       </div>
       <div v-else-if="toggle === 'cooperation'">
-        <keyword-chip
+        <keyword-chip2
           v-for="cooperationTag in cooperationTags"
           :key="cooperationTag"
           :text="cooperationTag"
-          :isToggleAvailable='true'
-          :isSmall='false'
-          :isLabel='true'
-          :isFixed='true'
-        ></keyword-chip>
+        ></keyword-chip2>
       </div>
     </v-chip-group>
   </div>
 </template>
 
 <script>
-import KeywordChip from '@/components/Keyword/KeywordChip.vue'
+import KeywordChip2 from '@/components/Keyword/KeywordChip2.vue'
 
 export default {
   name: 'KeywordSelector',
   components: {
-    KeywordChip,
+    KeywordChip2,
   },
   data: () => {
     return {
