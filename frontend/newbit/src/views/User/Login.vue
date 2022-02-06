@@ -51,7 +51,37 @@
                     rounded
                   >로그인</v-btn>
                   <v-card-actions class="mt-6">
-                    <social-login></social-login>
+                    <v-row
+                      align="center"
+                      justify="center"
+                    >
+                      <v-col cols="4">
+                        <v-btn
+                          large
+                          rounded
+                          block
+                          color="white"
+                        >Google</v-btn>
+                      </v-col>
+                      <v-col cols="4">
+                        <v-btn
+                          large
+                          rounded
+                          block
+                          color="blue"
+                          dark
+                        >Facebook</v-btn>
+                      </v-col>
+                      <v-col cols="4">
+                        <v-btn
+                          large
+                          rounded
+                          block
+                          color="green"
+                          dark
+                        >Naver</v-btn>
+                      </v-col>
+                    </v-row>
                   </v-card-actions>
                   <v-card-actions class="d-flex justify-center mt-6 pa-0">
                     <v-divider></v-divider>
@@ -72,9 +102,7 @@
 </template>
 
 <script>
-import SocialLogin from '@/components/Commons/SocialLogin.vue'
 export default {
-  components: { SocialLogin },
   name: 'Login',
   data: function () {
     return {
