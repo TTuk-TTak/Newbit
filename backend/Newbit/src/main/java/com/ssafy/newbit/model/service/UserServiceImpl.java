@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService{
 	@Autowired UserMapper userMapper;
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
+	///////////////////////////    회원 가입  관련     //////////////////////////////////////////////
 	// 회원가입
 	@Override
 	public boolean addUser(UserDto userDto) throws Exception {
@@ -46,15 +47,6 @@ public class UserServiceImpl implements UserService{
 		return user ==1;	// 회원가입 성공시  T,회원가입 실패시 F 반환
 	}
 	
-	// 유저 조회
-	@Override
-	public UserDto getUser(int userCode) throws Exception {
-		System.out.println("getuser 호출 : " + userCode);
-		UserDto user = sqlSession.getMapper(UserMapper.class).getUser(userCode);
-		if(user ==null)
-			System.out.println("null");
-		return user;
-	}
 	
 	// 아이디 중복확인 
   @Override
@@ -83,6 +75,22 @@ public class UserServiceImpl implements UserService{
   }
 
 
+  ///////////////////////////// 최초 로그인 시 로직 //////////////////////////////////////////////////////////
+  
+    // 유저 관심키워드 설정 
+    @Override
+    public boolean addUserKeyword(String userEmail, String userKeyword) throws Exception{
+    	return sqlSession.getMapper(UserMapper.class).addUserKeyword(userEmail, userKeyword) == 1;
+    }
+    // 유저 자기소개 설정
+    @Override
+    public boolean addUserIntro(String userEmail, String userIntro, String userImg) throws Exception{
+    	return sqlSession.getMapper(UserMapper.class).addUserIntro(userEmail, userIntro, userImg) == 1;
+    }
+    
+    
+    ///////////////////////////    로그인     //////////////////////////////////////////////////////////
+    
     // 로그인 확인
     @Override
     public boolean checkLogin(String userEmail, String userPassword) throws Exception{
@@ -98,14 +106,20 @@ public class UserServiceImpl implements UserService{
     	}
         return TF==true;
     }
-
-    // 유저 관심키워드 설정 
-    @Override
-    public boolean addUserKeyword(String userEmail, String userKeyword) throws Exception{
-    	return sqlSession.getMapper(UserMapper.class).addUserKeyword(userEmail, userKeyword) == 1;
-    }
     
-
+    
+    /////////////////////////////사용자 정보 확인 /////////////////////////////////////////////////////
+	// 유저 조회
+	@Override
+	public UserDto getUser(int userCode) throws Exception {
+		System.out.println("getuser 호출 : " + userCode);
+		UserDto user = sqlSession.getMapper(UserMapper.class).getUser(userCode);
+		if(user ==null)
+			System.out.println("null");
+		return user;
+	}    
+    
+  //팔로잉 리스트 조회
 	@Override
 	public List<UserDto> getFollowingList(int userCode) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).getFollowingList(userCode);
@@ -118,6 +132,7 @@ public class UserServiceImpl implements UserService{
     }
 
 
+	/////////////////////////////사용자 정보수정 /////////////////////////////////////////////////////
   //회원정보 수정
 	@Override
 	@Transactional
