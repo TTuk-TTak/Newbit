@@ -35,7 +35,7 @@
             class="py-0 ml-2" 
           >
             <keyword-chip
-              class="embeddedkeyword"
+              class="embeddedKeyword"
               v-for="keyword in keywords"
               :key="keyword"
               :text="keyword"
@@ -46,7 +46,7 @@
           </v-col>
           <!-- 하단 블로그 소개 및 아이콘 -->
           <v-row
-            class="pl-0 pt-0 ml-0 container justify-space-between bloginfo "
+            class="pl-0 pt-0 ml-0 container justify-space-between blogInfo "
           >
             <div
               class="pl-3 mt-4 mb-3"
@@ -102,6 +102,10 @@ export default {
     openContent: function () {
       // 수정 필요
       window.open(this.content.contentUrl)
+    },
+    // 테스트 필요
+    shareContent: function () {
+      this.$copyText(this.content.contentUrl)
     }
   },
   watch: {
@@ -124,13 +128,13 @@ export default {
 }
 
 /* 키워드칩 */
-.embeddedkeyword {
+.embeddedKeyword {
   font-family: 'KoPub Dotum';
   font-weight: 400;
 }
 
 /* 블로그명 */
-.bloginfo {
+.blogInfo {
   font-family: 'KoPub Dotum';
   font-weight: 400;
   color : #7E7E7E;

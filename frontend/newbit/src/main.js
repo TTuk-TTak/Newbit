@@ -9,11 +9,15 @@ import vuetify from './plugins/vuetify'
 import CommonMethodsPlugin from './plugins/CommonMethodsPlugin.js'
 
 // 3rd party
-import VueApexCharts from "vue-apexcharts";
+import VueApexCharts from "vue-apexcharts"
+import VueClipboard from 'vue-clipboard2'
 
-Vue.use(CommonMethodsPlugin);
-Vue.use(VueApexCharts);
-Vue.component("apexchart", VueApexCharts);
+Vue.use(CommonMethodsPlugin)
+Vue.use(VueApexCharts)
+Vue.use(VueClipboard)
+
+Vue.component("apexchart", VueApexCharts)
+
 
 Vue.config.productionTip = false
 
