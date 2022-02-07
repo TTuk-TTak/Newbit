@@ -4,12 +4,15 @@
       color="backgroundDark"
       dense
       dark
+      flat
     >
+      <v-spacer></v-spacer>
       <the-nav-bar-menu></the-nav-bar-menu>
-      <v-spacer></v-spacer>
-      <v-toolbar-title>NEWBIT</v-toolbar-title>
-      <v-spacer></v-spacer>
+      <v-spacer></v-spacer><v-spacer></v-spacer>
+      <v-toolbar-title>Newbit</v-toolbar-title>
+      <v-spacer></v-spacer><v-spacer></v-spacer>
       <the-nav-bar-icons></the-nav-bar-icons>
+      <v-spacer></v-spacer>
     </v-app-bar>
   </div>
 
@@ -31,6 +34,16 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.v-toolbar__title {
+  font-family: 'Do Hyeon';
+  font-weight: 100;
+  font-size: 1.75em;
+}
+
+.v-toolbar {
+  position : fixed;
+  z-index: 100;
+}
 
 </style>

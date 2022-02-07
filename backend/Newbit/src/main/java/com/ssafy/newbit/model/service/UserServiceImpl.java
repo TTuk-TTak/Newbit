@@ -1,5 +1,6 @@
 package com.ssafy.newbit.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,6 @@ import com.ssafy.newbit.model.mapper.UserMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -25,9 +25,6 @@ public class UserServiceImpl implements UserService{
 	//for Password Hashing
 	@Autowired UserMapper userMapper;
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
-	
 	
 	// 회원가입
 	@Override
@@ -60,30 +57,31 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	// 아이디 중복확인 
-    @Override
-    public boolean checkId(String userId) throws Exception{
-    	// True 반환하면 -> 아이디 사용 가능, False 반환하면 -> 아이디 사용불가
-    	System.out.println("id 중복여부: " + userId);
-    	int cnt = sqlSession.getMapper(UserMapper.class).checkId(userId);
-    	if(cnt == 0)
-    		System.out.println("사용가능 아이디");
-    	else
-    		System.out.println("사용 불가능 아이디");
-        return cnt==0;
-    }
+  @Override
+  public boolean checkId(String userId) throws Exception{
+    // True 반환하면 -> 아이디 사용 가능, False 반환하면 -> 아이디 사용불가
+    System.out.println("id 중복여부: " + userId);
+    int cnt = sqlSession.getMapper(UserMapper.class).checkId(userId);
+    if(cnt == 0)
+      System.out.println("사용가능 아이디");
+    else
+      System.out.println("사용 불가능 아이디");
+      return cnt==0;
+  }
     
 	// 이메일 중복확인 
-    @Override
-    public boolean checkEmail(String userEmail) throws Exception{
-    	// True 반환하면 -> 이메일 사용 가능, False 반환하면 -> 이메일 사용불가
-    	System.out.println("email 중복여부: " + userEmail);
-    	int cnt = sqlSession.getMapper(UserMapper.class).checkEmail(userEmail);
-    	if(cnt == 0)
-    		System.out.println("사용가능 이메일");
-    	else
-    		System.out.println("사용 불가능 이메일");
-        return cnt==0;
-    }
+  @Override
+  public boolean checkEmail(String userEmail) throws Exception{
+    // True 반환하면 -> 이메일 사용 가능, False 반환하면 -> 이메일 사용불가
+    System.out.println("email 중복여부: " + userEmail);
+    int cnt = sqlSession.getMapper(UserMapper.class).checkEmail(userEmail);
+    if(cnt == 0)
+      System.out.println("사용가능 이메일");
+    else
+      System.out.println("사용 불가능 이메일");
+      return cnt==0;
+  }
+
 
     // 로그인 확인
     @Override
@@ -107,15 +105,29 @@ public class UserServiceImpl implements UserService{
 		return sqlSession.getMapper(UserMapper.class).getFollowingList(userCode);
 	}
 
-    @Override
+  //팔로워 리스트 조회
+	@Override
 	public List<UserDto> getFollowerList(int userCode) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).getFollowerList(userCode);
     }
 
-    @Override
+
+  //회원정보 수정
+	@Override
 	@Transactional
 	public boolean editUserInfo(UserDto userDto) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).editUserInfo(userDto) == 1;
 	}
+
+  //팔로잉 추가
+	@Override
+	public boolean followUser(HashMap<String, Integer> map) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).followUser(map) == 1;
+	}
   
+  //팔로잉 삭제
+	@Override
+	public boolean unfollowUser(HashMap<String, Integer> map) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).unfollowUser(map) == 1;
+	}  
 }

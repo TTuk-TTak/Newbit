@@ -39,5 +39,9 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
+.v-tab.v-tab  {
+  font-family: 'KoPub Dotum';
+  font-weight: 500;
+}
 </style>

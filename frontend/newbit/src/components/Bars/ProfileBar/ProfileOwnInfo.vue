@@ -43,43 +43,47 @@
       글작성
     </v-btn>
   </div>
-  <div v-else>
+  <div v-else style="margin-bottom:30px">
     <v-row>
       <v-col
         cols="7"
         align-self="center"
       >
-        <v-avatar></v-avatar>
-        <v-img
-          class="v-avatar image"
-          src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
-        />
+        <v-avatar size="150" class="mt-5 ml-3">
+          <v-img
+            class="v-avatar image"
+            src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
+          />
+        </v-avatar>
+        
       </v-col>
     </v-row>
-    <div>
-      <p>로그인이 필요합니다</p>
-      <p>로그인 후 SNS 기능을 이용해보세요.</p>
-      <p>아직 회원이 아니시라면, 회원가입하시고 아래의 서비스들과 함께하세요!</p>
-    </div>
-    <div class="d-flex justify-space-between">
-      <span>총게시물</span>
-      <span>총회원수</span>
-      <span>컨텐츠</span>
+    <div class="mt-5 mb-5 ml-3">
+      로그인이 필요합니다. <br/>
+      로그인 후 SNS 기능을 이용해보세요. <br/>
+      아직 회원이 아니시라면, 회원가입 후 아래의 서비스들과 함께하세요! <br/><br/>
+      <!-- ToDo : 숫자 부분은 후에 {{}}로 수정 -->
+      총게시물 365개 | 총회원수 5,041명 | 컨텐츠 3,855개  <br/>
     </div>
     <v-btn
       rounded
       block
+      outlined
+      large
+      color="#0d0e23"
       class="font-weight-bold mb-3"
-      color="grey lighten-3"
+      style="font-size: 1.15em; font-weight: 500;"
     >
       로그인하기
     </v-btn>
     <v-btn
       rounded
       block
-      color="black"
+      depressed
+      large
+      color="#0d0e23"
       dark
-      class="font-weight-bold"
+      style="font-size: 1.15em; font-weight: 500;"
     >
       회원가입하기
     </v-btn>
@@ -96,5 +100,11 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
+.v-application .mt-5  {
+  font-family: 'KoPub Dotum';
+  line-height: 1.5;
+  font-weight: 500;
+}
+
 </style>

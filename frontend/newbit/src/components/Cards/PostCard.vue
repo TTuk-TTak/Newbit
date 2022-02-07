@@ -1,10 +1,13 @@
 <template>
   <v-card
-    class="px-2"
+    class="px-2 pl-8 pr-8"
+    outlined
+
+
   >
     <!-- 1. 카드 상단부 -->
     <div
-      class='pa-4 pb-0 justify-space-between align-end'
+      class='pa-3 pb-0 justify-space-between align-end'
     >
       <div>
         <v-avatar
@@ -15,20 +18,20 @@
             alt="John"
           >
         </v-avatar>
-      <span class="ml-2">{{ post.userCode }}</span>
-      <span class="ml-2">{{ post.date }}</span>
-      <span v-if="post.edit"> (수정됨)</span>
+      <span class="ml-3 writer">{{ post.userCode }}</span>
+      <span class="ml-2 date">·{{ post.date }}</span>
+      <span class ="ml-2 date" v-if="post.edit">(수정됨)</span>
       </div>
     </div>
     <!-- 임베드 된 경우 임베드된 컨텐츠 -->
     <embedded-content-card
       v-if="post.contentCode"
-      class="mt-5 mx-3"
+      class="mt-3 mx-3"
     ></embedded-content-card>
     
     <!-- 본문 -->
     <v-card-text
-      class="post-text mb-0 pb-0"
+      class="post-text mb-0 mt-0 pt-3 pb-0"
     >
       {{ post.text }}
     </v-card-text>
@@ -75,11 +78,29 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .post-text {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.date{
+  color : #919191;
+  font-family: 'KoPub Dotum';
+  font-weight: 100;
+  font-size : 0.9em;
+}
+
+.writer{
+  font-size : 1.1em;
+}
+
+/* 본문 글씨체 */
+.theme--light.v-card > .v-card__text {
+  font-family: 'KoPub Dotum';
+  font-weight: 400;
+  color : #272727;
 }
 </style>

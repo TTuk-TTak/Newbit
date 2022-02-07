@@ -44,6 +44,14 @@ public class UserDto {
 		this.userNick = userNick;
 		this.userPassword = userPassword;
 	}
+
+	public UserDto(String userId, String userNick, String userImg, String userIntro, Boolean isFollow) {
+		this.userId = userId;
+		this.userNick = userNick;
+		this.userImg = userImg;
+		this.userIntro = userIntro;
+		this.isFollow = isFollow;
+	}
 	
 	public UserDto(String userEmail, String userId, String userNick, String userPassword, String userDate) {
 		this.userEmail = userEmail;

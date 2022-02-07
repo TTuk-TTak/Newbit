@@ -1,6 +1,7 @@
 package com.ssafy.newbit.model.mapper;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,5 +34,7 @@ public interface UserMapper {
 	public UserDto getUser(int userCode) throws SQLException;
 	List<UserDto> getFollowingList(int userCode) throws SQLException;
 	List<UserDto> getFollowerList(int userCode) throws SQLException;
+	public int followUser(HashMap<String, Integer> map) throws SQLException;
+	public int unfollowUser(HashMap<String, Integer> map) throws SQLException;
 	
 }
