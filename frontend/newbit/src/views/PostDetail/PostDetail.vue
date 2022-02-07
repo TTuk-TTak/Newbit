@@ -163,10 +163,12 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 import EmbeddedContentCard from '@/components/Cards/EmbeddedContentCard.vue'
 import PostDetailComment from '@/components/PostDetail/PostDetailComment.vue'
 import UserProfileIcon from '@/components/Commons/UserProfileIcon.vue'
-import axios from 'axios'
+
 
 
 export default {
@@ -223,7 +225,7 @@ export default {
     copyLink () {
       const link = this.$clientURL + this.$route.path
       console.log(link)
-      // console.log(navigator.clipboard.writeText(link))
+      console.log(navigator.clipboard.writeText(link))
       this.snackbar.message = '게시물 주소를 클립보드에 복사했습니다.'
       this.snackbar.show = true
     },
