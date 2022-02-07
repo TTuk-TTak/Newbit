@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.newbit.model.mapper.ArchiveMapper">
+
+	<select id="archiveListPost" parameterType="HashMap"
+		resultType="com.ssafy.newbit.model.PostDto">
+		select post_code as postCode, user_code as userCode,
+		content_code as
+		contentCode, techblog_code as techblogCode,
+		post_text as postText,
+		post_like as postLike,
+		post_comment as postComment, post_date as
+		postDate, post_scrap as postScrap,
+		post_edit as
+		postEdit
+		from post p
+
+		where
+		post_code in
+		<if test="postScrapList.size != 0 and postScrapList !=null">
+			<foreach collection="postScrapList" item="item" index="index"
+				separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="lastPostCode != null and lastPostCode != 0">
+			and (p.post_code  <![CDATA[<]]>
+			#{lastPostCode})
+		</if>
+		order by p.post_code desc
+		limit #{size}
+	</select>
+
+
+	<select id="archiveListContent" parameterType="HashMap"
+		resultType="com.ssafy.newbit.model.ContentDto">
+		select content_code `contentCode`, techblog_code
+		`techblogCode`,
+		content_title `contentTitle`, content_text
+		`contentText`, content_url
+		`contentUrl`,
+		content_img `contentImg`, content_date `contentDate`,
+		content_keyword `contentKeyword`
+		from content
+
+		where
+
+		content_code in
+		<if test="contentScrapList.size != 0 and contentScrapList !=null">
+			<foreach collection="contentScrapList" item="item"
+				index="index" separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="keywordList.size != 0">
+			and
+			<foreach collection="keywordList" item="item" index="index"
+				separator="or" open="(" close=")">
+				content_keyword like
+				concat('%',#{item},'%')
+			</foreach>
+		</if>
+		<if test="lastContentCode != null and lastContentCode != 0">
+			and (content_code  <![CDATA[<]]>
+			#{lastContentCode})
+		</if>
+		order by content_date desc
+		limit #{size}
+	</select>
+	
+	<select id="getPostScrapList" parameterType="int"
+		resultType="int">
+		select post_code
+		from postscrap
+		where user_code = #{userCode}
+	</select>
+	
+	<select id="getContentScrapList" parameterType="int"
+		resultType="int">
+		select content_code
+		from contentscrap
+		where user_code =
+		#{userCode}
+	</select>
+
+</mapper>
