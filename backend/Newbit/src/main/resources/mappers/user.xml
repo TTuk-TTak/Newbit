@@ -11,12 +11,12 @@
 	
 	<!--  아이디 중복체크 -->
 	<select id="checkId" parameterType="String" resultType="int">
-        SELECT COUNT(user_id) FROM USER WHERE user_id= #{userId}
+        SELECT COUNT(user_id) FROM user WHERE user_id= #{userId}
     </select>
     
     <!--  이메일 중복체크 -->
 	<select id="checkEmail" parameterType="String" resultType="int">
-        SELECT COUNT(user_email) FROM USER WHERE user_email= #{userEmail}
+        SELECT COUNT(user_email) FROM user WHERE user_email= #{userEmail}
     </select>
     
     
