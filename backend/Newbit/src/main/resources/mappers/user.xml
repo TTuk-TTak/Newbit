@@ -45,9 +45,23 @@
   <!--  팔로워 리스트 조회 -->
 	<select id="getFollowerList" parameterType="int" resultType="userDto">
 		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_intro `userIntro`, case when exists (select * from follow f where f.following_code = u.user_code and f.user_code = #{userCode}) then true else false end `isFollow`
-from user u
-    where u.user_code in (select user_code from follow where following_code = #{userCode})
+		from user u
+   		where u.user_code in (select user_code from follow where following_code = #{userCode})
 	</select>
+	
+	<!-- 팔로잉 추가 -->
+	<insert id="followUser" parameterType="Hashmap">
+		insert into follow
+		(user_code, following_code)
+		values (#{from}, #{to})
+	</insert>
+	
+	<!-- 팔로잉 삭제 -->
+	<delete id="unfollowUser" parameterType="map">
+		delete from follow
+		where
+		user_code = #{from} and following_code=#{to}
+	</delete>
 	
   <!--  회원 정보 수정 -->
 	<update id="editUserInfo" parameterType="userDto">
