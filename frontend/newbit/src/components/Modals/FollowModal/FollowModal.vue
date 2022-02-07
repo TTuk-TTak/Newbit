@@ -11,7 +11,7 @@
         <v-btn
           icon
           right
-          @click="isOpened=false"
+          @click="onClick"
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -68,7 +68,8 @@ export default {
   components: { FollowBtn },
   name: 'FollowModal',
   props: {
-    isOpened: Boolean,
+    dialog1: Boolean,
+    dialog2: Boolean,
     category: String,
   },
 
@@ -129,6 +130,19 @@ export default {
       ],
     }
   },
+
+  methods: {
+    onClick () {
+      if (this.category === 'follower') {
+        this.dialog1 = false
+        this.$emit('props-status-change', this.dialog1, this.category)
+      }
+      else if (this.category === 'following') {
+        this.dialog2 = false
+        this.$emit('props-status-change', this.dialog2, this.category)
+      }
+    }
+  }
 }
 </script>
 

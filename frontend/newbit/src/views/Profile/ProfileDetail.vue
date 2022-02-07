@@ -44,7 +44,11 @@
                   팔로워
                 </v-btn>
               </template>
-              <follow-modal category="follower"></follow-modal>
+              <follow-modal
+                :dialog1="dialog1"
+                @props-status-change="onClickChange"
+                category="follower"
+              ></follow-modal>
             </v-dialog>
             <v-dialog
               v-model="dialog2"
@@ -62,7 +66,11 @@
                   팔로잉
                 </v-btn>
               </template>
-              <follow-modal category="following"></follow-modal>
+              <follow-modal
+                :dialog2="dialog2"
+                @props-status-change="onClickChange"
+                category="following"
+              ></follow-modal>
             </v-dialog>
           </div>
         </v-col>
@@ -172,6 +180,14 @@ export default {
         this.toggle = 'activity'
       }
     },
+    onClickChange (changedStatus, category) {
+      if (category === 'follower') {
+        this.dialog1 = changedStatus
+      }
+      else if (category === 'following') {
+        this.dialog2 = changedStatus
+      }
+    }
   }
 }
 </script>
