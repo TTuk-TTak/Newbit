@@ -89,7 +89,7 @@
           </v-btn>
           <v-btn 
             icon
-            @click="sharePost()"
+            @click="copyLink()"
             >
             <v-icon>mdi-share</v-icon>
           </v-btn>
@@ -220,7 +220,10 @@ export default {
       this.snackbar.message = '댓글을 달았습니다.'
       this.snackbar.show = true
     },
-    sharePost () {
+    copyLink () {
+      const link = this.$clientURL + this.$route.path
+      console.log(link)
+      // console.log(navigator.clipboard.writeText(link))
       this.snackbar.message = '게시물 주소를 클립보드에 복사했습니다.'
       this.snackbar.show = true
     },
@@ -228,6 +231,7 @@ export default {
   },
   created () {
     this.getPostDetail()
+
   },
 }
 </script>

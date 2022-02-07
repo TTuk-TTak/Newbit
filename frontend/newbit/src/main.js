@@ -6,7 +6,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 
 // local
-import CommonMethodsPlugin from './plugins/CommonMethodsPlugins'
+import CommonMethodsPlugin from './plugins/CommonMethodsPlugin.js'
 
 // 3rd party
 import VueApexCharts from "vue-apexcharts";
@@ -19,6 +19,8 @@ Vue.config.productionTip = false
 
 // 서버 URL
 Vue.prototype.$serverURL = process.env.VUE_APP_SERVER_URL
+// 클라이언트 URL
+Vue.prototype.$clientURL = process.env.VUE_APP_CLIENT_URL
 
 // 키워드 목록
 // 1. 대분류: Languages, Frontend, Backend, 일반

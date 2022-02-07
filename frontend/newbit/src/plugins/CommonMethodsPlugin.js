@@ -1,19 +1,32 @@
-const MyPlugin = {}
+import _ from 'lodash'
 
-MyPlugin.install = function (Vue) {
-  // 1. 소셜 피드로 이동
+const CommonMethodsPlugin = {}
+
+CommonMethodsPlugin.install = function (Vue) {
+  // 1. 라우터 관련
+  // 1) 소셜 피드로 이동
   Vue.prototype.$goToSocialFeed = function () {
     this.$router.push({ name: 'Social'})
   }
-  // 2. 큐레이션 피드로 이동
+  // 2) 큐레이션 피드로 이동
   Vue.prototype.$goToCurationFeed = function () {
     this.$router.push({ name: 'Curation'})
   }
-  // 3. 아카이빙 피드로 이동
+  // 3) 아카이빙 피드로 이동
   Vue.prototype.$goToArchivingFeed = function () {
     this.$router.push({ name: 'Archiving'})
   }
 
+  // 2. 키워드 관련
+  // 1) 키워드 string 을 array로 파싱.
+  Vue.prototype.$parseKeyword = function (keywordString) {
+    const keywordArray = _.split(keywordString, '_')
+    return keywordArray
+  }
+  // 3. 컨텐츠로 이동
+  Vue.prototype.$openContent = function (contentURL) {
+    window.open(contentURL)
+  }
 
   // 특정 시간이 현재로부터 얼마나 지났는지를 간단히 표기하는 전역 함수.
   Vue.prototype.$createdAt = function createdAt (createdAt) {
@@ -36,4 +49,4 @@ MyPlugin.install = function (Vue) {
 
 
 }
-export default MyPlugin
+export default CommonMethodsPlugin
