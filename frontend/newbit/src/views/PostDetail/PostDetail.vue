@@ -1,6 +1,7 @@
 <template>
   <v-card
-    class="pb-5"
+    v-if="post"
+    class=" pt-2 pb-5"
   >
     <!-- 1. 카드 상단부 -->
     <v-row
@@ -19,10 +20,9 @@
           >
         </v-avatar>  
         <span class="ml-2">{{ post.userCode }}</span>
-        <span class="ml-2">{{ post.date }}</span>
-        <span v-if="post.edit"> (수정됨)</span>  
+        <span class="ml-2">{{ this.$createdAt(this.post.postDate) }}</span>
+        <span v-if="post.postEdit"> (수정됨)</span>  
       </v-col>
-
       <v-col class="pa-2" cols=1>
         <!-- 1-1. 카드 상단부-팝업메뉴 -->
         <v-menu
@@ -61,13 +61,14 @@
     <!-- 2-1. (임베드 된 경우) 임베드된 컨텐츠 -->
     <embedded-content-card
       v-if="post.contentCode"
+      :content='content'
       class="mt-5 mx-3"
     ></embedded-content-card>
     <!-- 2-2. 본문 -->
     <v-card-text
       class="mb-0 pb-0"
     >
-      {{ post.text }}
+      {{ post.postText }}
     </v-card-text>
     <!-- 3. 카드 하단부 -->
     <v-row
@@ -80,13 +81,16 @@
         >
           <v-btn icon>
             <v-icon>mdi-cards-heart-outline</v-icon>
-            <span>{{ post.like }}</span>
+            <span>{{ post.postLike }}</span>
           </v-btn>
           <v-btn icon>
             <v-icon>mdi-message-outline</v-icon>
-            <span>{{ post.comment }}</span>
+            <span>{{ post.postComment }}</span>
           </v-btn>
-          <v-btn icon>
+          <v-btn 
+            icon
+            @click="sharePost()"
+            >
             <v-icon>mdi-share</v-icon>
           </v-btn>
         </v-card-actions>
@@ -95,7 +99,7 @@
       <v-col class="py-1 ma-0">
         <v-card-text
           class="text-end"
-        >{{ post.date }} (수정됨)</v-card-text>
+        >{{ post.postDate + (post.postEdit ? '(수정됨)' : '') }}</v-card-text>
       </v-col>
     </v-row>
 
@@ -162,43 +166,69 @@
 import EmbeddedContentCard from '@/components/Cards/EmbeddedContentCard.vue'
 import PostDetailComment from '@/components/PostDetail/PostDetailComment.vue'
 import UserProfileIcon from '@/components/Commons/UserProfileIcon.vue'
+import axios from 'axios'
+
 
 export default {
   name: 'PostDetail',
+  
   components: {
     EmbeddedContentCard,
     PostDetailComment,
     UserProfileIcon,
   },
-  methods: {
-    writeComment () {
-      this.snackbar.show = true
-    },
-  },
+
   data: () => {
     return {
       isLoggedIn: true,
-      post: {
-        userCode: '제임스',
-        contentCode: '1',
-        text: '하여도 불어 못하다 인생에 붙잡아 것이다. 그것을 평화스러운 전인 것이다. 인류의 굳세게 관현악이며, 쓸쓸한 미묘한 뜨거운지라, 두기 갑 것이다. 열매를 끓는 할지니, 풍부하게 예가 두기 만물은 내려온 이성은 것이다. 타오르고 관현악이며, 찾아 많이 아니한 놀이 피어나기 인간이 있다. 가는 얼마나 부패를 열락의 인간에 그러므로 그리하였는가? 날카로우나 품으며, 천지는 작고 보이는 때문이다. 가치를 얼마나 생명을 청춘의 석가는 못하다 철환하였는가? 위하여, 황금시대를 것이다.보라, 쓸쓸하랴?',
-        like: '3',
-        comment: '2',
-        date: '13분 전',
-        scrap: '1',
-        report: '0',
-        edit: false,
-      },
+      post: null,
+      postCode: 1,
+      content: null,
       snackbar: {
         show: false,
-        message: '댓글을 달았습니다.',
+        message: '',
         timeout: '1000'
       },
     }
   },
 
+  methods: {
+    getPostDetail () {
+      axios.get(`${this.$serverURL}/post/1`)
+        .then(response => {
+          this.post = response.data
+          console.log('포스트 정보', response.data)
+          if (this.post.contentCode) {
+            this.getContentDetail(this.post.contentCode)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+      })
+    },
+    getContentDetail (contentCode) {
+      axios.get(`${this.$serverURL}/content?cid=${contentCode}`)
+        .then(response => {
+          this.content = response.data
+          console.log(response.data)
+        })
+        .catch((err) => {
+          console.log(err)
+      })
+    },
+    writeComment () {
+      this.snackbar.message = '댓글을 달았습니다.'
+      this.snackbar.show = true
+    },
+    sharePost () {
+      this.snackbar.message = '게시물 주소를 클립보드에 복사했습니다.'
+      this.snackbar.show = true
+    },
 
-  
+  },
+  created () {
+    this.getPostDetail()
+  },
 }
 </script>
 

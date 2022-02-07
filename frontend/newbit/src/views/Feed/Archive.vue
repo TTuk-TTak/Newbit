@@ -1,17 +1,18 @@
 <template>
   <v-card
-    class="pt-2 px-4"
+    class="pa-2"
+    color="feedBackground"
   >
-    <v-row>
+    <keyword-toggler></keyword-toggler>
       <v-tabs
-        class="pt-2"
         slider-color='#C4C4C4'
       >
         <v-tab>읽고 싶은 글</v-tab>
         <v-tab>읽었던 글</v-tab>
       </v-tabs>
-    </v-row>
-    <v-row>
+    <v-row
+      class="pa-2"
+    >
       <v-col
         v-for="i in 10"
         :key="`archived` + i"    
@@ -26,11 +27,13 @@
 </template>
 
 <script>
+import KeywordToggler from '@/components/Keyword/KeywordToggler.vue'
 import ContentCard from '@/components/Cards/ContentCard.vue'
 
 export default {
   name: 'Archive',
   components: {
+    KeywordToggler,
     ContentCard,
   },
 }

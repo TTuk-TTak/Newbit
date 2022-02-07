@@ -25,12 +25,13 @@
       >
         <btn-dark 
           class="justify-center"
+          @click="backToMain()"
           :message="`메인으로 돌아가기`">
         </btn-dark>
       </v-row>
       <v-card-text
         class="text-center"
-      >3초 뒤에 자동으로 이동합니다.</v-card-text>
+      >{{ timeLeft }}초 뒤에 자동으로 이동합니다.</v-card-text>
     </v-card>
   </v-container>
 </template>
@@ -43,6 +44,26 @@ export default {
   components: {
     BtnDark,
   },
+  data: function () {
+    return {
+      isLoggedIn: true,
+      timeLeft: 3,
+    }
+  },
+  methods: {
+    backToMain: function () {
+      this.$goToSocialFeed()
+    },
+    countDown: function () {
+      if (this.timeLeft) {
+        this.timeLeft = this.timeLeft - 1 
+      }
+    }
+  },
+  created () {
+    setTimeout(this.backToMain, 3000)
+  },
+
 }
 </script>
 
