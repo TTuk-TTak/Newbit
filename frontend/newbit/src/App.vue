@@ -3,7 +3,8 @@
     <the-nav v-if="toggle"></the-nav>
     <v-main
       id="main"
-      class="container p-1"
+      class="container"
+      style="margin-top:50px"
     >
       <router-view />
     </v-main>
@@ -59,8 +60,7 @@ export default {
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* color: #f7f7eb; */
-  background-color: var(--v-background-base);
+  background-color: #f2f2f4;
 
   padding: 0;
   position: relative;
