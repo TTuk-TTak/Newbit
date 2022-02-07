@@ -28,7 +28,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-//////////////////여기서 부터 직접 추가한 import
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,7 +38,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.ssafy.newbit.model.mapper.UserMapper;
+//import com.ssafy.newbit.model.mapper.UserMapper;
 
 
 
@@ -60,7 +59,7 @@ public class UserController{
 	private JwtProvider jwtProvider;
 
 	
-	///////////////////////////    회원 가입       //////////////////////////////////////////////
+	///////////////////////////    회원 가입  관련     //////////////////////////////////////////////
 	@ApiOperation(value = "사용자 추가", notes = "회원가입한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)	
 	@PostMapping("/signup")
 	public ResponseEntity<String> addUser(@RequestBody @ApiParam(value = "유저 정보.", required = true) UserDto userDto)throws Exception{  //@ApiParam(value = "유저 정보.", required = true)	//throws Exception
@@ -94,7 +93,7 @@ public class UserController{
 	
 	@ApiOperation(value = "관심 키워드 추가", notes = "최초 로그인 시, 유저의 관심키워드를 입력받는다", response = String.class)	
 	@PostMapping("/signup/keywordSet")
-	public ResponseEntity<String> addUserKeyword(@RequestParam @ApiParam(value = "헤더의 유저정보", required = true) String userKeyword, HttpServletRequest request){  		
+	public ResponseEntity<String> addUserKeyword(@RequestParam @ApiParam(value = "관심키워드 & token", required = true) String userKeyword, HttpServletRequest request){  		
 		logger.info("addUserKeyword 호출 : " + userKeyword);
 		// 헤더에 포함된 jwt 토큰 디코딩  → 사용자 인증 (with userEmail)
 		String token = jwtProvider.resolveToken((HttpServletRequest) request);
@@ -112,7 +111,29 @@ public class UserController{
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 	
-	///////////////////////////    로그인       //////////////////////////////////////////////
+	
+	@ApiOperation(value = "자기소개 추가", notes = "최초 로그인 시, 유저의 자기소개 및 프로필 사진을 입력받는다", response = String.class)	
+	@PostMapping("/signup/introSet")		
+	public ResponseEntity<String> addUserIntro(@RequestParam @ApiParam(value = "자기소개 & token", required = true) String userIntro, String userImg, HttpServletRequest request){  		
+		// 사진 입력시 지정 폴더/ img 타입 변경 등 후작업 필요
+		logger.info("addUserIntro 호출 : " );
+		// 헤더에 포함된 jwt 토큰 디코딩  → 사용자 인증 (with userEmail)
+		String token = jwtProvider.resolveToken((HttpServletRequest) request);
+		String userEmail = jwtProvider.getJwtContents(token).getSubject();
+		
+		try {
+			if (userService.addUserIntro(userEmail, userIntro, userImg)) {
+				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+	}
+	
+	///////////////////////////    로그인     //////////////////////////////////////////////////////////
 
 	@ApiOperation(value = "로그인 확인", notes = "사용자 로그인 시도가 타당한지 확인합니다..", response = Map.class)
 	@PostMapping("/login")
@@ -147,28 +168,11 @@ public class UserController{
 
     // 접근확인
     @PostMapping("/jwttest")
-    public Map userResponseTest() {
-        Map<String, String> result = new HashMap<>();
-        result.put("result","Jwt Pass!!");
-        return result;
-    }
-
-    // 접근확인
-    @PostMapping("/test")
     public Claims Test() {
     	String token = jwtProvider.createToken("dddddd", "User");
         return jwtProvider.getJwtContents(token);
     }
     
-    /*
-	// Token 정보 추출 - payload(body) -회원정보
-	public Claims getJwtContents(String jwt) {		// Request의 Header에서 token 값을 가져옵니다. "X-AUTH-TOKEN" : "TOKEN값'
-	    Claims claims = Jwts.parser()
-	        .setSigningKey(secretKey.getBytes())
-	        .parseClaimsJws(jwt)
-	        .getBody();	
-	    return claims;
-	}*/
     
     /////////////////////////////사용자 정보 확인 /////////////////////////////////////////////////////
     
