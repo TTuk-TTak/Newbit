@@ -24,7 +24,7 @@
             >{{ content.contentTitle }}</h3>
           </v-col>
           <v-col class='py-0 my-0 mt-1' cols=12>
-            <v-card-text class="content-text mb-0 pa-0 ">{{ content.text }}</v-card-text>
+            <v-card-text class="content-text mb-0 pa-0 ">{{ content.contentText }}</v-card-text>
           </v-col>
           <v-col class='pa-0 mt-0' cols=12>
           <v-chip-group
@@ -84,10 +84,9 @@ export default {
   },
 
   data: () => ({
-    isVertical: true,
     content: {
       contentTitle: '카드 타이틀',
-      text: '이 편지는 영국에서 최초로 시작되어 일년에 한바퀴를 돌면서 받는 사람에게 행운을 주었고 지금은 당신에게로 옮겨진 이 편지는 4일 안에 당신 곁을 떠나야 합니다. 이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다. 이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.',
+      contentText: '이 편지는 영국에서 최초로 시작되어 일년에 한바퀴를 돌면서 받는 사람에게 행운을 주었고 지금은 당신에게로 옮겨진 이 편지는 4일 안에 당신 곁을 떠나야 합니다. 이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다. 이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.',
       url: 'https://picsum.photos/500/300?image=55',
       thumbnail: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
       likes: 0,

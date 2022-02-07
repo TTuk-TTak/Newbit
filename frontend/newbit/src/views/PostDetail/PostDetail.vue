@@ -210,7 +210,7 @@ export default {
       axios.get(`${this.$serverURL}/content?cid=${contentCode}`)
         .then(response => {
           this.content = response.data
-          console.log(response.data)
+          console.log('컨텐츠 정보', response.data)
         })
         .catch((err) => {
           console.log(err)
