@@ -6,7 +6,7 @@
       <v-tab
         to="/social"
         class="backgroundDark"
-        ripple=false
+        :ripple='false'
         text
         >
         소셜 피드
@@ -14,7 +14,7 @@
       <v-tab
         to="/content"
         class="backgroundDark"
-        ripple=false
+        :ripple='false'
         text
         >
         큐레이션
@@ -22,7 +22,7 @@
       <v-tab
         to="/archive"
         class="backgroundDark"
-        ripple=false
+        :ripple='false'
         text
         >
         아카이빙

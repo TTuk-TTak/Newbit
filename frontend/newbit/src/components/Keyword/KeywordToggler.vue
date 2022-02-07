@@ -1,14 +1,11 @@
 <template>
-
-  <!-- <div>
-    {{ keywords }}
-    <keyword-chip></keyword-chip>
-  </div> -->
-  <v-chip-group column>
+  <v-chip-group
+    column
+  >
     <keyword-chip
-      v-for="tag in tags"
-      :key="tag"
-      :text="tag"
+      v-for="(key, value) in keywords"
+      :key="key"
+      :text="value"
       :isToggleAvailable='true'
     ></keyword-chip>
   </v-chip-group>
@@ -24,35 +21,18 @@ export default {
   },
   data: () => {
     return {
-      tags: [
-        'UI/UX',
-        'Vue.js',
-        'Frontend',
-        'Backend',
-        'JS',
-        'Python',
-        'UI/UX',
-        'Vue.js',
-        'Frontend',
-        'Backend',
-        'JS',
-        'Python',
-        'UI/UX',
-        'Vue.js',
-        'Frontend',
-        'Backend',
-        'JS',
-        'Python',
-      ],
     }
   },
   computed: {
+    // 키워드 中 소분류 키워드만 추출 후 반환.
     keywords: function () {
-      // const keywordObject = {}
-      // for (let key in this.$KEYWORDS) {
-      //   const value = this.$KEYWORDS[key]
-      // }
-      return Object.values(this.$KEYWORDS)
+      const keywordObject = {}
+      for (let keywordSets of Object.values(this.$KEYWORDS)) {
+        for (let [shownName, queryName] of Object.entries(keywordSets)) {
+          keywordObject[shownName] = queryName
+        }
+      }
+      return keywordObject
     }
   },
 }
