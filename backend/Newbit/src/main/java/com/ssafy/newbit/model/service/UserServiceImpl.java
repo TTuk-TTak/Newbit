@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService{
 	public List<UserDto> getFollowerList(int userCode) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).getFollowerList(userCode);
     }
-	}
+
 
   //회원정보 수정
 	@Override
