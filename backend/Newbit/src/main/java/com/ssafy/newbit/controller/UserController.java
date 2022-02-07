@@ -2,6 +2,8 @@ package com.ssafy.newbit.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,8 @@ import com.ssafy.newbit.model.UserDto;
 import com.ssafy.newbit.model.service.UserService;
 import com.ssafy.newbit.jwt.JwtProvider;
 
-
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -66,14 +69,6 @@ public class UserController{
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
-
-	@ApiOperation(value = "특정 사용자 조회", notes = "사용자 코드에 해당하는 사용자의 정보를 반환한다.", response = UserDto.class)
-	@GetMapping("")
-	public ResponseEntity<UserDto> getUser(@RequestParam("uid") @ApiParam(value = "얻어올 사용자의 코드", required = true) int userCode)throws Exception{ 
-		logger.info("getUser 호출 : " + userCode);
-		return new ResponseEntity<UserDto>(userService.getUser(userCode), HttpStatus.OK);
-	}
-	
 	
 	@ApiOperation(value = "아이디 중복 체크", notes = "중복된 아이디가 있는지 확인한다.", response = UserDto.class)
 	@PostMapping("/idCheck")
@@ -95,7 +90,27 @@ public class UserController{
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 
+	///////////////////////////// 최초 로그인 시 로직 //////////////////////////////////////////////////////////
 	
+	@ApiOperation(value = "관심 키워드 추가", notes = "최초 로그인 시, 유저의 관심키워드를 입력받는다", response = String.class)	
+	@PostMapping("/signup/keywordSet")
+	public ResponseEntity<String> addUserKeyword(@RequestParam @ApiParam(value = "헤더의 유저정보", required = true) String userKeyword, HttpServletRequest request){  		
+		logger.info("addUserKeyword 호출 : " + userKeyword);
+		// 헤더에 포함된 jwt 토큰 디코딩  → 사용자 인증 (with userEmail)
+		String token = jwtProvider.resolveToken((HttpServletRequest) request);
+		String userEmail = jwtProvider.getJwtContents(token).getSubject();
+		
+		try {
+			if (userService.addUserKeyword(userEmail, userKeyword)) {
+				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+	}
 	
 	///////////////////////////    로그인       //////////////////////////////////////////////
 
@@ -138,7 +153,34 @@ public class UserController{
         return result;
     }
 
-    /////////////////////////////정보수정 /////////////////////////////////////////////////////
+    // 접근확인
+    @PostMapping("/test")
+    public Claims Test() {
+    	String token = jwtProvider.createToken("dddddd", "User");
+        return jwtProvider.getJwtContents(token);
+    }
+    
+    /*
+	// Token 정보 추출 - payload(body) -회원정보
+	public Claims getJwtContents(String jwt) {		// Request의 Header에서 token 값을 가져옵니다. "X-AUTH-TOKEN" : "TOKEN값'
+	    Claims claims = Jwts.parser()
+	        .setSigningKey(secretKey.getBytes())
+	        .parseClaimsJws(jwt)
+	        .getBody();	
+	    return claims;
+	}*/
+    
+    /////////////////////////////사용자 정보 확인 /////////////////////////////////////////////////////
+    
+	@ApiOperation(value = "특정 사용자 조회", notes = "사용자 코드에 해당하는 사용자의 정보를 반환한다.", response = UserDto.class)
+	@GetMapping("")
+	public ResponseEntity<UserDto> getUser(@RequestParam("uid") @ApiParam(value = "얻어올 사용자의 코드", required = true) int userCode)throws Exception{ 
+		logger.info("getUser 호출 : " + userCode);
+		return new ResponseEntity<UserDto>(userService.getUser(userCode), HttpStatus.OK);
+	}
+    
+    
+    /////////////////////////////사용자 정보수정 /////////////////////////////////////////////////////
 	
 	
 	// 회원정보 수정

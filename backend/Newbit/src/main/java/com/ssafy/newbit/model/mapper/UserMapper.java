@@ -28,7 +28,10 @@ public interface UserMapper {
 	public int checkId(String userId) throws Exception;
 	public int checkEmail(String userEmail) throws Exception;
 	public static final PasswordEncoder passwordEncoder = null;
+	
 	public String checkLogin(String userEmail) throws SQLException;
+	
+	public int addUserKeyword(String userEmail, String userKeyword) throws SQLException;
 	
 	public int editUserInfo(UserDto userDto) throws SQLException;
 	public UserDto getUser(int userCode) throws SQLException;
