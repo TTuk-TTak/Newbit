@@ -1,5 +1,8 @@
 package com.ssafy.newbit.jwt;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,12 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
 
 	public static final Logger logger = LoggerFactory.getLogger(JwtInterceptor.class);
-
+	private static final String HEADER_AUTH = "Authorization";
+	
 	@Autowired
 	private JwtProvider jwtProvider;
 	
@@ -24,7 +29,6 @@ public class JwtInterceptor implements HandlerInterceptor {
 			throws Exception {
 		//final String token = request.getHeader(HEADER_AUTH);					// token 헤더의 key 지정해줌
 		String token = jwtProvider.resolveToken((HttpServletRequest) request);
-		
 		// 토큰이 유효하지 않은 경우
 		if(token == null || !(jwtProvider.checkClaim(token))) { 
 			logger.info("유효하지 않은 토큰");											
@@ -37,6 +41,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 		// 인증 & 권한 모두 완료된 사용자
 		}else{ 
 			logger.info("올바른 토큰 & 권한있음"); 
+			//response.getWriter().write(token);
 			return true;
 		}
 

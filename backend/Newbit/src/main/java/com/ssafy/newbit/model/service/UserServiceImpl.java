@@ -98,6 +98,12 @@ public class UserServiceImpl implements UserService{
     	}
         return TF==true;
     }
+
+    // 유저 관심키워드 설정 
+    @Override
+    public boolean addUserKeyword(String userEmail, String userKeyword) throws Exception{
+    	return sqlSession.getMapper(UserMapper.class).addUserKeyword(userEmail, userKeyword) == 1;
+    }
     
 
 	@Override

@@ -20,6 +20,16 @@
     </select>
     
     
+    
+    <!--  첫로그인 : 관심키워드 설정  -->
+	<update id="addUserKeyword" parameterType="String" >
+		update user
+		set user_keyword = #{userKeyword}
+		where user_email= #{userEmail}
+	</update>
+    
+    
+    
     <!--  로그인 유저체크 -->
 	<select id="checkLogin" parameterType="String" resultType="String">
         <!--select COUNT(user_email) FROM USER WHERE user_email= #{userEmail} AND user_password= #{userPassword} -->

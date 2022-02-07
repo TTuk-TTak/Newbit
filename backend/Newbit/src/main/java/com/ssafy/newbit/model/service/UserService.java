@@ -13,7 +13,10 @@ public interface UserService{
 	public UserDto getUser(int userCode) throws Exception;
 	public boolean checkId(String userId) throws Exception;
 	public boolean checkEmail(String userEmail) throws Exception;
+	
 	public boolean checkLogin(String userEmail,  String userPassword) throws Exception;
+	
+	public boolean addUserKeyword(String userEmail, String userKeyword) throws Exception;
 
 	//public boolean editUserInfo(UserDto memberDto) throws Exception;
 	List<UserDto> getFollowingList(int userCode) throws Exception;
