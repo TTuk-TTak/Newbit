@@ -23,11 +23,13 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    name: 'Home',
     component: Home,
     children: [
       // feed
       {
         path: 'social',
+        name: 'Social',
         component: SocialFeed
       },
       {
@@ -36,10 +38,12 @@ const routes = [
       },
       {
         path: 'content',
+        name: 'Curation',
         component: ContentFeed
       },
       {
         path: 'archive',
+        name: 'Archiving',
         component: Archive
       },
       {

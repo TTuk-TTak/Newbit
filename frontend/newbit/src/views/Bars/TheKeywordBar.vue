@@ -1,15 +1,14 @@
 <template>
-
     <v-list
       class="pa-0"
     >
       <v-list-group
-        class="background"
+        class="background ml-0"
         active-class='feedBackground rounded-lg'
-        v-for="item in items"
+        v-for="(item, index) of items"
         :key="item.title"
         v-model="item.active"
-        :prepend-icon="item.action"
+        :prepend-icon="iconArray[index]"
         no-action
       >
         <template v-slot:activator>
@@ -17,7 +16,6 @@
             <v-list-item-title v-text="item.title"></v-list-item-title>
           </v-list-item-content>
         </template>
-
         <v-list-item
           v-for="child in item.items"
           :key="child.title"
@@ -35,6 +33,7 @@
 export default {
   name: 'TheKeywordBar',
   data: () => ({
+    iconArray: ['mdi-code-tags', 'mdi-monitor', 'mdi-database', 'mdi-human-male-female-child'],
     items: [
       {
         action: 'mdi-star',
@@ -85,11 +84,14 @@ export default {
       },
     ],
   }),
+  computed: {
+    keywords: function () {
+      return false
+    }
+  },
 }
 </script>
 
 <style>
-
-
 
 </style>

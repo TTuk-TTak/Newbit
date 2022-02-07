@@ -6,7 +6,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 
 // local
-import CommonMethodsPlugin from './plugins/CommonMethodsPlugins'
+import CommonMethodsPlugin from './plugins/CommonMethodsPlugin.js'
 
 // 3rd party
 import VueApexCharts from "vue-apexcharts";
@@ -16,9 +16,15 @@ Vue.use(VueApexCharts);
 Vue.component("apexchart", VueApexCharts);
 
 Vue.config.productionTip = false
+
+// 서버 URL
 Vue.prototype.$serverURL = process.env.VUE_APP_SERVER_URL
+// 클라이언트 URL
+Vue.prototype.$clientURL = process.env.VUE_APP_CLIENT_URL
 
 // 키워드 목록
+// 1. 대분류: Languages, Frontend, Backend, 일반
+// 2. 소분류: Key==보여질 이름 Value == queryString에 사용할 이름
 Vue.prototype.$KEYWORDS = {
   'Languages': {
     'C': 'clanguage',
@@ -40,7 +46,7 @@ Vue.prototype.$KEYWORDS = {
     'Node.js': 'Node.js',
     'PHP': 'PHP', 
     'Database': 'Database',
-    'Dev/Ops': '데브옵스',
+    'DevOps': '데브옵스',
     'SpringBoot': 'SpringBoot',    
   },
   '일반': {
