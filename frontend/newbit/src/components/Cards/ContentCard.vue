@@ -1,8 +1,8 @@
 <template>
   <v-card
     outlined
-    class="mx-auto mt-1"
-    style="position: relative;"
+    class="mx-auto mt-1 contentCard-Item"
+    style="position: relative; "
   >
     <!-- 상단 이미지 -->
     <v-img
@@ -87,7 +87,12 @@ export default {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  
+}
+
+/* 콘텐츠 카드 마우스 오버 애니메이션 - 필요없으시면 빼고 사용해주세요!!! */
+.contentCard-Item:hover {
+  box-shadow: 1px 1px 10px 3px rgb(230, 230, 230);
+  transform: scale( 1.01 );
 }
 
 </style>
