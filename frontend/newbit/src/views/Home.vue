@@ -4,7 +4,7 @@
     <first-login-modal :isLogged='true'></first-login-modal>
     <v-row justify="center">
       <v-col cols="3" class="pr-5 mr-5">
-        <post-create-modal :isOpened='false'></post-create-modal>
+        <post-create-modal></post-create-modal>
         <the-profile-bar></the-profile-bar>
       </v-col>
       <v-col cols="6">
@@ -36,5 +36,7 @@ export default {
     FirstLoginModal,
     PostCreateModal,
   },
+  methods: {
+  }
 }
 </script>
