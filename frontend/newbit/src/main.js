@@ -27,39 +27,35 @@ Vue.prototype.$serverURL = process.env.VUE_APP_SERVER_URL
 Vue.prototype.$clientURL = process.env.VUE_APP_CLIENT_URL
 
 // 키워드 목록
-// 1. 대분류: Languages, Frontend, Backend, 일반
-// 2. 소분류: Key==보여질 이름 Value == queryString에 사용할 이름
+// key: 변수명, value: object
 Vue.prototype.$KEYWORDS = {
-  'Languages': {
-    'C': 'clanguage',
-    'Java': 'Java',
-    'Python': 'Python',
-    'Javascript': 'javascript',
-    'html': 'html',
-    'Kotlin': 'Kotlin',    
-  },
-  'Front-end': {
-    'React': 'React',
-    'Vue.js': 'Vue.js',
-    'Angular': 'Angular',
-    'Android': 'Android',
-    'iOS': 'iOS',
-    'UI/UX': 'UI/UX',
-  },
-  'Back-end': {
-    'Node.js': 'Node.js',
-    'PHP': 'PHP', 
-    'Database': 'Database',
-    'DevOps': '데브옵스',
-    'SpringBoot': 'SpringBoot',    
-  },
-  '일반': {
-    'Git': 'Git',
-    '테스팅' : '테스팅',
-    'AI/머신러닝': 'AI/머신러닝',
-    '클라우드': '클라우드',
-    '블록체인': '블록체인',
-  },
+  // 프로그래밍 언어
+  'clanguage': {category: 'Languages', shownName: 'C', },
+  'java': {category: 'Languages', shownName: 'Java',},
+  'python' : {category: 'Languages', shownName: 'Python',},
+  'csharp' : {category: 'Languages', shownName: 'C#',},
+  'javascript' : {category: 'Languages', shownName: 'JavaScript',},
+  'html': {category: 'Languages', shownName: 'html',},
+  'kotlin': {category: 'Languages', shownName: 'Kotlin',},
+  // 프론트엔드
+  'react' : {category: 'Front-end', shownName: 'React',},
+  'vue' : {category: 'Front-end', shownName: 'Vue.js',},
+  'angular' : {category: 'Front-end', shownName: 'Angular',},
+  'android' : {category: 'Front-end', shownName: 'Android',},
+  'ios' : {category: 'Front-end', shownName: 'iOS',},
+  'uiux' : {category: 'Front-end', shownName: 'UI/UX',},
+  // 백엔드
+  'node' : {category: 'Back-end', shownName: 'Node.js',},
+  'php' : {category: 'Back-end', shownName: 'PHP',}, 
+  'database' : {category: 'Back-end', shownName: 'Database',},
+  'devops' : {category: 'Back-end', shownName: 'DevOps',},
+  'springboot' : {category: 'Back-end', shownName: 'SpringBoot',},
+  // 일반
+  'git': {category: '일반', shownName: 'Git',},
+  'testing': {category: '일반', shownName: '테스팅',},
+  'aimi': {category: '일반', shownName: 'AI/머신러닝',},
+  'cloud': {category: '일반', shownName: '클라우드',},
+  'blockchain': {category: '일반', shownName: '블록체인',},
 }
 
 new Vue({

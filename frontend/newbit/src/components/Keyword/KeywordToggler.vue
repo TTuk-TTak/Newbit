@@ -6,12 +6,14 @@
       v-for="(key, value) in keywords"
       :key="key"
       :text="value"
-      :isToggleAvailable='true'
+      :isInToggler='true'
     ></keyword-chip>
   </v-chip-group>
 </template>
 
 <script>
+import _ from 'lodash'
+
 import KeywordChip from '@/components/Keyword/KeywordChip.vue'
 
 export default {
@@ -26,6 +28,7 @@ export default {
   computed: {
     // 키워드 中 소분류 키워드만 추출 후 반환.
     keywords: function () {
+      console.log(_.mapValues(this.$KEYWORDS, 'shownName'))
       const keywordObject = {}
       for (let keywordSets of Object.values(this.$KEYWORDS)) {
         for (let [shownName, queryName] of Object.entries(keywordSets)) {
@@ -35,6 +38,11 @@ export default {
       return keywordObject
     }
   },
+  created: {
+    // 1. 
+    // 유저의 정보 중 '키워드' 정보만 파싱해
+    // 관심 있어한 keyword를 active하는 함수
+  }
 }
 </script>
 
