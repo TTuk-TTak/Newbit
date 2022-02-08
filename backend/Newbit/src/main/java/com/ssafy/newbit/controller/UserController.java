@@ -142,12 +142,14 @@ public class UserController{
 		Map<String, String> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		try {
-			boolean TF = userService.checkLogin(user.get("userEmail"), user.get("userPassword"));
-			if(TF == true) {
-				String token = jwtProvider.createToken(user.get("userEmail"), "User");// key, data, subject
+			String userCode = userService.checkLogin(user.get("userEmail"), user.get("userPassword"));
+			if(userCode != "") {
+				String token = jwtProvider.createToken(user.get("userEmail"), userCode);// key, data, subject
+				
 				//response.setHeader("jwt-auth-token", token); // client에 token 전달 
 				logger.debug("로그인 토큰정보 : {}", token);
 				resultMap.put("access-token", token);
+				resultMap.put("userCode", userCode);
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;				
 			} else {
@@ -198,4 +200,30 @@ public class UserController{
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
+	
+	
+	 /////////////////////////////   회원 탈퇴    /////////////////////////////////////////////////////
+	
+	@ApiOperation(value = "회원탈퇴", notes = "해당 유저정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("")
+	public ResponseEntity<String> deleteUser(
+			@RequestParam("uid") @ApiParam(value = "삭제할 유저의 비밀번호", required = true) int userCode, String userPassword,  HttpServletRequest request) throws Exception {
+		logger.info("deleteUser 호출 : " + userCode);									// userCode 미사용 → 쓸지말지 상의 후 결정
+		// jwt 토큰 디코딩 → userEmail 추출
+		String token = jwtProvider.resolveToken((HttpServletRequest) request);
+		String userEmail = jwtProvider.getJwtContents(token).getSubject();
+		// 입력받은 패스워드가, 토큰이 가리키는 유저의 DB 패스워드와 일치하는지 확인
+		String ucd = userService.checkLogin(userEmail, userPassword);				// checkLogin : service 메서드 재활용 
+		// 패스워드 일치 할 시,
+		if (ucd != "") {
+			userService.deleteUser(userEmail);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			
+		// 패스워드 일치하지 않을 시,
+		} else {
+			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+		}
+	}
+	
+	
 }

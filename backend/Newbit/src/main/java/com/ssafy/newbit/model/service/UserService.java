@@ -16,7 +16,7 @@ public interface UserService{
 	public boolean addUserKeyword(String userEmail, String userKeyword) throws Exception;
 	public boolean addUserIntro(String userEmail, String userIntro, String userImg) throws Exception;
 
-	public boolean checkLogin(String userEmail,  String userPassword) throws Exception;
+	public String checkLogin(String userEmail,  String userPassword) throws Exception;
 	
 	public UserDto getUser(int userCode) throws Exception;
 	List<UserDto> getFollowingList(int userCode) throws Exception;
@@ -25,5 +25,9 @@ public interface UserService{
 	public boolean editUserInfo(UserDto usersDto) throws Exception;
 	public boolean followUser(HashMap<String,Integer> map) throws Exception;
 	public boolean unfollowUser(HashMap<String, Integer> map) throws Exception;
+	
+	public boolean deleteUser(String userEmail) throws Exception;
+	
+	
 
 }
