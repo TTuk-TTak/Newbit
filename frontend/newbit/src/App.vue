@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-    <the-nav v-if="toggle"></the-nav>
+    <the-nav v-if="$route.name !== 'Login' && $route.name !== 'Signup'"></the-nav>
     <v-main
       id="main"
       class="container"
@@ -21,7 +21,7 @@ export default {
   },
 
   data: () => ({
-    toggle: true
+
   }),
 
 };
