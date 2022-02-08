@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @RequiredArgsConstructor
 public class JwtConfig extends WebMvcConfigurationSupport {
 	@Autowired
-	private final JwtInterceptor jwtInterceptor;
+	private JwtInterceptor jwtInterceptor;  //final
 	
     private static final String[] EXCLUDE_PATHS = {
     		// 제외할 경로 지정 

@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class JwtInterceptor implements HandlerInterceptor {
 
 	public static final Logger logger = LoggerFactory.getLogger(JwtInterceptor.class);
-	private static final String HEADER_AUTH = "Authorization";
+	//private static final String HEADER_AUTH = "Authorization";
 	
 	@Autowired
 	private JwtProvider jwtProvider;
@@ -63,7 +63,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 			throw new JwtUnAuthorizedException();
 			//response.sendRedirect("/login/");									// 필요 시, 이곳에서 '권한 거부되었을때 redirect' 수행
 		// 권한이 없는 사용자일 경우
-		}else if(!((jwtProvider.getJwtContents(token).get("roles")).equals(userCode))) {
+		}else if(!((jwtProvider.getJwtContents(token).get("roles")).equals(userCode))&& method.equals("GET")) {
 			logger.info("권한 없음");
 			throw new JwtAccessDeniedException();
 		// 인증 & 권한 모두 완료된 사용자
