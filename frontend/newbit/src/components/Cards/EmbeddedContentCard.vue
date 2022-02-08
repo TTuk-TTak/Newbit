@@ -62,7 +62,10 @@
               <span class="ml-2">어썸한 블로그</span>
             </div>
             <div class="pr-4 pb-1 mt-2 pt-0">
-              <v-btn icon>
+              <v-btn 
+                icon
+                @click="copyLink()"
+                >
                 <v-icon>mdi-share</v-icon>
               </v-btn>
               <v-btn icon>
@@ -73,6 +76,23 @@
         </v-row>
       </v-col>
     </v-row>
+    <!-- 링크 복사 및 좋아요 팝업 -->
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="snackbar.timeout"
+    >
+      {{ snackbar.message }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -97,15 +117,21 @@ export default {
     //   date: '2022-01-24',
     // },
     keywords: [],
+    snackbar: {
+      show: false,
+      message: '',
+      timeout: '1000'
+    },
   }),
   methods: {
     openContent: function () {
       // 수정 필요
       window.open(this.content.contentUrl)
     },
-    // 테스트 필요
-    shareContent: function () {
+    copyLink: function () {
       this.$copyText(this.content.contentUrl)
+      this.snackbar.message = '컨텐츠 주소를 클립보드에 복사했습니다.'
+      this.snackbar.show = true
     }
   },
   watch: {
