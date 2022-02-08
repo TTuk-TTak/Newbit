@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +22,6 @@ import com.ssafy.newbit.model.service.UserService;
 import com.ssafy.newbit.jwt.JwtProvider;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -31,11 +29,7 @@ import io.swagger.annotations.ApiParam;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 //import com.ssafy.newbit.model.mapper.UserMapper;
@@ -201,7 +195,6 @@ public class UserController{
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 	
-	
 	 /////////////////////////////   회원 탈퇴    /////////////////////////////////////////////////////
 	
 	@ApiOperation(value = "회원탈퇴", notes = "해당 유저정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
@@ -225,5 +218,19 @@ public class UserController{
 		}
 	}
 	
-	
+	// 유저 검색
+	@ApiOperation(value = "유저 검색", notes = "검색 키워드를 포함하는 유저 목록을 반환", response = List.class)
+	@GetMapping("/search")
+	public ResponseEntity<List<UserDto>> searchUserList(
+			@RequestParam @ApiParam(value = "유저 목록을 가져오기 위해 필요한 정보", required = true)String search, int uid, int lastpostcode, int size) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("userCode", uid);
+		map.put("lastPostCode", lastpostcode);
+		map.put("size",size);
+		logger.info("searchUserList 호출 : " + search);
+		
+		List<UserDto> list = userService.searchUserList(map);
+		return new ResponseEntity<List<UserDto>>(list, HttpStatus.OK);
+	}
 }
