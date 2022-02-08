@@ -32,6 +32,19 @@ CommonMethodsPlugin.install = function (Vue) {
     const keywordArray = _.split(keywordString, '_')
     return keywordArray
   }
+  // 2) 
+  // parameter: Array(Vue.prototype.$parseKeyword의 return)
+  // return: Object(Key: 변수명, value: shownName)
+  Vue.prototype.$makeKeywordDict = function (keywordArray) {
+    const keywords = _.mapValues(this.$KEYWORDS, 'shownName')
+    const keywordObject = {}
+    
+    for (let keyword of keywordArray) {
+      keywordObject[keyword] = keywords[keyword]
+    }
+    return keywordObject
+  }
+
   // 3. 컨텐츠로 이동
   Vue.prototype.$openContent = function (contentURL) {
     window.open(contentURL)
