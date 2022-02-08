@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import axios from 'axios'
 
 const CommonMethodsPlugin = {}
 
@@ -6,15 +7,23 @@ CommonMethodsPlugin.install = function (Vue) {
   // 1. 라우터 관련
   // 1) 소셜 피드로 이동
   Vue.prototype.$goToSocialFeed = function () {
-    this.$router.push({ name: 'Social'})
+    this.$router.push({ name: 'Social' })
   }
   // 2) 큐레이션 피드로 이동
   Vue.prototype.$goToCurationFeed = function () {
-    this.$router.push({ name: 'Curation'})
+    this.$router.push({ name: 'Curation' })
   }
   // 3) 아카이빙 피드로 이동
   Vue.prototype.$goToArchivingFeed = function () {
-    this.$router.push({ name: 'Archiving'})
+    this.$router.push({ name: 'Archiving' })
+  }
+  // 4) 회원가입 페이지 이동
+  Vue.prototype.$goToSignupPage = function () {
+    this.$router.push({ name: 'Signup' })
+  }
+  // 5) 로그인 페이지 이동
+  Vue.prototype.$goToLoginPage = function () {
+    this.$router.push({ name: 'Login' })
   }
 
   // 2. 키워드 관련
@@ -60,6 +69,43 @@ CommonMethodsPlugin.install = function (Vue) {
     return `${Math.floor(years)}년 전`
   }
 
+  // 4. 로그인 관련 
+  // 1) 로그인
+  Vue.prototype.$login = function (credentials) {
+    axios.post(`${this.$serverURL}/user/login`, credentials)
+      .then((res) => {
+        localStorage.setItem('jwt', res.data['access-token'])
+        this.$store.dispatch('Login')
+        return res.data.userCode
+      })
+      .then((res) => {
+        this.$fetchUserInformation(res)
+        // this.$goToSocialFeed()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  // 2) 로그아웃
+  Vue.prototype.$logout = function () {
+    localStorage.removeItem('jwt')
+    this.$store.dispatch('Logout')
+    this.$goToLoginPage()
+  }
+
+  // 5. 유저 정보 관련
+  // 1) 조회
+  Vue.prototype.$fetchUserInformation = function (user_code) {
+    axios.get(`${this.$serverURL}/user?uid=${user_code}`)
+      .then((res) => {
+        console.log(res)
+        // this.$store.dispatch('Login', this.credentials.userEmail)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
 }
 export default CommonMethodsPlugin
