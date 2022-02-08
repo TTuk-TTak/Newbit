@@ -1,8 +1,10 @@
 package com.ssafy.newbit.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -202,5 +204,31 @@ public class PostController {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+	}
+	
+	// 포스트 검색
+	@ApiOperation(value = "포스트 검색", notes = "검색 키워드를 포함하는 게시글 목록을 반환", response = List.class)
+	@GetMapping("/search")
+	public ResponseEntity<List<PostDto>> searchPostList(
+			@RequestParam @ApiParam(value = "콘텐츠 목록을 가져오기 위해 필요한 정보", required = true)String search, int uid, int lastpostcode, int size) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("lastPostCode", lastpostcode);
+		map.put("size",size);
+		logger.info("searchPostList 호출 : " + search);
+		
+		//포스트 목록 불러오기
+		List<PostDto> list = postService.searchPostList(map);
+		
+		//현재 로그인한 유저가 포스트에 대해 좋아요와 스크랩 했는지 체크
+		for(PostDto p : list) {
+			HashMap<String, Object> hm = new HashMap<String, Object>();
+			hm.put("userCode", uid);
+			hm.put("postCode", p.getPostCode());
+			p.setLiked(postService.userLikePost(hm));
+			p.setScrapped(postService.userScrapPost(hm));
+		}
+		return new ResponseEntity<List<PostDto>>(list, HttpStatus.OK);
 	}
 }

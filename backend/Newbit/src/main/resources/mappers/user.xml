@@ -102,14 +102,24 @@
 		user_code = #{from} and following_code=#{to}
 	</delete>
 	
-	
-	
 	<!-- 회원 삭제 -->
 	<delete id="deleteUser" parameterType="String">
 		delete from user
 		where
 		user_email = #{userEmail}
 	</delete>
-	
 
+	<!-- 유저 검색 -->
+	<select id="searchUserList" parameterType="HashMap" resultType="UserDto">
+		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_postcount `userPostCount`, u.user_followercount `userFollowerCount`, u.user_followingcount `userFollowingCount`, u.user_intro `userIntro`, u.user_keyword `userKeyword`,
+			case when exists (select * from follow f where f.following_code = u.user_code and f.user_code = #{userCode}) then true else false end `isFollow`
+		from user u
+		where (u.user_nick like concat('%',#{search},'%') or u.user_intro like concat('%',#{search},'%')) and u.user_code != #{userCode}
+		<if test="lastPostCode != null and lastPostCode != 0">
+			and (post_code  <![CDATA[<]]>
+			#{lastPostCode})
+		</if>
+		limit #{size}
+	</select>
+	
 </mapper>

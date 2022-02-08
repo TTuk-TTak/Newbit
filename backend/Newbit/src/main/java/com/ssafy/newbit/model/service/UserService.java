@@ -25,9 +25,7 @@ public interface UserService{
 	public boolean editUserInfo(UserDto usersDto) throws Exception;
 	public boolean followUser(HashMap<String,Integer> map) throws Exception;
 	public boolean unfollowUser(HashMap<String, Integer> map) throws Exception;
-	
 	public boolean deleteUser(String userEmail) throws Exception;
-	
-	
+	public List<UserDto> searchUserList(HashMap<String, Object> map) throws Exception;
 
 }
