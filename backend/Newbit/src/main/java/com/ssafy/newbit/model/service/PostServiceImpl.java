@@ -125,5 +125,11 @@ public class PostServiceImpl implements PostService{
 		return sqlSession.getMapper(PostMapper.class).userScrapPost(map) == 1;
 	} 
 	
+	//포스트 검색
+	@Override
+	public List<PostDto> searchPostList(HashMap<String, Object> map) throws Exception {
+		return sqlSession.getMapper(PostMapper.class).searchPostList(map);
+	}
+	
 
 }

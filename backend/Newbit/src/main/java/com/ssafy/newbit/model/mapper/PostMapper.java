@@ -32,4 +32,5 @@ public interface PostMapper {
 	
 	public int userLikePost(HashMap<String, Object> map) throws SQLException;
 	public int userScrapPost(HashMap<String, Object> map) throws SQLException;
+	public List<PostDto> searchPostList(HashMap<String, Object> map) throws SQLException;
 }
