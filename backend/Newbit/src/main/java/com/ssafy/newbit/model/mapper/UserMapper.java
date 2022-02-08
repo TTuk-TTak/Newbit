@@ -33,6 +33,7 @@ public interface UserMapper {
 	public int addUserIntro(String userEmail, String userIntro, String userImg) throws SQLException;
 	
 	public String checkLogin(String userEmail) throws SQLException;
+	public String getUserCode(String userEmail) throws SQLException;
 	
 	public UserDto getUser(int userCode) throws SQLException;
 	List<UserDto> getFollowingList(int userCode) throws SQLException;
@@ -41,5 +42,7 @@ public interface UserMapper {
 	public int editUserInfo(UserDto userDto) throws SQLException;
 	public int followUser(HashMap<String, Integer> map) throws SQLException;
 	public int unfollowUser(HashMap<String, Integer> map) throws SQLException;
+	
+	public int deleteUser(String userEmail) throws SQLException;
 	
 }
