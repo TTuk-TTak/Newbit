@@ -1,7 +1,7 @@
 <template>
     <div class="text-center">
     <v-dialog
-      v-model="isOpened"
+      v-model="$store.state.modals.postCreateModal"
       max-width="800"
     >
       <v-card
@@ -25,7 +25,7 @@
             class="align-self-start"
             icon 
             right 
-            @click="isOpened=false">
+            @click="$store.dispatch('turnPostCreateModalOFF')">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
@@ -63,9 +63,6 @@ import EmbeddedContentCard from '@/components/Cards/EmbeddedContentCard.vue'
 
 export default {
   name: 'PostCreateModal',
-  props: {
-    isOpened: Boolean,
-  },
   components: {
     BtnDark,
     EmbeddedContentCard,
@@ -76,6 +73,7 @@ export default {
       postText: '',
     }
   },
+
 }
 </script>
 

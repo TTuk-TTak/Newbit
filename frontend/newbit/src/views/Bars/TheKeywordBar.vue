@@ -33,6 +33,8 @@
 export default {
   name: 'TheKeywordBar',
   data: () => ({
+    // 수정 예정.
+    // https://lodash.com/docs/4.17.15#invertBy
     iconArray: ['mdi-code-tags', 'mdi-monitor', 'mdi-database', 'mdi-human-male-female-child'],
     items: [
       {
