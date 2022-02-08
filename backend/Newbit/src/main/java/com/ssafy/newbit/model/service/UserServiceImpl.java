@@ -93,18 +93,20 @@ public class UserServiceImpl implements UserService{
     
     // 로그인 확인
     @Override
-    public boolean checkLogin(String userEmail, String userPassword) throws Exception{
+    public String checkLogin(String userEmail, String userPassword) throws Exception{
     	System.out.println("로그인 가능여부: " + userEmail);
+    	String userCode = "";
     	// db에서 가져온 encoded password
     	String pwd = sqlSession.getMapper(UserMapper.class).checkLogin(userEmail);
     	// 비밀번호 비교 TF
     	boolean TF = passwordEncoder.matches(userPassword, pwd);
-    	if(TF == true)
+    	if(TF == true) {
     		System.out.println("로그인 가능 아이디");
-    	else{
+    		userCode = sqlSession.getMapper(UserMapper.class).getUserCode(userEmail);
+    	}else{
     		System.out.println("로그인 불가능 아이디");
     	}
-        return TF==true;
+        return userCode;
     }
     
     
@@ -151,4 +153,11 @@ public class UserServiceImpl implements UserService{
 	public boolean unfollowUser(HashMap<String, Integer> map) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).unfollowUser(map) == 1;
 	}  
+	
+	
+	/////////////////////////////  회원 탈퇴  /////////////////////////////////////////////////////
+	
+	public boolean deleteUser(String userEmail) throws Exception{
+		return sqlSession.getMapper(UserMapper.class).deleteUser(userEmail) == 1;
+	}
 }

@@ -43,6 +43,13 @@
         <!--select COUNT(user_email) FROM USER WHERE user_email= #{userEmail} AND user_password= #{userPassword} -->
         select user_password from user where user_email = #{userEmail}
     </select>
+    <!--  로그인 유저코드 조회 -->
+	<select id="getUserCode" parameterType="String" resultType="String">
+        <!--select COUNT(user_email) FROM USER WHERE user_email= #{userEmail} AND user_password= #{userPassword} -->
+        select user_code `userCode`
+		from user
+		where user_email = #{userEmail}
+    </select>
 
 
 	
@@ -93,6 +100,15 @@
 		delete from follow
 		where
 		user_code = #{from} and following_code=#{to}
+	</delete>
+	
+	
+	
+	<!-- 회원 삭제 -->
+	<delete id="deleteUser" parameterType="String">
+		delete from user
+		where
+		user_email = #{userEmail}
 	</delete>
 	
 
