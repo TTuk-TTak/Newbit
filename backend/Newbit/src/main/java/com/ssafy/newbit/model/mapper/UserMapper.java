@@ -41,5 +41,6 @@ public interface UserMapper {
 	public int editUserInfo(UserDto userDto) throws SQLException;
 	public int followUser(HashMap<String, Integer> map) throws SQLException;
 	public int unfollowUser(HashMap<String, Integer> map) throws SQLException;
+	public List<UserDto> searchUserList(HashMap<String, Object> map) throws SQLException;
 	
 }

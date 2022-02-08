@@ -198,4 +198,20 @@ public class UserController{
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
+	
+	// 유저 검색
+	@ApiOperation(value = "유저 검색", notes = "검색 키워드를 포함하는 유저 목록을 반환", response = List.class)
+	@GetMapping("/search")
+	public ResponseEntity<List<UserDto>> searchUserList(
+			@RequestParam @ApiParam(value = "유저 목록을 가져오기 위해 필요한 정보", required = true)String search, int uid, int lastpostcode, int size) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("userCode", uid);
+		map.put("lastPostCode", lastpostcode);
+		map.put("size",size);
+		logger.info("searchUserList 호출 : " + search);
+		
+		List<UserDto> list = userService.searchUserList(map);
+		return new ResponseEntity<List<UserDto>>(list, HttpStatus.OK);
+	}
 }
