@@ -2,7 +2,7 @@
 
 # 1. 서비스 소개
 
-
+![Untitled 1](README.assets/Untitled 1-164432150692766.png)
 
 ## 1) Newbit이란?
 
@@ -26,7 +26,7 @@
 
 ## 4) 기능 소개
 
-
+![004](README.assets/004-164432151763867.png)
 
 ### (1) 큐레이팅
 
