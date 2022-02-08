@@ -1,4 +1,5 @@
 export default {
+  isLoggedIn: false,
   userCode: 1,
   lastPostCode: 0,
   modals: {
