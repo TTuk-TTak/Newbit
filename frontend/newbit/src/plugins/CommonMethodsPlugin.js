@@ -61,11 +61,13 @@ CommonMethodsPlugin.install = function (Vue) {
   Vue.prototype.$login = function (credentials) {
     axios.post(`${this.$serverURL}/user/login`, credentials)
       .then((res) => {
-        console.log(res)
         localStorage.setItem('jwt', res.data['access-token'])
         this.$store.dispatch('Login')
-        this.$goToSocialFeed()
-        this.$fetchUserInformation()
+        return res.data.userCode
+      })
+      .then((res) => {
+        this.$fetchUserInformation(res)
+        // this.$goToSocialFeed()
       })
       .catch((err) => {
         console.log(err)
