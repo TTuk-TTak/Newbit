@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @RequiredArgsConstructor
 public class JwtConfig extends WebMvcConfigurationSupport {
 	@Autowired
-	private final JwtInterceptor jwtInterceptor;
+	private JwtInterceptor jwtInterceptor;  //final
 	
     private static final String[] EXCLUDE_PATHS = {
     		// 제외할 경로 지정 
@@ -26,7 +26,7 @@ public class JwtConfig extends WebMvcConfigurationSupport {
         super.addInterceptors(registry);
         
         registry.addInterceptor(jwtInterceptor)			// customizing한 Interceptor 추가 
-                .addPathPatterns("/user/jwttest/**")		// token 인증과정을 거칠 url 패턴 추가.
+                .addPathPatterns("/user**","/user/**")		// token 인증과정을 거칠 url 패턴 추가.   //"/user/jwttest/**"
         		.excludePathPatterns("/user/login/**");	// 인증 필요없는 url 패턴 추가.			//EXCLUDE_PATHS
     }
 }
