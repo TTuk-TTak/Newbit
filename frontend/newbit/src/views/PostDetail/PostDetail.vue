@@ -227,10 +227,7 @@ export default {
       this.snackbar.message = '댓글을 달았습니다.'
       this.snackbar.show = true
     },
-    // 02/07 서버 다운으로 테스트 실패. 테스트 필요.
-    // https://bestofvue.com/repo/Inndy-vue-clipboard2-vuejs-miscellaneous
-    // https://github.com/Inndy/vue-clipboard2
-    // $ npm install --save vue-clipboard2
+    // 게시물 링크 복사
     copyLink () {
       const link = this.$clientURL + this.$route.path
       this.$copyText(link)

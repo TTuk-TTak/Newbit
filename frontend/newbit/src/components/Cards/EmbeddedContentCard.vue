@@ -1,5 +1,6 @@
 <template>
   <v-card
+    v-if='content'
     class="ma-1 pt-3 pb-3" 
     outlined
   >
@@ -11,7 +12,7 @@
         <v-img 
           class="rounded-l mb-0"
           height="100%"
-          :src="content.contentImg"
+          :src="content.contentImg ? content.contentImg : defaultImg"
         ></v-img>
       </v-col>
       <v-col 
@@ -36,9 +37,9 @@
           >
             <keyword-chip
               class="embeddedKeyword"
-              v-for="keyword in keywords"
-              :key="keyword"
-              :text="keyword"
+              v-for="(value, key) in keywords"
+              :key="key"
+              :text="value"
               :isActive="false"
             >
             </keyword-chip>
@@ -87,16 +88,15 @@ export default {
     KeywordChip,
   },
   data: () => ({
+    defaultImg: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
     // content: {
-    //   contentTitle: '카드 타이틀',
-    //   contentText: '이 편지는 영국에서 최초로 시작되어 일년에 한바퀴를 돌면서 받는 사람에게 행운을 주었고 지금은 당신에게로 옮겨진 이 편지는 4일 안에 당신 곁을 떠나야 합니다. 이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다. 이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.',
     //   contentUrl: 'https://picsum.photos/500/300?image=55',
     //   contentImg: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
     //   contentLike: 0,
     //   contentKeyword: '',
     //   date: '2022-01-24',
     // },
-    keywords: null,
+    keywords: [],
   }),
   methods: {
     openContent: function () {
@@ -110,7 +110,8 @@ export default {
   },
   watch: {
     content: function () {
-      this.keywords = this.$parseKeyword(this.content.contentKeyword)
+      let parsedKeyword = this.$parseKeyword(this.content.contentKeyword)
+      this.keywords = this.$makeKeywordDict(parsedKeyword)
     }
   }
 
