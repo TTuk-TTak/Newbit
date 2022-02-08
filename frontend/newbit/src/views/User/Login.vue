@@ -20,7 +20,7 @@
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    v-model.trim="credentials.username"
+                    v-model.trim="credentials.userEmail"
                     label="아이디 or 이메일"
                     name="username"
                     type="text"
@@ -29,7 +29,7 @@
                     rounded
                   ></v-text-field>
                   <v-text-field
-                    v-model.trim="credentials.password"
+                    v-model.trim="credentials.userPassword"
                     label="비밀번호"
                     name="password"
                     type="password"
@@ -42,7 +42,7 @@
                     label="내 정보 기억하기"
                   ></v-checkbox>
                   <v-btn
-                    @click="login(credentials)"
+                    @click="$login(credentials)"
                     class="font-weight-bold"
                     color="black"
                     dark
@@ -79,8 +79,8 @@ export default {
   data: function () {
     return {
       credentials: {
-        username: '',
-        password: '',
+        userEmail: '',
+        userPassword: '',
       },
     }
   },

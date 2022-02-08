@@ -1,12 +1,11 @@
 <template>
   <div>
     <!-- 1. 검색 아이콘 및 다이얼로그 -->
-    <v-dialog
-      overlay-opacity=0.1
-    >
+    <v-dialog overlay-opacity=0.1>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn class="mr-3"
-          elevation="0" 
+        <v-btn
+          class="mr-3"
+          elevation="0"
           v-bind="attrs"
           v-on="on"
           icon
@@ -14,28 +13,32 @@
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
       </template>
-        <!-- color="rgba(26, 26, 26, 0.2)">마지막으로 본 게시글 중 가장 낮은 번호 혹은 0,  -->
+      <!-- color="rgba(26, 26, 26, 0.2)">마지막으로 본 게시글 중 가장 낮은 번호 혹은 0,  -->
       <v-card>
         <v-card-text>
           <search-modal></search-modal>
         </v-card-text>
       </v-card>
-      
+
     </v-dialog>
     <!-- 2. 알람 아이콘 -->
-    <v-btn icon class="mr-4">
+    <v-btn
+      icon
+      class="mr-4"
+    >
       <v-icon>mdi-bell</v-icon>
     </v-btn>
     <!-- 3-1. 비 로그인 사용자: 로그인 버튼 -->
     <v-btn
-      v-if="isLoggedIn === false"
+      v-if="$store.state.isLoggedIn === false"
       icon
+      @click="$goToLoginPage()"
     >
       <v-icon>mdi-login</v-icon>
     </v-btn>
     <!-- 3-2. 로그인 된 사용자: 메뉴 확인 -->
     <v-menu
-      v-if="isLoggedIn === true"
+      v-if="$store.state.isLoggedIn === true"
       left
       bottom
     >
@@ -63,7 +66,7 @@
             <span>SL</span>
           </v-avatar>
           <v-list-item-content class="ml-2">
-            <v-list-item-title>Surim Lee</v-list-item-title>
+            <v-list-item-title>{{$store.state.username}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
@@ -75,7 +78,7 @@
           </v-list-item-content>
         </v-list-item>
         <!-- 3) 로그아웃 -->
-        <v-list-item>
+        <v-list-item @click="$logout()">
           <v-icon>mdi-logout</v-icon>
           <v-list-item-content class="ml-2">
             <v-list-item-title>로그아웃</v-list-item-title>
@@ -96,7 +99,7 @@ export default {
   },
   data: () => {
     return {
-      isLoggedIn: true
+
     }
   },
 }
@@ -107,6 +110,4 @@ export default {
   position: absolute !important;
   top: 48px !important;
 }
-
-
 </style>

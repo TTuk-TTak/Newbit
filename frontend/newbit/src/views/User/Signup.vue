@@ -19,7 +19,7 @@
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    v-model.trim="credentials.nickname"
+                    v-model.trim="credentials.userNick"
                     label="닉네임"
                     name="nickname"
                     type="text"
@@ -37,7 +37,7 @@
                     rounded
                   ></v-text-field>
                   <v-text-field
-                    v-model.trim="credentials.email"
+                    v-model.trim="credentials.userEmail"
                     label="이메일"
                     name="email"
                     type="email"
@@ -46,7 +46,7 @@
                     rounded
                   ></v-text-field>
                   <v-text-field
-                    v-model.trim="credentials.password"
+                    v-model.trim="credentials.userPassword"
                     label="비밀번호"
                     name="password"
                     type="password"
@@ -54,7 +54,7 @@
                     outlined
                     rounded
                   ></v-text-field>
-                  <v-text-field
+                  <!-- <v-text-field
                     v-model.trim="credentials.passwordConfirmation"
                     label="비밀번호 확인"
                     name="passwordConfirmation"
@@ -63,7 +63,7 @@
                     outlined
                     rounded
                     @keypress.enter="signup(credentials)"
-                  ></v-text-field>
+                  ></v-text-field> -->
                   <v-checkbox
                     class="mt-0 ml-3 pt-0"
                     label="이용약관 동의"
@@ -92,19 +92,32 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Signup',
   data: function () {
     return {
       credentials: {
-        nickname: '',
+        userNick: '',
         userId: '',
-        email: '',
-        password: '',
-        passwordConfirmation: '',
+        userEmail: '',
+        userPassword: '',
+        // passwordConfirmation: '',
       },
     }
   },
+  methods: {
+    signup (credentials) {
+      axios.post(`${this.$serverURL}/user/signup`, credentials)
+        .then(() => {
+          this.$goToLoginPage()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
 }
 </script>
 
