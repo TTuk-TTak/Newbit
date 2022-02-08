@@ -14,19 +14,17 @@ export default {
   props: {
     text: String,
     isInToggler: Boolean,
-    isSelected: Boolean,
   },
   data: () => ({
-
+    isActive: false,
   }),
   methods: {
     toggleChip: function () {
-      if (this.isToggleAvailable && this.isSelected) {
-        this.isSelected = !this.isSelected
+      if (this.isInToggler) {
+        this.isActive = !this.isActive
       }
     },
-  }
-
+  },
 }
 </script>
 
