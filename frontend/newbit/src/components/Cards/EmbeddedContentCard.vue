@@ -1,5 +1,6 @@
 <template>
   <v-card
+    v-if='content'
     class="ma-1 pt-3 pb-3" 
     outlined
   >
@@ -11,7 +12,7 @@
         <v-img 
           class="rounded-l mb-0"
           height="100%"
-          :src="content.contentImg"
+          :src="content.contentImg ? content.contentImg : defaultImg"
         ></v-img>
       </v-col>
       <v-col 
@@ -35,10 +36,10 @@
             class="py-0 ml-2" 
           >
             <keyword-chip
-              class="embeddedkeyword"
-              v-for="keyword in keywords"
-              :key="keyword"
-              :text="keyword"
+              class="embeddedKeyword"
+              v-for="(value, key) in keywords"
+              :key="key"
+              :text="value"
               :isActive="false"
             >
             </keyword-chip>
@@ -46,7 +47,7 @@
           </v-col>
           <!-- 하단 블로그 소개 및 아이콘 -->
           <v-row
-            class="pl-0 pt-0 ml-0 container justify-space-between bloginfo "
+            class="pl-0 pt-0 ml-0 container justify-space-between blogInfo "
           >
             <div
               class="pl-3 mt-4 mb-3"
@@ -61,7 +62,10 @@
               <span class="ml-2">어썸한 블로그</span>
             </div>
             <div class="pr-4 pb-1 mt-2 pt-0">
-              <v-btn icon>
+              <v-btn 
+                icon
+                @click="copyLink()"
+                >
                 <v-icon>mdi-share</v-icon>
               </v-btn>
               <v-btn icon>
@@ -72,6 +76,23 @@
         </v-row>
       </v-col>
     </v-row>
+    <!-- 링크 복사 및 좋아요 팝업 -->
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="snackbar.timeout"
+    >
+      {{ snackbar.message }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -87,26 +108,36 @@ export default {
     KeywordChip,
   },
   data: () => ({
+    defaultImg: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
     // content: {
-    //   contentTitle: '카드 타이틀',
-    //   contentText: '이 편지는 영국에서 최초로 시작되어 일년에 한바퀴를 돌면서 받는 사람에게 행운을 주었고 지금은 당신에게로 옮겨진 이 편지는 4일 안에 당신 곁을 떠나야 합니다. 이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다. 이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다.',
     //   contentUrl: 'https://picsum.photos/500/300?image=55',
     //   contentImg: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
     //   contentLike: 0,
     //   contentKeyword: '',
     //   date: '2022-01-24',
     // },
-    keywords: null,
+    keywords: [],
+    snackbar: {
+      show: false,
+      message: '',
+      timeout: '1000'
+    },
   }),
   methods: {
     openContent: function () {
       // 수정 필요
       window.open(this.content.contentUrl)
+    },
+    copyLink: function () {
+      this.$copyText(this.content.contentUrl)
+      this.snackbar.message = '컨텐츠 주소를 클립보드에 복사했습니다.'
+      this.snackbar.show = true
     }
   },
   watch: {
     content: function () {
-      this.keywords = this.$parseKeyword(this.content.contentKeyword)
+      let parsedKeyword = this.$parseKeyword(this.content.contentKeyword)
+      this.keywords = this.$makeKeywordDict(parsedKeyword)
     }
   }
 
@@ -124,13 +155,13 @@ export default {
 }
 
 /* 키워드칩 */
-.embeddedkeyword {
+.embeddedKeyword {
   font-family: 'KoPub Dotum';
   font-weight: 400;
 }
 
 /* 블로그명 */
-.bloginfo {
+.blogInfo {
   font-family: 'KoPub Dotum';
   font-weight: 400;
   color : #7E7E7E;
