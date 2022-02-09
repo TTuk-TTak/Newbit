@@ -2,8 +2,6 @@
   <v-card
     class="px-2 pl-8 pr-8"
     outlined
-
-
   >
     <!-- 1. 카드 상단부 -->
     <div

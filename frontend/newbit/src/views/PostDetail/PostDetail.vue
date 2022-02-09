@@ -163,10 +163,13 @@
 </template>
 
 <script>
+import axios from 'axios'
+import _ from 'lodash'
+
 import EmbeddedContentCard from '@/components/Cards/EmbeddedContentCard.vue'
 import PostDetailComment from '@/components/PostDetail/PostDetailComment.vue'
 import UserProfileIcon from '@/components/Commons/UserProfileIcon.vue'
-import axios from 'axios'
+
 
 
 export default {
@@ -182,7 +185,6 @@ export default {
     return {
       isLoggedIn: true,
       post: null,
-      postCode: 1,
       content: null,
       snackbar: {
         show: false,
@@ -193,11 +195,15 @@ export default {
   },
 
   methods: {
+
     getPostDetail () {
-      axios.get(`${this.$serverURL}/post/1`)
+      const postId = _.split(this.$route.path, '/')[2]
+      
+      axios.get(`${this.$serverURL}/post/${postId}`)
         .then(response => {
           this.post = response.data
           console.log('포스트 정보', response.data)
+
           if (this.post.contentCode) {
             this.getContentDetail(this.post.contentCode)
           }
@@ -206,6 +212,7 @@ export default {
           console.log(err)
       })
     },
+
     getContentDetail (contentCode) {
       axios.get(`${this.$serverURL}/content?cid=${contentCode}`)
         .then(response => {
@@ -220,17 +227,20 @@ export default {
       this.snackbar.message = '댓글을 달았습니다.'
       this.snackbar.show = true
     },
+    // 게시물 링크 복사
     copyLink () {
       const link = this.$clientURL + this.$route.path
-      console.log(link)
-      // console.log(navigator.clipboard.writeText(link))
+      this.$copyText(link)
       this.snackbar.message = '게시물 주소를 클립보드에 복사했습니다.'
       this.snackbar.show = true
     },
 
   },
   created () {
+    // 생성할 때 Post의 Detail 을 Server에 요청
     this.getPostDetail()
+  },
+  computed: {
 
   },
 }

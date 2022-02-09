@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.newbit.model.UserDto;
+import com.ssafy.newbit.model.mapper.PostMapper;
 import com.ssafy.newbit.model.mapper.UserMapper;
 
 //for Password Hashing
@@ -135,23 +136,30 @@ public class UserServiceImpl implements UserService{
 
 
 	/////////////////////////////사용자 정보수정 /////////////////////////////////////////////////////
-  //회원정보 수정
+	//회원정보 수정
 	@Override
 	@Transactional
 	public boolean editUserInfo(UserDto userDto) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).editUserInfo(userDto) == 1;
 	}
 
-  //팔로잉 추가
+	//팔로잉 추가
 	@Override
 	public boolean followUser(HashMap<String, Integer> map) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).followUser(map) == 1;
 	}
   
-  //팔로잉 삭제
+	//팔로잉 삭제
 	@Override
 	public boolean unfollowUser(HashMap<String, Integer> map) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).unfollowUser(map) == 1;
+	}
+
+	///////////////////////////   검색     //////////////////////////////////////////////////////////
+	//유저 검색
+	@Override
+	public List<UserDto> searchUserList(HashMap<String, Object> map) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).searchUserList(map);
 	}  
 	
 	
