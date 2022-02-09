@@ -206,7 +206,6 @@ Figma 에서 살펴보기
 ## 1) 백엔드
 
 - [http://i6a101.p.ssafy.io:9999/](http://i6a101.p.ssafy.io:9999/) 이하로 요청 시 테스트 가능
-- [http://i6a101.p.ssafy.io:9999/swagger-ui.html](http://i6a101.p.ssafy.io:9999/swagger-ui.html) 에서 swagger 테스트 가능 (02/09 현재 일시적 오류)
 - 사용법
   - clone 받은 후 sts나 IntelliJ에서 프로젝트 우클릭
   - Run as SpringBoot App으로 실행
