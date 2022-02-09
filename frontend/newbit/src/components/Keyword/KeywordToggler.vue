@@ -44,6 +44,17 @@ export default {
     },
     toggleChip: function (status) {
       this.keywordActivity[status[0]] = status[1]
+      this.makeQueryString()
+    },
+    makeQueryString: function () {
+      let queryString = ''
+      for (let key in this.keywordActivity) {
+        if (this.keywordActivity[key]) {
+          queryString += '_' + key 
+        } 
+      }
+      queryString = queryString.slice(1)
+      return queryString
     },
   },
   computed: {
