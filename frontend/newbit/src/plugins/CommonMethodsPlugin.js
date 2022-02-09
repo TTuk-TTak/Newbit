@@ -25,6 +25,14 @@ CommonMethodsPlugin.install = function (Vue) {
   Vue.prototype.$goToLoginPage = function () {
     this.$router.push({ name: 'Login' })
   }
+  // 6) 프로필 상세페이지 이동
+  Vue.prototype.$goToProfileDetail = function () {
+    this.$router.push({ name: 'ProfileDetail' })
+  }
+  // 7) 프로필 수정페이지 이동
+  Vue.prototype.$goToProfileEdit = function () {
+    this.$router.push({ name: 'ProfileEdit' })
+  }
 
   // 2. 키워드 관련
   // 1) 키워드 string 을 array로 파싱.
@@ -38,7 +46,7 @@ CommonMethodsPlugin.install = function (Vue) {
   Vue.prototype.$makeKeywordDict = function (keywordArray) {
     const keywords = _.mapValues(this.$KEYWORDS, 'shownName')
     const keywordObject = {}
-    
+
     for (let keyword of keywordArray) {
       keywordObject[keyword] = keywords[keyword]
     }
@@ -75,12 +83,12 @@ CommonMethodsPlugin.install = function (Vue) {
     axios.post(`${this.$serverURL}/user/login`, credentials)
       .then((res) => {
         localStorage.setItem('jwt', res.data['access-token'])
-        this.$store.dispatch('Login')
+        this.$store.dispatch('login')
         return res.data.userCode
       })
       .then((res) => {
         this.$fetchUserInformation(res)
-        // this.$goToSocialFeed()
+        this.$goToSocialFeed()
       })
       .catch((err) => {
         console.log(err)
@@ -90,17 +98,30 @@ CommonMethodsPlugin.install = function (Vue) {
   // 2) 로그아웃
   Vue.prototype.$logout = function () {
     localStorage.removeItem('jwt')
-    this.$store.dispatch('Logout')
+    this.$store.dispatch('logout')
     this.$goToLoginPage()
   }
 
-  // 5. 유저 정보 관련
+  // 5. 토큰 관련
+  // 1) 토근 가져오기
+  Vue.prototype.$setToken = function () {
+    const token = localStorage.getItem('jwt')
+    const config = {
+      'X-AUTH-TOKEN': `${token}`
+    }
+    return config
+  }
+
+  // 6. 유저 정보 관련
   // 1) 조회
   Vue.prototype.$fetchUserInformation = function (user_code) {
-    axios.get(`${this.$serverURL}/user?uid=${user_code}`)
+    axios({
+      url: `${this.$serverURL}/user?uid=${user_code}`,
+      method: 'get',
+    })
       .then((res) => {
         console.log(res)
-        // this.$store.dispatch('Login', this.credentials.userEmail)
+
       })
       .catch((err) => {
         console.log(err)
