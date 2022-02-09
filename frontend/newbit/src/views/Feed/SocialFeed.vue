@@ -2,6 +2,7 @@
   <v-row
     class=" pa-2 px-4"
   >
+  {{ $store.getters.categorizedKeyword }}
     <v-row
       class="pt-2"
     >
