@@ -115,15 +115,13 @@ CommonMethodsPlugin.install = function (Vue) {
   // 6. 유저 정보 관련
   // 1) 조회
   Vue.prototype.$fetchUserInformation = function (user_code) {
-    const headers = this.$setToken()
     axios({
       url: `${this.$serverURL}/user?uid=${user_code}`,
       method: 'get',
-      headers,
     })
       .then((res) => {
         console.log(res)
-        // this.$store.dispatch('Login', this.credentials.userEmail)
+
       })
       .catch((err) => {
         console.log(err)

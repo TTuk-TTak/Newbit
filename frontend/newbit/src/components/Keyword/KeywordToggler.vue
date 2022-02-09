@@ -32,11 +32,11 @@ export default {
       return keywords
     }
   },
-  created: {
+  // created: {
     // 1. 
     // 유저의 정보 중 '키워드' 정보만 파싱해
     // 관심 있어한 keyword를 active하는 함수
-  }
+  // }
 }
 </script>
 
