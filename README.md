@@ -25,10 +25,9 @@
 
 👉 [Figma](https://www.figma.com/file/3Yc8FTFfCSgsZhxIR3m7bS/?node-id=421%3A1276) 에서 살펴보기
 
-**기능 기획서, API**
+**기능 기획서, API 명세서**
 
 👉 [구글 스프레드시트](https://docs.google.com/spreadsheets/d/1GGnTYjv8SSciVGHimomYVWOcoFF7jOWctjheaAZ9cTI/edit#gid=138943330) 링크
-
 
 
 ## 4) 팀 소개
