@@ -13,11 +13,24 @@
   - Sub2 : 2021-01-17 ~ 2021-01-28
   - Sub3 : 2021-01-31 ~ 2021-02-18 (Now!)
 
-## 3) 기능 기획서 모아보기
+## 3) 산출물 모아보기
+
+**와이어프레임**
+
+👉 [Figma](https://www.figma.com/file/3Yc8FTFfCSgsZhxIR3m7bS/Newbit?node-id=0%3A1) 에서 살펴보기
+
+👉 [영상](https://youtu.be/n6Ijs8BZ3ts) 으로 확인하기
+
+**컴포넌트 구조도**
+
+👉 [Figma](https://www.figma.com/file/3Yc8FTFfCSgsZhxIR3m7bS/?node-id=421%3A1276) 에서 살펴보기
+
+**기능 기획서, API 명세서**
+
+👉 [구글 스프레드시트](https://docs.google.com/spreadsheets/d/1GGnTYjv8SSciVGHimomYVWOcoFF7jOWctjheaAZ9cTI/edit#gid=138943330) 링크
 
 
-
-## 3) 팀 소개
+## 4) 팀 소개
 
 - Front : 이상훈, 천민우
   - 이상훈
@@ -65,7 +78,7 @@
       - 로그인&회원가입 기능
       - 회원관리(탈퇴, 조회, 수정) 전반
 
-## 4) 기능 소개
+## 5) 기능 소개
 
 ![004](README.assets/004-164432151763867.png)
 
@@ -95,7 +108,7 @@
 
 나중에 읽어보고싶은 글들은 `아카이빙` 해둔 뒤 언제든지 다시 확인할 수 있습니다. `기술 블로그의 컨텐츠` 부터 다른 사람들의 게시물까지 모두 아카이빙이 가능합니다. 아직 `읽지 않을 글` 을 먼저 살펴보거나 `키워드`별로 글을 `재분류` 할 수 있습니다.
 
-## 5) 기술 스택
+## 6) 기술 스택
 
 ![Untitled 2](README.assets/Untitled 2-164432161993871.png)
 
@@ -192,7 +205,6 @@ Figma 에서 살펴보기
 ## 1) 백엔드
 
 - [http://i6a101.p.ssafy.io:9999/](http://i6a101.p.ssafy.io:9999/) 이하로 요청 시 테스트 가능
-- [http://i6a101.p.ssafy.io:9999/swagger-ui.html](http://i6a101.p.ssafy.io:9999/swagger-ui.html) 에서 swagger 테스트 가능 (02/09 현재 일시적 오류)
 - 사용법
   - clone 받은 후 sts나 IntelliJ에서 프로젝트 우클릭
   - Run as SpringBoot App으로 실행
