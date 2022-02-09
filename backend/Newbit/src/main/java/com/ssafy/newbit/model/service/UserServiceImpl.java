@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.newbit.model.UserDto;
+import com.ssafy.newbit.model.mapper.PostMapper;
 import com.ssafy.newbit.model.mapper.UserMapper;
 
 //for Password Hashing
@@ -76,16 +77,15 @@ public class UserServiceImpl implements UserService{
 
 
   ///////////////////////////// 최초 로그인 시 로직 //////////////////////////////////////////////////////////
-  
     // 유저 관심키워드 설정 
     @Override
-    public boolean addUserKeyword(String userEmail, String userKeyword) throws Exception{
-    	return sqlSession.getMapper(UserMapper.class).addUserKeyword(userEmail, userKeyword) == 1;
+    public boolean addUserKeyword(HashMap<String, Object> map) throws Exception{
+    	return sqlSession.getMapper(UserMapper.class).addUserKeyword(map) == 1;
     }
     // 유저 자기소개 설정
     @Override
-    public boolean addUserIntro(String userEmail, String userIntro, String userImg) throws Exception{
-    	return sqlSession.getMapper(UserMapper.class).addUserIntro(userEmail, userIntro, userImg) == 1;
+    public boolean addUserIntro(HashMap<String, Object> map) throws Exception{
+    	return sqlSession.getMapper(UserMapper.class).addUserIntro(map) == 1;
     }
     
     
@@ -135,29 +135,40 @@ public class UserServiceImpl implements UserService{
 
 
 	/////////////////////////////사용자 정보수정 /////////////////////////////////////////////////////
-  //회원정보 수정
+	//회원정보 수정
 	@Override
 	@Transactional
 	public boolean editUserInfo(UserDto userDto) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).editUserInfo(userDto) == 1;
 	}
 
-  //팔로잉 추가
+	//팔로잉 추가
 	@Override
 	public boolean followUser(HashMap<String, Integer> map) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).followUser(map) == 1;
 	}
   
-  //팔로잉 삭제
+	//팔로잉 삭제
 	@Override
 	public boolean unfollowUser(HashMap<String, Integer> map) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).unfollowUser(map) == 1;
+	}
+
+	///////////////////////////   검색     //////////////////////////////////////////////////////////
+	//유저 검색
+	@Override
+	public List<UserDto> searchUserList(HashMap<String, Object> map) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).searchUserList(map);
 	}  
 	
 	
 	/////////////////////////////  회원 탈퇴  /////////////////////////////////////////////////////
-	
-	public boolean deleteUser(String userEmail) throws Exception{
-		return sqlSession.getMapper(UserMapper.class).deleteUser(userEmail) == 1;
+	@Override
+	public boolean deleteUser(int userCode) throws Exception{
+    	System.out.println("회원탈퇴 가능여부: " + userCode);
+    	return sqlSession.getMapper(UserMapper.class).deleteUser(userCode)==1;
 	}
+	
+	
+
 }

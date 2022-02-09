@@ -160,4 +160,23 @@
    		where user_code = #{userCode} and post_code = #{postCode}), 0)
 	</select>
 
+
+	<!-- 포스트 검색 -->
+	
+	<select id="searchPostList" parameterType="HashMap"
+		resultType="com.ssafy.newbit.model.PostDto">
+		select post_code as postCode, user_code as userCode,
+		content_code as contentCode, techblog_code as techblogCode,
+		post_text as postText, post_like as postLike,
+		post_comment as postComment, post_date as postDate, 
+		post_scrap as postScrap, post_edit as postEditdit
+		from post
+		where (post_text like concat('%',#{search},'%'))
+		<if test="lastPostCode != null and lastPostCode != 0">
+			and (post_code  <![CDATA[<]]>
+			#{lastPostCode})
+		</if>
+		limit #{size}
+	</select>
+	
 </mapper>

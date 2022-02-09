@@ -97,4 +97,10 @@ public class ContentServiceImpl implements ContentService {
 		return sqlSession.getMapper(ContentMapper.class).readContent(map)==1;
 	}
 
+	// 콘텐츠 검색
+	@Override
+	public List<ContentDto> searchContentList(HashMap<String, Object> map) throws Exception {
+		return sqlSession.getMapper(ContentMapper.class).searchContentList(map);
+	}
+
 }

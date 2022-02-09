@@ -32,7 +32,7 @@ public class JwtProvider {
 	private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
 	// 토큰 유효시간 설정 ***
-    private long tokenValidTime = 48 * 30 * 60 * 1000L;	// = 30분
+    private long tokenValidTime = 48 * 30 * 60 * 1000L;	// = 30분  // = 하루
     
     // JWT 토큰 생성
     public String createToken(String userPk, String roles) {      

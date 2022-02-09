@@ -82,6 +82,7 @@ public class ContentCotroller {
 		
 		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
 	}
+	
 
 	@PostMapping("/like")
 	@ApiOperation(value ="콘텐츠 좋아요 추가", notes ="콘텐츠 좋아요 테이블에 유저-좋아요한 콘텐츠 코드 데이터 추가, 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
@@ -152,4 +153,41 @@ public class ContentCotroller {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 
 	}
+	
+	
+	// 콘텐츠 검색
+	@ApiOperation(value = "콘텐츠 검색", notes = "검색 키워드와 키워드칩에 해당하는 콘텐츠 목록을 정렬 기준으로 반환", response = List.class)
+	@GetMapping("/search")
+	public ResponseEntity<List<ContentDto>> searchContentList(
+			@RequestParam @ApiParam(value = "콘텐츠 목록을 가져오기 위해 필요한 정보", required = true)String search, int uid, int lastcontentcode, int size, String keyword) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("search", search);
+		//키워드칩 파싱부분
+		List<String> keywordList = new ArrayList<>();
+		StringTokenizer st = new StringTokenizer(keyword, "_");
+		while (st.hasMoreTokens()) {
+			String str = st.nextToken();
+			if (!str.equals("null"))
+				keywordList.add(str);
+		}
+		map.put("keywordList", keywordList);
+		map.put("lastContentCode", lastcontentcode);
+		map.put("size",size);
+		logger.info("searchContentList 호출 : " + search);
+		
+		//콘텐츠 목록 불러오기
+		List<ContentDto> list = contentService.searchContentList(map);
+		
+		//현재 로그인한 유저가 콘텐츠에 대해 좋아요와 스크랩 했는지 체크
+		for(ContentDto c : list) {
+			HashMap<String, Object> hm = new HashMap<String, Object>();
+			hm.put("userCode", uid);
+			hm.put("contentCode", c.getContentCode());
+			c.setLiked(contentService.userLikeContent(hm));
+			c.setScrapped(contentService.userScrapContent(hm));
+		}
+		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
+	}
+
 }
