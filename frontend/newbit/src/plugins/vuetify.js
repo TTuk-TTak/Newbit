@@ -27,7 +27,7 @@ export default new Vuetify({
         btnDarkBackground: '#0D0E23',
         btnDarkText: '#FFFFFF',
         keywordChipBackground: '#E0E0E0',
-        keywordChipText: '#4E4E4E',
+        keywordChipText: '#0d0e23',
       },
       dark: {
 

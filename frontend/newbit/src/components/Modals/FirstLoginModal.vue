@@ -62,7 +62,7 @@
           >
             <v-btn
               @click="nextPage"
-              color="black"
+              color="keywordChipText"
               dark
               depressed
               large
@@ -78,7 +78,7 @@
           >
             <v-btn
               @click="dialog = false"
-              color="black"
+              color="keywordChipText"
               dark
               depressed
               large
