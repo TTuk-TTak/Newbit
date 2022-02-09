@@ -19,12 +19,35 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import PostCard from '@/components/Cards/PostCard.vue'
 
 export default {
   name: 'SocialFeed',
   components: {
     PostCard,
+  },
+  created () {
+
+  },
+  computed: {
+    ...mapState([
+      'socialFeedLoadedAt',
+      'socialFeed',
+    ])
+  },
+  methods: {
+    loadPost () {
+      if (!this.socialFeed.isAtLast)
+      this.$store.dispatch('loadPosts')
+    },
+  },
+  watch: {
+    socialFeedLoadedAt: {
+      handler () {
+          console.log('렌더링하는 함수 구현')
+      }
+    },
   },
 }
 </script>
