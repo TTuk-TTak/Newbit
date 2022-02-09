@@ -38,9 +38,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-//import com.ssafy.newbit.model.mapper.UserMapper;
-
-
 
 
 @Api("유저 컨트롤러  API")
@@ -60,47 +57,53 @@ public class UserController{
 
 	
 	///////////////////////////    회원 가입  관련     //////////////////////////////////////////////
-	@ApiOperation(value = "사용자 추가", notes = "회원가입한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)	
+	@ApiOperation(value = "사용자 추가", notes = "회원가입한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = UserDto.class)	
 	@PostMapping("/signup")
-	public ResponseEntity<String> addUser(@RequestBody @ApiParam(value = "유저 정보.", required = true) UserDto userDto)throws Exception{  //@ApiParam(value = "유저 정보.", required = true)	//throws Exception
+	public ResponseEntity<String> addUser(
+			@RequestBody @ApiParam(value = "유저 정보.", required = true) UserDto userDto)throws Exception{  
 		if(userService.addUser(userDto)) { 
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 	
-	@ApiOperation(value = "아이디 중복 체크", notes = "중복된 아이디가 있는지 확인한다.", response = UserDto.class)
-	@PostMapping("/idCheck")
-	public ResponseEntity<String> checkId(@RequestParam("userId") @ApiParam(value = "입력받은 사용자의 아이디", required = true) String userId)throws Exception{ 
-		logger.info("checkId 호출 : " + userId);
+	@ApiOperation(value = "아이디 중복 체크", notes = "중복된 아이디가 있는지 확인한다.", response = String.class)
+	@PostMapping("/signup/idCheck")
+	public ResponseEntity<String> checkId(
+			@RequestBody @ApiParam(value = "입력받은 사용자의 아이디", required = true) UserDto userDto)throws Exception{ 
+		logger.info("checkId 호출 : " );
+		String userId = userDto.getUserId();
 		if (userService.checkId(userId) == true) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 	
-	@ApiOperation(value = "이메일 중복 체크", notes = "중복된 이메일이 있는지 확인한다.", response = UserDto.class)
-	@PostMapping("/emailCheck")
-	public ResponseEntity<String> checkEmail(@RequestParam("userEmail") @ApiParam(value = "입력받은 사용자의 이메일", required = true) String userEmail)throws Exception{ 
-		logger.info("checkEmail 호출 : " + userEmail);
+	@ApiOperation(value = "이메일 중복 체크", notes = "중복된 이메일이 있는지 확인한다.", response = String.class)
+	@PostMapping("/signup/emailCheck")
+	public ResponseEntity<String> checkEmail(
+			@RequestBody @ApiParam(value = "입력받은 사용자의 이메일", required = true) UserDto userDto)throws Exception{ 
+		logger.info("checkEmail 호출 : " );
+		String userEmail = userDto.getUserEmail();
 		if (userService.checkEmail(userEmail) == true) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 
-	///////////////////////////// 최초 로그인 시 로직 //////////////////////////////////////////////////////////
-	
+	/////////////////////////////	 최초 로그인 시 로직  	//////////////////////////////////////////////////////////
 	@ApiOperation(value = "관심 키워드 추가", notes = "최초 로그인 시, 유저의 관심키워드를 입력받는다", response = String.class)	
-	@PostMapping("/signup/keywordSet")
-	public ResponseEntity<String> addUserKeyword(@RequestParam @ApiParam(value = "관심키워드 & token", required = true) String userKeyword, HttpServletRequest request){  		
+	@PostMapping("/setting/keywordSet")
+	public ResponseEntity<String> addUserKeyword(
+			@RequestParam("uid") @ApiParam(value = "관심키워드", required = true) int userCode, String userKeyword){  	
 		logger.info("addUserKeyword 호출 : " + userKeyword);
-		// 헤더에 포함된 jwt 토큰 디코딩  → 사용자 인증 (with userEmail)
-		String token = jwtProvider.resolveToken((HttpServletRequest) request);
-		String userEmail = jwtProvider.getJwtContents(token).getSubject();
+
+    	HashMap<String, Object> map = new HashMap<String,Object>();
+    	map.put("userCode",userCode);
+    	map.put("userKeyword",userKeyword);
 		
 		try {
-			if (userService.addUserKeyword(userEmail, userKeyword)) {
+			if (userService.addUserKeyword(map)) {// userDto 자체 업데이트가 불가능해서 userService.editUserInfo 못사용 
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 			}
 		} catch (Exception e) {
@@ -113,16 +116,19 @@ public class UserController{
 	
 	
 	@ApiOperation(value = "자기소개 추가", notes = "최초 로그인 시, 유저의 자기소개 및 프로필 사진을 입력받는다", response = String.class)	
-	@PostMapping("/signup/introSet")		
-	public ResponseEntity<String> addUserIntro(@RequestParam @ApiParam(value = "자기소개 & token", required = true) String userIntro, String userImg, HttpServletRequest request){  		
+	@PostMapping("/setting/introSet")		
+	public ResponseEntity<String> addUserIntro(
+			@RequestParam("uid") @ApiParam(value = "자기소개 , 프로필사진", required = true) int userCode, String userIntro, String userImg){  		
 		// 사진 입력시 지정 폴더/ img 타입 변경 등 후작업 필요
 		logger.info("addUserIntro 호출 : " );
-		// 헤더에 포함된 jwt 토큰 디코딩  → 사용자 인증 (with userEmail)
-		String token = jwtProvider.resolveToken((HttpServletRequest) request);
-		String userEmail = jwtProvider.getJwtContents(token).getSubject();
+		 
+    	HashMap<String, Object> map = new HashMap<String,Object>();
+    	map.put("userIntro",userIntro);
+    	map.put("userImg",userImg);
+    	map.put("userCode",userCode);
 		
 		try {
-			if (userService.addUserIntro(userEmail, userIntro, userImg)) {
+			if (userService.addUserIntro(map)) {
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 			}
 		} catch (Exception e) {
@@ -137,7 +143,8 @@ public class UserController{
 
 	@ApiOperation(value = "로그인 확인", notes = "사용자 로그인 시도가 타당한지 확인합니다..", response = Map.class)
 	@PostMapping("/login")
-	public ResponseEntity<Map<String, String>> checkLogin(@RequestBody @ApiParam(value = "사용자의 이메일&아이디", required = true) Map<String,String> user)throws Exception{ 
+	public ResponseEntity<Map<String, String>> checkLogin(
+			@RequestBody @ApiParam(value = "사용자의 이메일&아이디", required = true) Map<String,String> user)throws Exception{ 
 		logger.info("checkLogin 호출 : ");		// "checkLogin 호출 : " + user
 		Map<String, String> resultMap = new HashMap<>();
 		HttpStatus status = null;
@@ -166,10 +173,10 @@ public class UserController{
 	}
 	
 	
-	/////////////////////////////JWT 확인용 /////////////////////////////////////////////////////
+	/////////////////////////////JWT 확인용 (필요없는 로직, 프로젝트 끝난 후 삭제할 것) /////////////////////////////////////////////////////
 
     // 접근확인
-    @PostMapping("/jwttest")
+    @PostMapping("/setting/jwttest")
     public Claims Test() {
     	String token = jwtProvider.createToken("dddddd", "User");
         return jwtProvider.getJwtContents(token);
@@ -178,21 +185,31 @@ public class UserController{
     
     /////////////////////////////사용자 정보 확인 /////////////////////////////////////////////////////
     
-	@ApiOperation(value = "특정 사용자 조회", notes = "사용자 코드에 해당하는 사용자의 정보를 반환한다.", response = UserDto.class)
+	@ApiOperation(value = "타 유저 프로필 확인", notes = "사용자 코드에 해당하는 사용자의 정보를 반환한다.", response = UserDto.class)
 	@GetMapping("")
-	public ResponseEntity<UserDto> getUser(@RequestParam("uid") @ApiParam(value = "얻어올 사용자의 코드", required = true) int userCode)throws Exception{ 
+	public ResponseEntity<UserDto> getUser(
+			@RequestParam("uid") @ApiParam(value = "얻어올 사용자의 코드", required = true) int userCode)throws Exception{ 
 		logger.info("getUser 호출 : " + userCode);
 		return new ResponseEntity<UserDto>(userService.getUser(userCode), HttpStatus.OK);
 	}
     
-    
+	@ApiOperation(value = "내 개인정보 확인", notes = "사용자 코드에 해당하는 사용자의 정보를 반환한다.", response = UserDto.class)
+	@GetMapping("/setting")
+	public ResponseEntity<UserDto> getMyUser(
+			@RequestParam("uid") @ApiParam(value = "얻어올 사용자의 코드", required = true) int userCode)throws Exception{ 
+		logger.info("getUser 호출 : " + userCode);
+		return new ResponseEntity<UserDto>(userService.getUser(userCode), HttpStatus.OK);
+	}// DB 에서 자동 스크리닝(NULL)되어서 제공됨 → 해결??
+	
+	
     /////////////////////////////사용자 정보수정 /////////////////////////////////////////////////////
 	
 	
 	// 회원정보 수정
 	@ApiOperation(value = "회원 정보 수정", notes = "수정할 회원 정보를 입력한다. DB 수정 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PatchMapping
-	public ResponseEntity<String> editUserInfo(@RequestBody @ApiParam(value = "수정 가능한 정보 : 아이디, 닉네임, 비밀번호, 한줄 소개, 프로필 사진, 관심 키워드", required = true) UserDto userDto) throws Exception {
+	@PatchMapping("/setting")
+	public ResponseEntity<String> editUserInfo(
+			@RequestBody @ApiParam(value = "수정 가능한 정보 : 아이디, 닉네임, 비밀번호, 한줄 소개, 프로필 사진, 관심 키워드", required = true) UserDto userDto) throws Exception {
 		logger.info("editUserInfo - 호출");
 		System.out.println(userService.editUserInfo(userDto));
 		if (userService.editUserInfo(userDto)) {
@@ -203,26 +220,17 @@ public class UserController{
 	
 	
 	 /////////////////////////////   회원 탈퇴    /////////////////////////////////////////////////////
-	
+
 	@ApiOperation(value = "회원탈퇴", notes = "해당 유저정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@DeleteMapping("")
+	@DeleteMapping("/setting")
 	public ResponseEntity<String> deleteUser(
-			@RequestParam("uid") @ApiParam(value = "삭제할 유저의 비밀번호", required = true) int userCode, String userPassword,  HttpServletRequest request) throws Exception {
-		logger.info("deleteUser 호출 : " + userCode);									// userCode 미사용 → 쓸지말지 상의 후 결정
-		// jwt 토큰 디코딩 → userEmail 추출
-		String token = jwtProvider.resolveToken((HttpServletRequest) request);
-		String userEmail = jwtProvider.getJwtContents(token).getSubject();
-		// 입력받은 패스워드가, 토큰이 가리키는 유저의 DB 패스워드와 일치하는지 확인
-		String ucd = userService.checkLogin(userEmail, userPassword);				// checkLogin : service 메서드 재활용 
-		// 패스워드 일치 할 시,
-		if (ucd != "") {
-			userService.deleteUser(userEmail);
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-			
-		// 패스워드 일치하지 않을 시,
-		} else {
-			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+			@RequestParam("uid") @ApiParam(value = "삭제할 유저코드", required = true) int userCode) throws Exception {  // 비밀 번호 확인  안하는 걸로!
+		logger.info("deleteUser 호출 : " + userCode);									
+		if (userService.deleteUser(userCode)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);	
 		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+
 	}
 	
 	

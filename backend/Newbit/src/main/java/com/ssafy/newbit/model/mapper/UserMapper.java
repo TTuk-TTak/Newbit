@@ -29,8 +29,8 @@ public interface UserMapper {
 	public int checkEmail(String userEmail) throws Exception;
 	public static final PasswordEncoder passwordEncoder = null;
 	
-	public int addUserKeyword(String userEmail, String userKeyword) throws SQLException;
-	public int addUserIntro(String userEmail, String userIntro, String userImg) throws SQLException;
+	public int addUserKeyword(HashMap<String, Object> map) throws SQLException;
+	public int addUserIntro(HashMap<String, Object> map) throws SQLException;
 	
 	public String checkLogin(String userEmail) throws SQLException;
 	public String getUserCode(String userEmail) throws SQLException;
@@ -43,6 +43,6 @@ public interface UserMapper {
 	public int followUser(HashMap<String, Integer> map) throws SQLException;
 	public int unfollowUser(HashMap<String, Integer> map) throws SQLException;
 	
-	public int deleteUser(String userEmail) throws SQLException;
+	public int deleteUser(int userCode) throws SQLException;
 	
 }

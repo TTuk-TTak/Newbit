@@ -76,16 +76,15 @@ public class UserServiceImpl implements UserService{
 
 
   ///////////////////////////// 최초 로그인 시 로직 //////////////////////////////////////////////////////////
-  
     // 유저 관심키워드 설정 
     @Override
-    public boolean addUserKeyword(String userEmail, String userKeyword) throws Exception{
-    	return sqlSession.getMapper(UserMapper.class).addUserKeyword(userEmail, userKeyword) == 1;
+    public boolean addUserKeyword(HashMap<String, Object> map) throws Exception{
+    	return sqlSession.getMapper(UserMapper.class).addUserKeyword(map) == 1;
     }
     // 유저 자기소개 설정
     @Override
-    public boolean addUserIntro(String userEmail, String userIntro, String userImg) throws Exception{
-    	return sqlSession.getMapper(UserMapper.class).addUserIntro(userEmail, userIntro, userImg) == 1;
+    public boolean addUserIntro(HashMap<String, Object> map) throws Exception{
+    	return sqlSession.getMapper(UserMapper.class).addUserIntro(map) == 1;
     }
     
     
@@ -156,8 +155,12 @@ public class UserServiceImpl implements UserService{
 	
 	
 	/////////////////////////////  회원 탈퇴  /////////////////////////////////////////////////////
-	
-	public boolean deleteUser(String userEmail) throws Exception{
-		return sqlSession.getMapper(UserMapper.class).deleteUser(userEmail) == 1;
+	@Override
+	public boolean deleteUser(int userCode) throws Exception{
+    	System.out.println("회원탈퇴 가능여부: " + userCode);
+    	return sqlSession.getMapper(UserMapper.class).deleteUser(userCode)==1;
 	}
+	
+	
+
 }
