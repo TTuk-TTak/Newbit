@@ -38,7 +38,10 @@ export default {
 .v-toolbar__title {
   font-family: 'Do Hyeon';
   font-weight: 100;
-  font-size: 1.75em;
+  font-size: 1.9em;
+
+  /* Newbit위치를 중앙에 맞추기 위한 여백 */
+  margin-right: 3.8em;
 }
 
 .v-toolbar {
