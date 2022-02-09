@@ -14,7 +14,6 @@ export default {
       categorizedKeywords[category]['data'][key] = {
         shownName: keywords[key].shownName,
         isSelected: false,
-        isActive: false,
       }
     }
     console.log(categorizedKeywords)
