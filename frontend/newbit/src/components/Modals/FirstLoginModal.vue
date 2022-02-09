@@ -37,23 +37,26 @@
           </div>
           <div
             v-else-if="page === 3"
-            class="ma-6"
           >
             <div class="d-flex justify-center">
               <img
                 class="v-avatar image"
                 src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
-                width="150"
+                width="130"
               />
             </div>
+            <div class="justify-center">
             <v-textarea
               v-model.trim="credentials.introduction"
               name="introduction"
               type="text"
               outlined
               rounded
+              flat
               solo
+              class="mt-7 px-10"
             ></v-textarea>
+            </div>
           </div>
 
           <div
