@@ -1,12 +1,17 @@
 export default {
+  isLoggedIn: false,
   userCode: 1,
-  lastPostCode: 0,
+  user: {},
   modals: {
     postCreateModal: false,
   },
-  userKeyword: [],
+  socialFeedLoadedAt: null,
   socialFeed: {
-
+    lastPostCode: 0,
+    pageNum: 0,
+    isAtLast: false,
+    posts: {
+    },
   },
   curationFeed: {
 
