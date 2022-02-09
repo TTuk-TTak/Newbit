@@ -16,7 +16,6 @@ export default {
         isSelected: false,
       }
     }
-    console.log(categorizedKeywords)
     return categorizedKeywords
   },
   selectableKeyword: function () {
