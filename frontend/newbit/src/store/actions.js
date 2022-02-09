@@ -12,20 +12,24 @@ export default {
   turnPostCreateModalOFF: function ({ commit }) {
     commit('TURN_POST_CREATE_MODAL_OFF')
   },
-
   // 2. Feed조작
-  //
-  loadPosts: function () {
+  loadPosts: function ({commit}) {
     const size = 8
+    console.log(state.socialFeed)
     axios({
       method: 'get',
       url: `${serverURL}/post?`
         + `uid=${state.userCode}`
-        + `&lastpostcode=${state.lastPostCode}`
+        + `&lastpostcode=${state.socialFeed.lastPostCode}`
         + `&size=${size}`,
     })
       .then(res => {
-        console.log(res)
+        if (res.data.length) {
+          commit('LOAD_POSTS', res.data)
+        } else {
+          commit('REACHED_LAST_POST')
+        }
+        console.log('Actions-loadPost', res)
       })
       .catch((err) => {
         console.log(err)
