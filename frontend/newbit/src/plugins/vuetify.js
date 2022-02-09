@@ -14,7 +14,7 @@ export default new Vuetify({
         backgroundDark: '#0D0E23',
         feedBackground: '#FFFFFF',
         // Vue 기본 설정. 
-        primary: '#1976D2',
+        primary: '#0d0e23',
         secondary: '#424242',
         accent: '#82B1FF',
         error: '#FF5252',
