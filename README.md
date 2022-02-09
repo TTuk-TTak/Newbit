@@ -15,6 +15,22 @@
 
 ## 3) 산출물 모아보기
 
+**와이어프레임**
+
+👉 [Figma](https://www.figma.com/file/3Yc8FTFfCSgsZhxIR3m7bS/Newbit?node-id=0%3A1) 에서 살펴보기
+
+👉 [영상](https://youtu.be/n6Ijs8BZ3ts) 으로 확인하기
+
+**컴포넌트 구조도**
+
+👉 [Figma](https://www.figma.com/file/3Yc8FTFfCSgsZhxIR3m7bS/?node-id=421%3A1276) 에서 살펴보기
+
+**기능 기획서, API**
+
+👉 [구글 스프레드시트](https://docs.google.com/spreadsheets/d/1GGnTYjv8SSciVGHimomYVWOcoFF7jOWctjheaAZ9cTI/edit#gid=138943330) 링크
+
+
+
 ## 4) 팀 소개
 
 - Front : 이상훈, 천민우
