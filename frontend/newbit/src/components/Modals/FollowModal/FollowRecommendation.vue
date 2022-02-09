@@ -3,7 +3,7 @@
     <v-list-item
       v-for="file in files"
       :key="file.title"
-      class="border ma-3"
+      class="border mb-3 ml-10 firstlogin-follow"
     >
       <v-list-item-avatar>
         <v-icon
@@ -82,9 +82,14 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .border {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 15px;
 }
+
+.firstlogin-follow {
+  width: 85%;
+}
+
 </style>
