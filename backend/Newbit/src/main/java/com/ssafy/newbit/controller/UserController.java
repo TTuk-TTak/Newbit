@@ -177,7 +177,7 @@ public class UserController{
     }
     
     
-    /////////////////////////////사용자 정보 확인 /////////////////////////////////////////////////////
+    /////////////////////////////  유저 정보 + 프로필 조회   /////////////////////////////////////////////////////
     
 	@ApiOperation(value = "타 유저 프로필 확인", notes = "사용자 코드에 해당하는 사용자의 정보를 반환한다.", response = UserDto.class)
 	@GetMapping("")
@@ -186,16 +186,7 @@ public class UserController{
 		logger.info("getUser 호출 : " + userCode);
 		return new ResponseEntity<UserDto>(userService.getUser(userCode), HttpStatus.OK);
 	}
-    
-	@ApiOperation(value = "내 개인정보 확인", notes = "사용자 코드에 해당하는 사용자의 정보를 반환한다.", response = UserDto.class)
-	@GetMapping("/setting")
-	public ResponseEntity<UserDto> getMyUser(
-			@RequestParam("uid") @ApiParam(value = "얻어올 사용자의 코드", required = true) int userCode)throws Exception{ 
-		logger.info("getUser 호출 : " + userCode);
-		return new ResponseEntity<UserDto>(userService.getUser(userCode), HttpStatus.OK);
-	}// DB 에서 자동 스크리닝(NULL)되어서 제공됨 → 해결??
-	
-	
+
     /////////////////////////////사용자 정보수정 /////////////////////////////////////////////////////
 	
 	
