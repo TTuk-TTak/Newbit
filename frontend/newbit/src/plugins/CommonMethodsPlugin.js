@@ -107,5 +107,6 @@ CommonMethodsPlugin.install = function (Vue) {
       })
   }
 
+
 }
 export default CommonMethodsPlugin

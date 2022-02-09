@@ -9,8 +9,8 @@
         class="ml-1 mr-3"
         slider-color='#0d0e23'
       >
-        <v-tab class="contentTab">인기 컨텐츠</v-tab>
-        <v-tab class="contentTab">최신 컨텐츠</v-tab>
+        <v-tab class="contentTab">읽고 싶은 글</v-tab>
+        <v-tab class="contentTab">이미 읽은 글</v-tab>
         <hr>
       </v-tabs>
     </div>
