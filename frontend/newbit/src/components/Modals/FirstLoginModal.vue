@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-dialog
       v-model="dialog"
-      width="800"
+      width="700"
     >
       <v-card class="rounded-xl ma-0 pa-0">
         <v-container>
