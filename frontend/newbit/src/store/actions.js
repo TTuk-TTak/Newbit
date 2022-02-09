@@ -13,7 +13,7 @@ export default {
     commit('TURN_POST_CREATE_MODAL_OFF')
   },
   // 2. Feed조작
-  loadPosts: function ({commit}) {
+  loadPosts: function ({ commit }) {
     const size = 8
     console.log(state.socialFeed)
     axios({
@@ -37,10 +37,10 @@ export default {
   },
   // 3. 로그인, 로그아웃
 
-  Login: function ({ commit }) {
+  login: function ({ commit }) {
     commit('LOGIN')
   },
-  Logout: function ({ commit }) {
+  logout: function ({ commit }) {
     commit('LOGOUT')
   }
 }
