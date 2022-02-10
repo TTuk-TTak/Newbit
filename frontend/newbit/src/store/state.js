@@ -1,5 +1,4 @@
 export default {
-  userCode: 0,
   user: null,
   modals: {
     postCreateModal: false,
