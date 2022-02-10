@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$store.state.isLoggedIn">
+  <div v-if="$store.state.user">
     <v-row>
       <v-col
         cols="7"
