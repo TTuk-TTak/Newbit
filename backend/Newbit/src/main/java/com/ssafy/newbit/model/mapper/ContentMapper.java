@@ -21,6 +21,7 @@ public interface ContentMapper {
 	
 	public int userLikeContent(HashMap<String, Object> map) throws SQLException;
 	public int userScrapContent(HashMap<String, Object> map) throws SQLException;
+	public int userReadContent(HashMap<String, Object> map) throws SQLException;
 	public List<ContentDto> searchContentList(HashMap<String, Object> map) throws SQLException;
 
 	public long getCursor(HashMap<String, Object> map) throws SQLException;

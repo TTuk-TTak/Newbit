@@ -24,7 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@CrossOrigin(origins = { "http://localhost:8080" })
+@CrossOrigin(origins = { "*"})
 @RestController
 @RequestMapping("/content")
 @Api("콘텐츠 컨트롤러  API")
@@ -90,6 +90,7 @@ public class ContentCotroller {
 			hm.put("contentCode", c.getContentCode());
 			c.setLiked(contentService.userLikeContent(hm));
 			c.setScrapped(contentService.userScrapContent(hm));
+			c.setRead(contentService.userReadContent(hm));
 		}
 		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
 	}
