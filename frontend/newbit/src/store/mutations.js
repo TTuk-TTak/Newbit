@@ -3,24 +3,16 @@ import _ from 'lodash'
 
 export default {
   // 1. 회원 관련 기능 
-  // 1) 로그인, 로그아웃
   LOGIN: function (state) {
     state.isLoggedIn = true
   },
   LOGOUT: function (state) {
     state.isLoggedIn = false
-    state.user = {}
   },
-  // 2) 유저 정보 저장
-  SAVE_USER_INFORMATION: function (state, userData) {
-    state.user = userData
-    console.log(state.user)
-  },
-
 
   // 2. SocialFeed 조작
   // 1) 포스트 로딩
-  LOAD_POSTS: function (state, data) {
+  LOAD_POSTS: function(state, data) {
     // (1) 선언
     // a. pageNum: 인덱싱을 위한 변수
     // b. lastPostCode: postCode 중 가장 작은 값.  

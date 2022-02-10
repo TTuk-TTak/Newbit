@@ -23,7 +23,7 @@
                 align-self="center"
                 cols="10"
               >
-                <p class="text-h6 grey--text mb-0">{{ `@${$store.state.user.userId}` }}</p>
+                <p class="text-h6 grey--text mb-0">@surimlee</p>
                 <p class="text-h6 mb-0 font-weight-bold">프로필 사진 바꾸기</p>
               </v-col>
             </v-row>

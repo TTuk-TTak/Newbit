@@ -1,59 +1,44 @@
 <template>
-  <div v-if="$store.state.isLoggedIn">
+  <div v-if="isLoggedIn === true">
     <v-row>
       <v-col
         cols="7"
         align-self="center"
       >
-        <v-avatar
-          size="150"
-          class="mt-5 ml-3"
-        >
-          <v-img
-            class="v-avatar image"
-            src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
-          />
-        </v-avatar>
+        <v-img
+          class="v-avatar image"
+          src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
+        />
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="6">
-        <h1>{{ $store.state.user.userNick }}</h1>
-        <h3 class="grey--text">{{ `@${$store.state.user.userId}` }}</h3>
+        <h1>트루</h1>
       </v-col>
       <v-col
         cols="6"
         align-self="center"
       >
         <v-btn
-          rounded
           block
-          outlined
-          color="#0d0e23"
-          class="font-weight-bold"
-          style="font-size: 1.15em; font-weight: 500;"
-          @click="$goToProfileEdit()"
+          rounded
+          small
         >
-          프로필 수정
+          hello
         </v-btn>
       </v-col>
     </v-row>
-    <div class="mt-5 mb-5 ml-3">
-      안녕하세요 SSAFY 6기생입니다~!<br />
-      백엔드 개발자가 되고 싶어요 <br /><br />
-      <!-- ToDo : 숫자 부분은 후에 {{}}로 수정 -->
-      게시물 1개 | 팔로워 2명 | 팔로잉 3개 <br />
+    <div class="d-flex justify-space-between">
+      <span>게시물</span>
+      <span>팔로워</span>
+      <span>팔로잉</span>
     </div>
     <v-btn
       rounded
       block
-      depressed
-      large
-      color="#0d0e23"
+      color="black"
       dark
-      class="mb-3"
-      style="font-size: 1.15em; font-weight: 500;"
-      @click="TURN_POST_CREATE_MODAL_ON()"
+      class="font-weight-bold"
     >
       글작성
     </v-btn>
@@ -114,19 +99,11 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
-
-
 export default {
   data: () => {
     return {
-
+      isLoggedIn: false,
     }
-  },
-  methods: {
-    ...mapMutations([
-      'TURN_POST_CREATE_MODAL_ON'
-    ])
   }
 }
 </script>

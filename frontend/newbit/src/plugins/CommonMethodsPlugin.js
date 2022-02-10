@@ -99,7 +99,7 @@ CommonMethodsPlugin.install = function (Vue) {
   Vue.prototype.$logout = function () {
     localStorage.removeItem('jwt')
     this.$store.dispatch('logout')
-    this.$goToSocialFeed()
+    this.$goToLoginPage()
   }
 
   // 5. 토큰 관련
@@ -120,7 +120,7 @@ CommonMethodsPlugin.install = function (Vue) {
       method: 'get',
     })
       .then((res) => {
-        this.$store.dispatch('saveUserInformation', res.data)
+        console.log(res)
 
       })
       .catch((err) => {

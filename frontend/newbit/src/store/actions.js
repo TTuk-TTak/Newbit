@@ -42,11 +42,5 @@ export default {
   },
   logout: function ({ commit }) {
     commit('LOGOUT')
-  },
-
-  // 4. 유저 정보 저장
-
-  saveUserInformation: function ({ commit }, userData) {
-    commit('SAVE_USER_INFORMATION', userData)
   }
 }
