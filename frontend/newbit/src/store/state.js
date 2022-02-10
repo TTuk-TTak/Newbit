@@ -1,7 +1,6 @@
 export default {
-  isLoggedIn: false,
   userCode: 1,
-  user: {},
+  user: null,
   modals: {
     postCreateModal: false,
   },

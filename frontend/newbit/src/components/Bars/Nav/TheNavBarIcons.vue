@@ -30,7 +30,7 @@
     </v-btn>
     <!-- 3-1. 비 로그인 사용자: 로그인 버튼 -->
     <v-btn
-      v-if="$store.state.isLoggedIn === false"
+      v-if="!$store.state.user"
       icon
       @click="$goToLoginPage()"
     >
@@ -38,7 +38,7 @@
     </v-btn>
     <!-- 3-2. 로그인 된 사용자: 메뉴 확인 -->
     <v-menu
-      v-if="$store.state.isLoggedIn === true"
+      v-if="$store.state.user"
       left
       bottom
     >

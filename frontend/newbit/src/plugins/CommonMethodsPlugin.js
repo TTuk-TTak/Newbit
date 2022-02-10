@@ -83,10 +83,10 @@ CommonMethodsPlugin.install = function (Vue) {
     axios.post(`${this.$serverURL}/user/login`, credentials)
       .then((res) => {
         localStorage.setItem('jwt', res.data['access-token'])
-        this.$store.dispatch('login')
         return res.data.userCode
       })
       .then((res) => {
+        localStorage.setItem('user_code', res)
         this.$fetchUserInformation(res)
         this.$goToSocialFeed()
       })
@@ -98,7 +98,7 @@ CommonMethodsPlugin.install = function (Vue) {
   // 2) 로그아웃
   Vue.prototype.$logout = function () {
     localStorage.removeItem('jwt')
-    this.$store.dispatch('logout')
+    this.$store.dispatch('resetUserInformation')
     this.$goToSocialFeed()
   }
 
