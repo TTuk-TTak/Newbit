@@ -139,9 +139,23 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional
 	public boolean editUserInfo(UserDto userDto) throws Exception {
-		return sqlSession.getMapper(UserMapper.class).editUserInfo(userDto) == 1;
+		int user = 0;
+		//Id 중복확인
+		int okid = sqlSession.getMapper(UserMapper.class).checkId(userDto.getUserId());
+		String myid = sqlSession.getMapper(UserMapper.class).matchUserId(userDto);
+		if ((okid == 0)||(okid == 1 && myid.equals(userDto.getUserId()))) {
+			//비밀번호 hashing
+			String encodePassword = passwordEncoder.encode(userDto.getUserPassword());
+	        userDto.setUserPassword(encodePassword);
+	        user = sqlSession.getMapper(UserMapper.class).editUserInfo(userDto);
+	        System.out.println("회원정보 수정 성공!");
+		}else
+			System.out.println("회원정보 수정 실패! - 아이디 중복");	
+		return user == 1;
 	}
 
+
+	
 	//팔로잉 추가
 	@Override
 	public boolean followUser(HashMap<String, Integer> map) throws Exception {

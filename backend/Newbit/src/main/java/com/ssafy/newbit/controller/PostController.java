@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@CrossOrigin(origins = { "*" })
+@CrossOrigin(origins = { "http://localhost:8080" })
 @RestController
 @RequestMapping("/post")
 @Api("게시글 컨트롤러  API")
@@ -98,7 +98,7 @@ public class PostController {
 	}
 
 	@ApiOperation(value = "특정 유저 전체 게시글 조회", notes = "특정 유저가 쓰거나 공유한 모든 글 정보를 반환", response = List.class)
-	@GetMapping("/user")
+	@GetMapping("/user") 
 	public ResponseEntity<List<PostDto>> listUserPost(
 			@RequestParam @ApiParam(value = "특정 유저의 게시글 목록을 얻기 위한 정보", required = true) int uid, int userid, int lastpostcode,
 			int size) throws Exception {

@@ -16,41 +16,47 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Splitter;
+import com.ssafy.newbit.jwt.exception.JwtAccessDeniedException;
+import com.ssafy.newbit.jwt.exception.JwtUnAuthorizedException;
+
+import io.jsonwebtoken.lang.Collections;
 
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
-
 	public static final Logger logger = LoggerFactory.getLogger(JwtInterceptor.class);
 	//private static final String HEADER_AUTH = "Authorization";
 	
 	@Autowired
 	private JwtProvider jwtProvider;
 	
-
 	// 토큰 검증이 실행됨
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		/*	사용자 검증 로직	*/
 		
-		System.out.println("토큰 Interceptor 거침!!!!!!!!!");
-		logger.info("토큰 Interceptor 거침!!!!!!!!!");	
 		//final String token = request.getHeader(HEADER_AUTH);					// token 헤더의 key 지정해줌
+		System.out.println("토큰 Interceptor 거침!!!!!!!!!");
+		logger.info("~ 인증필요: JwtInterceptor 거쳐감 ~");	
+		
+		// 해더에서 token 추출
 		String token = jwtProvider.resolveToken((HttpServletRequest) request);
 		String userCode = "";
 		
-		String method = request.getMethod();
-		// GET 방식 일 때, 
-		if(method.equals("GET")||method.equals("DELETE")||method.equals("POST")||method.equals("PATCH")) {//method.equals("GET")||method.equals("DELETE")
-			// Get 방식 일 때만, 쿼리문 가져옴
-			String url = request.getQueryString();			// 다른 방식 or 쿼리 아닐때 오류 안나나 확인 ! 
-			//System.out.println("url은 이거다"+url);
-			
+		// url에서 쿼리문 추출
+		String params = request.getQueryString();		// 쿼리 못받아 올 시, null 반환
+		
+		// @RequestParam 방식 : 쿼리문 있을 때  ->  url 에서 추출 
+		if(params != null) {
+			System.out.println("@RequestParam 방식으로 진행합니다" );
 			
 			// 정규식으로 uid 값 가져오기 
-			String pattern = "^(uid)=([0-9]*)(.*)$";			// 정규식 :쿼리값 가져옴  //"^(uid)=(.*)$";
+			String pattern = "^(uid)=([0-9]*)(.*)$";	// 정규식 :쿼리값 가져옴  
 			Pattern cp = Pattern.compile(pattern);		// 정규식 패턴화 
-			Matcher matcher = cp.matcher(url);
+			Matcher matcher = cp.matcher(params);	
 			
 			while (matcher.find()) {
 				if (matcher.group(2) != null) { 		// group(2) : 원하는 값에 따라 변경
@@ -58,19 +64,22 @@ public class JwtInterceptor implements HandlerInterceptor {
 					break;
 		    	}
 			}
-			/*
-			int matchCount = 0;
-			while (matcher.find()) {
-				if (matcher.group(matchCount).matches("^\\d{2}$")) { 		// group(2) : 원하는 값에 따라 변경
-					userCode = matcher.group(matchCount);
-					break;
-		    	}
-				System.out.println(matchCount + " : " + matcher.group());
-				matchCount++;
-			}*/
-			//System.out.println("예상 사용자는 이거다"+userCode);
+
+		// @RequestBody 방식 : 쿼리문 없을 때   -> Body의 Json데이터 가져옴
+		}else {
+			System.out.println("@RequestBody 방식으로 진행합니다");
+			
+			// 커스터마이징한 attribute로 body 데이터 가져옴 (CopyBodyFilter & ReadableRequestBodyWrapper)
+			String Body = (String) request.getAttribute("requestBody");		
+			// String to map 
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, String> map = mapper.readValue(Body, Map.class);
+			
+			userCode = map.get("userCode");
+			
 		}
-		// 다른 방식 일 경우 정의 
+		
+		
 		
 		
 		// 토큰이 유효하지 않은 경우

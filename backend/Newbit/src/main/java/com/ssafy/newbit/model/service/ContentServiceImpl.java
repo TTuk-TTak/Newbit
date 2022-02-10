@@ -17,17 +17,10 @@ public class ContentServiceImpl implements ContentService {
 	private SqlSession sqlSession;
 
 	@Override
-	public List<ContentDto> newListContent(HashMap<String, Object> map) throws Exception {
+	public List<ContentDto> listContent(HashMap<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.getMapper(ContentMapper.class).newListContent(map);
+		return sqlSession.getMapper(ContentMapper.class).listContent(map);
 	}
-	
-	@Override
-	public List<ContentDto> hotListContent(HashMap<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.getMapper(ContentMapper.class).newListContent(map);
-	}
-
 
 	@Override
 	public ContentDto getContent(int contentCode) throws Exception {
@@ -101,6 +94,12 @@ public class ContentServiceImpl implements ContentService {
 	@Override
 	public List<ContentDto> searchContentList(HashMap<String, Object> map) throws Exception {
 		return sqlSession.getMapper(ContentMapper.class).searchContentList(map);
+	}
+
+	@Override
+	public long getCursor(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(ContentMapper.class).getCursor(map);
 	}
 
 }

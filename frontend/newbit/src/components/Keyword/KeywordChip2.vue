@@ -29,7 +29,7 @@ export default {
 
 <style>
 .short {
-  width: 150px;
+  width: 140px;
 }
 .short span {
   white-space: nowrap;

@@ -55,7 +55,7 @@
 	
   <!--  특정 유저 정보 조회 -->
 	<select id="getUser" parameterType="int" resultType="userDto">
-		select user_id `userId`, user_nick `userNick`, user_img `userImg`, user_postcount `userPostCount`, user_followercount `userFollowerCount`, user_followingcount `userFollowingCount`, user_intro `userIntro`, user_keyword `userKeyword`
+		select user_code `userCode`, user_email `userEmail`, user_id `userId`, user_nick `userNick`, user_img `userImg`, user_postcount `userPostCount`, user_followercount `userFollowerCount`, user_followingcount `userFollowingCount`, user_intro `userIntro`, user_keyword `userKeyword`
 		from user
 		where user_code	 = #{userCode}
 	</select>	
@@ -87,7 +87,12 @@
 		    user_keyword = #{userKeyword}
 		where user_code = #{userCode}
 	</update>
-
+  	<!--  특정 유저 ID 조회 -->
+	<select id="matchUserId" parameterType="int" resultType="String">
+		select user_id `userId`
+		from user
+		where user_code	 = #{userCode}
+	</select>
 	
 	<!-- 팔로잉 추가 -->
 	<insert id="followUser" parameterType="Hashmap">

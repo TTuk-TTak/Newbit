@@ -13,7 +13,7 @@ export default {
     commit('TURN_POST_CREATE_MODAL_OFF')
   },
   // 2. Feed조작
-  loadPosts: function ({commit}) {
+  loadPosts: function ({ commit }) {
     const size = 8
     axios({
       method: 'get',
@@ -34,11 +34,14 @@ export default {
         console.log(err)
       })
   },
-  // 3. 로그인, 로그아웃
-  Login: function ({ commit }) {
-    commit('LOGIN')
+
+  // 3. 유저 정보 저장 & 초기화
+
+  saveUserInformation: function ({ commit }, userData) {
+    commit('SAVE_USER_INFORMATION', userData)
   },
-  Logout: function ({ commit }) {
-    commit('LOGOUT')
-  }
+
+  resetUserInformation: function ({ commit }) {
+    commit('RESET_USER_INFORMATION')
+  },
 }
