@@ -34,4 +34,3 @@ public interface PostMapper {
 	public int userScrapPost(HashMap<String, Object> map) throws SQLException;
 	public List<PostDto> searchPostList(HashMap<String, Object> map) throws SQLException;
 }
-	 
