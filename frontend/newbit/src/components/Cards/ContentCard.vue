@@ -3,6 +3,7 @@
     outlined
     class="mx-auto mt-1 contentCard-Item"
     style="position: relative; "
+    @click="selectContent()"
   >
     <!-- 상단 이미지 -->
     <v-img
@@ -81,6 +82,9 @@ export default {
     content: Object
   },
   methods: {
+    selectContent(){
+      window.open(this.content.contentUrl);
+    }
   },
 }
 </script>
