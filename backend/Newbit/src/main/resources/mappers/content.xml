@@ -3,6 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.newbit.model.mapper.ContentMapper">
 
+	<!-- 페이지네이션 위한 커서 만들어오기 -->
 	<select id="getCursor" parameterType="HashMap" resultType="long">
 		select
 		<if test="type=='new'">
@@ -14,6 +15,8 @@
 		from content
 		where content_code = #{contentCode}
 	</select>
+	
+	<!-- 툭정 콘텐츠 하나 조회 -->
 	<select id="getContent" parameterType="int"
 		resultType="com.ssafy.newbit.model.ContentDto">
 		select content_code `contentCode`, techblog_code
@@ -26,6 +29,7 @@
 		where content_code = #{contentCode}
 	</select>
 
+	<!-- 콘텐츠 목록 조회 (최신/인기) -->
 	<select id="listContent" parameterType="HashMap"
 		resultType="com.ssafy.newbit.model.ContentDto">
 		select content_code `contentCode`, techblog_code
@@ -66,6 +70,8 @@
 		</if>
 		limit #{size}
 	</select>
+	
+	<!-- 콘텐츠의 스크랩 수 변경 -->
 	<update id="updateScrap" parameterType="int">
 		update content
 		set
@@ -74,6 +80,8 @@
 		where content_code = #{cid}
 	</update>
 
+
+	<!-- 콘텐츠의 좋아요 수 변경 -->
 	<update id="updateLike" parameterType="int">
 		update content
 		set
@@ -83,6 +91,7 @@
 	</update>
 
 
+	<!-- 콘텐츠의 조회수 변경 -->
 	<update id="updateRead" parameterType="int">
 		update content
 		set
@@ -91,12 +100,16 @@
 		where content_code = #{cid}
 	</update>
 
+
+	<!-- 콘텐츠 좋아요 실행 -->
 	<insert id="likeContent" parameterType="Hashmap">
 		insert into contentlike
 		(user_code, content_code, content_like_date)
 		values (#{uid}, #{cid},
 		now())
 	</insert>
+	
+	<!-- 콘텐츠 스크랩 실행 -->
 	<insert id="scrapContent" parameterType="map">
 		insert into contentscrap
 		(user_code, content_code, content_scrap_time)
@@ -105,12 +118,17 @@
 		now())
 	</insert>
 
+
+	<!-- 콘텐츠 읽음 처리 -->
 	<insert id="readContent" parameterType="Hashmap">
 		insert into contentread
 		(user_code, content_code, content_read_date)
 		values (#{uid}, #{cid},
 		now())
 	</insert>
+	
+	
+	<!-- 유저가 해당 콘텐츠를 좋아하는지 여부 반환 -->
 	<select id="userLikeContent" parameterType="Hashmap"
 		resultType="int">
 		select coalesce((select 1
@@ -119,6 +137,7 @@
 		#{userCode} and content_code = #{contentCode}), 0)
 	</select>
 
+	<!-- 유저가 해당 콘텐츠를 스크랩했는지 여부 반환 -->
 	<select id="userScrapContent" parameterType="Hashmap"
 		resultType="int">
 		select coalesce((select 1
@@ -126,7 +145,16 @@
 		where user_code =
 		#{userCode} and content_code = #{contentCode}), 0)
 	</select>
-
+	
+	<!-- 유저가 해당 콘텐츠를 읽었는지 여부 반환 -->
+	<select id="userReadContent" parameterType="Hashmap"
+		resultType="int">
+		select coalesce((select 1
+		FROM contentread
+		where user_code =
+		#{userCode} and content_code = #{contentCode}), 0)
+	</select>
+	
 	<!-- 콘텐츠 검색 -->
 	<select id="searchContentList" parameterType="HashMap"
 		resultType="com.ssafy.newbit.model.ContentDto">
