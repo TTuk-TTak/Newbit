@@ -1,4 +1,4 @@
-package com.ssafy.newbit.jwt;
+package com.ssafy.newbit.jwt.exception;
 
 
 import org.springframework.web.bind.annotation.ResponseStatus;
