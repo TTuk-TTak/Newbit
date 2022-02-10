@@ -3,13 +3,9 @@ import _ from 'lodash'
 
 export default {
   // 1. 회원 관련 기능 
-  // 1) 로그인, 로그아웃
-  LOGIN: function (state) {
-    state.isLoggedIn = true
-  },
-  LOGOUT: function (state) {
-    state.isLoggedIn = false
-    state.user = {}
+  // 1) 유저 정보 초기화
+  RESET_USER_INFORMATION: function (state) {
+    state.user = null
   },
   // 2) 유저 정보 저장
   SAVE_USER_INFORMATION: function (state, userData) {
