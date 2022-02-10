@@ -7,8 +7,7 @@ import java.util.List;
 import com.ssafy.newbit.model.ContentDto;
 
 public interface ContentService {
-	public List<ContentDto> newListContent(HashMap<String, Object> map) throws Exception;
-	public List<ContentDto> hotListContent(HashMap<String, Object> map) throws Exception;
+	public List<ContentDto> listContent(HashMap<String, Object> map) throws Exception;
 	public List<ContentDto> searchContentList(HashMap<String, Object> map) throws Exception;
 	public ContentDto getContent(int contentCode) throws Exception;
 
@@ -25,4 +24,6 @@ public interface ContentService {
 	
 	public boolean userLikeContent(HashMap<String, Object> map) throws Exception;
 	public boolean userScrapContent(HashMap<String, Object> map) throws Exception;
+	
+	public long getCursor(HashMap<String, Object> map) throws Exception;
 }
