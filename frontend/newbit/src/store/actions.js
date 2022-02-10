@@ -45,4 +45,31 @@ export default {
   resetUserInformation: function ({ commit }) {
     commit('RESET_USER_INFORMATION')
   },
+
+  // 4. 추천피드 조작
+  getContentsHot: ({commit}) => {
+    const size = 10
+    const keywordchip = "react"
+    console.log(state.curationFeed)
+    axios({
+      method: 'get',
+      url: `${serverURL}/content/list?sorting=hot&`
+        + `uid=${state.userCode}`
+        + `&lastcontentcode=${state.curationFeed.lastContentCode}`
+        + `&size=${size}`
+        + `&keyword=${keywordchip}`
+    })
+    .then(res => {
+      if (res.data.length) {
+        commit('SET_CONTENTS', res.data)
+        console.log(res)
+      } else {
+        commit('REACHED_LAST_CONTENT')
+      }
+      console.log('Actions-loadContent', res)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  },
 }

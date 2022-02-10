@@ -13,7 +13,10 @@ export default {
     },
   },
   curationFeed: {
-
+    lastContentCode : 0,
+    page : 0,
+    isAtLast : false,
+    contents : [],
   },
   archivingFeed: {
 
