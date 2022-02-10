@@ -1,24 +1,28 @@
 <template>
   <v-card
-    class="pa-2"
+    outlined
+    class="pa-4 pt-2 cardMargin"
     color="feedBackground"
   >
-    <keyword-toggler></keyword-toggler>
+    <div class="mx-2" style="border-bottom:1px solid lightgray">
       <v-tabs
-        slider-color='#C4C4C4'
+        class="ml-1 mr-3"
+        slider-color='#0d0e23'
       >
-        <v-tab>읽고 싶은 글</v-tab>
-        <v-tab>읽었던 글</v-tab>
+        <v-tab class="contentTab">읽고 싶은 글</v-tab>
+        <v-tab class="contentTab">이미 읽은 글</v-tab>
+        <hr>
       </v-tabs>
+    </div>
+    <keyword-toggler class="px-1 mt-3"></keyword-toggler>
     <v-row
-      class="pa-2"
+      class="pa-2 pt-3"
     >
       <v-col
+        class="pa-1 pb-0"
         v-for="i in 10"
         :key="`archived` + i"    
-        class="pa-1 pb-0"
-        cols=4
-
+        cols=6
       >
         <content-card></content-card>
       </v-col>
@@ -39,5 +43,10 @@ export default {
 }
 </script>
 
-<style>
+<style scope >
+.cardMargin{
+  padding-left: 1000px; 
+}
+
+
 </style>
