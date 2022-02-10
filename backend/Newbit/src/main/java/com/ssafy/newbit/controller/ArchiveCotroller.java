@@ -83,17 +83,19 @@ public class ArchiveCotroller {
 			map.put("cursor", cursor);
 			// System.out.println(cursor);
 		}
+		List<ContentDto> list = new ArrayList<>();
 
-		List<ContentDto> list = archiveService.listContent(map);
-
-		// 현재 로그인한 유저가 콘텐츠에 대해 좋아요와 스크랩 했는지 체크
-		for (ContentDto c : list) {
-			HashMap<String, Object> hm = new HashMap<String, Object>();
-			hm.put("userCode", uid);
-			hm.put("contentCode", c.getContentCode());
-			c.setLiked(contentService.userLikeContent(hm));
-			c.setRead(contentService.userReadContent(hm));
-			c.setScrapped(true);
+		if (contentScrapList.size() > 0) {
+			list = archiveService.listContent(map);
+			// 현재 로그인한 유저가 콘텐츠에 대해 좋아요와 스크랩 했는지 체크
+			for (ContentDto c : list) {
+				HashMap<String, Object> hm = new HashMap<String, Object>();
+				hm.put("userCode", uid);
+				hm.put("contentCode", c.getContentCode());
+				c.setLiked(contentService.userLikeContent(hm));
+				c.setRead(contentService.userReadContent(hm));
+				c.setScrapped(true);
+			}
 		}
 
 		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
@@ -115,25 +117,27 @@ public class ArchiveCotroller {
 
 		// 스크랩한 목록 받아오는 부분
 		List<Integer> postScrapList = archiveService.getPostScrapList(uid);
-		map.put("postScrapList", postScrapList);
+		List<PostDto> list = new ArrayList<>();
 
-		List<PostDto> list = archiveService.listPost(map);
-		System.out.println(list.size());
-		// 현재 로그인한 유저가 게시글에 대해 좋아요와 스크랩 했는지 체크
-		for (PostDto p : list) {
-			HashMap<String, Object> hm = new HashMap<String, Object>();
-			hm.put("userCode", uid); // 현재 로그인한 유저의 아이디
-			hm.put("postCode", p.getPostCode());
+		if (postScrapList.size() > 0) {
+			map.put("postScrapList", postScrapList);
+			list = archiveService.listPost(map);
+			// 현재 로그인한 유저가 게시글에 대해 좋아요와 스크랩 했는지 체크
+			for (PostDto p : list) {
+				HashMap<String, Object> hm = new HashMap<String, Object>();
+				hm.put("userCode", uid); // 현재 로그인한 유저의 아이디
+				hm.put("postCode", p.getPostCode());
 
-			p.setLiked(postService.userLikePost(hm)); // 좋아요 여부 설정
-			p.setScrapped(true); // 스크랩 여부 설정
+				p.setLiked(postService.userLikePost(hm)); // 좋아요 여부 설정
+				p.setScrapped(true); // 스크랩 여부 설정
 
-			// 게시글 작성자 정보
-			UserDto u = userService.getUser(p.getUserCode());
-			if (u != null) {
-				p.setUserNick(u.getUserNick());
-				p.setUserImg(u.getUserImg());
-				p.setUserId(u.getUserId());
+				// 게시글 작성자 정보
+				UserDto u = userService.getUser(p.getUserCode());
+				if (u != null) {
+					p.setUserNick(u.getUserNick());
+					p.setUserImg(u.getUserImg());
+					p.setUserId(u.getUserId());
+				}
 			}
 		}
 
