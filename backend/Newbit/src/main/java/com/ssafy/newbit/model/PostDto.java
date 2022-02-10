@@ -35,4 +35,13 @@ public class PostDto {
 	private boolean liked;
 	@ApiModelProperty(value = "유저가 현재 컨텐츠를 스크랩했는지 여부")
 	private boolean scrapped;
+	
+	//글 작성자 정보
+	@ApiModelProperty(value = "작성자 닉네임")
+	private String userNick;
+	@ApiModelProperty(value = "작성자 아이디")
+	private String userId;
+	@ApiModelProperty(value = "작성자 사진 url")
+	private String userImg;
+	
 }
