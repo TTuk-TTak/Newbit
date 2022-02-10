@@ -24,6 +24,7 @@ public interface ContentService {
 	
 	public boolean userLikeContent(HashMap<String, Object> map) throws Exception;
 	public boolean userScrapContent(HashMap<String, Object> map) throws Exception;
+	public boolean userReadContent(HashMap<String, Object> map) throws Exception;
 	
 	public long getCursor(HashMap<String, Object> map) throws Exception;
 }

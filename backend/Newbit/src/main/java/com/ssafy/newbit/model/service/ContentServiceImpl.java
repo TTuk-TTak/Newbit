@@ -102,4 +102,10 @@ public class ContentServiceImpl implements ContentService {
 		return sqlSession.getMapper(ContentMapper.class).getCursor(map);
 	}
 
+	@Override
+	public boolean userReadContent(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(ContentMapper.class).userReadContent(map)==1;
+	}
+
 }
