@@ -75,6 +75,9 @@ export default {
           console.log(err)
       })
     },
+    defaultProfile(e) {
+      e.target.src = `https://cdn.vuetifyjs.com/images/john.jpg`
+    },
   },
   data: () => {
     return {
