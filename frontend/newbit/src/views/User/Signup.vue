@@ -117,7 +117,7 @@ export default {
       userNick_rule: [
         value => !!value || '필수항목입니다.',
         value => {
-          const pattern2 = /^[a-zA-Z0-9ㄱ-힣]*$/ // 아이디를 한글로 ㄱㅁ 입력해도 경고 메세지가 뜨지 않음!
+          const pattern2 = /^[a-zA-Z0-9가-힣]*$/ // 아이디를 한글로 ㄱㅁ 입력해도 경고 메세지가 뜨지 않음!
           return pattern2.test(value) || '닉네임은 영문+숫자+한글만 입력 가능합니다.'
         },
         value => 2 <= value?.length || '닉네임은 최소 2자이상 입니다.',

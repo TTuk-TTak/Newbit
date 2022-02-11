@@ -27,7 +27,7 @@ CommonMethodsPlugin.install = function (Vue) {
   }
   // 6) 프로필 상세페이지 이동
   Vue.prototype.$goToProfileDetail = function () {
-    this.$router.push({ name: 'ProfileDetail' })
+    this.$router.push({ name: 'ProfileDetail', params: { id: this.$store.state.user.userCode } })
   }
   // 7) 프로필 수정페이지 이동
   Vue.prototype.$goToProfileEdit = function () {
