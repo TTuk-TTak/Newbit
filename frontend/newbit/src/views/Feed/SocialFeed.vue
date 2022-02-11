@@ -10,12 +10,12 @@
       id='socialFeed'
     >
       <v-col
-        v-for="(key, value) in posts"
-        :key="`archived` + value"    
+        v-for="post in posts"
+        :key="`social` + post"    
         class="pa-1 pb-1"
         cols=12
       >
-        <post-card></post-card>
+        <post-card :post='post'></post-card>
       </v-col>
     </v-row>
 
