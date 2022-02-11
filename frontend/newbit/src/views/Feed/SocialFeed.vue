@@ -24,7 +24,7 @@
     >
       <v-spacer></v-spacer>
       <infinite-loading
-
+        v-if='user'
         class="mt-5 pt-5 justify-self-center align-self-center"
         @infinite="infiniteHandler" 
         >
