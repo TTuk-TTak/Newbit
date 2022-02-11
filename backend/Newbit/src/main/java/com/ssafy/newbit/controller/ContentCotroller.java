@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.newbit.model.ContentDto;
+import com.ssafy.newbit.model.TechblogDto;
 import com.ssafy.newbit.model.service.ContentService;
 
 import io.swagger.annotations.Api;
@@ -43,7 +44,15 @@ public class ContentCotroller {
 	public ResponseEntity<ContentDto> getPost(
 			@RequestParam @ApiParam(value = "특정 콘텐츠를 가져오기 위한 콘텐츠 번호", required = true) int cid) throws Exception {
 		logger.info("getContent 호출 : " + cid);
-		return new ResponseEntity<ContentDto>(contentService.getContent(cid), HttpStatus.OK);
+		
+		ContentDto c = contentService.getContent(cid);
+		
+		//테크블로그 정보 포함시키기
+		TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
+		c.setTechblogImg(t.getTechblogImg());
+		c.setTechblogName(t.getTechblogName());
+		
+		return new ResponseEntity<ContentDto>(c, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "추천 피드 콘텐츠 목록 조회", notes = "키워드에 해당하는 콘텐츠 목록을 정렬 기준으로 반환", response = List.class)
@@ -91,6 +100,11 @@ public class ContentCotroller {
 			c.setLiked(contentService.userLikeContent(hm));
 			c.setScrapped(contentService.userScrapContent(hm));
 			c.setRead(contentService.userReadContent(hm));
+			
+			//테크블로그 정보 포함시키기
+			TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
+			c.setTechblogImg(t.getTechblogImg());
+			c.setTechblogName(t.getTechblogName());
 		}
 		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
 	}
@@ -199,6 +213,11 @@ public class ContentCotroller {
 			hm.put("contentCode", c.getContentCode());
 			c.setLiked(contentService.userLikeContent(hm));
 			c.setScrapped(contentService.userScrapContent(hm));
+			
+			//테크블로그 정보 포함시키기
+			TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
+			c.setTechblogImg(t.getTechblogImg());
+			c.setTechblogName(t.getTechblogName());
 		}
 		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
 	}

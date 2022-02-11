@@ -110,4 +110,10 @@ export default {
   position: absolute !important;
   top: 48px !important;
 }
+
+.v-list-item{
+  background-color: white;
+  width:200px; 
+}
+
 </style>
