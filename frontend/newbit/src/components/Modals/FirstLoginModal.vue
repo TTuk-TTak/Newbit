@@ -35,9 +35,7 @@
           <div v-else-if="page === 2">
             <follow-recommendation></follow-recommendation>
           </div>
-          <div
-            v-else-if="page === 3"
-          >
+          <div v-else-if="page === 3">
             <div class="d-flex justify-center">
               <img
                 class="v-avatar image"
@@ -46,16 +44,16 @@
               />
             </div>
             <div class="justify-center">
-            <v-textarea
-              v-model.trim="credentials.introduction"
-              name="introduction"
-              type="text"
-              outlined
-              rounded
-              flat
-              solo
-              class="mt-7 px-10"
-            ></v-textarea>
+              <v-textarea
+                v-model.trim="credentials.introduction"
+                name="introduction"
+                type="text"
+                outlined
+                rounded
+                flat
+                solo
+                class="mt-7 px-10"
+              ></v-textarea>
             </div>
           </div>
 
@@ -162,34 +160,34 @@ export default {
 
 <style scope>
 /* 모달창 타이틀 (가장 큰 글씨) */
-.v-application .modal-title{
-  font-size : 2.0em !important;
+.v-application .modal-title {
+  font-size: 2em !important;
   margin-bottom: 0.3em;
 }
 
 /* 모달창 서브타이틀 (설명) */
-.v-application .modal-subtitle{
-  font-size : 1.4em !important;
+.v-application .modal-subtitle {
+  font-size: 1.4em !important;
   margin-bottom: 1em;
 }
 
 /* 첫번째 모달 탭 메뉴 */
 .v-application .firstlogin .v-tab {
   font-size: 1.2em;
-  font-weight: 300  !important;
-  color : #818181  !important;
+  font-weight: 300 !important;
+  color: #818181 !important;
 }
 
 /* 첫번째 모달 탭 메뉴(활성화) */
 .v-application .firstlogin .v-tab--active {
-  color : #0d0e23  !important;
-  font-weight: 600  !important;
+  color: #0d0e23 !important;
+  font-weight: 600 !important;
 }
 
 /* 버튼 글씨 */
 .v-application .firstlogin .btn {
   font-size: 1.3em;
-  font-weight: 500  !important;
+  font-weight: 500 !important;
 }
 </style>
 

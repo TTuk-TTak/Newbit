@@ -2,6 +2,7 @@ export default {
   user: null,
   modals: {
     postCreateModal: false,
+    firstLoginModal: false,
   },
   socialFeedLoadedAt: null,
   socialFeed: {
@@ -12,10 +13,10 @@ export default {
     },
   },
   curationFeed: {
-    lastContentCode : 0,
-    page : 0,
-    isAtLast : false,
-    contents : [],
+    lastContentCode: 0,
+    page: 0,
+    isAtLast: false,
+    contents: [],
   },
   archivingFeed: {
 
