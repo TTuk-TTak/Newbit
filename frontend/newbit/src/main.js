@@ -5,7 +5,6 @@ import router from './router'
 import { store } from './store/store.js'
 import vuetify from './plugins/vuetify'
 
-
 // local
 import CommonMethodsPlugin from './plugins/CommonMethodsPlugin.js'
 import { keywords } from './plugins/Keywords'

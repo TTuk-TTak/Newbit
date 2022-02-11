@@ -1,4 +1,5 @@
-// import _ from 'lodash'
+import _ from 'lodash'
+
 import { keywords } from '@/plugins/Keywords'
 
 export default {
@@ -16,10 +17,12 @@ export default {
         isSelected: false,
       }
     }
-    console.log(categorizedKeywords)
     return categorizedKeywords
   },
-  selectableKeyword: function () {
-    return keywords
+  keywordDict: function () {
+    const keywordDict = _.mapValues(keywords, 'shownName')
+    return keywordDict
   }
+
+
 }

@@ -15,7 +15,6 @@ export default {
   // 2. Feed조작
   loadPosts: function ({ commit }) {
     const size = 8
-    console.log(state.socialFeed)
     axios({
       method: 'get',
       url: `${serverURL}/post?`
