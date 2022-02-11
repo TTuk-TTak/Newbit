@@ -8,7 +8,7 @@
         class="ml-1 mr-3"
         slider-color='#0d0e23'
       >
-        <v-tab class="contentTab">인기 컨텐츠</v-tab>
+        <v-tab class="contentTab" @change="getContentsHot">인기 컨텐츠</v-tab>
         <v-tab class="contentTab">최신 컨텐츠</v-tab>
         <hr>
       </v-tabs>
@@ -19,17 +19,20 @@
     >
       <v-col
         class="pa-2"
-        v-for="n in 21"
-        :key="n"
         cols="6"
+        v-for="(content, index) in curationFeed.contents"
+        :key="index"
       >
-        <content-card></content-card>
+        <content-card
+        :content="content"
+        ></content-card>
       </v-col>
     </v-row>
   </v-card>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import KeywordToggler from '@/components/Keyword/KeywordToggler.vue'
 import ContentCard from '@/components/Cards/ContentCard.vue'
 
@@ -40,9 +43,20 @@ export default {
     KeywordToggler,
     ContentCard,
   },
+  computed: {
+    ...mapState([
+      'curationFeed'
+    ])
+  },
+  methods: {
+    getContentsHot () {
+      if (!this.curationFeed.isAtLast)
+      this.$store.dispatch('getContentsHot')
+      console.log("뇸",this.curationFeed.contents);
+    },
+  },
 }
 </script>
-
 <style scope>
 .cardMargin{
   padding-left: 1000px; 
