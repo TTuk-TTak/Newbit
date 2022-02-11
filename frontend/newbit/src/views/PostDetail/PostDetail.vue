@@ -1,7 +1,7 @@
 <template>
   <v-card
     v-if="post"
-    class=" pt-2 pb-5"
+    class="pt-1 px-8 pb-5"
   >
     <!-- 1. 카드 상단부 -->
     <v-row
@@ -21,23 +21,17 @@
             alt="John"
           >
         </v-avatar>  
-        <span class="ml-2">{{ post.userCode }}</span>
-        <span class="ml-2">{{ this.$createdAt(this.post.postDate) }}</span>
-        <span v-if="post.postEdit"> (수정됨)</span>  
+        <span class="ml-2 writer">{{ post.userNick }}</span>
+        <span class="ml-2 date">{{ this.$createdAt(this.post.postDate) }}</span>
+        <span class="ml-2 date" v-if="post.postEdit"> (수정됨)</span>  
       </v-col>
       <v-col class="pa-2" cols=1>
         <!-- 1-1. 카드 상단부-팝업메뉴 -->
         <v-menu
-          v-if="isLoggedIn"
-          left
-          bottom
-        > 
-        <!-- 수정 / 삭제 기능 구현 완료 후 활성화할것.  -->
-        <!-- <v-menu
           v-if="user.userCode === post.userCode"
           left
           bottom
-        > -->
+        >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               icon
@@ -49,14 +43,14 @@
           </template>
           <v-list>
             <!-- 1) 수정 -->
-            <v-list-item>
+            <v-list-item @click="clickEdit()">
               <v-icon>mdi-cog</v-icon>
               <v-list-item-content class="ml-2 mr-1">
                 <v-list-item-subtitle>게시글 수정</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <!-- 2) 삭제 -->
-            <v-list-item>
+            <v-list-item @click="clickDelete()">
               <v-icon>mdi-delete</v-icon>
               <v-list-item-content class="ml-2 mr-1">
                 <v-list-item-subtitle>게시글 삭제</v-list-item-subtitle>
@@ -74,7 +68,7 @@
     ></embedded-content-card>
     <!-- 2-2. 본문 -->
     <v-card-text
-      class="mb-0 pb-0"
+      class="post-text mb-0 pb-0"
     >
       {{ post.postText }}
     </v-card-text>
@@ -106,7 +100,7 @@
       <!-- 3-2. 생성 시간 -->
       <v-col class="py-1 ma-0">
         <v-card-text
-          class="text-end"
+          class="text-end date"
         >{{ post.postDate + (post.postEdit ? '(수정됨)' : '') }}</v-card-text>
       </v-col>
     </v-row>
@@ -117,7 +111,6 @@
     ></v-divider>
 
     <v-card-text
-      v-if="isLoggedIn"
       class="pb-0"
     >
       <v-row 
@@ -125,7 +118,8 @@
         <user-profile-icon
           :imgUrl="`https://avatars0.githubusercontent.com/u/9064066?v=4&s=460`"
         ></user-profile-icon>
-        <v-textarea 
+        <v-textarea
+          v-model="commentText"
           class="ml-2 py-0"
           placeholder="댓글을 작성해주세요."
           rows=1
@@ -133,22 +127,27 @@
           maxlength='100'
           no-resize
           auto-grow
-          @keydown.enter="writeComment()"
+          @keydown.enter.prevent="writeComment()"
           ></v-textarea>
         <v-btn 
           @click="writeComment()"
           icon
           >
-          <v-icon>mdi-pencil</v-icon>
+          <v-icon>mdi-pencil</v-icon> 
         </v-btn>
       </v-row>
       <v-divider></v-divider>
     </v-card-text>
-    <post-detail-comment
-      class="ml-2"
-      v-for="i in 3"
-      :key="i"
-    ></post-detail-comment>
+    <div
+      v-if='comments'
+    >
+      <post-detail-comment
+        class="ml-2"
+        v-for="(comment, index) in comments"
+        :key="`comment` + index"
+        :comment="comment"
+      ></post-detail-comment>
+    </div>
 
     <!-- 작성 완료 팝업 -->
     <v-snackbar
@@ -190,27 +189,27 @@ export default {
 
   data: () => {
     return {
-      isLoggedIn: true,
       post: null,
       content: null,
+      comments: [],
+      isEditing: false,
       snackbar: {
         show: false,
         message: '',
         timeout: '1000'
       },
+      commentText: '',
     }
   },
 
   methods: {
     getPostDetail () {
-      // let userCode = this.$store.state.user ? this.$store.state.user.userCode : 0
+      const userCode = this.$store.state.user ? this.$store.state.user.userCode : 0
       const postId = _.split(this.$route.path, '/')[2]
-      axios.get(`${this.$serverURL}/post/${postId}`)
-      // 서버 수정시 반영될 내용
-      // axios.get(`${this.$serverURL}/post?uid=${userCode}&pid=${postId}`)
+
+      axios.get(`${this.$serverURL}/post?uid=${userCode}&pid=${postId}`)
         .then(response => {
           this.post = response.data
-          console.log('포스트 정보', response.data)
 
           if (this.post.contentCode) {
             this.getContentDetail(this.post.contentCode)
@@ -220,19 +219,102 @@ export default {
           console.log(err)
       })
     },
+    getComments () {
+      const postId = _.split(this.$route.path, '/')[2]
+      axios({
+        method: 'GET',
+        // headers: this.$setToken(),
+        url: `${this.$serverURL}/comment?pid=${postId}`,
+      })
+        .then((res) => {
+          const commentObject = {}
+          let parentComments = 0
+          this.comments.length = 0
+          for (let key in res.data) {
+
+            if (res.data[key].commentDepth) {
+              let parent = res.data[key].commentParent
+
+              for (let index in commentObject) {
+                if (commentObject[index]['commentCode'] === parent){
+                  commentObject[index]['replies'].push(res.data[key])
+                  break
+                }
+              }
+            } else {
+              commentObject[key] = res.data[key]
+              commentObject[key]['replies'] = []
+              parentComments++
+            }            
+          }
+
+          for (let i = parentComments; i--; i >= 0) {
+            this.comments.push(commentObject[i])
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     getContentDetail (contentCode) {
       axios.get(`${this.$serverURL}/content?cid=${contentCode}`)
         .then(response => {
           this.content = response.data
-          console.log('컨텐츠 정보', response.data)
+          // console.log('컨텐츠 정보', response.data)
         })
         .catch((err) => {
           console.log(err)
       })
     },
+    clickEdit() {
+      this.isEditing = true
+    },
+    clickDelete () {
+      if (this.post.userCode === this.user.userCode) {
+        this.deletePost()
+      }
+    },
+    clickWriteComment() {
+      if (this.user && 0 < this.commentText <= 100 ) {
+        this.writeComment()
+      } else {
+        this.snackbar.message = '댓글을 작성해주세요.'
+        this.snackbar.show = true
+      }
+    },
     writeComment () {
+      const writtenComment = this.commentText
+      this.commentText = ''
       this.snackbar.message = '댓글을 달았습니다.'
       this.snackbar.show = true
+      console.log(
+          {
+          'userCode': this.user.userCode,
+          'postCode': this.post.postCode,
+          'commentText': writtenComment,
+          'commentDepth': false,
+          'commentParent': 0,
+        },
+      )
+      axios({
+        method: 'POST',
+        url: `${this.$serverURL}/comment/`,
+        data: {
+          'userCode': this.user.userCode,
+          'postCode': this.post.postCode,
+          'commentText': writtenComment,
+          'commentDepth': 0,
+          'commentParent': 0,
+        },
+      })
+        .then(res => {
+          this.getComments()
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
     },
     // 게시물 링크 복사
     copyLink () {
@@ -260,6 +342,22 @@ export default {
           console.log(err)
         })
     },
+    deletePost: function () {
+      this.snackbar.message = '게시글을 삭제했습니다.'
+      this.snackbar.show = true
+      axios({
+        method: 'DELETE',
+        // headers: this.$setToken(),
+        url: `${this.$serverURL}/post/${this.post.postCode}`,
+      })
+        .then((res) => {
+          console.log(res, 'deleteSuccess')
+          console.log(this.$goToSocialFeed())
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
   },
   computed: {
     ...mapState([
@@ -269,6 +367,7 @@ export default {
   watch: {
     user: {
       deep: true,
+      immediate: true,
       handler() {
         if (this.post === null) {
           this.getPostDetail()
@@ -276,13 +375,10 @@ export default {
       }
     }
   },
-  created () {
-    if (this.user === null) {
-      this.getPostDetail()
-    }
+  mounted () {
+    this.getPostDetail()
+    this.getComments()
   },
-
-
 }
 </script>
 

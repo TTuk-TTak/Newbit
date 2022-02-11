@@ -34,6 +34,7 @@ const routes = [
       },
       {
         path: 'social/:id',
+        name: 'PostDetail',
         component: PostDetail
       },
       {

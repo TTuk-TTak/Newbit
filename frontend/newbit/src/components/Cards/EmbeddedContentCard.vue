@@ -162,7 +162,6 @@ export default {
         }
       }
       this.chips = chips
-      console.log(this.chips)
       this.renderChip = true
     }
   },
