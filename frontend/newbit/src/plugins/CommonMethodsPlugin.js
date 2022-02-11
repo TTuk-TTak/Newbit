@@ -40,23 +40,22 @@ CommonMethodsPlugin.install = function (Vue) {
     const keywordArray = _.split(keywordString, '_')
     return keywordArray
   }
-  // 2) 
-  // parameter: Array(Vue.prototype.$parseKeyword의 return)
-  // return: Object(Key: 변수명, value: shownName)
-  Vue.prototype.$makeKeywordDict = function (keywordArray) {
-    const keywords = _.mapValues(this.$KEYWORDS, 'shownName')
-    const keywordObject = {}
-
-    for (let keyword of keywordArray) {
-      keywordObject[keyword] = keywords[keyword]
-    }
-    return keywordObject
-  }
-
-  // 3. 컨텐츠로 이동
+  // 3. 컨텐츠 관련
+  // 1) 컨텐츠로 이동
   Vue.prototype.$openContent = function (contentURL) {
     window.open(contentURL)
   }
+  // 2) 컨텐츠 디테일 조회
+  Vue.prototype.$getContentDetail = function (contentCode) {
+    axios.get(`${this.$serverURL}/content?cid=${contentCode}`)
+      .then(response => {
+        console.log('컨텐츠 정보', response.data)
+        return response.data
+      })
+      .catch((err) => {
+        console.log(err)
+    })
+  },
 
   // 특정 시간이 현재로부터 얼마나 지났는지를 간단히 표기하는 전역 함수.
   Vue.prototype.$createdAt = function createdAt (createdAt) {

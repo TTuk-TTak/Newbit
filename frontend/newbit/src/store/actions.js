@@ -17,8 +17,8 @@ export default {
     const size = 8
     axios({
       method: 'get',
-      url: `${serverURL}/post?`
-        + `uid=${state.userCode}`
+      url: `${serverURL}/post/list?`
+        + `uid=${state.user.userCode}`
         + `&lastpostcode=${state.socialFeed.lastPostCode}`
         + `&size=${size}`,
     })
