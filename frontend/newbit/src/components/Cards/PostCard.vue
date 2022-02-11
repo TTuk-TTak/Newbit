@@ -58,6 +58,7 @@
 <script>
 import axios from 'axios'
 import EmbeddedContentCard from '@/components/Cards/EmbeddedContentCard.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'PostCard',
@@ -69,10 +70,10 @@ export default {
   },
   methods: {
     embedPost(contentCode) {
-      axios.get(`${this.$serverURL}/content?cid=${contentCode}`)
+      axios.get(`${this.$serverURL}/content?uid=${this.user.userCode}&cid=${contentCode}`)
         .then(response => {
           this.content = response.data
-          // console.log(response.data)
+          console.log(response.data)
         })
         .catch((err) => {
           console.log(err)
@@ -103,6 +104,11 @@ export default {
       //   userImg: null,
       // }
     }
+  },
+  computed: {
+    ...mapState([
+      'user',
+    ])
   },
   created () {
     if (this.post.contentCode){

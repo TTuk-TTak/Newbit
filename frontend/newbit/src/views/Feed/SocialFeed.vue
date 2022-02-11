@@ -24,7 +24,7 @@
     >
       <v-spacer></v-spacer>
       <infinite-loading
-        v-if="isINFLoaderRendered"
+        v-if='user'
         class="mt-5 pt-5 justify-self-center align-self-center"
         @infinite="infiniteHandler" 
         >
@@ -53,7 +53,7 @@ export default {
     page: 1,
     posts: [],
     lastPostCode: 0,
-    isINFLoaderRendered: false,
+    // isINFLoaderRendered: false,
   }),
   // created () {
   //   const lastPage = this.socialFeed.pageNum
@@ -144,7 +144,7 @@ export default {
     }
   },
   mounted () {    
-    this.isINFLoaderRendered = true
+    // this.isINFLoaderRendered = true
   }
   // watch: {
   //   socialFeedLoadedAt: {
