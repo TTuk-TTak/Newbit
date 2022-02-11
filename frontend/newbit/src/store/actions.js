@@ -73,4 +73,9 @@ export default {
       console.log(err)
     })
   },
+
+  // 5. 검색 관련
+  setSearchWord: function ({ commit }, searchword) {
+    commit('SET_SEARCHWORD', searchword)
+  },
 }

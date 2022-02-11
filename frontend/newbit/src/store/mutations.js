@@ -59,4 +59,9 @@ export default {
     state.curationFeed.lastPostCode = lastPostCode
   },
 
+  // 5. 검색관련
+  SET_SEARCHWORD: function (state, searchword) {
+    state.searchFeed.searchword = searchword
+    console.log(state.searchFeed.searchword)
+  },
 }

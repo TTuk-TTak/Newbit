@@ -19,6 +19,8 @@
         <v-text-field
           class="mb-2"
           hide-details
+          v-model="searchword"
+          @keyup.enter="submit"
         ></v-text-field>
         <span>추천 키워드</span>
         <v-chip-bar
@@ -52,6 +54,14 @@ export default {
         'Frontend',
         'Backend',
       ],
+    }
+  },
+  methods: {
+    submit() {
+      if (this.searchword) {
+        this.$store.dispatch('setSearchWord', this.searchword)
+        this.$router.push({ name: 'Search', params: { keyword: this.searchword } })
+      }
     }
   },
 }
