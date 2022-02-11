@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <login-modal :isLogged='$store.state.user === null'></login-modal>
-    <first-login-modal :isLogged='$store.state.user === null'></first-login-modal>
+    <login-modal></login-modal>
+    <first-login-modal></first-login-modal>
     <v-row justify="center">
       <v-col
         cols="3"

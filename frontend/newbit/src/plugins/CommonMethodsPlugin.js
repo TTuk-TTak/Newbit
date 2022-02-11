@@ -120,8 +120,10 @@ CommonMethodsPlugin.install = function (Vue) {
       method: 'get',
     })
       .then((res) => {
+        if (!res.data['userKeyword']) {
+          this.$store.dispatch('turnFirstLoginModalOn')
+        }
         this.$store.dispatch('saveUserInformation', res.data)
-
       })
       .catch((err) => {
         console.log(err)

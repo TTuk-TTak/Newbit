@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <v-dialog
-      v-model="dialog"
+      v-model="$store.state.modals.firstLoginModal"
       width="700"
     >
       <v-card class="rounded-xl ma-0 pa-0 firstlogin pb-4">
@@ -78,7 +78,7 @@
             class="text-center"
           >
             <v-btn
-              @click="dialog = false"
+              @click="$store.dispatch('turnFirstLoginModalOFF')"
               color="keywordChipText"
               dark
               depressed
@@ -108,7 +108,7 @@
             class="text-center"
           >
             <v-btn
-              @click="dialog = false"
+              @click="$store.dispatch('turnFirstLoginModalOFF')"
               large
               rounded
               width="88%"
@@ -130,9 +130,6 @@ import FollowRecommendation from '@/components/Modals/FollowModal/FollowRecommen
 
 export default {
   name: 'FirstLoginModal',
-  props: {
-    isLogged: Boolean,
-  },
   components: { KeywordSelector, FollowRecommendation },
   data () {
     return {
@@ -140,7 +137,6 @@ export default {
         introduction: '',
       },
       page: 1,
-      dialog: this.isLogged
     }
   },
   methods: {

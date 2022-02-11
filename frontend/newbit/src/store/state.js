@@ -3,6 +3,7 @@ export default {
   modals: {
     postCreateModal: false,
     firstLoginModal: false,
+    loginModal: false,
   },
   socialFeedLoadedAt: null,
   socialFeed: {
