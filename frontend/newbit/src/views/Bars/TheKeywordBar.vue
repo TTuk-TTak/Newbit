@@ -1,32 +1,28 @@
 <template>
-    <v-list
-      class="pa-0"
+  <v-list class="pa-0">
+    <v-list-group
+      class="ml-0 keywordbar"
+      active-class='feedBackground rounded-lg'
+      v-for="(category, categoryName, index) of categorizedKeywords"
+      :key="`keywordBarCategory` + category + index"
+      :prepend-icon="category.icon"
+      no-action
     >
-      <v-list-group
-        class="background ml-0"
-        active-class='feedBackground rounded-lg'
-        v-for="(category, categoryName, index) of categorizedKeywords"
-        :key="`keywordBarCategory` + category + index"
-        :prepend-icon="category.icon"
-        no-action
+      <template v-slot:activator>
+        <v-list-item-content @click="toggle.categoryName = !toggle.categoryName">
+          <v-list-item-title v-text="categoryName"></v-list-item-title>
+        </v-list-item-content>
+      </template>
+      <v-list-item
+        v-for="keyword in category.data"
+        :key="`keywordBar` + keyword.shownName"
       >
-        <template v-slot:activator>
-          <v-list-item-content
-            @click="toggle.categoryName = !toggle.categoryName"
-          >
-            <v-list-item-title v-text="categoryName"></v-list-item-title>
-          </v-list-item-content>
-        </template>
-        <v-list-item
-          v-for="keyword in category.data"
-          :key="`keywordBar` + keyword.shownName"
-        >
-          <v-list-item-content>
-            <v-list-item-title v-text="keyword.shownName"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-group>
-    </v-list>
+        <v-list-item-content>
+          <v-list-item-title v-text="keyword.shownName"></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list-group>
+  </v-list>
 
 </template>
 
@@ -37,7 +33,7 @@ export default {
   name: 'TheKeywordBar',
   data: () => ({
     toggle: {
-      '개발언어': false, 
+      '개발언어': false,
       'Front-end': false,
       'Back-end': false,
       '일반': false,
@@ -52,5 +48,9 @@ export default {
 </script>
 
 <style>
-
+.keywordbar {
+  background-color: #f2f2f4 !important;
+  /* 300으로 잡으면 1920x1080에서 딱 예쁘게 보이는데 반응형이 아니라서 아쉬운 부분...*/
+  width: 300px;
+}
 </style>

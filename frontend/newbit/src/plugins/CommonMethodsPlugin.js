@@ -98,6 +98,7 @@ CommonMethodsPlugin.install = function (Vue) {
   // 2) 로그아웃
   Vue.prototype.$logout = function () {
     localStorage.removeItem('jwt')
+    localStorage.removeItem('user_code')
     this.$store.dispatch('resetUserInformation')
     this.$goToSocialFeed()
   }
