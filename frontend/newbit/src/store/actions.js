@@ -53,7 +53,9 @@ export default {
     axios({
       method: 'get',
       url: `${serverURL}/content/list?sorting=hot&`
-        + `uid=${state.userCode}`
+        // + `uid=${state.userCode}`
+        // 로그인 안 한 사용자 테스트용 1
+        + `uid=1`
         + `&lastcontentcode=${state.curationFeed.lastContentCode}`
         + `&size=${size}`
         + `&keyword=${keywordchip}`
