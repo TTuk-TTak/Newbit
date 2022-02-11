@@ -11,7 +11,7 @@
     >
       <v-col
         v-for="post in posts"
-        :key="`social` + post"    
+        :key="`social` + post.postCode"    
         class="pa-1 pb-1"
         cols=12
       >

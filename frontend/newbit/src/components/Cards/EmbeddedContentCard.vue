@@ -33,6 +33,7 @@
           </v-col>
           <v-col class='pa-0 mt-0' cols=12>
           <v-chip-group
+            v-if='renderChip'
             class="py-0 ml-2" 
           >
             <keyword-chip
@@ -128,6 +129,7 @@ export default {
       message: '',
       timeout: '1000'
     },
+    renderChip: false
   }),
   computed: {
     ...mapGetters([
@@ -160,13 +162,18 @@ export default {
         }
       }
       this.chips = chips
+      console.log(this.chips)
+      this.renderChip = true
     }
   },
   watch: {
-    content: function () {
+    content: {
+      immediate: true,
+      handler () {
         if (this.content) {
           this.makeKeywordChip()
         }
+      },
     }
   },
 }
