@@ -42,10 +42,17 @@ public class ContentCotroller {
 	@GetMapping
 	@ApiOperation(value = "특정 콘텐츠 상세 조회", notes = "콘텐츠 번호에 해당하는 콘텐츠 내용을 반환", response = ContentDto.class)
 	public ResponseEntity<ContentDto> getPost(
-			@RequestParam @ApiParam(value = "특정 콘텐츠를 가져오기 위한 콘텐츠 번호", required = true) int cid) throws Exception {
+			@RequestParam @ApiParam(value = "특정 콘텐츠를 가져오기 위한 콘텐츠 번호", required = true)int uid, int cid) throws Exception {
 		logger.info("getContent 호출 : " + cid);
-		
 		ContentDto c = contentService.getContent(cid);
+		
+		//좋아요스크랩 정보
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("userCode", uid);
+		hm.put("contentCode", c.getContentCode());
+		c.setLiked(contentService.userLikeContent(hm));
+		c.setScrapped(contentService.userScrapContent(hm));
+		c.setRead(contentService.userReadContent(hm));
 		
 		//테크블로그 정보 포함시키기
 		TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
