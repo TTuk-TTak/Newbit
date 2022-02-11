@@ -91,6 +91,9 @@ export default {
         scrapped: false,
         techblogCode: 4,
         userCode: '제임스',
+        userNick: null,
+        userId: null,
+        userImg: null,
       }
     }
   },

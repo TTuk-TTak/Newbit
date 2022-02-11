@@ -5,7 +5,7 @@ export const keywords = {
   'javascript' : {category: '개발언어', shownName: 'JavaScript', defaultImg: '',},
   // 프론트엔드
   'react' : {category: 'Front-end', shownName: 'React', defaultImg: '',},
-  'vue' : {category: 'Front-end', shownName: 'Vue.js', defaultImg: '',},
+  'vuejs' : {category: 'Front-end', shownName: 'Vue.js', defaultImg: '',},
   'angular' : {category: 'Front-end', shownName: 'Angular', defaultImg: '',},
   'android' : {category: 'Front-end', shownName: 'Android', defaultImg: '',},
   'ios' : {category: 'Front-end', shownName: 'iOS', defaultImg: '',},
@@ -17,7 +17,7 @@ export const keywords = {
   // 일반
   'git': {category: '일반', shownName: 'Git', defaultImg: '',},
   'testing': {category: '일반', shownName: '테스팅', defaultImg: '',},
-  'aimi': {category: '일반', shownName: 'AI/머신러닝', defaultImg: '',},
+  'aiml': {category: '일반', shownName: 'AI/머신러닝', defaultImg: '',},
   'cloud': {category: '일반', shownName: '클라우드', defaultImg: '',},
   'blockchain': {category: '일반', shownName: '블록체인', defaultImg: '',},
 }

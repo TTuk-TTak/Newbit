@@ -1,6 +1,6 @@
 <template>
   <v-card
-    v-if='content'
+    v-if="content"
     class="ma-1 pt-3 pb-3" 
     outlined
   >
@@ -37,12 +37,17 @@
           >
             <keyword-chip
               class="embeddedKeyword"
-              v-for="(value, key) in keywords"
+              v-for="(value, key) in chips.keywords"
               :key="key"
               :text="value"
               :isActive="false"
             >
             </keyword-chip>
+            <hashtag
+              v-for='i in chips.hashtags'
+              :key='i'
+              :text='i'
+            ></hashtag>
           </v-chip-group>
           </v-col>
           <!-- 하단 블로그 소개 및 아이콘 -->
@@ -97,7 +102,10 @@
 </template>
 
 <script>
+// import _ from 'lodash'
+import { mapGetters } from 'vuex'
 import KeywordChip from '@/components/Keyword/KeywordChip.vue'
+import Hashtag from '@/components/Keyword/Hashtag.vue'
 
 export default {
   name: 'EmbeddedContentCard',
@@ -106,23 +114,25 @@ export default {
   },
   components: {
     KeywordChip,
+    Hashtag,
   },
   data: () => ({
-    defaultImg: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
-    // content: {
-    //   contentUrl: 'https://picsum.photos/500/300?image=55',
-    //   contentImg: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
-    //   contentLike: 0,
-    //   contentKeyword: '',
-    //   date: '2022-01-24',
-    // },
-    keywords: [],
+    defaultImg: 'https://cdn.vuetifyjs.com/images/cards/cooking.png', 
+    chips: {},
     snackbar: {
       show: false,
       message: '',
       timeout: '1000'
     },
   }),
+  computed: {
+    ...mapGetters([
+      'keywordDict',
+    ]),
+    parsedKeywords () {
+      return this.$parseKeyword(this.content.contentKeyword)
+    }
+  },
   methods: {
     openContent: function () {
       // 수정 필요
@@ -132,15 +142,26 @@ export default {
       this.$copyText(this.content.contentUrl)
       this.snackbar.message = '컨텐츠 주소를 클립보드에 복사했습니다.'
       this.snackbar.show = true
+    },
+    makeKeywordChip: function () {
+      const chips = {keywords:{}, hashtags:{}}
+      for (let keyword of this.parsedKeywords) {
+        if (keyword in this.keywordDict) {
+          chips.keywords[keyword] = this.keywordDict[keyword]
+        } else {
+          chips.hashtags[keyword] = keyword
+        }
+      }
+      this.chips = chips
     }
   },
   watch: {
     content: function () {
-      let parsedKeyword = this.$parseKeyword(this.content.contentKeyword)
-      this.keywords = this.$makeKeywordDict(parsedKeyword)
+        if (this.content) {
+          this.makeKeywordChip()
+        }
     }
-  }
-
+  },
 }
 </script>
 
