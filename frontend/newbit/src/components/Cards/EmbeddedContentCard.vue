@@ -62,9 +62,13 @@
                 rounded
                 size="20"
               >
-              <span>20</span>
+                <img
+                  :src="content.techBlogImg"
+                  @error="defaultBlogImg"
+                  alt="John"
+                  >
               </v-avatar>
-              <span class="ml-2">어썸한 블로그</span>
+              <span class="ml-2">{{ content.techBlogName }}</span>
             </div>
             <div class="pr-4 pb-1 mt-2 pt-0">
               <v-btn 
@@ -137,6 +141,9 @@ export default {
     openContent: function () {
       // 수정 필요
       window.open(this.content.contentUrl)
+    },
+    defaultBlogImg(e) {
+      e.target.src = `https://cdn.vuetifyjs.com/images/john.jpg`
     },
     copyLink: function () {
       this.$copyText(this.content.contentUrl)
