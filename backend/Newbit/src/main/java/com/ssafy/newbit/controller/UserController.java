@@ -55,6 +55,7 @@ public class UserController{
 	@PostMapping("/signup")
 	public ResponseEntity<String> addUser(
 			@RequestBody @ApiParam(value = "유저 정보.", required = true) UserDto userDto)throws Exception{  
+		logger.info("addUser호출 : " );
 		if(userService.addUser(userDto)) { 
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
@@ -189,7 +190,6 @@ public class UserController{
 
     /////////////////////////////사용자 정보수정 /////////////////////////////////////////////////////
 	
-	
 	// 회원정보 수정
 	@ApiOperation(value = "회원 정보 수정", notes = "수정할 회원 정보를 입력한다. DB 수정 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PatchMapping("/setting")
@@ -197,6 +197,7 @@ public class UserController{
 			@RequestBody @ApiParam(value = "수정 가능한 정보 : 아이디, 닉네임, 비밀번호, 한줄 소개, 프로필 사진, 관심 키워드", required = true) UserDto userDto) throws Exception {
 		logger.info("editUserInfo - 호출");
 		System.out.println(userService.editUserInfo(userDto));
+	
 		if (userService.editUserInfo(userDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}

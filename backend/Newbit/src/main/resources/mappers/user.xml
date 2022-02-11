@@ -87,7 +87,12 @@
 		    user_keyword = #{userKeyword}
 		where user_code = #{userCode}
 	</update>
-
+  	<!--  특정 유저 ID 조회 -->
+	<select id="matchUserId" parameterType="int" resultType="String">
+		select user_id `userId`
+		from user
+		where user_code	 = #{userCode}
+	</select>
 	
 	<!-- 팔로잉 추가 -->
 	<insert id="followUser" parameterType="Hashmap">

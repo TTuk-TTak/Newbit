@@ -1,5 +1,4 @@
 export default {
-  userCode: 1,
   user: null,
   modals: {
     postCreateModal: false,
@@ -7,7 +6,7 @@ export default {
   socialFeedLoadedAt: null,
   socialFeed: {
     lastPostCode: 0,
-    pageNum: 0,
+    pageNum: -1,
     isAtLast: false,
     posts: {
     },

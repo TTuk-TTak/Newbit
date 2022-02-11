@@ -49,6 +49,13 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<!-- Apache Commons IO for Java InputStream -->
+		<dependency>
+    		<groupId>commons-io</groupId>
+    		<artifactId>commons-io</artifactId>
+    		<version>2.6</version>
+		</dependency>
+		
 		<!-- Security for Password Hashing-->
 		<dependency>
     		<groupId>org.springframework.boot</groupId>

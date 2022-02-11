@@ -1,8 +1,8 @@
 <template >
   <v-card
     outlined
-    class="pa-4 pt-2 cardMargin">
-    
+    class="pa-4 pt-2 cardMargin"
+    >
     <div class="mx-2" style="border-bottom:1px solid lightgray">
       <v-tabs
         class="ml-1 mr-3"
@@ -45,7 +45,7 @@ export default {
 
 <style scope>
 .cardMargin{
- padding-left: 1000px; 
+  padding-left: 1000px; 
 }
 .v-tab.v-tab.contentTab {
   font-size: 1.2em;

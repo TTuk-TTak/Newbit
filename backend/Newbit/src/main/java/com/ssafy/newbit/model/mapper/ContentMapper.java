@@ -5,8 +5,7 @@ import java.util.*;
 
 import com.ssafy.newbit.model.ContentDto;
 public interface ContentMapper {
-	public  List<ContentDto> newListContent(HashMap<String, Object> map) throws SQLException;
-	public  List<ContentDto> hotListContent(HashMap<String, Object> map) throws SQLException;
+	public  List<ContentDto> listContent(HashMap<String, Object> map) throws SQLException;
 	public ContentDto getContent(int contentCode) throws SQLException;
 	
 	public void updateScrap(HashMap<String, Integer> map) throws SQLException;
@@ -22,5 +21,8 @@ public interface ContentMapper {
 	
 	public int userLikeContent(HashMap<String, Object> map) throws SQLException;
 	public int userScrapContent(HashMap<String, Object> map) throws SQLException;
+	public int userReadContent(HashMap<String, Object> map) throws SQLException;
 	public List<ContentDto> searchContentList(HashMap<String, Object> map) throws SQLException;
+
+	public long getCursor(HashMap<String, Object> map) throws SQLException;
 }

@@ -25,9 +25,11 @@ export default {
 
     // (2) State 갱신
     state.socialFeed.pageNum += 1
-    state.socialFeed.posts[pageNum] = data
+    state.socialFeed.posts[pageNum + 1] = data
     state.socialFeed.lastPostCode = lastPostCode
+    console.log('LOADPOST', state.socialFeedLoadedAt)
     state.socialFeedLoadedAt = Date.now()
+    console.log('LOADPOST', state.socialFeedLoadedAt)
   },
   // 2) 마지막 포스트 도달.
   REACHED_LAST_POST: function (state) {

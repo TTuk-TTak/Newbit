@@ -24,7 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@CrossOrigin(origins = { "http://localhost:8080" })
+@CrossOrigin(origins = { "*"})
 @RestController
 @RequestMapping("/content")
 @Api("콘텐츠 컨트롤러  API")
@@ -46,10 +46,11 @@ public class ContentCotroller {
 		return new ResponseEntity<ContentDto>(contentService.getContent(cid), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "추천 피드 콘텐츠 조회", notes = "키워드에 해당하는 콘텐츠 목록을 정렬 기준으로 반환", response = List.class)
+	@ApiOperation(value = "추천 피드 콘텐츠 목록 조회", notes = "키워드에 해당하는 콘텐츠 목록을 정렬 기준으로 반환", response = List.class)
 	@GetMapping("/list")
-	public ResponseEntity<List<ContentDto>> newContentList(
-			@RequestParam @ApiParam(value = "게시글 목록을 가져오기 위해 필요한 정보", required = true)String sorting, int uid, int lastcontentcode, int size, String keyword) throws Exception {
+	public ResponseEntity<List<ContentDto>> contentList(
+			@RequestParam @ApiParam(value = "게시글 목록을 가져오기 위해 필요한 정보", required = true) String sorting, int uid,
+			int lastcontentcode, int size, String keyword) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		List<String> keywordList = new ArrayList<>();
@@ -61,31 +62,41 @@ public class ContentCotroller {
 				keywordList.add(str);
 		}
 		map.put("keywordList", keywordList);
-		map.put("type", sorting);
-		
-		map.put("lastContentCode", lastcontentcode);
-		map.put("size",size);
-		logger.info("newContentList 호출 : " + keyword);
 
-		//콘텐츠 목록 불러오기
-		List<ContentDto> list = contentService.newListContent(map);
-		
-		
-		//현재 로그인한 유저가 콘텐츠에 대해 좋아요와 스크랩 했는지 체크
-		for(ContentDto c : list) {
+		// 정렬 기준 (최신순 - "new", 인기순 = "hot")
+		map.put("type", sorting);
+
+		map.put("lastContentCode", lastcontentcode);
+		map.put("size", size);
+		logger.info("contentList 호출 : " + keyword);
+
+		// 커서 기반 페이지네이션을 위한 커서 생성, listContent()호출할 때 커서로 넣어줌
+		if (lastcontentcode != 0) {
+			HashMap<String, Object> cursormap = new HashMap<String, Object>();
+			cursormap.put("contentCode", lastcontentcode);
+			cursormap.put("type", sorting);
+			long cursor = contentService.getCursor(cursormap);
+			map.put("cursor", cursor);
+			//System.out.println(cursor);
+		}
+
+		// 콘텐츠 목록 불러오기
+		List<ContentDto> list = contentService.listContent(map);
+
+		// 현재 로그인한 유저가 콘텐츠에 대해 좋아요와 스크랩 했는지 체크
+		for (ContentDto c : list) {
 			HashMap<String, Object> hm = new HashMap<String, Object>();
 			hm.put("userCode", uid);
 			hm.put("contentCode", c.getContentCode());
 			c.setLiked(contentService.userLikeContent(hm));
 			c.setScrapped(contentService.userScrapContent(hm));
+			c.setRead(contentService.userReadContent(hm));
 		}
-		
 		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
 	}
-	
 
 	@PostMapping("/like")
-	@ApiOperation(value ="콘텐츠 좋아요 추가", notes ="콘텐츠 좋아요 테이블에 유저-좋아요한 콘텐츠 코드 데이터 추가, 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "콘텐츠 좋아요 추가", notes = "콘텐츠 좋아요 테이블에 유저-좋아요한 콘텐츠 코드 데이터 추가, 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	public ResponseEntity<String> likeContent(
 			@RequestBody @ApiParam(value = "좋아요할 사용자와 콘텐츠 정보", required = true) HashMap<String, Integer> map)
 			throws Exception {
@@ -96,6 +107,7 @@ public class ContentCotroller {
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
+
 	@PostMapping("/scrap")
 	@ApiOperation(value = "콘텐츠 스크랩 추가", notes = "콘텐츠 스크랩 테이블에 유저-스크랩한 콘텐츠 코드 데이터 추가, 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	public ResponseEntity<String> scrapContent(
@@ -108,6 +120,7 @@ public class ContentCotroller {
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
+
 	@ApiOperation(value = "콘텐츠 좋아요 삭제", notes = "콘텐츠코드에 해당하는 콘텐츠 좋아요를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("/like")
 	public ResponseEntity<String> deleteLikeContent(
@@ -139,7 +152,7 @@ public class ContentCotroller {
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/read")
 	@ApiOperation(value = "콘텐츠 읽음 추가", notes = "콘텐츠 read 테이블에 콘텐츠 코드 - 유저 코드 추가, 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	public ResponseEntity<String> readContent(
@@ -153,17 +166,17 @@ public class ContentCotroller {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 
 	}
-	
-	
+
 	// 콘텐츠 검색
 	@ApiOperation(value = "콘텐츠 검색", notes = "검색 키워드와 키워드칩에 해당하는 콘텐츠 목록을 정렬 기준으로 반환", response = List.class)
 	@GetMapping("/search")
 	public ResponseEntity<List<ContentDto>> searchContentList(
-			@RequestParam @ApiParam(value = "콘텐츠 목록을 가져오기 위해 필요한 정보", required = true)String search, int uid, int lastcontentcode, int size, String keyword) throws Exception {
+			@RequestParam @ApiParam(value = "콘텐츠 목록을 가져오기 위해 필요한 정보", required = true) String search, int uid,
+			int lastcontentcode, int size, String keyword) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		
+
 		map.put("search", search);
-		//키워드칩 파싱부분
+		// 키워드칩 파싱부분
 		List<String> keywordList = new ArrayList<>();
 		StringTokenizer st = new StringTokenizer(keyword, "_");
 		while (st.hasMoreTokens()) {
@@ -173,14 +186,14 @@ public class ContentCotroller {
 		}
 		map.put("keywordList", keywordList);
 		map.put("lastContentCode", lastcontentcode);
-		map.put("size",size);
+		map.put("size", size);
 		logger.info("searchContentList 호출 : " + search);
-		
-		//콘텐츠 목록 불러오기
+
+		// 콘텐츠 목록 불러오기
 		List<ContentDto> list = contentService.searchContentList(map);
-		
-		//현재 로그인한 유저가 콘텐츠에 대해 좋아요와 스크랩 했는지 체크
-		for(ContentDto c : list) {
+
+		// 현재 로그인한 유저가 콘텐츠에 대해 좋아요와 스크랩 했는지 체크
+		for (ContentDto c : list) {
 			HashMap<String, Object> hm = new HashMap<String, Object>();
 			hm.put("userCode", uid);
 			hm.put("contentCode", c.getContentCode());
