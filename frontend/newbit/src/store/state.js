@@ -15,6 +15,7 @@ export default {
   curationFeed: {
     lastContentCode : 0,
     page : 0,
+    sorting : "hot",
     isAtLast : false,
     contents : [],
   },
