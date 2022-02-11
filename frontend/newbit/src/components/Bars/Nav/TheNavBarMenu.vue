@@ -17,7 +17,7 @@
         :ripple='false'
         text
         >
-        큐레이션
+        추천피드
       </v-tab>
       <v-tab
         to="/archive"

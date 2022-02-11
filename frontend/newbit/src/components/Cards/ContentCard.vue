@@ -47,10 +47,13 @@
       </div>
       <div>
         <v-btn icon>
-          <v-icon>mdi-share</v-icon>
+          <v-icon>mdi-autorenew</v-icon>
         </v-btn>
         <v-btn icon>
-          <v-icon>mdi-cards-heart-outline</v-icon>
+          <v-icon>mdi-bookmark-outline</v-icon>
+        </v-btn>        
+        <v-btn icon>
+          <v-icon>mdi-heart-outline</v-icon>
         </v-btn>        
       </div>
     </v-card-actions>
