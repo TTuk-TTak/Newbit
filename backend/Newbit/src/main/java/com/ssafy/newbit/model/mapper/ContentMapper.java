@@ -25,4 +25,5 @@ public interface ContentMapper {
 	public List<ContentDto> searchContentList(HashMap<String, Object> map) throws SQLException;
 
 	public long getCursor(HashMap<String, Object> map) throws SQLException;
+
 }
