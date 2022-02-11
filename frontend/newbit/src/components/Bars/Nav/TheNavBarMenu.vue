@@ -5,6 +5,7 @@
     >
       <v-tab
         to="/social"
+        @click='clickSocial()'
         class="backgroundDark"
         :ripple='false'
         text
@@ -36,6 +37,11 @@ export default {
   name: 'TheNavBarMenu',
   components: {
   },
+  methods: {
+    clickSocial() {
+      console.log('social에서 눌렀을 때 누르면 새로고침하는 함수')
+    }
+  }
 }
 </script>
 
