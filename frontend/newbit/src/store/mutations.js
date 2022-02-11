@@ -10,7 +10,6 @@ export default {
   // 2) 유저 정보 저장
   SAVE_USER_INFORMATION: function (state, userData) {
     state.user = userData
-    console.log(state.user)
   },
 
 

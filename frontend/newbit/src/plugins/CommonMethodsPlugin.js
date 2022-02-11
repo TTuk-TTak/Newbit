@@ -27,7 +27,7 @@ CommonMethodsPlugin.install = function (Vue) {
   }
   // 6) 내 프로필 상세페이지 이동
   Vue.prototype.$goToMyProfile = function () {
-    this.$router.push({ name: 'ProfileDetail', params: { id: this.$store.state.user.userCode } })
+    this.$router.push({ name: 'ProfileDetail', params: { userCode: this.$store.state.user.userCode } })
   }
   // 7) 프로필 수정페이지 이동
   Vue.prototype.$goToProfileEdit = function () {
@@ -86,7 +86,7 @@ CommonMethodsPlugin.install = function (Vue) {
       })
       .then((res) => {
         localStorage.setItem('user_code', res)
-        this.$fetchUserInformation(res)
+        this.$fetchMyInformation(res)
         this.$goToSocialFeed()
       })
       .catch((err) => {
@@ -113,8 +113,8 @@ CommonMethodsPlugin.install = function (Vue) {
   }
 
   // 6. 유저 정보 관련
-  // 1) 조회
-  Vue.prototype.$fetchUserInformation = function (user_code) {
+  // 1) 자기 자신 조회
+  Vue.prototype.$fetchMyInformation = function (user_code) {
     axios({
       url: `${this.$serverURL}/user?uid=${user_code}`,
       method: 'get',
@@ -127,6 +127,34 @@ CommonMethodsPlugin.install = function (Vue) {
       })
       .catch((err) => {
         console.log(err)
+      })
+  },
+
+    // 7. 팔로우
+    // 1) 팔로잉 추가
+    Vue.prototype.$follow = function (userCode) {
+      const myUserCode = localStorage.getItem('user_code')
+      axios({
+        url: `${this.$serverURL}/follow`,
+        method: 'post',
+        data: {
+          from: myUserCode,
+          to: userCode
+        }
+      })
+        .then((res) => {
+          console.log(res)
+        })
+    }
+  // 2) 팔로잉 취소
+  Vue.prototype.$unFollow = function (userCode) {
+    const myUserCode = localStorage.getItem('user_code')
+    axios({
+      url: `${this.$serverURL}/follow?from=${myUserCode}&to=${userCode}`,
+      method: 'delete',
+    })
+      .then((res) => {
+        console.log(res)
       })
   }
 

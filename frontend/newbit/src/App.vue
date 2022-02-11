@@ -27,7 +27,7 @@ export default {
     const token = localStorage.getItem('jwt')
     const user_code = localStorage.getItem('user_code')
     if (token) {
-      this.$fetchUserInformation(user_code)
+      this.$fetchMyInformation(user_code)
     }
   }
 

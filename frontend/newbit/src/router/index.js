@@ -53,7 +53,7 @@ const routes = [
 
       //Profile  
       {
-        path: 'profile/:userId',
+        path: 'profile/:userCode',
         name: 'ProfileDetail',
         component: ProfileDetail
       },
