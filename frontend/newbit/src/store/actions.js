@@ -1,7 +1,7 @@
-// import state from './state'
-// import axios from 'axios'
+import state from './state'
+import axios from 'axios'
 
-// const serverURL = process.env.VUE_APP_SERVER_URL
+const serverURL = process.env.VUE_APP_SERVER_URL
 
 export default {
   // 1. 모달 조작
@@ -56,7 +56,7 @@ export default {
         // + `uid=${state.userCode}`
         // 로그인 안 한 사용자 테스트용 1
         + `uid=1`
-        + `&lastcontentcode=${state.curationFeed.lastContentCode}`
+        + `&lastcontentcode=0`
         + `&size=${size}`
         + `&keyword=${keywordchip}`
     })
