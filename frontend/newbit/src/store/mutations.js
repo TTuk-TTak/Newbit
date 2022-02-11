@@ -44,4 +44,19 @@ export default {
     state.modals.postCreateModal = false
   },
 
+  //4. 추천 피드
+  // 1) 인기콘텐츠 로딩
+  SET_CONTENTS: function (state, data) {
+    // (1) 선언
+    // a. pageNum: 인덱싱을 위한 변수
+    // b. lastPostCode: postCode 중 가장 작은 값.  
+    // const pageNum = state.curationFeed.pageNum
+    // const page = state.curationFeed.page
+    // const lastPostCode = _.last(data).contentCode
+    // (2) State 갱신
+    // state.curationFeed.page += 1
+    state.curationFeed.contents = data
+    // state.curationFeed.lastPostCode = lastPostCode
+  },
+
 }

@@ -1,7 +1,7 @@
-// import state from './state'
-// import axios from 'axios'
+import state from './state'
+import axios from 'axios'
 
-// const serverURL = process.env.VUE_APP_SERVER_URL
+const serverURL = process.env.VUE_APP_SERVER_URL
 
 export default {
   // 1. 모달 조작
@@ -43,5 +43,34 @@ export default {
 
   resetUserInformation: function ({ commit }) {
     commit('RESET_USER_INFORMATION')
+  },
+
+  // 4. 추천피드 조작
+  getContentsHot: ({commit}) => {
+    const size = 10
+    const keywordchip = "react"
+    console.log(state.curationFeed)
+    axios({
+      method: 'get',
+      url: `${serverURL}/content/list?sorting=hot&`
+        // + `uid=${state.userCode}`
+        // 로그인 안 한 사용자 테스트용 1
+        + `uid=1`
+        + `&lastcontentcode=0`
+        + `&size=${size}`
+        + `&keyword=${keywordchip}`
+    })
+    .then(res => {
+      if (res.data.length) {
+        commit('SET_CONTENTS', res.data)
+        console.log(res)
+      } else {
+        commit('REACHED_LAST_CONTENT')
+      }
+      console.log('Actions-loadContent', res)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   },
 }

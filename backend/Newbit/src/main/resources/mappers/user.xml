@@ -62,14 +62,14 @@
 	
   <!--  팔로잉 리스트 조회 -->
 	<select id="getFollowingList" parameterType="int" resultType="userDto">
-		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_intro `userIntro`
+		select u.user_code `userCode`, u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_postcount `userPostCount`, u.user_followercount `userFollowerCount`, u.user_followingcount `userFollowingCount`, u.user_intro `userIntro`, u.user_keyword `userKeyword`,case when exists (select * from follow f where f.following_code = u.user_code and f.user_code = #{userCode}) then true else false end `isFollow`
 		from user u
 		where u.user_code in (select following_code from follow where user_code = #{userCode})
 	</select>
 
   <!--  팔로워 리스트 조회 -->
 	<select id="getFollowerList" parameterType="int" resultType="userDto">
-		select u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_intro `userIntro`, case when exists (select * from follow f where f.following_code = u.user_code and f.user_code = #{userCode}) then true else false end `isFollow`
+		select u.user_code `userCode`, u.user_id `userId`, u.user_nick `userNick`, u.user_img `userImg`, u.user_postcount `userPostCount`, u.user_followercount `userFollowerCount`, u.user_followingcount `userFollowingCount`, u.user_intro `userIntro`, u.user_keyword `userKeyword`, case when exists (select * from follow f where f.following_code = u.user_code and f.user_code = #{userCode}) then true else false end `isFollow`
 		from user u
    		where u.user_code in (select user_code from follow where following_code = #{userCode})
 	</select>

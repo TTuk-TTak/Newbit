@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.newbit.model.ContentDto;
+import com.ssafy.newbit.model.TechblogDto;
 import com.ssafy.newbit.model.service.ContentService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@CrossOrigin(origins = { "http://localhost:8080" })
+@CrossOrigin(origins = { "*"})
 @RestController
 @RequestMapping("/content")
 @Api("콘텐츠 컨트롤러  API")
@@ -41,9 +42,24 @@ public class ContentCotroller {
 	@GetMapping
 	@ApiOperation(value = "특정 콘텐츠 상세 조회", notes = "콘텐츠 번호에 해당하는 콘텐츠 내용을 반환", response = ContentDto.class)
 	public ResponseEntity<ContentDto> getPost(
-			@RequestParam @ApiParam(value = "특정 콘텐츠를 가져오기 위한 콘텐츠 번호", required = true) int cid) throws Exception {
+			@RequestParam @ApiParam(value = "특정 콘텐츠를 가져오기 위한 콘텐츠 번호", required = true)int uid, int cid) throws Exception {
 		logger.info("getContent 호출 : " + cid);
-		return new ResponseEntity<ContentDto>(contentService.getContent(cid), HttpStatus.OK);
+		ContentDto c = contentService.getContent(cid);
+		
+		//좋아요스크랩 정보
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("userCode", uid);
+		hm.put("contentCode", c.getContentCode());
+		c.setLiked(contentService.userLikeContent(hm));
+		c.setScrapped(contentService.userScrapContent(hm));
+		c.setRead(contentService.userReadContent(hm));
+		
+		//테크블로그 정보 포함시키기
+		TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
+		c.setTechblogImg(t.getTechblogImg());
+		c.setTechblogName(t.getTechblogName());
+		
+		return new ResponseEntity<ContentDto>(c, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "추천 피드 콘텐츠 목록 조회", notes = "키워드에 해당하는 콘텐츠 목록을 정렬 기준으로 반환", response = List.class)
@@ -90,6 +106,12 @@ public class ContentCotroller {
 			hm.put("contentCode", c.getContentCode());
 			c.setLiked(contentService.userLikeContent(hm));
 			c.setScrapped(contentService.userScrapContent(hm));
+			c.setRead(contentService.userReadContent(hm));
+			
+			//테크블로그 정보 포함시키기
+			TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
+			c.setTechblogImg(t.getTechblogImg());
+			c.setTechblogName(t.getTechblogName());
 		}
 		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
 	}
@@ -198,6 +220,11 @@ public class ContentCotroller {
 			hm.put("contentCode", c.getContentCode());
 			c.setLiked(contentService.userLikeContent(hm));
 			c.setScrapped(contentService.userScrapContent(hm));
+			
+			//테크블로그 정보 포함시키기
+			TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
+			c.setTechblogImg(t.getTechblogImg());
+			c.setTechblogName(t.getTechblogName());
 		}
 		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
 	}

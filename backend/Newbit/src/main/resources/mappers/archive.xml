@@ -41,7 +41,9 @@
 		`contentText`, content_url
 		`contentUrl`,
 		content_img `contentImg`, content_date `contentDate`,
-		content_keyword `contentKeyword`
+		content_keyword `contentKeyword`,
+		CONCAT(DATE_FORMAT(content_date, '%y%m%d'), LPAD(content_code, 10,0)) as cur
+	
 		from content
 
 		where
@@ -63,10 +65,10 @@
 			</foreach>
 		</if>
 		<if test="lastContentCode != null and lastContentCode != 0">
-			and (content_code  <![CDATA[<]]>
-			#{lastContentCode})
+			having cur  <![CDATA[<]]>
+			#{cursor}
 		</if>
-		order by content_date desc
+			order by content_date desc, content_code desc
 		limit #{size}
 	</select>
 	
