@@ -8,7 +8,9 @@
       class='pa-4 pb-0 justify-space-between'
     >
       <v-col class="pa-2">
-        <v-btn icon>
+        <v-btn 
+          @click="$goToSocialFeed()"
+          icon>
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <v-avatar
@@ -26,10 +28,16 @@
       <v-col class="pa-2" cols=1>
         <!-- 1-1. 카드 상단부-팝업메뉴 -->
         <v-menu
-          v-if="isLoggedIn === true"
+          v-if="isLoggedIn"
           left
           bottom
-        >
+        > 
+        <!-- 수정 / 삭제 기능 구현 완료 후 활성화할것.  -->
+        <!-- <v-menu
+          v-if="user.userCode === post.userCode"
+          left
+          bottom
+        > -->
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               icon
@@ -163,14 +171,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import axios from 'axios'
 import _ from 'lodash'
 
 import EmbeddedContentCard from '@/components/Cards/EmbeddedContentCard.vue'
 import PostDetailComment from '@/components/PostDetail/PostDetailComment.vue'
 import UserProfileIcon from '@/components/Commons/UserProfileIcon.vue'
-
-
 
 export default {
   name: 'PostDetail',
@@ -195,11 +202,12 @@ export default {
   },
 
   methods: {
-
     getPostDetail () {
+      // let userCode = this.$store.state.user ? this.$store.state.user.userCode : 0
       const postId = _.split(this.$route.path, '/')[2]
-      
       axios.get(`${this.$serverURL}/post/${postId}`)
+      // 서버 수정시 반영될 내용
+      // axios.get(`${this.$serverURL}/post?uid=${userCode}&pid=${postId}`)
         .then(response => {
           this.post = response.data
           console.log('포스트 정보', response.data)
@@ -212,7 +220,6 @@ export default {
           console.log(err)
       })
     },
-
     getContentDetail (contentCode) {
       axios.get(`${this.$serverURL}/content?cid=${contentCode}`)
         .then(response => {
@@ -234,18 +241,54 @@ export default {
       this.snackbar.message = '게시물 주소를 클립보드에 복사했습니다.'
       this.snackbar.show = true
     },
-
-  },
-  created () {
-    // 생성할 때 Post의 Detail 을 Server에 요청
-    this.getPostDetail()
+    writePost: function () {
+      axios({
+        method: 'POST',
+        // headers: this.$setToken(),
+        url: `${this.$serverURL}/post/${this.post.postCode}`,
+        data: {
+          'userCode': this.user.userCode,
+          'postText': this.postText,
+          'contentCode': this.content ? this.content.contentCode : 0,
+          'techblogCode': this.content ? this.content.techblogCode : 0,
+        },
+      })
+        .then((res) => {
+          console.log(res, 'success')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
   },
   computed: {
-
+    ...mapState([
+      'user',
+    ]),
   },
+  watch: {
+    user: {
+      deep: true,
+      handler() {
+        if (this.post === null) {
+          this.getPostDetail()
+        }
+      }
+    }
+  },
+  created () {
+    if (this.user === null) {
+      this.getPostDetail()
+    }
+  },
+
+
 }
 </script>
 
-<style>
-
+<style scoped>
+.v-list-item{
+  background-color: white;
+  width:150px; 
+}
 </style>
