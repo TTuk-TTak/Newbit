@@ -33,6 +33,10 @@ CommonMethodsPlugin.install = function (Vue) {
   Vue.prototype.$goToProfileEdit = function () {
     this.$router.push({ name: 'ProfileEdit' })
   }
+  // 8) 포스트 상세 페이지로 이동
+  Vue.prototype.$goToPostDetail = function (postCode) {
+    this.$router.push({name: 'PostDetail', params: {id: postCode}})
+  }
 
   // 2. 키워드 관련
   // 1) 키워드 string 을 array로 파싱.
