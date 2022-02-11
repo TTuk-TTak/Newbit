@@ -10,8 +10,6 @@ import lombok.*;
 public class ContentDto {
 	@ApiModelProperty(value = "콘텐츠 번호")
 	private int contentCode;
-	@ApiModelProperty(value = "콘텐츠 출처 기술블로그 번호")
-	private int techblogCode;
 	@ApiModelProperty(value = "콘턴츠 제목")
 	private String contentTitle;
 	@ApiModelProperty(value = "콘텐츠 내용")
@@ -32,6 +30,14 @@ public class ContentDto {
 	private boolean scrapped;
 	@ApiModelProperty(value = "유저가 현재 컨텐츠를 읽었는지 여부")
 	private boolean read;
+	
+	@ApiModelProperty(value = "콘텐츠 출처 기술블로그 번호")
+	private int techblogCode;
+	@ApiModelProperty(value = "기술블로그 이름")
+	private String techblogName;
+	@ApiModelProperty(value = "기술블로그 로고 이미지 url")
+	private String techblogImg;
+	
 	
 
 }

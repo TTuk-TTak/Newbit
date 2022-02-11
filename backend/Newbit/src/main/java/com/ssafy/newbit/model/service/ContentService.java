@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.ssafy.newbit.model.ContentDto;
+import com.ssafy.newbit.model.TechblogDto;
 
 public interface ContentService {
 	public List<ContentDto> listContent(HashMap<String, Object> map) throws Exception;
@@ -27,4 +28,6 @@ public interface ContentService {
 	public boolean userReadContent(HashMap<String, Object> map) throws Exception;
 	
 	public long getCursor(HashMap<String, Object> map) throws Exception;
+	
+	public TechblogDto getTechblogInfo(int techblogcode) throws Exception;
 }

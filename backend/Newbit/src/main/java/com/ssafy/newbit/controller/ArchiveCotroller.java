@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.newbit.model.ContentDto;
 import com.ssafy.newbit.model.PostDto;
+import com.ssafy.newbit.model.TechblogDto;
 import com.ssafy.newbit.model.UserDto;
 import com.ssafy.newbit.model.service.ArchiveService;
 import com.ssafy.newbit.model.service.ContentService;
@@ -87,14 +88,18 @@ public class ArchiveCotroller {
 
 		if (contentScrapList.size() > 0) {
 			list = archiveService.listContent(map);
-			// 현재 로그인한 유저가 콘텐츠에 대해 좋아요와 스크랩 했는지 체크
 			for (ContentDto c : list) {
+				// 현재 로그인한 유저가 콘텐츠에 대해 좋아요와 스크랩 했는지 체크
 				HashMap<String, Object> hm = new HashMap<String, Object>();
 				hm.put("userCode", uid);
 				hm.put("contentCode", c.getContentCode());
 				c.setLiked(contentService.userLikeContent(hm));
 				c.setRead(contentService.userReadContent(hm));
 				c.setScrapped(true);
+				//테크블로그 정보 포함시키기
+				TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
+				c.setTechblogImg(t.getTechblogImg());
+				c.setTechblogName(t.getTechblogName());
 			}
 		}
 
