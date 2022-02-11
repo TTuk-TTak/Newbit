@@ -51,12 +51,12 @@ export default {
     // a. pageNum: 인덱싱을 위한 변수
     // b. lastPostCode: postCode 중 가장 작은 값.  
     // const pageNum = state.curationFeed.pageNum
-    const lastPostCode = _.last(data).postCode
-
+    // const page = state.curationFeed.page
+    // const lastPostCode = _.last(data).contentCode
     // (2) State 갱신
-    state.curationFeed.pageNum += 1
+    // state.curationFeed.page += 1
     state.curationFeed.contents = data
-    state.curationFeed.lastPostCode = lastPostCode
+    // state.curationFeed.lastPostCode = lastPostCode
   },
 
 }
