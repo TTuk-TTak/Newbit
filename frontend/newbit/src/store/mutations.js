@@ -10,7 +10,6 @@ export default {
   // 2) 유저 정보 저장
   SAVE_USER_INFORMATION: function (state, userData) {
     state.user = userData
-    console.log(state.user)
   },
 
 
@@ -43,6 +42,19 @@ export default {
   TURN_POST_CREATE_MODAL_OFF: function () {
     state.modals.postCreateModal = false
   },
+  TURN_FIRST_LOGIN_MODAL_ON: function (state) {
+    state.modals.firstLoginModal = true
+  },
+  TURN_FIRST_LOGIN_MODAL_OFF: function (state) {
+    state.modals.firstLoginModal = false
+  },
+  TURN_LOGIN_MODAL_ON: function (state) {
+    state.modals.loginModal = true
+  },
+  TURN_LOGIN_MODAL_OFF: function (state) {
+    state.modals.loginModal = false
+  },
+
 
   //4. 추천 피드
   // 1) 인기콘텐츠 로딩

@@ -12,6 +12,22 @@ export default {
   turnPostCreateModalOFF: function ({ commit }) {
     commit('TURN_POST_CREATE_MODAL_OFF')
   },
+
+  // 2) FirstLoginModal
+  turnFirstLoginModalOn: function ({ commit }) {
+    commit('TURN_FIRST_LOGIN_MODAL_ON')
+  },
+  turnFirstLoginModalOFF: function ({ commit }) {
+    commit('TURN_FIRST_LOGIN_MODAL_OFF')
+  },
+  // 3) LoginModal
+  turnLoginModalOn: function ({ commit }) {
+    commit('TURN_LOGIN_MODAL_ON')
+  },
+  turnLoginModalOFF: function ({ commit }) {
+    commit('TURN_LOGIN_MODAL_OFF')
+  },
+
   // // 2. Feed조작
   // loadPosts: function ({ commit }) {
   //   const size = 8
@@ -46,7 +62,7 @@ export default {
   },
 
   // 4. 추천피드 조작
-  getContentsHot: ({commit}) => {
+  getContentsHot: ({ commit }) => {
     const size = 10
     const keywordchip = "react"
     console.log(state.curationFeed)
@@ -60,17 +76,17 @@ export default {
         + `&size=${size}`
         + `&keyword=${keywordchip}`
     })
-    .then(res => {
-      if (res.data.length) {
-        commit('SET_CONTENTS', res.data)
-        console.log(res)
-      } else {
-        commit('REACHED_LAST_CONTENT')
-      }
-      console.log('Actions-loadContent', res)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+      .then(res => {
+        if (res.data.length) {
+          commit('SET_CONTENTS', res.data)
+          console.log(res)
+        } else {
+          commit('REACHED_LAST_CONTENT')
+        }
+        console.log('Actions-loadContent', res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
 }
