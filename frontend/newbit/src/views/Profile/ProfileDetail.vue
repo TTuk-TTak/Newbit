@@ -15,8 +15,8 @@
           cols="8"
           align-self="center"
         >
-          <p>개발자 천모씨</p>
-          <p>재밌게 협업 진행해보고 싶습니다. 자기소개 하는 부분.</p>
+          <div>{{ user.userNick }}</div>
+          <div>{{ user.userIntro }}</div>
           <div>
             <v-btn
               elevation="0"
@@ -75,13 +75,24 @@
           </div>
         </v-col>
         <v-col
+          v-if="$route.params.userCode != $store.state.user.userCode"
           cols="2"
           align-self="center"
         >
           <v-btn
+            v-if="following_list.includes(Number($route.params.userCode))"
             rounded
             block
-          >팔로잉</v-btn>
+            @click="[$unFollow($route.params.userCode), popFollow(Number($route.params.userCode))]"
+          >팔로우 취소</v-btn>
+          <v-btn
+            v-else
+            rounded
+            block
+            @click="[$follow($route.params.userCode), pushFollow(Number($route.params.userCode))]"
+          >
+            팔로우
+          </v-btn>
         </v-col>
       </v-row>
       <favored-keyword-bar :is-vertical="isVertical"></favored-keyword-bar>
@@ -142,7 +153,10 @@ import FavoredKeywordBar from '@/components/Keyword/FavoredKeywordBar.vue'
 import ProfileDetailRadarGraph from '@/views/Profile/Detail/ProfileDetailRadarGraph.vue'
 import ProfileDetailDailyGraph from '@/views/Profile/Detail/ProfileDetailDailyGraph.vue'
 import FollowModal from '@/components/Modals/FollowModal/FollowModal.vue'
+import axios from 'axios'
 
+
+const myUserCode = localStorage.getItem('user_code')
 
 
 export default {
@@ -158,6 +172,9 @@ export default {
 
     dialog1: false,
     dialog2: false,
+
+    user: {},
+    following_list: [],
 
     items: [
       { category: '프론트엔드', preference: 8 },
@@ -187,7 +204,44 @@ export default {
       else if (category === 'following') {
         this.dialog2 = changedStatus
       }
+    },
+    fetchUserInformation (user_code) {
+      if (this.$route.params.userCode !== myUserCode) {
+        axios({
+          url: `${this.$serverURL}/user?uid=${user_code}`,
+          method: 'get',
+        })
+          .then((res) => {
+            this.user = res.data
+          })
+      }
+      else {
+        this.user = this.$store.state.user
+      }
+    },
+    fetchUserFollowingList (user_code) {
+      axios({
+        url: `${this.$serverURL}/follow/following?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.following_list = res.data.map((object) => {
+            return object['userCode']
+          })
+        })
+    },
+    pushFollow (user) {
+      this.following_list.push(user)
+    },
+    popFollow () {
+      this.following_list.pop()
     }
+  },
+  created () {
+    if (this.$route.params.userCode !== myUserCode) {
+      this.fetchUserInformation(this.$route.params.userCode)
+    }
+    this.fetchUserFollowingList(myUserCode)
   }
 }
 </script>

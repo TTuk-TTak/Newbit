@@ -58,7 +58,7 @@
       </template>
       <v-list>
         <!-- 1) 프로필 사진 -->
-        <v-list-item>
+        <v-list-item @click="$goToMyProfile()">
           <v-avatar
             color="indigo"
             size="24"
@@ -66,7 +66,7 @@
             <span>SL</span>
           </v-avatar>
           <v-list-item-content class="ml-2">
-            <v-list-item-title>{{$store.state.username}}</v-list-item-title>
+            <v-list-item-title>{{$store.state.user.userNick}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
@@ -111,9 +111,8 @@ export default {
   top: 48px !important;
 }
 
-.v-list-item{
+.v-list-item {
   background-color: white;
-  width:200px; 
+  width: 200px;
 }
-
 </style>
