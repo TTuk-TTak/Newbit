@@ -1,7 +1,7 @@
 <template>
   <v-list class="pa-0">
     <v-list-group
-      class="ml-0 keywordbar"
+      class="background ml-0"
       active-class='feedBackground rounded-lg'
       v-for="(category, categoryName, index) of categorizedKeywords"
       :key="`keywordBarCategory` + category + index"
@@ -48,9 +48,4 @@ export default {
 </script>
 
 <style>
-.keywordbar {
-  background-color: #f2f2f4 !important;
-  /* 300으로 잡으면 1920x1080에서 딱 예쁘게 보이는데 반응형이 아니라서 아쉬운 부분...*/
-  width: 300px;
-}
 </style>

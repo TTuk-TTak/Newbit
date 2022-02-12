@@ -125,7 +125,7 @@ export default {
       e.target.src = `https://cdn.vuetifyjs.com/images/john.jpg`
     },
     embedPost(contentCode) {
-      axios.get(`${this.$serverURL}/content?cid=${contentCode}`)
+      axios.get(`${this.$serverURL}/content?uid=${this.user.userCode}&cid=${contentCode}`)
         .then(response => {
           this.content = response.data
           console.log(response.data)
@@ -134,7 +134,6 @@ export default {
           console.log(err)
       })
     },
-
     clickWriteBtn: function () {
       // 1. 유저가 로그인되었으며 2. 컨텐츠가 있거나 3. 포스트 텍스트가 있을 때.
       if (this.user && this.content || (this.postText && 0 < this.postText.length <= 500)) {

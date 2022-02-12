@@ -12,6 +12,7 @@ export default {
   turnPostCreateModalOFF: function ({ commit }) {
     commit('TURN_POST_CREATE_MODAL_OFF')
   },
+
   // 2) FirstLoginModal
   turnFirstLoginModalOn: function ({ commit }) {
     commit('TURN_FIRST_LOGIN_MODAL_ON')
@@ -27,28 +28,28 @@ export default {
     commit('TURN_LOGIN_MODAL_OFF')
   },
 
-  // 2. Feed조작
-  loadPosts: function ({ commit }) {
-    const size = 8
-    axios({
-      method: 'get',
-      url: `${serverURL}/post/list?`
-        + `uid=${state.user.userCode}`
-        + `&lastpostcode=${state.socialFeed.lastPostCode}`
-        + `&size=${size}`,
-    })
-      .then(res => {
-        if (res.data.length) {
-          commit('LOAD_POSTS', res.data)
-        } else {
-          commit('REACHED_LAST_POST')
-        }
-        console.log('Actions-loadPost', res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  },
+  // // 2. Feed조작
+  // loadPosts: function ({ commit }) {
+  //   const size = 8
+  //   axios({
+  //     method: 'get',
+  //     url: `${serverURL}/post/list?`
+  //       + `uid=${state.user.userCode}`
+  //       + `&lastpostcode=${state.socialFeed.lastPostCode}`
+  //       + `&size=${size}`,
+  //   })
+  //     .then(res => {
+  //       if (res.data.length) {
+  //         commit('LOAD_POSTS', res.data)
+  //       } else {
+  //         commit('REACHED_LAST_POST')
+  //       }
+  //       console.log('Actions-loadPost', res)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // },
 
   // 3. 유저 정보 저장 & 초기화
 
@@ -71,7 +72,7 @@ export default {
         // + `uid=${state.userCode}`
         // 로그인 안 한 사용자 테스트용 1
         + `uid=1`
-        + `&lastcontentcode=${state.curationFeed.lastContentCode}`
+        + `&lastcontentcode=0`
         + `&size=${size}`
         + `&keyword=${keywordchip}`
     })
