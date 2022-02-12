@@ -28,6 +28,9 @@
         class="mt-5 pt-5 justify-self-center align-self-center"
         @infinite="infiniteHandler" 
         >
+        <template slot="no-more">
+          2022 - Newbit
+        </template>
         </infinite-loading>
         <v-spacer></v-spacer>
     </v-row>

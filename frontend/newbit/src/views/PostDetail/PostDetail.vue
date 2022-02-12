@@ -50,12 +50,30 @@
               </v-list-item-content>
             </v-list-item>
             <!-- 2) 삭제 -->
-            <v-list-item @click="clickDelete()">
-              <v-icon>mdi-delete</v-icon>
-              <v-list-item-content class="ml-2 mr-1">
-                <v-list-item-subtitle>게시글 삭제</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+            <!-- <v-dialog
+              v-model="dialog"
+              width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="red lighten-2"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  Click Me
+                </v-btn> -->
+                <v-list-item @click="clickDelete()">
+                  <v-icon>mdi-delete</v-icon>
+                  <v-list-item-content class="ml-2 mr-1">
+                    <v-list-item-subtitle>게시글 삭제</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              <!-- </template>
+              
+              <delete-warning-modal></delete-warning-modal>
+
+              </v-dialog> -->
           </v-list>
         </v-menu>
       </v-col>
@@ -81,17 +99,25 @@
         <v-card-actions
           class="ml-2 "
         >
-          <v-btn icon>
-            <v-icon>mdi-cards-heart-outline</v-icon>
-            <span>{{ post.postLike }}</span>
-          </v-btn>
-          <v-btn icon>
-            <v-icon>mdi-message-outline</v-icon>
-            <span>{{ post.postComment }}</span>
-          </v-btn>
+          <!-- 1) 좋아요 버튼 -->
           <v-btn 
-            icon
+            @click="toggleLike()"
+            icon>
+            <v-icon v-if="post.liked === true">mdi-cards-heart</v-icon>
+            <v-icon v-else>mdi-cards-heart-outline</v-icon>
+          </v-btn>
+          <span class='post-btn-nums'>{{ post.postLike }}</span>
+          <!-- 2) 댓글 버튼  -->
+          <v-btn
+            class="ml-2"
+            icon>
+            <v-icon>mdi-message-outline</v-icon>
+          </v-btn>
+          <span class="post-btn-nums">{{ post.postComment }}</span>
+          <v-btn 
+            class="ml-2"
             @click="copyLink()"
+            icon
             >
             <v-icon>mdi-share</v-icon>
           </v-btn>
@@ -177,6 +203,7 @@ import _ from 'lodash'
 import EmbeddedContentCard from '@/components/Cards/EmbeddedContentCard.vue'
 import PostDetailComment from '@/components/PostDetail/PostDetailComment.vue'
 import UserProfileIcon from '@/components/Commons/UserProfileIcon.vue'
+// import DeleteWarningModal from '@/components/Modals/DeleteWarningModal.vue'
 
 export default {
   name: 'PostDetail',
@@ -185,6 +212,7 @@ export default {
     EmbeddedContentCard,
     PostDetailComment,
     UserProfileIcon,
+    // DeleteWarningModal,
   },
 
   data: () => {
@@ -199,9 +227,9 @@ export default {
         timeout: '1000'
       },
       commentText: '',
+      dialog: false,
     }
   },
-
   methods: {
     getPostDetail () {
       const userCode = this.$store.state.user ? this.$store.state.user.userCode : 0
@@ -257,7 +285,7 @@ export default {
         })
     },
     getContentDetail (contentCode) {
-      axios.get(`${this.$serverURL}/content?cid=${contentCode}`)
+      axios.get(`${this.$serverURL}/content?uid=${this.user.userCode}&cid=${contentCode}`)
         .then(response => {
           this.content = response.data
           // console.log('컨텐츠 정보', response.data)
@@ -358,6 +386,50 @@ export default {
           console.log(err)
         })
     },
+    // 좋아요!!!
+    toggleLike() {
+      if (!this.post.liked) {
+        this.likePost()
+      } else {
+        this.unlikePost()
+      }
+    },
+    likePost() {      
+      axios({
+        method: 'POST',
+        url: `${this.$serverURL}/post/like`,
+        data: {
+          'uid': this.user.userCode,
+          'pid': this.post.postCode,
+        },
+      })
+      .then((res) => {
+        console.log('liked', res)
+        if (res.data === 'success') {
+          this.post.postLike++
+          this.post.liked = !this.post.liked
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })  
+    },
+    unlikePost() {
+      axios({
+        method: 'DELETE',
+        url: `${this.$serverURL}/post/like?uid=${this.user.userCode}&pid=${this.post.postCode}`,
+      })
+      .then((res) => {
+        console.log('unliked', res)
+        if (res.data === 'success') {
+          this.post.liked = !this.post.liked
+          this.post.postLike--
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })  
+    },
   },
   computed: {
     ...mapState([
@@ -387,4 +459,12 @@ export default {
   background-color: white;
   width:150px; 
 }
+/* 게시글: 좋아요 및 댓글 갯수 */
+.post-btn-nums {
+  color : #272727;
+  font-family: 'KoPub Dotum';
+  font-weight: 100;
+  font-size : 0.9em;
+}
+
 </style>
