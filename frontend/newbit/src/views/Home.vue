@@ -67,6 +67,8 @@ export default {
 .writer{
   font-size : 1.1em;
 }
+
+
 /* 본문 글씨체 */
 .theme--light.v-card > .v-card__text {
   font-family: 'KoPub Dotum';
