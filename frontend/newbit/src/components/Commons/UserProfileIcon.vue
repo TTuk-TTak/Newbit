@@ -4,7 +4,7 @@
   >
     <img
       :src="imgUrl"
-      alt="Img"
+      @error="defaultProfile"
     >
   </v-avatar>
 </template>
@@ -15,6 +15,11 @@ export default {
   props: {
     imgUrl: String,
   },
+  methods: {
+    defaultProfile(e) {
+      e.target.src = `https://cdn.vuetifyjs.com/images/john.jpg`
+    },
+  }
 }
 </script>
 

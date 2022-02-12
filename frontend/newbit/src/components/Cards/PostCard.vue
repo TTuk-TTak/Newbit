@@ -2,7 +2,6 @@
   <v-card
     v-if="post"
     class="px-2 pl-8 pr-8"
-    outlined
   >
     <!-- 1. 카드 상단부 -->
     <div
@@ -32,6 +31,7 @@
     <!-- 본문 -->
     <v-card-text
       class="post-text mb-0 mt-0 pt-3 pb-0"
+      @click="$goToPostDetail(post.postCode)"
     >
       {{ post.postText }}
     </v-card-text>
@@ -41,7 +41,10 @@
         <v-icon>mdi-cards-heart-outline</v-icon>
         <span>{{ post.postLike }}</span>
       </v-btn>
-      <v-btn icon>
+      <v-btn 
+        @click="$goToPostDetail(post.postCode)"
+        icon
+      >
         <v-icon>mdi-message-outline</v-icon>
         <span>{{ post.postComment }}</span>
       </v-btn>
@@ -55,6 +58,7 @@
 <script>
 import axios from 'axios'
 import EmbeddedContentCard from '@/components/Cards/EmbeddedContentCard.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'PostCard',
@@ -66,7 +70,7 @@ export default {
   },
   methods: {
     embedPost(contentCode) {
-      axios.get(`${this.$serverURL}/content?cid=${contentCode}`)
+      axios.get(`${this.$serverURL}/content?uid=${this.user.userCode}&cid=${contentCode}`)
         .then(response => {
           this.content = response.data
           console.log(response.data)
@@ -101,6 +105,11 @@ export default {
       // }
     }
   },
+  computed: {
+    ...mapState([
+      'user',
+    ])
+  },
   created () {
     if (this.post.contentCode){
       this.embedPost(this.post.contentCode)
@@ -109,29 +118,6 @@ export default {
 }
 </script>
 
-<style scope>
-.post-text {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+<style>
 
-.date{
-  color : #919191;
-  font-family: 'KoPub Dotum';
-  font-weight: 100;
-  font-size : 0.9em;
-}
-
-.writer{
-  font-size : 1.1em;
-}
-
-/* 본문 글씨체 */
-.theme--light.v-card > .v-card__text {
-  font-family: 'KoPub Dotum';
-  font-weight: 400;
-  color : #272727;
-}
 </style>

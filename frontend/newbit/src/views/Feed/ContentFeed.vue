@@ -43,6 +43,9 @@ export default {
     KeywordToggler,
     ContentCard,
   },
+  created () {
+    this.getContentsHot()
+  },
   computed: {
     ...mapState([
       'curationFeed'
