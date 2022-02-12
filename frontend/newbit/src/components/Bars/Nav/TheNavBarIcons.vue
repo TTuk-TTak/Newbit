@@ -59,7 +59,7 @@
       </template>
       <v-list>
         <!-- 1) 프로필 사진 -->
-        <v-list-item>
+        <v-list-item @click="$goToMyProfile()">
           <v-avatar
             size='24'
           >
@@ -120,9 +120,8 @@ export default {
   top: 48px !important;
 }
 
-.v-list-item{
+.v-list-item {
   background-color: white;
-  width:200px; 
+  width: 200px;
 }
-
 </style>

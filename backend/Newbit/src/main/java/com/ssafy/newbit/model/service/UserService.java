@@ -29,7 +29,8 @@ public interface UserService{
 	public boolean deleteUser(int userCode) throws Exception;
 	public List<UserDto> searchUserList(HashMap<String, Object> map) throws Exception;
 
+	public List<UserDto> followRecommendation(HashMap<String, Object> map) throws Exception;
 	
+	public List<UserDto> getRandomUser(HashMap<String, Object> map) throws Exception;
 	
-
 }

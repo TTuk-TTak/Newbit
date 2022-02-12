@@ -182,6 +182,20 @@ public class UserServiceImpl implements UserService{
     	System.out.println("회원탈퇴 가능여부: " + userCode);
     	return sqlSession.getMapper(UserMapper.class).deleteUser(userCode)==1;
 	}
+
+
+	@Override
+	public List<UserDto> followRecommendation(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(UserMapper.class).followRecommendation(map);
+	}
+
+
+	@Override
+	public List<UserDto> getRandomUser(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(UserMapper.class).getRandomUser(map);
+	}
 	
 	
 

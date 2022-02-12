@@ -69,6 +69,7 @@ public class ContentCotroller {
 			int lastcontentcode, int size, String keyword) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
+		//키워드칩 파싱
 		List<String> keywordList = new ArrayList<>();
 
 		StringTokenizer st = new StringTokenizer(keyword, "_");
