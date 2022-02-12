@@ -43,19 +43,39 @@
           </template>
           <v-list>
             <!-- 1) 수정 -->
-            <v-list-item @click="clickEdit()">
+            <v-list-item @click="toggleEdit()">
               <v-icon>mdi-cog</v-icon>
               <v-list-item-content class="ml-2 mr-1">
-                <v-list-item-subtitle>게시글 수정</v-list-item-subtitle>
+                <v-list-item-subtitle>
+                  {{ isEditing ? '수정 취소' : '게시글 수정'}}
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <!-- 2) 삭제 -->
-            <v-list-item @click="clickDelete()">
-              <v-icon>mdi-delete</v-icon>
-              <v-list-item-content class="ml-2 mr-1">
-                <v-list-item-subtitle>게시글 삭제</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+            <!-- <v-dialog
+              v-model="dialog"
+              width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="red lighten-2"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  Click Me
+                </v-btn> -->
+                <v-list-item @click="clickDelete()">
+                  <v-icon>mdi-delete</v-icon>
+                  <v-list-item-content class="ml-2 mr-1">
+                    <v-list-item-subtitle>게시글 삭제</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              <!-- </template>
+              
+              <delete-warning-modal></delete-warning-modal>
+
+              </v-dialog> -->
           </v-list>
         </v-menu>
       </v-col>
@@ -67,11 +87,49 @@
       class="mt-5 mx-3"
     ></embedded-content-card>
     <!-- 2-2. 본문 -->
+    <!-- 1) 텍스트 -->
     <v-card-text
+      v-if='!isEditing'
       class="post-text mb-0 pb-0"
     >
       {{ post.postText }}
     </v-card-text>
+    <!-- 2) 텍스트 수정 시 input창 -->
+    <v-textarea
+      v-if="isEditing"
+      @keyup.esc='toggleEdit()'
+      :autofocus='true'
+      v-model='postEditText'
+      class="post-edit-text mx-3 pa-0"
+      placeholder="게시글을 작성해주세요."
+      rows='8'
+      maxlength='500'
+      counter='500'
+      no-resize
+      solo
+    >
+    </v-textarea>
+    <!-- 3) '게시글 수정' 버튼 -->
+    <v-row 
+      v-if="isEditing"
+      class="pt-2 mx-3" 
+      justify='space-between'>
+      <v-btn
+        @click="toggleEdit()"
+        text
+      >
+        수정 취소
+      </v-btn>
+      <v-btn
+        class="keywordChipBackground"
+        @click="editPost()"
+      >
+        수정 완료
+      </v-btn>
+
+    </v-row>
+    <div class="d-flex grow">
+    </div>
     <!-- 3. 카드 하단부 -->
     <v-row
       class="container justify-between mt-1 py-0"
@@ -81,17 +139,25 @@
         <v-card-actions
           class="ml-2 "
         >
-          <v-btn icon>
-            <v-icon>mdi-cards-heart-outline</v-icon>
-            <span>{{ post.postLike }}</span>
-          </v-btn>
-          <v-btn icon>
-            <v-icon>mdi-message-outline</v-icon>
-            <span>{{ post.postComment }}</span>
-          </v-btn>
+          <!-- 1) 좋아요 버튼 -->
           <v-btn 
-            icon
+            @click="toggleLike()"
+            icon>
+            <v-icon v-if="post.liked === true">mdi-cards-heart</v-icon>
+            <v-icon v-else>mdi-cards-heart-outline</v-icon>
+          </v-btn>
+          <span class='post-btn-nums'>{{ post.postLike }}</span>
+          <!-- 2) 댓글 버튼  -->
+          <v-btn
+            class="ml-2"
+            icon>
+            <v-icon>mdi-message-outline</v-icon>
+          </v-btn>
+          <span class="post-btn-nums">{{ post.postComment }}</span>
+          <v-btn 
+            class="ml-2"
             @click="copyLink()"
+            icon
             >
             <v-icon>mdi-share</v-icon>
           </v-btn>
@@ -177,6 +243,8 @@ import _ from 'lodash'
 import EmbeddedContentCard from '@/components/Cards/EmbeddedContentCard.vue'
 import PostDetailComment from '@/components/PostDetail/PostDetailComment.vue'
 import UserProfileIcon from '@/components/Commons/UserProfileIcon.vue'
+// import BtnDark from '@/components/Commons/BtnDark.vue'
+// import DeleteWarningModal from '@/components/Modals/DeleteWarningModal.vue'
 
 export default {
   name: 'PostDetail',
@@ -185,23 +253,25 @@ export default {
     EmbeddedContentCard,
     PostDetailComment,
     UserProfileIcon,
+    // BtnDark,
+    // DeleteWarningModal,
   },
-
   data: () => {
     return {
       post: null,
       content: null,
       comments: [],
       isEditing: false,
+      postEditText: '',
       snackbar: {
         show: false,
         message: '',
         timeout: '1000'
       },
       commentText: '',
+      dialog: false,
     }
   },
-
   methods: {
     getPostDetail () {
       const userCode = this.$store.state.user ? this.$store.state.user.userCode : 0
@@ -210,7 +280,7 @@ export default {
       axios.get(`${this.$serverURL}/post?uid=${userCode}&pid=${postId}`)
         .then(response => {
           this.post = response.data
-
+          this.postEditText = this.post.postText
           if (this.post.contentCode) {
             this.getContentDetail(this.post.contentCode)
           }
@@ -257,7 +327,7 @@ export default {
         })
     },
     getContentDetail (contentCode) {
-      axios.get(`${this.$serverURL}/content?cid=${contentCode}`)
+      axios.get(`${this.$serverURL}/content?uid=${this.user.userCode}&cid=${contentCode}`)
         .then(response => {
           this.content = response.data
           // console.log('컨텐츠 정보', response.data)
@@ -266,8 +336,9 @@ export default {
           console.log(err)
       })
     },
-    clickEdit() {
-      this.isEditing = true
+    toggleEdit () {
+      this.isEditing = !this.isEditing
+      console.log('isEditing', this.isEditing)
     },
     clickDelete () {
       if (this.post.userCode === this.user.userCode) {
@@ -323,25 +394,30 @@ export default {
       this.snackbar.message = '게시물 주소를 클립보드에 복사했습니다.'
       this.snackbar.show = true
     },
-    writePost: function () {
+
+    editPost: function () {
       axios({
-        method: 'POST',
+        method: 'PATCH',
         // headers: this.$setToken(),
-        url: `${this.$serverURL}/post/${this.post.postCode}`,
+        url: `${this.$serverURL}/post/`,
         data: {
-          'userCode': this.user.userCode,
-          'postText': this.postText,
-          'contentCode': this.content ? this.content.contentCode : 0,
-          'techblogCode': this.content ? this.content.techblogCode : 0,
+          "postCode": this.post.postCode,
+          "postText": this.postEditText
         },
       })
         .then((res) => {
-          console.log(res, 'success')
+          console.log(res, 'editSuccess')
+          this.post.postText = this.postEditText
+          this.toggleEdit()
+          this.snackbar.message = '게시글을 수정했습니다.'
+          this.snackbar.show = true
         })
         .catch((err) => {
           console.log(err)
         })
     },
+
+
     deletePost: function () {
       this.snackbar.message = '게시글을 삭제했습니다.'
       this.snackbar.show = true
@@ -357,6 +433,50 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    // 좋아요!!!
+    toggleLike() {
+      if (!this.post.liked) {
+        this.likePost()
+      } else {
+        this.unlikePost()
+      }
+    },
+    likePost() {      
+      axios({
+        method: 'POST',
+        url: `${this.$serverURL}/post/like`,
+        data: {
+          'uid': this.user.userCode,
+          'pid': this.post.postCode,
+        },
+      })
+      .then((res) => {
+        console.log('liked', res)
+        if (res.data === 'success') {
+          this.post.postLike++
+          this.post.liked = !this.post.liked
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })  
+    },
+    unlikePost() {
+      axios({
+        method: 'DELETE',
+        url: `${this.$serverURL}/post/like?uid=${this.user.userCode}&pid=${this.post.postCode}`,
+      })
+      .then((res) => {
+        console.log('unliked', res)
+        if (res.data === 'success') {
+          this.post.liked = !this.post.liked
+          this.post.postLike--
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })  
     },
   },
   computed: {
@@ -387,4 +507,20 @@ export default {
   background-color: white;
   width:150px; 
 }
+/* 게시글: 좋아요 및 댓글 갯수 */
+.post-btn-nums {
+  color : #272727;
+  font-family: 'KoPub Dotum';
+  font-weight: 100;
+  font-size : 0.9em;
+}
+
+.post-edit-text {
+  font-family: 'KoPub Dotum';
+  font-weight: 400;
+  color : #272727;
+    font-size : 1em;
+}
+
+
 </style>

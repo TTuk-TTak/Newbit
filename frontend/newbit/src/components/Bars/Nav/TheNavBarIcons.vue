@@ -38,7 +38,7 @@
     </v-btn>
     <!-- 3-2. 로그인 된 사용자: 메뉴 확인 -->
     <v-menu
-      v-if="$store.state.user"
+      v-if="user"
       left
       bottom
     >
@@ -49,10 +49,11 @@
           v-on="on"
         >
           <v-avatar
-            color="indigo"
-            size="36"
+            size='36'
           >
-            <span>36</span>
+            <img
+              :src="user.userImg"
+            >
           </v-avatar>
         </v-btn>
       </template>
@@ -60,13 +61,22 @@
         <!-- 1) 프로필 사진 -->
         <v-list-item @click="$goToMyProfile()">
           <v-avatar
-            color="indigo"
-            size="24"
+            size='24'
           >
-            <span>SL</span>
+            <img
+              :src="user.userImg"
+            >
           </v-avatar>
           <v-list-item-content class="ml-2">
+<<<<<<< HEAD
+<<<<<<< HEAD
+            <v-list-item-title>{{user.userNick}}</v-list-item-title>
+=======
             <v-list-item-title>{{$store.state.user.userNick}}</v-list-item-title>
+>>>>>>> master
+=======
+            <v-list-item-title>{{user.userNick}}</v-list-item-title>
+>>>>>>> f46d4b4c82cb2c0384996e0ca63e7cca7e38c53f
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
@@ -90,7 +100,9 @@
 </template>
 
 <script>
+
 import SearchModal from '@/components/Modals/SearchModal.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'TheNavBarIcons',
@@ -102,6 +114,11 @@ export default {
 
     }
   },
+  computed: {
+    ...mapState([
+      'user',
+    ])
+  }
 }
 </script>
 
