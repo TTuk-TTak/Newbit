@@ -94,9 +94,4 @@ export default {
 </script>
 
 <style>
-.v-list-item{
-  background-color:#f2f2f4;
-  /* 300으로 잡으면 1920x1080에서 딱 예쁘게 보이는데 반응형이 아니라서 아쉬운 부분...*/
-  width:300px; 
-}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <v-dialog
-      v-model="dialog"
+      v-model="isLogged"
       width="45%"
     >
       <v-card class="rounded-xl ma-0 pa-0">
@@ -36,18 +36,21 @@ import LoginModalDefault from '@/components/Modals/LoginModal/LoginModalDefault.
 
 export default {
   name: 'LoginModal',
-  props: {
-    isLogged: Boolean,
-  },
   components: { LoginModalDefault },
 
   data () {
     return {
-      dialog: !this.isLogged
+
     }
   },
-  methods: {
-
+  computed: {
+    isLogged: function () {
+      const token = localStorage.getItem('jwt')
+      if (token) {
+        return false
+      }
+      return true
+    }
   }
 }
 </script>
