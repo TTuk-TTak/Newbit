@@ -202,6 +202,9 @@ export default {
       }
     }
   },
+  beforeUnmount () {
+    this.$store.dispatch('turnPostCreateModalOFF')
+  }
 }
 </script>
 
