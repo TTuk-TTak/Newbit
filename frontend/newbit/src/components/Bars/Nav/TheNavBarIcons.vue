@@ -48,24 +48,16 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-avatar
-            size='36'
-          >
-            <img
-              :src="user.userImg"
-            >
+          <v-avatar size='36'>
+            <img :src="user.userImg">
           </v-avatar>
         </v-btn>
       </template>
       <v-list>
         <!-- 1) 프로필 사진 -->
         <v-list-item @click="$goToMyProfile()">
-          <v-avatar
-            size='24'
-          >
-            <img
-              :src="user.userImg"
-            >
+          <v-avatar size='24'>
+            <img :src="user.userImg">
           </v-avatar>
           <v-list-item-content class="ml-2">
             <v-list-item-title>{{user.userNick}}</v-list-item-title>

@@ -12,8 +12,8 @@
     </v-row>
     <v-row class="align-center">
       <v-col class="mx-3">
-        <div>{{ $store.state.user.userNick }}</div>
-        <div class="grey--text">{{ `@${$store.state.user.userId}` }}</div>
+        <div>{{ user.userNick }}</div>
+        <div class="grey--text">{{ `@${user.userId}` }}</div>
       </v-col>
       <v-col class="d-flex justify-end">
         <v-btn
@@ -30,10 +30,8 @@
       </v-col>
     </v-row>
     <div class="mt-5 mb-5 mx-3">
-      안녕하세요 SSAFY 6기생입니다~!<br />
-      백엔드 개발자가 되고 싶어요 <br /><br />
-      <!-- ToDo : 숫자 부분은 후에 {{}}로 수정 -->
-      게시물 1개 | 팔로워 2명 | 팔로잉 3개 <br />
+      <div>{{ user.userIntro }}</div>
+      <div class="text-center">게시물 {{ user.userPostCount }}개 | 팔로워 {{ user.userFollowerCount }}명 | 팔로잉 {{ user.userFollowingCount }}개</div>
     </div>
     <v-btn
       rounded
@@ -104,7 +102,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
-
+import { mapState } from 'vuex'
 
 export default {
   data: () => {
@@ -115,6 +113,11 @@ export default {
   methods: {
     ...mapMutations([
       'TURN_POST_CREATE_MODAL_ON'
+    ])
+  },
+  computed: {
+    ...mapState([
+      'user',
     ])
   }
 }

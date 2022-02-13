@@ -11,19 +11,33 @@
 
 <script>
 export default {
-  name: 'KeywordChip',
+  name: 'KeywordChip2',
   props: {
     text: String,
+    isInToggler: Boolean,
+    isUserFavorite: Boolean,
+    variableName: String,
   },
   data: () => ({
     isActive: false,
   }),
   methods: {
     toggleChip: function () {
-      this.isActive = !this.isActive
+      if (this.isInToggler) {
+        this.isActive = !this.isActive
+        const status = [this.variableName, this.isActive]
+        this.$emit('toggle-chip', status)
+      }
+    },
+    setDefaultActivation: function () {
+      if (this.isInToggler && this.isUserFavorite) {
+        this.isActive = true
+      }
     }
-  }
-
+  },
+  created () {
+    this.setDefaultActivation()
+  },
 }
 </script>
 
