@@ -28,8 +28,8 @@
 	<update id="addUserKeyword" parameterType="Hashmap">
 		update user
 		set
-		user_keyword = #{userKeyword}
-		where user_code= #{userCode}
+		user_keyword = #{userkeyword}
+		where user_code= #{usercode}
 	</update>
 
 	<!-- 첫로그인 : 자기소개 설정 -->

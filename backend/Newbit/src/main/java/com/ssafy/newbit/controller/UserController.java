@@ -88,20 +88,20 @@ public class UserController{
 
 	/////////////////////////////	 최초 로그인 시 로직  	//////////////////////////////////////////////////////////
 	@ApiOperation(value = "관심 키워드 추가", notes = "최초 로그인 시, 유저의 관심키워드를 입력받는다", response = String.class)	
-	@PostMapping("/setting/keywordSet")
+	@PostMapping("/setting/keywordset")
 	public ResponseEntity<String> addUserKeyword(
-			@RequestParam("uid") @ApiParam(value = "관심키워드", required = true) int userCode, String userKeyword){  	
-		logger.info("addUserKeyword 호출 : " + userKeyword);
+			@RequestParam("uid") @ApiParam(value = "관심키워드", required = true) int usercode, String userkeyword){  	
+		logger.info("addUserKeyword 호출 : " + userkeyword);
 
     	HashMap<String, Object> map = new HashMap<String,Object>();
-    	map.put("userCode",userCode);
-    	map.put("userKeyword",userKeyword);
+    	map.put("userCode",usercode);
+    	map.put("userKeyword",userkeyword);
 		
 		try {
 			if (userService.addUserKeyword(map)) {// userDto 자체 업데이트가 불가능해서 userService.editUserInfo 못사용 
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 			}
-		} catch (Exception e) {
+		} catch (Exception e) { 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -111,7 +111,7 @@ public class UserController{
 	
 	
 	@ApiOperation(value = "자기소개 추가", notes = "최초 로그인 시, 유저의 자기소개 및 프로필 사진을 입력받는다", response = String.class)	
-	@PostMapping("/setting/introSet")		
+	@PostMapping("/setting/introset")		
 	public ResponseEntity<String> addUserIntro(
 			@RequestParam("uid") @ApiParam(value = "자기소개 , 프로필사진", required = true) int userCode, String userIntro, String userImg){  		
 		// 사진 입력시 지정 폴더/ img 타입 변경 등 후작업 필요
