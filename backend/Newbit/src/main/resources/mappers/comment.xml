@@ -22,7 +22,7 @@
 	<select id="listComment" parameterType="int" resultType="com.ssafy.newbit.model.CommentDto">
 		select comment_code as
 		commentCode, user_code as userCode, post_code as postCode,
-		comment_time as commentTime,
+		comment_date as commentDate,
 		comment_text as commentText, comment_depth
 		as commentDepth, comment_parent as commentParent
 		from comment
