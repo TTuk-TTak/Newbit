@@ -68,15 +68,7 @@
             >
           </v-avatar>
           <v-list-item-content class="ml-2">
-<<<<<<< HEAD
-<<<<<<< HEAD
             <v-list-item-title>{{user.userNick}}</v-list-item-title>
-=======
-            <v-list-item-title>{{$store.state.user.userNick}}</v-list-item-title>
->>>>>>> master
-=======
-            <v-list-item-title>{{user.userNick}}</v-list-item-title>
->>>>>>> f46d4b4c82cb2c0384996e0ca63e7cca7e38c53f
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>

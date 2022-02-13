@@ -3,7 +3,7 @@
       class="pa-0"
     >
       <v-list-group
-        class="background ml-0"
+        class="keywordBar ml-0"
         active-class='feedBackground rounded-lg'
         v-for="(category, categoryName, index) of categorizedKeywords"
         :key="`keywordBarCategory` + category + index"
@@ -52,5 +52,8 @@ export default {
 </script>
 
 <style>
-
+.keywordBar {
+  background-color: #f2f2f4;
+  width:300px; 
+}
 </style>
