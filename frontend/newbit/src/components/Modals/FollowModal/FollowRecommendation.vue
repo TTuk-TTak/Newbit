@@ -27,10 +27,14 @@
 </template>
 
 <script>
+import axios from 'axios'
 import FollowBtn from '@/components/Commons/FollowBtn.vue'
 
 
 export default {
+  props: {
+    user: Object
+  },
   components: { FollowBtn },
   data: () => ({
     files: [
@@ -46,39 +50,22 @@ export default {
         subtitle: 'Jan 10, 2014',
         title: 'Kitchen remodel',
       },
-      {
-        color: 'amber',
-        icon: 'mdi-gesture-tap-button',
-        subtitle: 'Jan 10, 2014',
-        title: 'Kitchen remodel',
-      },
-      {
-        color: 'amber',
-        icon: 'mdi-gesture-tap-button',
-        subtitle: 'Jan 10, 2014',
-        title: 'Kitchen remodel',
-      },
-      {
-        color: 'amber',
-        icon: 'mdi-gesture-tap-button',
-        subtitle: 'Jan 10, 2014',
-        title: 'Kitchen remodel',
-      },
-      {
-        color: 'amber',
-        icon: 'mdi-gesture-tap-button',
-        subtitle: 'Jan 10, 2014',
-        title: 'Kitchen remodel',
-      },
-      {
-        color: 'amber',
-        icon: 'mdi-gesture-tap-button',
-        subtitle: 'Jan 10, 2014',
-        title: 'Kitchen remodel',
-      },
-
     ],
-  })
+  }),
+  methods: {
+    fetchFollowRecommendation (user_code) {
+      axios({
+        url: `${this.$serverURL}/follow/recommendation?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          console.log(res)
+        })
+    }
+  },
+  created () {
+    this.fetchFollowRecommendation(this.user.userCode)
+  }
 }
 </script>
 
@@ -91,5 +78,4 @@ export default {
 .firstlogin-follow {
   width: 85%;
 }
-
 </style>

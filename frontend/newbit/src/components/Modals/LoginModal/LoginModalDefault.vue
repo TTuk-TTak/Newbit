@@ -10,7 +10,7 @@
       <v-card-text>
         <v-form>
           <v-text-field
-            v-model.trim="credentials.username"
+            v-model.trim="credentials.userEmail"
             label="아이디 or 이메일"
             name="username"
             type="text"
@@ -19,7 +19,7 @@
             rounded
           ></v-text-field>
           <v-text-field
-            v-model.trim="credentials.password"
+            v-model.trim="credentials.userPassword"
             label="비밀번호"
             name="password"
             type="password"
@@ -32,7 +32,7 @@
             label="내 정보 기억하기"
           ></v-checkbox>
           <v-btn
-            @click="login(credentials)"
+            @click="[$login(credentials), onClick()]"
             class="font-weight-bold"
             color="black"
             dark
@@ -41,44 +41,14 @@
             rounded
           >로그인</v-btn>
           <v-card-actions class="mt-6">
-            <v-row
-              align="center"
-              justify="center"
-            >
-              <v-col cols="4">
-                <v-btn
-                  large
-                  rounded
-                  block
-                  color="white"
-                >Google</v-btn>
-              </v-col>
-              <v-col cols="4">
-                <v-btn
-                  large
-                  rounded
-                  block
-                  color="blue"
-                  dark
-                >Facebook</v-btn>
-              </v-col>
-              <v-col cols="4">
-                <v-btn
-                  large
-                  rounded
-                  block
-                  color="green"
-                  dark
-                >Naver</v-btn>
-              </v-col>
-            </v-row>
+            <social-login></social-login>
           </v-card-actions>
           <v-card-actions class="d-flex justify-center mt-6 pa-0">
             <v-divider></v-divider>
           </v-card-actions>
           <v-card-actions class="d-flex justify-center mt-6 pa-0">
             <span class="text-h7 grey--text mr-1">아직 계정이 없다면?</span>
-            <router-link :to="{ name: 'Login' }">회원가입</router-link>
+            <router-link :to="{ name: 'Signup' }">회원가입</router-link>
           </v-card-actions>
         </v-form>
       </v-card-text>
@@ -87,16 +57,23 @@
 </template>
 
 <script>
+import SocialLogin from '@/components/Commons/SocialLogin.vue'
 export default {
+  components: { SocialLogin },
   name: 'LoginModalDefault',
   data: function () {
     return {
       credentials: {
-        username: '',
-        password: '',
+        userEmail: '',
+        userPassword: '',
       },
     }
   },
+  methods: {
+    onClick: function () {
+      this.$emit('click-change')
+    }
+  }
 }
 </script>
 

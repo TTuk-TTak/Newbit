@@ -61,6 +61,11 @@ export default {
     commit('RESET_USER_INFORMATION')
   },
 
+  saveUserKeyword: function ({ commit }, keywordString) {
+    commit('SAVE_USER_KEYWORD', keywordString)
+  },
+
+
   // 4. 추천피드 조작
   getContentsHot: ({ commit }) => {
     const size = 10

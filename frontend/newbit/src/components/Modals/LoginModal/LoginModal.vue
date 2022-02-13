@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <v-dialog
-      v-model="isLogged"
+      v-model="dialog"
       width="45%"
     >
       <v-card class="rounded-xl ma-0 pa-0">
@@ -21,7 +21,7 @@
               cols="6"
               class="pa-0"
             >
-              <login-modal-default></login-modal-default>
+              <login-modal-default @click-change="closeModal()"></login-modal-default>
             </v-col>
           </v-row>
         </v-container>
@@ -40,16 +40,22 @@ export default {
 
   data () {
     return {
-
+      dialog: this.isLogged()
     }
   },
   computed: {
+
+  },
+  methods: {
     isLogged: function () {
       const token = localStorage.getItem('jwt')
       if (token) {
         return false
       }
       return true
+    },
+    closeModal () {
+      this.dialog = false
     }
   }
 }
