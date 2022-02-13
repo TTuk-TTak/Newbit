@@ -116,4 +116,10 @@ public class ContentServiceImpl implements ContentService {
 		return sqlSession.getMapper(TechblogMapper.class).getTechblogInfo(techblogcode);
 	}
 
+	@Override
+	public List<ContentDto> techblogContent(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(ContentMapper.class).techblogContent(map);
+	}
+
 }
