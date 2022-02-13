@@ -3,42 +3,69 @@
     <v-tabs>
       <v-tabs-slider></v-tabs-slider>
       <v-tab
+        @click="changeToLanguage"
+        class="font-weight-bold"
+      >개발언어</v-tab>
+      <v-tab
         @click="changeToFrontend"
         class="font-weight-bold"
       >프론트엔드</v-tab>
       <v-tab
         @click="changeToBackend"
         class="font-weight-bold"
-      >벡엔드</v-tab>
+      >백엔드</v-tab>
       <v-tab
-        @click="changeToCooperation"
+        @click="changeToNormal"
         class="font-weight-bold"
-      >협업</v-tab>
+      >일반</v-tab>
     </v-tabs>
     <v-divider></v-divider>
     <v-chip-group
       column
       class="mt-3 mb-9"
     >
-      <div v-if="toggle === 'frontend'">
+      <div v-if="toggle === 'language'">
         <keyword-chip2
-          v-for="frontendTag in frontendTags"
-          :key="frontendTag"
-          :text="frontendTag"
+          v-for="(languagetag, key) of categorizedKeywords['개발언어'].data"
+          :key="key"
+          :text="languagetag.shownName"
+          :isInToggler="true"
+          :isUserFavorite="keywordActivity[key]"
+          :variableName="key"
+          @toggle-chip="toggleChip"
+        ></keyword-chip2>
+      </div>
+      <div v-else-if="toggle === 'frontend'">
+        <keyword-chip2
+          v-for="(frontendtag, key) of categorizedKeywords['Front-end'].data"
+          :key="key"
+          :text="frontendtag.shownName"
+          :isInToggler="true"
+          :isUserFavorite="keywordActivity[key]"
+          :variableName="key"
+          @toggle-chip="toggleChip"
         ></keyword-chip2>
       </div>
       <div v-else-if="toggle === 'backend'">
         <keyword-chip2
-          v-for="backendTag in backendTags"
-          :key="backendTag"
-          :text="backendTag"
+          v-for="(backendtag, key) of categorizedKeywords['Back-end'].data"
+          :key="key"
+          :text="backendtag.shownName"
+          :isInToggler="true"
+          :isUserFavorite="keywordActivity[key]"
+          :variableName="key"
+          @toggle-chip="toggleChip"
         ></keyword-chip2>
       </div>
-      <div v-else-if="toggle === 'cooperation'">
+      <div v-else-if="toggle === 'normal'">
         <keyword-chip2
-          v-for="cooperationTag in cooperationTags"
-          :key="cooperationTag"
-          :text="cooperationTag"
+          v-for="(normaltag, key) of categorizedKeywords['일반'].data"
+          :key="key"
+          :text="normaltag.shownName"
+          :isInToggler="true"
+          :isUserFavorite="keywordActivity[key]"
+          :variableName="key"
+          @toggle-chip="toggleChip"
         ></keyword-chip2>
       </div>
     </v-chip-group>
@@ -46,6 +73,8 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from 'vuex'
+
 import KeywordChip2 from '@/components/Keyword/KeywordChip2.vue'
 
 export default {
@@ -55,41 +84,63 @@ export default {
   },
   data: () => {
     return {
-      toggle: 'frontend',
-      frontendTags: [
-        'UI/UX',
-        'Vue.js',
-        'Typescript',
-        'SPA',
-        'React'
-      ],
-      backendTags: [
-        'Node.js',
-        'Django',
-        'Java',
-        'Flask',
-        'Kotlin'
-      ],
-      cooperationTags: [
-        'Figma',
-        'ERDCloud',
-        'Draw.io',
-        'Notion',
-        'Git'
-      ]
+      keywordActivity: {},
+      toggle: 'language',
     }
   },
   methods: {
+    changeToLanguage () {
+      this.toggle = 'language'
+    },
     changeToFrontend () {
       this.toggle = 'frontend'
     },
     changeToBackend () {
       this.toggle = 'backend'
     },
-    changeToCooperation () {
-      this.toggle = 'cooperation'
-    }
-  }
+    changeToNormal () {
+      this.toggle = 'normal'
+    },
+    //
+    setActivity: function () {
+      const userKeywordString = this.user.userKeyword
+      const userFavoriteKeyword = this.$parseKeyword(userKeywordString)
+
+      for (let keyword in this.keywordDict) {
+        if (userFavoriteKeyword.includes(keyword)) {
+          this.keywordActivity[keyword] = true
+        } else {
+          this.keywordActivity[keyword] = false
+        }
+      }
+    },
+    toggleChip: function (status) {
+      this.keywordActivity[status[0]] = status[1]
+      this.user.userKeyword = this.makeQueryString()
+    },
+    makeQueryString: function () {
+      let queryString = ''
+      for (let key in this.keywordActivity) {
+        if (this.keywordActivity[key]) {
+          queryString += '_' + key
+        }
+      }
+      queryString = queryString.slice(1)
+      return queryString
+    },
+  },
+  computed: {
+    ...mapState([
+      'user',
+    ]),
+    ...mapGetters([
+      'categorizedKeywords',
+      'keywordDict',
+    ])
+  },
+  created () {
+    this.setActivity()
+  },
 }
 </script>
 

@@ -25,7 +25,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@CrossOrigin(origins = { "*"})
+@CrossOrigin(origins = { "http://localhost:8080" })
 @RestController
 @RequestMapping("/content")
 @Api("콘텐츠 컨트롤러  API")
@@ -229,5 +229,47 @@ public class ContentCotroller {
 		}
 		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
 	}
+	@ApiOperation(value = "특정 기술블로그의 콘텐츠 모아보기", notes = "기술 블로그의 콘텐츠를 최신순으로 반환", response = List.class)
+	@GetMapping("/techblog")
+	public ResponseEntity<List<ContentDto>> techblogContentList(
+			@RequestParam @ApiParam(value = "", required = true) int uid, int tid, int lastcontentcode, int size) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("techblogCode", tid);
+		map.put("lastContentCode", lastcontentcode);
+		map.put("size", size);
+		logger.info("techblogContentList 호출 : " + tid);
+
+		// 커서 기반 페이지네이션을 위한 커서 생성, listContent()호출할 때 커서로 넣어줌
+		if (lastcontentcode != 0) {
+			HashMap<String, Object> cursormap = new HashMap<String, Object>();
+			cursormap.put("contentCode", lastcontentcode);
+			cursormap.put("type", "new");
+			long cursor = contentService.getCursor(cursormap);
+			map.put("cursor", cursor);
+			//System.out.println(cursor);
+		}
+
+		// 콘텐츠 목록 불러오기
+		List<ContentDto> list = contentService.techblogContent(map);
+
+		String img = contentService.getTechblogInfo(tid).getTechblogImg();
+		String name = contentService.getTechblogInfo(tid).getTechblogName();
+			
+		// 현재 로그인한 유저가 콘텐츠에 대해 좋아요와 스크랩 했는지 체크
+		for (ContentDto c : list) {
+			HashMap<String, Object> hm = new HashMap<String, Object>();
+			hm.put("userCode", uid);
+			hm.put("contentCode", c.getContentCode());
+			c.setLiked(contentService.userLikeContent(hm));
+			c.setScrapped(contentService.userScrapContent(hm));
+			c.setRead(contentService.userReadContent(hm));
+			
+			//테크블로그 정보 포함시키기
+			c.setTechblogImg(img);
+			c.setTechblogName(name);
+		}
+		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
+	}
+	
 
 }
