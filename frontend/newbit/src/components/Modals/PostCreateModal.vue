@@ -8,7 +8,6 @@
         v-if="user"
         class="rounded-xl py-1"
       >
-        {{ $store.state.embeddedContent }}
         <!-- 1. 카드 상단부 -->
         <v-card-title
           class='justify-space-between'
