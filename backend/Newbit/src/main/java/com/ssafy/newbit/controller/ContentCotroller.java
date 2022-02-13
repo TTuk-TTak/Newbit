@@ -25,7 +25,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@CrossOrigin(origins = { "*"})
+@CrossOrigin(origins = { "http://localhost:8080" })
 @RestController
 @RequestMapping("/content")
 @Api("콘텐츠 컨트롤러  API")

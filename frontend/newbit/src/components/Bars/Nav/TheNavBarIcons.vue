@@ -60,9 +60,7 @@
             <img :src="user.userImg">
           </v-avatar>
           <v-list-item-content class="ml-2">
-
             <v-list-item-title>{{user.userNick}}</v-list-item-title>
-
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
