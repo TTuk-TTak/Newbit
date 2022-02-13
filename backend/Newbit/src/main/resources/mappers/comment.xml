@@ -20,14 +20,16 @@
 	</delete>
 
 	<select id="listComment" parameterType="int" resultType="com.ssafy.newbit.model.CommentDto">
-		select comment_code as
-		commentCode, user_code as userCode, post_code as postCode,
-		comment_date as commentDate,
-		comment_text as commentText, comment_depth
-		as commentDepth, comment_parent as commentParent
-		from comment
+		select c.comment_code as
+		commentCode, c.user_code as userCode, c.post_code as postCode,
+		c.comment_date as commentDate,
+		c.comment_text as commentText, c.comment_depth
+		as commentDepth, c.comment_parent as commentParent,
+		u.user_nick as userNick, u.user_img as userImg
+		from comment as c, user as u
 		where
-		post_code = #{postCode}
+		c.post_code = #{postCode}
+		and c.user_code = u.user_code
 	</select>
 	
 	<select id="getPostCode" parameterType="int" resultType="int">

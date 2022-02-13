@@ -13,6 +13,10 @@ public class CommentDto {
 	private int commentCode;
 	@ApiModelProperty(value = "댓글 작성자")
 	private int userCode;
+	@ApiModelProperty(value = "댓글 작성자 닉네임")
+	private String userNick;
+	@ApiModelProperty(value = "댓글 작성자 이미지 url")
+	private String userImg;
 	@ApiModelProperty(value = "댓글이 달린 글 번호")
 	private int postCode;
 	@ApiModelProperty(value = "댓글 작성일시")
