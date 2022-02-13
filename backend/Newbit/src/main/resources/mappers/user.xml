@@ -64,13 +64,14 @@
 	<!-- 특정 유저 정보 조회 -->
 	<select id="getUser" parameterType="int" resultType="userDto">
 		select
-		user_code `userCode`, user_email `userEmail`, user_id `userId`,
-		user_nick `userNick`, user_img `userImg`, user_postcount
-		`userPostCount`, user_followercount `userFollowerCount`,
-		user_followingcount `userFollowingCount`, user_intro `userIntro`,
-		user_keyword `userKeyword`
-		from user
-		where user_code = #{userCode}
+		u.user_code `userCode`, u.user_email `userEmail`, u.user_id `userId`,
+		u.user_nick `userNick`, u.user_img `userImg`,
+		u.user_intro `userIntro`, u.user_keyword `userKeyword`, 
+		(select count(*) from post p where p.user_code = #{userCode}) `userPostCount`,
+		(select count(*) from follow f where f.user_code = #{userCode}) `userFollowingCount`,
+		(select count(*) from follow f where f.following_code = #{userCode}) `userFollowerCount`
+		from user u
+		where u.user_code = #{userCode}
 	</select>
 
 	<!-- 팔로잉 리스트 조회 -->
