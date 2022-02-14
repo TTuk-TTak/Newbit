@@ -71,4 +71,12 @@ export default {
     // state.curationFeed.lastPostCode = lastPostCode
   },
 
+  //5. 알림센터
+  SET_NOTIFICATION: function (state, data) {
+    state.notiCenter.notifications = data
+  },
+  DELETE_NOTIFICATION: function (state) {
+    state.notiCenter = null
+  }
+
 }

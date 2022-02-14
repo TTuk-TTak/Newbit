@@ -103,6 +103,7 @@ CommonMethodsPlugin.install = function (Vue) {
     localStorage.removeItem('jwt')
     localStorage.removeItem('user_code')
     this.$store.dispatch('resetUserInformation')
+    this.$store.dispatch('deleteNotifications')
     this.$goToSocialFeed()
   }
 

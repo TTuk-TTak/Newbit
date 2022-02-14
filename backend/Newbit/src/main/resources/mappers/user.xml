@@ -98,6 +98,23 @@
 		following_code =
 		#{userCode})
 	</select>
+	
+	<!-- 팔로워 알림 조회 -->
+	<select id="getFollowNoti" parameterType="int"
+		resultType="userDto">
+		select distinct u.user_code `userCode`, u.user_id `userId`, u.user_nick `userNick`,
+		u.user_img `userImg`, u.user_intro `userIntro`, case when exists
+		(select * from follow f where f.following_code = u.user_code and
+		f.user_code = #{userCode}) then true else false end `isFollow`,
+		f.is_read `isRead`
+		from
+		user u join follow f
+		where u.user_code in (select user_code from follow where
+		following_code = #{userCode} 
+		order by follow_date desc)
+		limit 5;
+	</select>
+	
 
 	<!-- 회원 정보 수정 -->
 	<update id="editUserInfo" parameterType="userDto">

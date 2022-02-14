@@ -22,12 +22,45 @@
 
     </v-dialog>
     <!-- 2. 알람 아이콘 -->
-    <v-btn
-      icon
-      class="mr-4"
-    >
-      <v-icon>mdi-bell</v-icon>
-    </v-btn>
+    <v-menu offset-y left >
+      <template v-slot:activator="{ on, attrs }">
+        <v-badge
+          color="grey"
+          content="2"
+          offset-x="38"
+          offset-y="23"
+        >
+        <v-btn
+          icon
+          class="mr-4"
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon>mdi-bell</v-icon>
+        </v-btn>
+        </v-badge>
+      </template>
+      <v-list min-width=300px>
+        
+        <v-list-item 
+          v-if="!$store.state.user">
+          <v-list-item-title style="width:300px">알림이 존재하지 않습니다.</v-list-item-title>
+        </v-list-item>
+        <v-list-item 
+          v-else-if="notiCenter.notifications<1">
+          <v-list-item-title style="width:300px">알림이 존재하지 않습니다.</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item v-else
+          v-for="(notification, index) in notiCenter.notifications"
+          :key="index"
+        >
+          <v-list-item-content style="width:300px; white-space:nowrap; overflow:visible">{{ notification.userNick | follow }}</v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
+
     <!-- 3-1. 비 로그인 사용자: 로그인 버튼 -->
     <v-btn
       v-if="!$store.state.user"
@@ -37,7 +70,8 @@
       <v-icon>mdi-login</v-icon>
     </v-btn>
     <!-- 3-2. 로그인 된 사용자: 메뉴 확인 -->
-    <v-menu
+    <v-menu 
+      offset-y
       v-if="user"
       left
       bottom
@@ -95,13 +129,25 @@ export default {
   },
   data: () => {
     return {
+       notifications: [
+        { title: '알림이 존재하지 않습니다.' },
+      ],
 
     }
   },
+  created() {
+    this.$store.dispatch('getNotification')
+  },
   computed: {
     ...mapState([
-      'user',
-    ])
+      'user', 'notiCenter'
+    ]),
+    
+  },
+  filters: {
+    follow(nickName) {
+      return ("'"+nickName + "' 님이 팔로우 했습니다.")
+    },
   }
 }
 </script>

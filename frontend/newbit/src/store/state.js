@@ -24,4 +24,8 @@ export default {
   archivingFeed: {
 
   },
+
+  notiCenter:{
+    notifications : []
+  }
 }

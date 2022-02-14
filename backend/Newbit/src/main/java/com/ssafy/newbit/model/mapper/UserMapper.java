@@ -49,4 +49,5 @@ public interface UserMapper {
 	
 	public List<UserDto> followRecommendation(HashMap<String, Object> map) throws SQLException;
 	public List<UserDto> getRandomUser(HashMap<String, Object> map) throws SQLException;
+	public List<UserDto> getFollowNoti(int userCode) throws SQLException;
 }

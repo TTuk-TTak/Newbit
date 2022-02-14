@@ -196,6 +196,13 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(UserMapper.class).getRandomUser(map);
 	}
+
+
+	//팔로워 알림 조회
+	@Override
+	public List<UserDto> getFollowNoti(int userCode) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).getFollowNoti(userCode);
+	}
 	
 	
 
