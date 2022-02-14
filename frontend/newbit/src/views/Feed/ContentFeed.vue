@@ -32,7 +32,12 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import axios from 'axios'
+import InfiniteLoading from 'vue-infinite-loading'
+
 import { mapState } from 'vuex'
+
 import KeywordToggler from '@/components/Keyword/KeywordToggler.vue'
 import ContentCard from '@/components/Cards/ContentCard.vue'
 
@@ -40,23 +45,57 @@ import ContentCard from '@/components/Cards/ContentCard.vue'
 export default {
   name: 'ContentFeed',
   components: {
+    InfiniteLoading,
     KeywordToggler,
     ContentCard,
   },
-  created () {
-    this.getContentsHot()
-  },
+  data: () => ({
+    page: 1,
+    contents: [],
+    lastContentCode: 0,
+  }),
+  // created () {
+  //   this.getContentsHot()
+  // },
   computed: {
     ...mapState([
-      'curationFeed'
+      // 'curationFeed'
+      'user',
     ])
   },
   methods: {
-    getContentsHot () {
-      if (!this.curationFeed.isAtLast)
-      this.$store.dispatch('getContentsHot')
-      console.log("뇸",this.curationFeed.contents);
-    },
+    // getContentsHot () {
+    //   if (!this.curationFeed.isAtLast)
+    //   this.$store.dispatch('getContentsHot')
+    //   console.log("뇸",this.curationFeed.contents);
+    // },
+    infiniteHandler ($state) {
+      const size = 10
+      axios({
+        method: 'get',
+        url: `${this.$serverURL}/post/list?`
+          + `uid=${this.user.userCode}`
+          + `&lastpostcode=${this.lastPostCode}`
+          + `&size=${size}`,
+      })
+      .then(res => {
+        if (res.data.length !== 0) {
+          this.page += 1;
+          this.lastPostCode = _.last(res.data).postCode
+          console.log(res.data)
+          for (let key in res.data) {
+            this.posts.push(res.data[key])
+          }
+          
+          $state.loaded();
+        } else {
+          $state.complete();
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
   },
 }
 </script>
