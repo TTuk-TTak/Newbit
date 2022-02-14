@@ -182,7 +182,7 @@
 	<!-- 포스트 알림 조회 -->
 	<select id="getPostNoti" parameterType="int"
 		resultType="com.ssafy.newbit.model.PostDto">
-		SELECT u.user_code `userCode`, u.user_nick `userNick`, p.post_code `postCode`, p.post_text `postText`
+		SELECT u.user_code `likeUserCode`, u.user_nick `likeUserNick`, p.post_code `postCode`, p.post_text `postText`
 		FROM postlike l join post p
 		on l.post_code = p.post_code
     	join user u
