@@ -160,10 +160,12 @@ export default {
     },
     // 3. 공유 버튼 클릭
     clickShareBtn() {
-      console.log(this.content.contentCode)
-      const payload = {'contentCode': this.content.contentCode}
-      console.log(payload)
-      this.$store.dispatch('turnPostCreateModalOn', payload)
+      if (this.user) {
+        console.log(this.content.contentCode)
+        const payload = {'contentCode': this.content.contentCode}
+        console.log(payload)
+        this.$store.dispatch('turnPostCreateModalOn', payload)
+      }
     },
     // 컨텐츠 아카이브 요청
     archiveContent() {
