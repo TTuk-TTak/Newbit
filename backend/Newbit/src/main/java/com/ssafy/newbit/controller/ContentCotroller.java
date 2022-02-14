@@ -166,7 +166,7 @@ public class ContentCotroller {
 		logger.info("deleteScrapContent 호출 : ");
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("uid", uid);
-		map.put("pid", cid);
+		map.put("cid", cid);
 		map.put("count", -1);
 		if (contentService.deleteScrapContent(map)) {
 			contentService.updateScrap(map);
