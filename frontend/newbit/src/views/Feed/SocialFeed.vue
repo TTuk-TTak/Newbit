@@ -8,6 +8,7 @@
       justify='center'
       align='start'
       id='socialFeed'
+      cols=12
     >
       <v-col
         v-for="(post, index) in posts"
@@ -19,10 +20,11 @@
       </v-col>
     </v-row>
     <!-- 무한 스크롤 -->
-    <v-row
+    <v-col
       class="mt-5 pt-5 justify-self-center align-self-end"
+      cols=12
     >
-      <v-spacer></v-spacer>
+
       <infinite-loading
         v-if='user'
         class="mt-5 pt-5 justify-self-center align-self-center"
@@ -32,8 +34,8 @@
           2022 - Newbit
         </template>
         </infinite-loading>
-        <v-spacer></v-spacer>
-    </v-row>
+
+    </v-col>
   </v-row>
 
 </template>

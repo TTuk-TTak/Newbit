@@ -4,6 +4,7 @@
     class="mx-auto mt-1 contentCard-Item"
     style="position: relative; "
   >
+    <!-- {{ content.contentCode }} -->
     <!-- 상단 이미지 -->
     <v-img
       max-height="170"
