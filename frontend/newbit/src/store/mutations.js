@@ -41,11 +41,13 @@ export default {
   // },
 
   // 3. 컴포넌트 조작
-  TURN_POST_CREATE_MODAL_ON: function () {
+  TURN_POST_CREATE_MODAL_ON: function (state, payload) {
     state.modals.postCreateModal = true
+    state.embeddedContent.contentCode = payload.contentCode
   },
   TURN_POST_CREATE_MODAL_OFF: function () {
     state.modals.postCreateModal = false
+    state.embeddedContent.contentCode = 0
   },
   TURN_FIRST_LOGIN_MODAL_ON: function (state) {
     state.modals.firstLoginModal = true

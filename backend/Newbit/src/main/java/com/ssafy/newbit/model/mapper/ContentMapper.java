@@ -26,4 +26,5 @@ public interface ContentMapper {
 
 	public long getCursor(HashMap<String, Object> map) throws SQLException;
 
+	public List<ContentDto> techblogContent(HashMap<String, Object> map) throws SQLException;
 }

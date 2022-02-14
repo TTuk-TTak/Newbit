@@ -7,15 +7,17 @@
 	<select id="getCursor" parameterType="HashMap" resultType="long">
 		select
 		<if test="type=='new'">
-			CONCAT(DATE_FORMAT(content_date, '%y%m%d'), LPAD(content_code, 10,0))
+			CONCAT(DATE_FORMAT(content_date, '%y%m%d'),
+			LPAD(content_code, 10,0))
 		</if>
 		<if test="type=='hot'">
-			CONCAT(LPAD(content_read, 10,0),DATE_FORMAT(content_date, '%y%m%d'), LPAD(content_code, 10,0)) as cur
+			CONCAT(LPAD(content_read, 10,0),DATE_FORMAT(content_date,
+			'%y%m%d'), LPAD(content_code, 10,0)) as cur
 		</if>
 		from content
 		where content_code = #{contentCode}
 	</select>
-	
+
 	<!-- 툭정 콘텐츠 하나 조회 -->
 	<select id="getContent" parameterType="int"
 		resultType="com.ssafy.newbit.model.ContentDto">
@@ -42,11 +44,13 @@
 
 		<!-- new인 경우 커서 기준 content_date -->
 		<if test="type== 'new'">
-			CONCAT(DATE_FORMAT(content_date, '%y%m%d'), LPAD(content_code, 10,0)) as cur
+			CONCAT(DATE_FORMAT(content_date, '%y%m%d'),
+			LPAD(content_code, 10,0)) as cur
 		</if>
-		
+
 		<if test="type== 'hot'">
-			CONCAT(DATE_FORMAT(content_date, '%y%m%d'), LPAD(content_code, 10,0)) as cur
+			CONCAT(DATE_FORMAT(content_date, '%y%m%d'),
+			LPAD(content_code, 10,0)) as cur
 		</if>
 		from content
 
@@ -66,11 +70,12 @@
 			order by content_date desc, content_code desc
 		</if>
 		<if test="type== 'hot'">
-			order by content_read desc, content_date desc, content_code desc
+			order by content_read desc, content_date desc,
+			content_code desc
 		</if>
 		limit #{size}
 	</select>
-	
+
 	<!-- 콘텐츠의 스크랩 수 변경 -->
 	<update id="updateScrap" parameterType="int">
 		update content
@@ -108,7 +113,12 @@
 		values (#{uid}, #{cid},
 		now())
 	</insert>
-	
+
+	<delete id="deleteLikeContent" parameterType="Hashmap">
+		delete from contentlike
+		where user_code = #{uid} and content_code = #{cid}
+	</delete>
+
 	<!-- 콘텐츠 스크랩 실행 -->
 	<insert id="scrapContent" parameterType="map">
 		insert into contentscrap
@@ -118,6 +128,10 @@
 		now())
 	</insert>
 
+	<delete id="deleteScrapContent" parameterType="Hashmap">
+		delete from contentscrap
+		where user_code = #{uid} and content_code = #{cid}
+	</delete>
 
 	<!-- 콘텐츠 읽음 처리 -->
 	<insert id="readContent" parameterType="Hashmap">
@@ -126,15 +140,15 @@
 		values (#{uid}, #{cid},
 		now())
 	</insert>
-	
-	
+
+
 	<!-- 유저가 해당 콘텐츠를 좋아하는지 여부 반환 -->
 	<select id="userLikeContent" parameterType="Hashmap"
 		resultType="int">
 		select coalesce((select 1
 		FROM contentlike
 		where user_code =
-		#{userCode} and content_code = #{contentCode}), 0)
+		#{userCode} and content_code = #{contentCode} limit 1), 0)
 	</select>
 
 	<!-- 유저가 해당 콘텐츠를 스크랩했는지 여부 반환 -->
@@ -143,18 +157,18 @@
 		select coalesce((select 1
 		FROM contentscrap
 		where user_code =
-		#{userCode} and content_code = #{contentCode}), 0)
+		#{userCode} and content_code = #{contentCode} limit 1), 0)
 	</select>
-	
+
 	<!-- 유저가 해당 콘텐츠를 읽었는지 여부 반환 -->
 	<select id="userReadContent" parameterType="Hashmap"
 		resultType="int">
 		select coalesce((select 1
 		FROM contentread
 		where user_code =
-		#{userCode} and content_code = #{contentCode}), 0)
+		#{userCode} and content_code = #{contentCode} limit 1), 0)
 	</select>
-	
+
 	<!-- 콘텐츠 검색 -->
 	<select id="searchContentList" parameterType="HashMap"
 		resultType="com.ssafy.newbit.model.ContentDto">
@@ -182,6 +196,33 @@
 			and ((content_code  <![CDATA[<]]>
 			#{lastContentCode}))
 		</if>
+		limit #{size}
+	</select>
+
+	<!-- 특정 기술블로그의 콘텐츠 목록 -->
+	<select id="techblogContent" parameterType="HashMap"
+		resultType="com.ssafy.newbit.model.ContentDto">
+		select content_code `contentCode`, techblog_code
+		`techblogCode`,
+		content_title `contentTitle`, content_text
+		`contentText`, content_url
+		`contentUrl`,
+		content_img `contentImg`, content_date `contentDate`,
+		content_keyword `contentKeyword`,
+
+		<!-- new인 경우 커서 기준 content_date -->
+		CONCAT(DATE_FORMAT(content_date, '%y%m%d'),
+		LPAD(content_code, 10,0))
+		as cur
+		from content
+
+		where techblog_code = #{techblogCode}
+
+		<if test="lastContentCode != null and lastContentCode != 0">
+			having cur  <![CDATA[<]]>
+			#{cursor}
+		</if>
+		order by content_date desc, content_code desc
 		limit #{size}
 	</select>
 

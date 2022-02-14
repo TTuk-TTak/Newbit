@@ -29,7 +29,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@CrossOrigin(origins = { "http://localhost:8080" })
+@CrossOrigin(origins = { "http://localhost:8080, http://i6a101.p.ssafy.io" })
 @RestController
 @RequestMapping("/follow")
 @Api("팔로우 컨트롤러  API")
@@ -121,11 +121,14 @@ public class FollowController {
 		// 키워드 파싱
 		List<String> keywordList = new ArrayList<>();
 
-		StringTokenizer st = new StringTokenizer(keyword, "_");
-		while (st.hasMoreTokens()) {
-			String str = st.nextToken();
-			if (!str.equals("null"))
-				keywordList.add(str);
+		if (keyword != null) {
+
+			StringTokenizer st = new StringTokenizer(keyword, "_");
+			while (st.hasMoreTokens()) {
+				String str = st.nextToken();
+				if (!str.equals("null"))
+					keywordList.add(str);
+			}
 		}
 
 		map.put("keywordlist", keywordList);
