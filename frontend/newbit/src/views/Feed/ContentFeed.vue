@@ -8,7 +8,7 @@
         class="ml-1 mr-3"
         slider-color='#0d0e23'
       >
-        <v-tab class="contentTab" @change="getContentsHot">인기 컨텐츠</v-tab>
+        <v-tab class="contentTab">인기 컨텐츠</v-tab>
         <v-tab class="contentTab">최신 컨텐츠</v-tab>
         <hr>
       </v-tabs>
@@ -20,13 +20,29 @@
       <v-col
         class="pa-2"
         cols="6"
-        v-for="(content, index) in curationFeed.contents"
+        v-for="(content, index) in contents"
         :key="index"
       >
         <content-card
         :content="content"
         ></content-card>
       </v-col>
+    </v-row>
+    <!-- 무한 스크롤 -->
+    <v-row
+      class="mt-5 pt-5 justify-self-center align-self-end"
+    >
+      <v-spacer></v-spacer>
+      <infinite-loading
+        v-if='user'
+        class="mt-5 pt-5 justify-self-center align-self-center"
+        @infinite="infiniteHandler" 
+        >
+        <template slot="no-more">
+          2022 - Newbit
+        </template>
+        </infinite-loading>
+        <v-spacer></v-spacer>
     </v-row>
   </v-card>
 </template>
@@ -73,18 +89,20 @@ export default {
       const size = 10
       axios({
         method: 'get',
-        url: `${this.$serverURL}/post/list?`
-          + `uid=${this.user.userCode}`
-          + `&lastpostcode=${this.lastPostCode}`
-          + `&size=${size}`,
+        url: `${this.$serverURL}/content/list?`
+          + `sorting=hot`
+          + `&uid=${this.user.userCode}`
+          + `&lastcontentcode=${this.lastContentCode}`
+          + `&size=${size}`
+          + `&keyword=java`,
       })
       .then(res => {
         if (res.data.length !== 0) {
           this.page += 1;
-          this.lastPostCode = _.last(res.data).postCode
+          this.lastContentCode = _.last(res.data).contentCode
           console.log(res.data)
           for (let key in res.data) {
-            this.posts.push(res.data[key])
+            this.contents.push(res.data[key])
           }
           
           $state.loaded();
