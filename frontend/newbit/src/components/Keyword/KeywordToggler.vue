@@ -54,6 +54,7 @@ export default {
         } 
       }
       queryString = queryString.slice(1)
+      this.$emit('query-string-changed', queryString)
       return queryString
     },
   },

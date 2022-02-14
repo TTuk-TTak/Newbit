@@ -132,6 +132,8 @@ export default {
       })
       .then((res) => {
         console.log('컨텐츠 읽음!', res)
+        // 읽음 처리.
+        this.content.read = true
       })
       .catch((err) => {
         console.log(err)
