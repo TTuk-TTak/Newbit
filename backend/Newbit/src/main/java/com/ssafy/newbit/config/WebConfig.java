@@ -19,8 +19,10 @@ public class WebConfig implements WebMvcConfigurer {
 //		Allow all headers.
 //		Set max age to 1800 seconds (30 minutes).
 		registry.addMapping("/**")
-			.allowedOrigins("http://localhost:8080")
-			.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
+			.allowedOrigins("*")
+			.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+			.maxAge(6000)
+			.allowCredentials(true);
 	}
 
 //	Swagger UI 실행시 404처리

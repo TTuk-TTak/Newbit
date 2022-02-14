@@ -53,10 +53,10 @@ public class CommentController {
 	
 	@ApiOperation(value = "댓글 쓰기", notes = "새로운 댓글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)	
 	@PostMapping
-	public ResponseEntity<String> writeComment(@RequestBody @ApiParam(value = "댓글 정보.", required = true) CommentDto commentDto) throws Exception {
+	public ResponseEntity<String> writeComment(@RequestBody @ApiParam(value = "댓글 정보.", required = false) CommentDto commentDto) throws Exception {
 		logger.info("writeComment 호출 : " + commentDto.getCommentText());
 		if (commentService.writeComment(commentDto)) {
-			
+
 			//댓글 작성하면 댓글이 달린 게시글의 post_comment 1 증가 
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			map.put("postCode", commentDto.getPostCode());

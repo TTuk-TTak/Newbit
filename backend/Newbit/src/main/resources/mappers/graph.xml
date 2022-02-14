@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.newbit.model.mapper.GraphMapper">
+
+
+	<select id="getKeyword" parameterType="String">
+		select c.content_keyword
+		from content c
+		where (content_code in (select content_code from contentscrap where
+		user_code = #{uid}))
+		or (content_code in ( select content_code from post where user_code =
+		7));
+	</select>
+
+</mapper>
