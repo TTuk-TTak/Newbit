@@ -148,7 +148,7 @@
 		select coalesce((select 1
 		FROM contentscrap
 		where user_code =
-		#{userCode} and content_code = #{contentCode}), 0)
+		#{userCode} and content_code = #{contentCode} limit 1), 0)
 	</select>
 
 	<!-- 유저가 해당 콘텐츠를 읽었는지 여부 반환 -->
