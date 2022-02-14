@@ -4,16 +4,22 @@
     class="pa-4 pt-2 cardMargin"
     color="feedBackground"
   >
-    <v-btn>
-      모든 게시글 archive 하기
-    </v-btn>
     <div class="mx-2" style="border-bottom:1px solid lightgray">
       <v-tabs
         class="ml-1 mr-3"
         slider-color='#0d0e23'
       >
         <v-tab class="contentTab">컨텐츠</v-tab>
-        <v-tab class="contentTab">게시글</v-tab>
+        <!-- <v-tab class="contentTab">게시글</v-tab> -->
+        <v-row
+          class="pt-2 pr-4"
+          justify='end'
+        >
+          <v-switch
+            v-model="showUnreadContentsOnly"
+            label="읽지 않은 글만 보기"
+          ></v-switch>
+        </v-row>
         <hr>
       </v-tabs>
     </div>
@@ -28,6 +34,7 @@
         cols=6
       >
         <content-card
+          v-show="!showUnreadContentsOnly || content.read === false"
           :content='content'
         ></content-card>
       </v-col>
@@ -76,6 +83,7 @@ export default {
       contents: [],
       lastContentCode: 0,
       lastPostCode: 0,
+      showUnreadContentsOnly: false
     }
   },
   computed: {

@@ -4,7 +4,6 @@
     class="mx-auto mt-1 contentCard-Item"
     style="position: relative; "
   >
-    <!-- {{ content.contentCode }} -->
     <!-- 상단 이미지 -->
     <v-img
       max-height="170"
@@ -101,14 +100,6 @@ export default {
   data() {
     return {
       isVertical: true,
-      // content: {
-      //   title: '[JavaScript] Virtual DOM 만들기',
-      //   text: "React 공식 홈페이지에서는 Virtual DOM을 'UI로 표현될 객체를 가상 메모리에 저장하여 라이브러리에 의해 실제 DOM으로 동기화 하는 개념'으로 표현하고 있습니다. 여기서 UI로 표현될 객체는 DOM을 의미하며, 라이브러리는 VirtualDOM을 렌더링해주는 라이브러리를 의미합니다.",
-      //   url: 'https://content.surfit.io/thumbs/image/5e2qw/00AyD/16489496246184bd1e70afe.webp/cover-center-1x.webp',
-      //   thumbnail: 'https://content.surfit.io/thumbs/image/5e2qw/00AyD/16489496246184bd1e70afe.webp/cover-center-1x.webp',
-      //   likes: 0,
-      //   date: '2022-01-24',
-      // },
       chips: null,
       renderChip: false,
     }

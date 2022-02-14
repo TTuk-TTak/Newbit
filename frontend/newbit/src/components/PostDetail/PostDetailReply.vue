@@ -8,13 +8,14 @@
       <v-col
         class="d-flex shrink"
       >
-        <user-profile-icon :imgUrl="`https://avatars0.githubusercontent.com/u/9064066?v=4&s=460`"></user-profile-icon>
+        <user-profile-icon :imgUrl="reply.userImg"></user-profile-icon>
       </v-col>
       <v-col>
         <v-row>
           <v-col>
-            <span class="writer">{{ reply.userCode }}</span>
-            <span class="date mx-2">{{ $createdAt(reply.commentDate ) }}</span>
+            <span class="writer">{{ reply.userNick }}</span>
+            <span class="date ml-2">@{{ reply.userId }}</span>
+            <span class="date mx-2">·{{ $createdAt(reply.commentDate ) }}</span>
           </v-col>
           <v-col
             class='d-flex shrink'

@@ -6,13 +6,14 @@
       <v-col
         class="d-flex shrink"
       >
-        <user-profile-icon :imgUrl="`https://avatars0.githubusercontent.com/u/9064066?v=4&s=460`"></user-profile-icon>
+        <user-profile-icon :imgUrl="comment.userImg"></user-profile-icon>
       </v-col>
       <v-col>
         <v-row>
           <v-col>
-            <span class="writer">{{ comment.userCode }}</span>
-            <span class="date mx-2">{{ $createdAt(comment.commentDate ) }}</span>
+            <span class="writer">{{ comment.userNick }}</span>
+            <span class="date mx-2">@{{ comment.userId }}</span>
+            <span class="date mx-2">·{{ $createdAt(comment.commentDate ) }}</span>
           </v-col>
           <v-col
             class='d-flex shrink'
@@ -27,6 +28,7 @@
                 {{ isReplying ? '작성 취소' : '답글 작성'}}
             </v-btn>
             <v-btn
+              class="pb-2"
               v-if="user.userCode === comment.userCode"
               icon
               @click="deleteComment()"
@@ -140,6 +142,7 @@ export default {
         timeout: '1000'
       },
       dialog: false,
+      isDeleted: false
     }
   },
   computed: {
@@ -156,9 +159,6 @@ export default {
     },
     writeReply () {
       const writtenComment = this.replyText
-      this.replyText = ''
-      this.snackbar.message = '답글을 달았습니다.'
-      this.snackbar.show = true
       axios({
         method: 'POST',
         url: `${this.$serverURL}/comment/`,
@@ -180,7 +180,9 @@ export default {
             'commentParent': this.comment.commentCode,
             'commentDate': Date.now()
           })
-          this.commentText = ''
+            this.replyText = ''
+          this.snackbar.message = '답글을 달았습니다.'
+          this.snackbar.show = true
           this.showReplies = true
           console.log(res)
         })
