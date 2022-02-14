@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 @Api("유저 컨트롤러  API")
-@CrossOrigin(origins = { "http://localhost:8080" })
+@CrossOrigin(origins = { "http://localhost:8080, http://i6a101.p.ssafy.io" })
 @RequestMapping("/user")		
 @RestController
 public class UserController{
