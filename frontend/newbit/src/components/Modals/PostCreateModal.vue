@@ -109,6 +109,7 @@ export default {
   computed: {
     ...mapState([
       'user',
+      'embeddedContent',
     ]),
     parsedUrl () {
       const regURL = new RegExp("(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)","gi");
@@ -177,6 +178,16 @@ export default {
     }
   },
   watch: {
+    embeddedContent: {
+      deep: true,
+      immediate: true,
+      handler () {
+        console.log('크리에이티드', this.embeddedContent)
+        if (this.embeddedContent) {
+          this.embedPost(this.embeddedContent.contentCode)
+    }
+      }
+    },
     parsedUrl: {
       handler () {
         if (this.parsedUrl && this.parsedUrl.includes(this.$clientURL + `/content/`)) {
@@ -191,6 +202,9 @@ export default {
       }
     }
   },
+  beforeUnmount () {
+    this.$store.dispatch('turnPostCreateModalOFF')
+  }
 }
 </script>
 

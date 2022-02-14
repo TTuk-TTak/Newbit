@@ -114,6 +114,11 @@
 		now())
 	</insert>
 
+	<delete id="deleteLikeContent" parameterType="Hashmap">
+		delete from contentlike
+		where user_code = #{uid} and content_code = #{cid}
+	</delete>
+
 	<!-- 콘텐츠 스크랩 실행 -->
 	<insert id="scrapContent" parameterType="map">
 		insert into contentscrap
@@ -123,6 +128,10 @@
 		now())
 	</insert>
 
+	<delete id="deleteScrapContent" parameterType="Hashmap">
+		delete from contentscrap
+		where user_code = #{uid} and content_code = #{cid}
+	</delete>
 
 	<!-- 콘텐츠 읽음 처리 -->
 	<insert id="readContent" parameterType="Hashmap">
@@ -203,9 +212,10 @@
 
 		<!-- new인 경우 커서 기준 content_date -->
 		CONCAT(DATE_FORMAT(content_date, '%y%m%d'),
-		LPAD(content_code, 10,0)) as cur
+		LPAD(content_code, 10,0))
+		as cur
 		from content
-	
+
 		where techblog_code = #{techblogCode}
 
 		<if test="lastContentCode != null and lastContentCode != 0">

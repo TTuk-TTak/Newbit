@@ -138,24 +138,6 @@ export default {
         console.log(err)
       })  
     },
-
-          // axios({
-      //   method: 'POST',
-      //   url: `${this.$serverURL}/post/like`,
-      //   data: {
-      //     'uid': this.user.userCode,
-      //     'pid': this.post.postCode,
-      //   },
-      // })
-      // .then((res) => {
-      //   this.post.liked = !this.post.liked
-      //   console.log(res)
-      // })
-      // .catch((err) => {
-      //   console.log(err)
-      // })  
-
-
   },
   created () {
     if (this.post.contentCode){
