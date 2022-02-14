@@ -8,8 +8,8 @@
         class="ml-1 mr-3"
         slider-color='#0d0e23'
       >
-        <v-tab class="contentTab">인기 컨텐츠</v-tab>
-        <v-tab class="contentTab">최신 컨텐츠</v-tab>
+        <v-tab class="contentTab" @click="[setHot(), changeType(), ]">인기 컨텐츠</v-tab>
+        <v-tab class="contentTab" @click="[setNew(), changeType()]">최신 컨텐츠</v-tab>
         <hr>
       </v-tabs>
     </div>
@@ -34,7 +34,7 @@
     >
       <v-spacer></v-spacer>
       <infinite-loading
-        v-if='user'
+        v-if='user && infinityHandlerRendered'
         class="mt-5 pt-5 justify-self-center align-self-center"
         @infinite="infiniteHandler" 
         >
@@ -69,6 +69,8 @@ export default {
     page: 1,
     contents: [],
     lastContentCode: 0,
+    sortingType : "hot",
+    infinityHandlerRendered: true,
   }),
   // created () {
   //   this.getContentsHot()
@@ -85,12 +87,29 @@ export default {
     //   this.$store.dispatch('getContentsHot')
     //   console.log("뇸",this.curationFeed.contents);
     // },
+    setHot () {
+      this.sortingType = "hot"
+      console.log(this.sortingType)
+    },
+    setNew () {
+      this.sortingType = "new"
+      console.log(this.sortingType)
+    },
+    changeType () {
+      console.log("changeType")
+      this.page= 1,
+      this.contents= [],
+      this.lastContentCode= 0
+      this.infinityHandlerRendered = false
+      this.infiniteHandler()
+      setTimeout(this.infinityHandlerRendered = true, 300)
+    },
     infiniteHandler ($state) {
       const size = 10
       axios({
         method: 'get',
         url: `${this.$serverURL}/content/list?`
-          + `sorting=hot`
+          + `sorting=${this.sortingType}`
           + `&uid=${this.user.userCode}`
           + `&lastcontentcode=${this.lastContentCode}`
           + `&size=${size}`
