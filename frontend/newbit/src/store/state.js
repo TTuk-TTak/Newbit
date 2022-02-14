@@ -24,4 +24,7 @@ export default {
   archivingFeed: {
 
   },
+  embeddedContent: {
+    contentCode: 0
+  },
 }

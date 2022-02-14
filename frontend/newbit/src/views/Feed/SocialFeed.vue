@@ -18,7 +18,7 @@
         <post-card :post='post'></post-card>
       </v-col>
     </v-row>
-
+    <!-- 무한 스크롤 -->
     <v-row
       class="mt-5 pt-5 justify-self-center align-self-end"
     >

@@ -60,16 +60,15 @@
             >
               <v-avatar
                 color="primary"
-                rounded
                 size="20"
               >
                 <img
-                  :src="content.techBlogImg"
+                  :src="content.techblogImg"
                   @error="defaultBlogImg"
                   alt="John"
                   >
               </v-avatar>
-              <span class="ml-2">{{ content.techBlogName }}</span>
+              <span class="ml-2">{{ content.techblogName }}</span>
             </div>
             <div class="pr-4 pb-1 mt-2 pt-0">
               <v-btn 
