@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@CrossOrigin(origins = { "http://localhost:8080, http://i6a101.p.ssafy.io" })
+@CrossOrigin(origins = { "http://localhost:8080"})
 @RestController
 @RequestMapping("/post")
 @Api("게시글 컨트롤러  API")
