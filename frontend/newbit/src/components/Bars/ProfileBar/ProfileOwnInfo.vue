@@ -31,7 +31,7 @@
     </v-row>
     <div class="mt-5 mb-5 mx-3">
       <div>{{ user.userIntro }}</div>
-      <div class="text-center">게시물 {{ user.userPostCount }}개 | 팔로워 {{ user.userFollowerCount }}명 | 팔로잉 {{ user.userFollowingCount }}개</div>
+      <div class="text-center">게시물 {{ user.userPostCount }}개 | 팔로워 {{ user.userFollowerCount }}명 | 팔로잉 {{ user.userFollowingCount }}명</div>
     </div>
     <v-btn
       rounded

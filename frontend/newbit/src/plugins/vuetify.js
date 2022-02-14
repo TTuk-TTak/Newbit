@@ -24,8 +24,8 @@ export default new Vuetify({
         // 임시.. 
         btnLiteBackground: '#C4C4C4',
         btnLiteText: '#0D0E23',
-        btnDarkBackground: '#0D0E23',
-        btnDarkText: '#FFFFFF',
+        btnDarkBackground: '#C4C4C4',
+        btnDarkText: '#0D0E23',
         keywordChipBackground: '#E0E0E0',
         keywordChipText: '#0d0e23',
       },

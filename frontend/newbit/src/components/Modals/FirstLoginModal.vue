@@ -94,7 +94,7 @@
             class="text-center"
           >
             <v-btn
-              @click="$store.dispatch('turnFirstLoginModalOFF')"
+              @click="[saveUserIntroImg(user.userCode), $store.dispatch('turnFirstLoginModalOFF')]"
               color="keywordChipText"
               dark
               depressed
@@ -178,6 +178,22 @@ export default {
       })
         .then((res) => {
           console.log(res)
+
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    saveUserIntroImg: function (user_code) {
+      const headers = this.$setToken()
+      axios({
+        url: `${this.$serverURL}/user/setting/introset?uid=${user_code}&userintro=${this.credentials.introduction}&userimg=${this.user.userImg}`,
+        method: 'POST',
+        headers,
+      })
+        .then((res) => {
+          console.log(res)
+
         })
         .catch((err) => {
           console.log(err)

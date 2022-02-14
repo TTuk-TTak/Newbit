@@ -26,6 +26,7 @@
             solo
             outlined
             rounded
+            @keypress.enter="[$login(credentials), onClick()]"
           ></v-text-field>
           <v-checkbox
             class="mt-0 ml-3 pt-0"

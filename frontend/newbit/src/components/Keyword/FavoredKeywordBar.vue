@@ -1,38 +1,63 @@
 <template>
-  <div v-if="isVertical === true" class="ml-3 mb-5">
+  <div
+    v-if="isVertical === true"
+    class="ml-3 mb-5"
+  >
     <h2>관심키워드</h2>
     <v-chip-group column>
-      <v-chip>JAVA</v-chip><v-chip>SpringBoot</v-chip><v-chip>웹개발</v-chip>
-      <v-chip>Database</v-chip><v-chip>VueJS</v-chip><v-chip>Git</v-chip>
-      <keyword-chip></keyword-chip>
-      <keyword-chip></keyword-chip>
-      <keyword-chip></keyword-chip>
+      <v-chip
+        v-for="(keyword, index) in favoredKeyword"
+        :key="index"
+      >{{ keyword }}</v-chip>
     </v-chip-group>
   </div>
   <div v-else>
     <v-chip-group>
       <h2>관심키워드</h2>
-      <keyword-chip></keyword-chip>
-      <keyword-chip></keyword-chip>
-      <keyword-chip></keyword-chip>
     </v-chip-group>
   </div>
 </template>
 
 <script>
-import KeywordChip from '@/components/Keyword/KeywordChip.vue'
+import axios from 'axios'
+import { mapState } from 'vuex'
+
+
+const myUserCode = localStorage.getItem('user_code')
 
 export default {
   name: 'FavoredKeywordBar',
-  components: {
-    KeywordChip
-  },
+
   props: {
     isVertical: Boolean
   },
   data: () => ({
-
+    favoredKeyword: [],
+    userKeyword: ''
   }),
+  methods: {
+    saveFavoredKeyword () {
+      this.favoredKeyword = this.$parseKeyword(this.userKeyword)
+    },
+    fetchUserKeyword (user_code) {
+      axios({
+        url: `${this.$serverURL}/user?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.userKeyword = res.data['userKeyword']
+          this.saveFavoredKeyword(this.userKeyword)
+        })
+    }
+  },
+  computed: {
+    ...mapState([
+      'user',
+    ]),
+  },
+  created () {
+    this.fetchUserKeyword(myUserCode)
+  },
 }
 </script>
 
