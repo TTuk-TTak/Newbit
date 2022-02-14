@@ -13,7 +13,8 @@
         <hr>
       </v-tabs>
     </div>
-    <keyword-toggler class="px-1 mt-3"></keyword-toggler>
+    <keyword-toggler class="px-1 mt-3"
+    @query-string-changed = 'changeType'></keyword-toggler>
     <v-row
       class='pa-2 pt-3'
     >
@@ -71,6 +72,7 @@ export default {
     lastContentCode: 0,
     sortingType : "hot",
     infinityHandlerRendered: true,
+    keywordString : null
   }),
   // created () {
   //   this.getContentsHot()
@@ -95,9 +97,9 @@ export default {
       this.sortingType = "new"
       console.log(this.sortingType)
     },
-    changeType () {
+    changeType (queryString) {
+      queryString ? this.keywordString = queryString : this.keywordString = null
       console.log("changeType")
-      this.page= 1,
       this.contents= [],
       this.lastContentCode= 0
       this.infinityHandlerRendered = false
@@ -113,11 +115,10 @@ export default {
           + `&uid=${this.user.userCode}`
           + `&lastcontentcode=${this.lastContentCode}`
           + `&size=${size}`
-          + `&keyword=java`,
+          + `&keyword=${this.keywordString}`,
       })
       .then(res => {
         if (res.data.length !== 0) {
-          this.page += 1;
           this.lastContentCode = _.last(res.data).contentCode
           console.log(res.data)
           for (let key in res.data) {
