@@ -399,7 +399,7 @@ export default {
       axios({
         method: 'PATCH',
         // headers: this.$setToken(),
-        url: `${this.$serverURL}/post/`,
+        url: `${this.$serverURL}/post`,
         data: {
           "postCode": this.post.postCode,
           "postText": this.postEditText
