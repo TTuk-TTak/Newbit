@@ -2,9 +2,8 @@
   <v-container 
     v-if="reply"
     class="py-0">
+        <v-divider></v-divider>
     <v-row class="ml-2 mt-0 my-1 align-center">
-      <!-- Comment에 userImg 오게 되면 아랫걸로 갱신.  -->
-      <!-- <user-profile-icon :imgUrl="reply.userImg"></user-profile-icon> -->
       <v-col
         class="d-flex shrink"
       >
@@ -20,6 +19,58 @@
           <v-col
             class='d-flex shrink'
           >
+          <!-- 삭제 버튼 및 모달 창 -->
+            <template>
+              <div class="text-center">
+                <v-dialog
+                  v-model="dialog"
+                  width="300"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="pb-2"
+                      v-if="user.userCode === reply.userCode"
+                      icon
+                      v-bind='attrs'
+                      v-on='on'
+                    >
+                      <v-icon small>mdi-trash-can-outline</v-icon>
+                    </v-btn>
+                  </template>
+                  <!-- 모달 카드 본문 -->
+                  <v-card>
+                    <v-card-title>
+                    </v-card-title>
+                    <v-card-text class="text-center pb-1">
+                      <p>
+                        덧글을 삭제하시면 복구할 수 없습니다.
+                        <br>
+                        삭제하시겠습니까?
+                      </p>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                      <v-btn
+                        text
+                        small
+                        @click="dialog=false"
+                      >
+                        아니오
+                      </v-btn>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="primary"
+                        text
+                        small
+                        @click="deleteComment()"
+                      >
+                        네
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </div>
+            </template>          
             <!-- <v-btn
               v-if="user.userCode === reply.userCode"
               icon
@@ -48,6 +99,11 @@ export default {
   },
   components: {
     UserProfileIcon,
+  },
+  data: () => {
+    return {
+      dialog: false,
+    }
   },
   computed: {
     ...mapState([

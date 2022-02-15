@@ -27,17 +27,64 @@
               >
                 {{ isReplying ? '작성 취소' : '답글 작성'}}
             </v-btn>
-            <v-btn
-              class="pb-2"
-              v-if="user.userCode === comment.userCode"
-              icon
-              @click="deleteComment()"
-            >
-              <v-icon small>mdi-trash-can-outline</v-icon>
-            </v-btn>
+
+            <!-- 삭제 버튼 및 모달 창 -->
+            <template>
+              <div class="text-center">
+                <v-dialog
+                  v-model="dialog"
+                  width="300"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="pb-2"
+                      v-if="user.userCode === comment.userCode"
+                      icon
+
+                      v-bind='attrs'
+                      v-on='on'
+                    >
+                      <v-icon small>mdi-trash-can-outline</v-icon>
+                    </v-btn>
+                  </template>
+                  <!-- 모달 카드 본문 -->
+                  <v-card>
+                    <v-card-title>
+                    </v-card-title>
+                    <v-card-text class="text-center pb-1">
+                      <p>
+                        댓글을 삭제하시면 복구할 수 없습니다.
+                        <br>
+                        삭제하시겠습니까?
+                        
+                      </p>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                      <v-btn
+                        text
+                        small
+                        @click="dialog=false"
+                      >
+                        아니오
+                      </v-btn>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="primary"
+                        text
+                        small
+                        @click="deleteComment()"
+                      >
+                        네
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </div>
+            </template>
           </v-col>
         </v-row>
-
+        <!-- 댓글 본문 -->
         <p class="comment-text mb-0">{{ comment.commentText }}</p>
       </v-col>
     </v-row>
@@ -107,9 +154,6 @@
         </v-btn>
       </template>
     </v-snackbar>
-
-
-
   </v-container>
 </template>
 
