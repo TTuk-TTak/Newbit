@@ -11,6 +11,7 @@
       @click="selectContent()"
     ></v-img>
     <!-- 1. 컨텐츠 타이틀 -->
+    <a href="#none"></a>
     <v-card-title
       class="py-1 mt-2"
       @click="selectContent()"
@@ -276,6 +277,11 @@ export default {
 .contentCard-Item:hover {
   box-shadow: 1px 1px 10px 3px rgb(230, 230, 230);
   transform: scale( 1.01 );
+}
+
+/* a 태그 언더라인 제거 */
+.underlineOff {
+  text-decoration: none;
 }
 
 </style>

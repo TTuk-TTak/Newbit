@@ -22,7 +22,7 @@
         cols=8>
         <v-row class="px-2 pt-3">
           <v-col class='py-0' cols=12>
-            <a href="#none" class="hyperlinkDecoOff">
+            <a href="#none" class="textDecoOff  ma-0 pa-0">
               <h3
                 class="pa-0"
                 @click="openContent()"
@@ -30,7 +30,7 @@
             </a>
           </v-col>
           <v-col class='py-0 my-0 mt-1' cols=12>
-            <a href="#none" class="hyperlinkDecoOff">
+            <a href="#none" class="textDecoOff ma-0 pa-0">
               <v-card-text 
                 class="content-text mb-0 pa-0"
                 @click="openContent()"
@@ -345,7 +345,7 @@ export default {
   overflow: hidden;
 }
 
-.hyperlinkDecoOff {
+.textDecoOff {
   text-decoration: none;
 }
 
