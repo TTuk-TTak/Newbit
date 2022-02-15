@@ -2,7 +2,7 @@
   <v-container
     :min-height='150'
     justify='center'
-    color='feedBackground'
+    color='feedBackground' 
   >
     <v-row
       align='center'
@@ -13,12 +13,15 @@
         <v-icon
           class="align-self-center"
           large
+          @click="searchbtn()"   
         >mdi-magnify</v-icon>
       </v-col>
       <v-col>
         <v-text-field
           class="mb-2"
           hide-details
+          type="String"
+          v-model="search"      
         ></v-text-field>
         <span>추천 키워드</span>
         <v-chip-bar
@@ -54,6 +57,11 @@ export default {
       ],
     }
   },
+  methods:{
+    searchbtn() {
+      this.$goToSearchFeed(this.search)
+    }
+  } 
 }
 </script>
 

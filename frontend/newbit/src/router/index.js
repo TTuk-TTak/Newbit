@@ -13,6 +13,7 @@ import ProfileEdit from '@/views/Profile/ProfileEdit.vue'
 
 import ContentFeed from '@/views/Feed/ContentFeed.vue'
 import SocialFeed from '@/views/Feed/SocialFeed.vue'
+import SearchFeed from '@/views/Feed/SearchFeed.vue'
 import Archive from '@/views/Feed/Archive.vue'
 
 import PostDetail from '@/views/PostDetail/PostDetail.vue'
@@ -51,6 +52,15 @@ const routes = [
         path: '',
         redirect: 'social' // default 
       },
+      // 윤수 made Search Feed here
+      {
+        path: 'search',
+        name: 'Search',
+        component: SearchFeed,
+        //props: true,
+      },
+
+
 
       //Profile  
       {

@@ -77,5 +77,9 @@ export default {
     state.curationFeed.contents = data
     // state.curationFeed.lastPostCode = lastPostCode
   },
+  /*
+  TURN_SEARCH_MODAL_OFF: function () {       // 윤수가 추가
+    state.modals.searchModal = false
+  },*/
 
 }
