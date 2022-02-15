@@ -22,7 +22,9 @@
           :key="`keywordBar` + keyword.shownName"
         >
           <v-list-item-content>
-            <v-list-item-title v-text="keyword.shownName"></v-list-item-title>
+            <a href="#none" class="keywordBarBtn">
+              <v-list-item-title v-text="keyword.shownName"></v-list-item-title>
+            </a>
           </v-list-item-content>
         </v-list-item>
       </v-list-group>
@@ -51,9 +53,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .keywordBar {
   background-color: #f2f2f4;
   width:300px; 
 }
+
+.keywordBarBtn {
+  text-decoration: none;
+}
+
 </style>

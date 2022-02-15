@@ -17,11 +17,11 @@
           size='32'
         >
           <img
-            src="https://cdn.vuetifyjs.com/images/john.jpg"
-            alt="John"
+            :src="post.userImg"
           >
         </v-avatar>  
         <span class="ml-2 writer">{{ post.userNick }}</span>
+        <span class="ml-2 date">@{{ post.userId }}</span>
         <span class="ml-2 date">{{ this.$createdAt(this.post.postDate) }}</span>
         <span class="ml-2 date" v-if="post.postEdit"> (수정됨)</span>  
       </v-col>
@@ -182,7 +182,7 @@
       <v-row 
         class="ml-3 my-2">
         <user-profile-icon
-          :imgUrl="`https://avatars0.githubusercontent.com/u/9064066?v=4&s=460`"
+          :imgUrl="user.userImg"
         ></user-profile-icon>
         <v-textarea
           v-model="commentText"
@@ -330,7 +330,6 @@ export default {
       axios.get(`${this.$serverURL}/content?uid=${this.user.userCode}&cid=${contentCode}`)
         .then(response => {
           this.content = response.data
-          // console.log('컨텐츠 정보', response.data)
         })
         .catch((err) => {
           console.log(err)
@@ -355,15 +354,12 @@ export default {
     },
     writeComment () {
       const writtenComment = this.commentText
-      this.commentText = ''
-      this.snackbar.message = '댓글을 달았습니다.'
-      this.snackbar.show = true
       console.log(
           {
           'userCode': this.user.userCode,
           'postCode': this.post.postCode,
           'commentText': writtenComment,
-          'commentDepth': false,
+          'commentDepth': 0,
           'commentParent': 0,
         },
       )
@@ -379,7 +375,11 @@ export default {
         },
       })
         .then(res => {
+          this.commentText = ''
+          this.snackbar.message = '댓글을 달았습니다.'
+          this.snackbar.show = true
           this.getComments()
+
           console.log(res)
         })
         .catch((err) => {

@@ -4,7 +4,6 @@
     class="mx-auto mt-1 contentCard-Item"
     style="position: relative; "
   >
-    <!-- {{ content.contentCode }} -->
     <!-- 상단 이미지 -->
     <v-img
       max-height="170"
@@ -12,6 +11,7 @@
       @click="selectContent()"
     ></v-img>
     <!-- 1. 컨텐츠 타이틀 -->
+    <a href="#none"></a>
     <v-card-title
       class="py-1 mt-2"
       @click="selectContent()"
@@ -101,14 +101,6 @@ export default {
   data() {
     return {
       isVertical: true,
-      // content: {
-      //   title: '[JavaScript] Virtual DOM 만들기',
-      //   text: "React 공식 홈페이지에서는 Virtual DOM을 'UI로 표현될 객체를 가상 메모리에 저장하여 라이브러리에 의해 실제 DOM으로 동기화 하는 개념'으로 표현하고 있습니다. 여기서 UI로 표현될 객체는 DOM을 의미하며, 라이브러리는 VirtualDOM을 렌더링해주는 라이브러리를 의미합니다.",
-      //   url: 'https://content.surfit.io/thumbs/image/5e2qw/00AyD/16489496246184bd1e70afe.webp/cover-center-1x.webp',
-      //   thumbnail: 'https://content.surfit.io/thumbs/image/5e2qw/00AyD/16489496246184bd1e70afe.webp/cover-center-1x.webp',
-      //   likes: 0,
-      //   date: '2022-01-24',
-      // },
       chips: null,
       renderChip: false,
     }
@@ -141,6 +133,8 @@ export default {
       })
       .then((res) => {
         console.log('컨텐츠 읽음!', res)
+        // 읽음 처리.
+        this.content.read = true
       })
       .catch((err) => {
         console.log(err)
@@ -167,10 +161,12 @@ export default {
     },
     // 3. 공유 버튼 클릭
     clickShareBtn() {
-      console.log(this.content.contentCode)
-      const payload = {'contentCode': this.content.contentCode}
-      console.log(payload)
-      this.$store.dispatch('turnPostCreateModalOn', payload)
+      if (this.user) {
+        console.log(this.content.contentCode)
+        const payload = {'contentCode': this.content.contentCode}
+        console.log(payload)
+        this.$store.dispatch('turnPostCreateModalOn', payload)
+      }
     },
     // 컨텐츠 아카이브 요청
     archiveContent() {
@@ -281,6 +277,11 @@ export default {
 .contentCard-Item:hover {
   box-shadow: 1px 1px 10px 3px rgb(230, 230, 230);
   transform: scale( 1.01 );
+}
+
+/* a 태그 언더라인 제거 */
+.underlineOff {
+  text-decoration: none;
 }
 
 </style>
