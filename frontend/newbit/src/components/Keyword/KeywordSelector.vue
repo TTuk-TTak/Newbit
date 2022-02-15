@@ -77,6 +77,7 @@ import { mapGetters, mapState } from 'vuex'
 
 import KeywordChip2 from '@/components/Keyword/KeywordChip2.vue'
 
+
 export default {
   name: 'KeywordSelector',
   components: {
@@ -86,6 +87,7 @@ export default {
     return {
       keywordActivity: {},
       toggle: 'language',
+      keyword: '',
     }
   },
   methods: {
@@ -116,7 +118,7 @@ export default {
     },
     toggleChip: function (status) {
       this.keywordActivity[status[0]] = status[1]
-      this.user.userKeyword = this.makeQueryString()
+      this.$store.dispatch('saveUserKeyword', this.makeQueryString())
     },
     makeQueryString: function () {
       let queryString = ''

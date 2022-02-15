@@ -1,50 +1,83 @@
 <template>
-  <div class="ml-3">
-    <h2>팔로우 추천</h2>
-    <v-container>
-      <v-row
-        v-for="n in 4"
-        :key="n"
+  <div>
+    <h2 class="ml-3 mb-2">팔로우 추천</h2>
+    <v-divider></v-divider>
+    <v-list
+      two-line
+      class="py-0 profileBar"
+    >
+      <v-list-item
+        v-for="(recommendedPerson, index) in recommendedPeople"
+        :key="index"
       >
-        <v-col
-          cols="2"
-          align-self="center"
-          class="pa-1"
-        >
-          <v-avatar size="40">
+        <v-list-item-avatar>
           <v-img
+            v-if="recommendedPerson.userImg"
+            class="v-avatar image"
+            :src="recommendedPerson.userImg"
+          />
+          <v-img
+            v-else
             class="v-avatar image"
             src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
           />
-        </v-avatar>
-        </v-col>
-        <v-col
-          cols="4"
-          class="pa-0 ml-2"
-          align-self="center"
-        >
-          <span style="font-size:1.2em">user name</span>
-        </v-col>
-        <v-spacer></v-spacer>
-        <v-col
-          class="mr-3"
-          cols="3"
-        >
-          <follow-btn></follow-btn>
-        </v-col>
-      </v-row>
-    </v-container>
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title v-text="recommendedPerson.userNick"></v-list-item-title>
+
+          <v-list-item-subtitle v-text="`@${recommendedPerson.userId}`"></v-list-item-subtitle>
+        </v-list-item-content>
+
+        <v-list-item-action>
+          <follow-btn
+            :isFollowed="isFollowed"
+            :userCode="recommendedPerson.userCode"
+          ></follow-btn>
+        </v-list-item-action>
+      </v-list-item>
+    </v-list>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import { mapState } from 'vuex'
 import FollowBtn from '@/components/Commons/FollowBtn.vue'
+
+
+const myUserCode = localStorage.getItem('user_code')
 
 export default {
   components: { FollowBtn },
-
+  data: () => ({
+    recommendedPeople: [],
+    isFollowed: false
+  }),
+  methods: {
+    fetchFollowRecommendation (user_code) {
+      axios({
+        url: `${this.$serverURL}/follow/recommendation?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.recommendedPeople = res.data
+        })
+    },
+  },
+  computed: {
+    ...mapState([
+      'user',
+    ])
+  },
+  created () {
+    this.fetchFollowRecommendation(myUserCode)
+  }
 }
 </script>
 
-<style>
+<style scoped>
+.profileBar {
+  background-color: #f2f2f4;
+}
 </style>

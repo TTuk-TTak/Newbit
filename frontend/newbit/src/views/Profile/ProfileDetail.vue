@@ -18,7 +18,7 @@
           />
         </v-col>
         <v-col
-          cols="8"
+          cols="7"
           align-self="center"
         >
           <div class="text-h6 font-weight-bold">{{ user.userNick }}</div>
@@ -93,17 +93,34 @@
           <v-btn
             v-if="following_list.includes(Number($route.params.userCode))"
             rounded
+            depressed
+            outlined
             block
             @click="[$unFollow($route.params.userCode), popFollow(Number($route.params.userCode)), minusOne()]"
           >언팔로우</v-btn>
           <v-btn
             v-else
             rounded
+            depressed
+            outlined
             block
             @click="[$follow($route.params.userCode), pushFollow(Number($route.params.userCode)), plusOne()]"
           >
             팔로우
           </v-btn>
+        </v-col>
+        <v-col
+          v-else
+          cols="2"
+          align-self="center"
+        >
+          <v-btn
+            rounded
+            depressed
+            outlined
+            block
+            @click="$goToProfileEdit()"
+          >프로필 수정</v-btn>
         </v-col>
       </v-row>
       <favored-keyword-bar :is-vertical="isVertical"></favored-keyword-bar>

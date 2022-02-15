@@ -44,7 +44,7 @@
                   ></v-text-field>
                   <v-text-field
                     v-model.trim="credentials.userEmail"
-                    :rules="email_rule"
+                    :rules="[...email_rule, emailConfirmationRule]"
                     label="이메일"
                     type="email"
                     solo
@@ -112,6 +112,7 @@ export default {
         userPassword: '',
       },
       rePassword: '',
+      emailCheck: '',
       idCheck: '',
       // 유효성 검사
       userNick_rule: [
@@ -175,7 +176,17 @@ export default {
             this.idCheck = true
           }
         })
-
+    },
+    checkEmail (user_email) {
+      axios.post(`${this.$serverURL}/user/signup/emailCheck`, { userEmail: user_email })
+        .then((res) => {
+          if (res.data === 'fail') {
+            this.emailCheck = false
+          }
+          else {
+            this.emailCheck = true
+          }
+        })
     }
   },
   // data 객체의 변화를 감지해서 위의 checkId 실행
@@ -183,6 +194,7 @@ export default {
     credentials: {
       handler: function (value) {
         this.checkId(value['userId'])
+        this.checkEmail(value['userEmail'])
       },
       deep: true
     }
@@ -195,6 +207,9 @@ export default {
     // 위에서 변화하는 idCheck를 기준으로 아이디 체크 규칙을 계산된 속성으로 만든다.
     idConfirmationRule () {
       return () => (this.idCheck) || '이미 사용중인 아이디입니다.'
+    },
+    emailConfirmationRule () {
+      return () => (this.emailCheck) || '이미 사용중인 이메일입니다.'
     }
   }
 }
