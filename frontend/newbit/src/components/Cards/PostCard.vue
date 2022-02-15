@@ -17,6 +17,7 @@
           >
         </v-avatar>
       <span class="ml-3 writer">{{ post.userNick }}</span>
+      <span class="ml-2 date">{{ '@' + post.userId }}</span>
       <span class="ml-2 date">·{{ $createdAt(post.postDate) }}</span>
       <span class ="ml-2 date" v-if="post.postEdit">(수정됨)</span>
       </div>

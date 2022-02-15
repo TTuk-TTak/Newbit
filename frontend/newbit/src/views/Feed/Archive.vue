@@ -4,20 +4,34 @@
     class="pa-4 pt-2 cardMargin"
     color="feedBackground"
   >
-    <v-btn>
-      모든 게시글 archive 하기
-    </v-btn>
+    <!-- <v-btn
+      @click="archiveAll()"      
+    >
+      전체 컨텐츠 아카이브
+    </v-btn> -->
     <div class="mx-2" style="border-bottom:1px solid lightgray">
       <v-tabs
         class="ml-1 mr-3"
         slider-color='#0d0e23'
       >
         <v-tab class="contentTab">컨텐츠</v-tab>
-        <v-tab class="contentTab">게시글</v-tab>
+        <!-- <v-tab class="contentTab">게시글</v-tab> -->
+        <v-row
+          class="pt-2 pr-4"
+          justify='end'
+        >
+          <v-switch
+            v-model="showUnreadContentsOnly"
+            label="읽지 않은 글만 보기"
+          ></v-switch>
+        </v-row>
         <hr>
       </v-tabs>
     </div>
-    <keyword-toggler class="px-1 mt-3"></keyword-toggler>
+    <keyword-toggler 
+      class="px-1 mt-3"
+      @query-string-changed = 'resetContents'
+      ></keyword-toggler>
     <v-row
       class="pa-2 pt-3"
     >
@@ -28,6 +42,7 @@
         cols=6
       >
         <content-card
+          v-if="!showUnreadContentsOnly || content.read === false"
           :content='content'
         ></content-card>
       </v-col>
@@ -38,7 +53,7 @@
     >
       <v-spacer></v-spacer>
       <infinite-loading
-        v-if='user'
+        v-if='user && infinityHandlerRendered'
         class="mt-5 pt-5 justify-self-center align-self-center"
         @infinite="infiniteHandler" 
         >
@@ -76,6 +91,9 @@ export default {
       contents: [],
       lastContentCode: 0,
       lastPostCode: 0,
+      showUnreadContentsOnly: false,
+      infinityHandlerRendered: true,
+      keywordString: null
     }
   },
   computed: {
@@ -84,8 +102,15 @@ export default {
     ])
   },
   methods: {
+    resetContents (queryString) {
+      queryString ? this.keywordString = queryString : this.keywordString = null
+      this.contents = []
+      this.lastContentCode = 0
+      this.infinityHandlerRendered = false
+      this.infiniteHandler()
+      setTimeout(this.infinityHandlerRendered = true, 300)
+    },
     infiniteHandler ($state) {
-      // const keywords = 'ios_java'
       const size = 8
       axios({
         method: 'get',
@@ -93,8 +118,7 @@ export default {
           + `uid=${this.user.userCode}`
           + `&lastcontentcode=${this.lastContentCode}`
           + `&size=${size}`
-          // + `&keyword=${keywords}`
-          + `&keyword=null`
+          + `&keyword=${this.keywordString}`
       })
         .then(res => {
           if (res.data.length !== 0) {
@@ -112,9 +136,33 @@ export default {
           console.log(err)
         })
     },
-    
-
-
+    // archiveAll() {
+    //   console.log(11111)
+    //   for (let i=0; i <=700; i++) {
+    //     console.log(i)
+    //     this.archiveContent(i)
+    //   }
+    // },
+    // archiveContent(contentCode) {
+    //   console.log(contentCode)
+    //   axios({
+    //     method: 'POST',
+    //     url: `${this.$serverURL}/content/scrap`,
+    //     data: {
+    //       'uid': this.user.userCode,
+    //       'cid': contentCode,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log('archived', res)
+    //     if (res.data === 'success') {
+    //       this.content.scrapped = true
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err)
+    //   })  
+    // },
 
   }
 }
