@@ -12,6 +12,10 @@ export default {
   turnPostCreateModalOFF: function ({ commit }) {
     commit('TURN_POST_CREATE_MODAL_OFF')
   },
+  /*
+  turnSearchModalOFF: function ({ commit }) {       // 윤수가 추가
+    commit('TURN_SEARCH_MODAL_OFF')
+  },*/
   // 2. Feed조작
   loadPosts: function ({ commit }) {
     const size = 8

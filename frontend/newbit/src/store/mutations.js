@@ -41,5 +41,9 @@ export default {
   TURN_POST_CREATE_MODAL_OFF: function () {
     state.modals.postCreateModal = false
   },
+  /*
+  TURN_SEARCH_MODAL_OFF: function () {       // 윤수가 추가
+    state.modals.searchModal = false
+  },*/
 
 }
