@@ -1,10 +1,12 @@
 <template>
-  <v-btn style="padding-left:25px; padding-right:25px"
+  <v-btn
+    style="padding-left:25px; padding-right:25px"
     rounded
     depressed
     outlined
-    color = "#0d0e23"
-    :class="styleObject"
+    :color="color"
+    :class="fontcolor"
+    @click="onClick()"
   >
     {{ message }}
   </v-btn>
@@ -13,20 +15,39 @@
 <script>
 export default {
   name: 'FollowBtn',
-  data() {
+  props: {
+    isFollowed: Boolean,
+    userCode: Number,
+  },
+  data () {
     return {
-      // 1/24 임시로 생성. 추후 prop으로 대체 필요. . 
-      isFollowed: false,
-      message: this.isFollowed ? '언팔로우' : '팔로우',
-      styleObject:  {
-        color: this.isFollowed === true ? '#0D0E23' : '#C4C4C4',
-        class: this.isFollowed === true ? 'btnDarkText--text' : 'btnLiteText--text',
-      },
+      followStatus: this.isFollowed,
+    }
+  },
+  methods: {
+    onClick () {
+      this.followStatus = !this.followStatus
+      if (this.followStatus) {
+        this.$follow(this.userCode)
+      }
+      else {
+        this.$unFollow(this.userCode)
+      }
+    }
+  },
+  computed: {
+    message: function () {
+      return this.followStatus ? '언팔로우' : '팔로우'
+    },
+    color: function () {
+      return this.followStatus ? 'btnDarkBackground' : 'btnLiteBackground'
+    },
+    fontcolor: function () {
+      return this.followStatus ? 'btnDarkText--text' : 'btnLiteText--text'
     }
   }
 }
 </script>
 
 <style>
-
 </style>

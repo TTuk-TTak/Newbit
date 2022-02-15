@@ -33,7 +33,7 @@
             <keyword-selector></keyword-selector>
           </div>
           <div v-else-if="page === 2">
-            <follow-recommendation></follow-recommendation>
+            <follow-recommendation :user="user"></follow-recommendation>
           </div>
           <div v-else-if="page === 3">
             <div class="d-flex justify-center">
@@ -58,7 +58,23 @@
           </div>
 
           <div
-            v-if="page === 1 || page === 2"
+            v-if="page === 1"
+            class="text-center mb-3 firstlogin"
+          >
+            <v-btn
+              @click="[saveUserKeyword(user.userCode), nextPage()]"
+              color="keywordChipText"
+              dark
+              depressed
+              large
+              rounded
+              width="88%"
+              class="font-weight-bold btn"
+            >다음으로
+            </v-btn>
+          </div>
+          <div
+            v-else-if="page === 2"
             class="text-center mb-3 firstlogin"
           >
             <v-btn
@@ -78,7 +94,7 @@
             class="text-center"
           >
             <v-btn
-              @click="$store.dispatch('turnFirstLoginModalOFF')"
+              @click="[saveUserIntroImg(user.userCode), $store.dispatch('turnFirstLoginModalOFF')]"
               color="keywordChipText"
               dark
               depressed
@@ -124,6 +140,9 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import axios from 'axios'
+
 import KeywordSelector from '@/components/Keyword/KeywordSelector.vue'
 import FollowRecommendation from '@/components/Modals/FollowModal/FollowRecommendation.vue'
 
@@ -149,7 +168,42 @@ export default {
       if (this.page === 2) {
         this.page -= 1
       }
+    },
+    saveUserKeyword: function (user_code) {
+      const headers = this.$setToken()
+      axios({
+        url: `${this.$serverURL}/user/setting/keywordset?uid=${user_code}&userkeyword=${this.user.userKeyword}`,
+        method: 'POST',
+        headers,
+      })
+        .then((res) => {
+          console.log(res)
+
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    saveUserIntroImg: function (user_code) {
+      const headers = this.$setToken()
+      axios({
+        url: `${this.$serverURL}/user/setting/introset?uid=${user_code}&userintro=${this.credentials.introduction}&userimg=${this.user.userImg}`,
+        method: 'POST',
+        headers,
+      })
+        .then((res) => {
+          console.log(res)
+
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
+  },
+  computed: {
+    ...mapState([
+      'user',
+    ]),
   }
 }
 </script>

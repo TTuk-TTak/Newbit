@@ -10,6 +10,11 @@ export default {
   // 2) 유저 정보 저장
   SAVE_USER_INFORMATION: function (state, userData) {
     state.user = userData
+    console.log(state.user)
+  },
+  // 3) 유저 키워드 저장
+  SAVE_USER_KEYWORD: function (state, keywordString) {
+    state.user.userKeyword = keywordString
   },
 
 

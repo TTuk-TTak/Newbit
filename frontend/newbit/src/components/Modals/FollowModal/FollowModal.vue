@@ -35,7 +35,7 @@
 
           <v-list-item-content>
             <v-list-item-title v-text="person.userNick"></v-list-item-title>
-            <v-list-item-subtitle v-text="person.userId"></v-list-item-subtitle>
+            <v-list-item-subtitle v-text="`@${person.userId}`"></v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-action>
@@ -57,7 +57,7 @@
 
           <v-list-item-content>
             <v-list-item-title v-text="person.userNick"></v-list-item-title>
-            <v-list-item-subtitle v-text="person.userId"></v-list-item-subtitle>
+            <v-list-item-subtitle v-text="`@${person.userId}`"></v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-action>
