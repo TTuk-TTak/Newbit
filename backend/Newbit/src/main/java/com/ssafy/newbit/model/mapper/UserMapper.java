@@ -47,4 +47,6 @@ public interface UserMapper {
 	
 	public int deleteUser(int userCode) throws SQLException;
 	
+	public List<UserDto> followRecommendation(HashMap<String, Object> map) throws SQLException;
+	public List<UserDto> getRandomUser(HashMap<String, Object> map) throws SQLException;
 }

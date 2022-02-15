@@ -1,36 +1,27 @@
 <template>
   <div v-if="$store.state.user">
     <v-row>
-      <v-col
-        cols="7"
-        align-self="center"
-      >
+      <v-col class="pb-0">
         <v-avatar
           size="150"
           class="mt-5 ml-3"
         >
-          <v-img
-            class="v-avatar image"
-            src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
-          />
+          <v-img src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm" />
         </v-avatar>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col cols="6">
-        <h1>{{ $store.state.user.userNick }}</h1>
-        <h3 class="grey--text">{{ `@${$store.state.user.userId}` }}</h3>
+    <v-row class="align-center">
+      <v-col class="mx-3">
+        <div>{{ user.userNick }}</div>
+        <div class="grey--text">{{ `@${user.userId}` }}</div>
       </v-col>
-      <v-col
-        cols="6"
-        align-self="center"
-      >
+      <v-col class="d-flex justify-end">
         <v-btn
+          width="150"
           rounded
-          block
           outlined
           color="#0d0e23"
-          class="font-weight-bold"
+          class="font-weight-bold justify-center"
           style="font-size: 1.15em; font-weight: 500;"
           @click="$goToProfileEdit()"
         >
@@ -38,11 +29,9 @@
         </v-btn>
       </v-col>
     </v-row>
-    <div class="mt-5 mb-5 ml-3">
-      안녕하세요 SSAFY 6기생입니다~!<br />
-      백엔드 개발자가 되고 싶어요 <br /><br />
-      <!-- ToDo : 숫자 부분은 후에 {{}}로 수정 -->
-      게시물 1개 | 팔로워 2명 | 팔로잉 3개 <br />
+    <div class="mt-5 mb-5 mx-3">
+      <div>{{ user.userIntro }}</div>
+      <div class="text-center">게시물 {{ user.userPostCount }}개 | 팔로워 {{ user.userFollowerCount }}명 | 팔로잉 {{ user.userFollowingCount }}명</div>
     </div>
     <v-btn
       rounded
@@ -63,10 +52,7 @@
     style="margin-bottom:30px"
   >
     <v-row>
-      <v-col
-        cols="7"
-        align-self="center"
-      >
+      <v-col class="pb-0">
         <v-avatar
           size="150"
           class="mt-5 ml-3"
@@ -76,16 +62,17 @@
             src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
           />
         </v-avatar>
-
       </v-col>
     </v-row>
-    <div class="mt-5 mb-5 ml-3">
-      로그인이 필요합니다. <br />
-      로그인 후 SNS 기능을 이용해보세요. <br />
-      아직 회원이 아니시라면, 회원가입 후 아래의 서비스들과 함께하세요! <br /><br />
-      <!-- ToDo : 숫자 부분은 후에 {{}}로 수정 -->
-      총게시물 365개 | 총회원수 5,041명 | 컨텐츠 3,855개 <br />
-    </div>
+    <v-row>
+      <v-col class="mx-3 mb-5">
+        로그인이 필요합니다. <br />
+        로그인 후 SNS 기능을 이용해보세요. <br />
+        아직 회원이 아니시라면, 회원가입 후 아래의 서비스들과 함께하세요! <br /><br />
+        <!-- ToDo : 숫자 부분은 후에 {{}}로 수정 -->
+        총게시물 100개 | 총회원수 200명 | 컨텐츠 300개 <br />
+      </v-col>
+    </v-row>
     <v-btn
       rounded
       block
@@ -115,7 +102,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
-
+import { mapState } from 'vuex'
 
 export default {
   data: () => {
@@ -127,12 +114,17 @@ export default {
     ...mapMutations([
       'TURN_POST_CREATE_MODAL_ON'
     ])
+  },
+  computed: {
+    ...mapState([
+      'user',
+    ])
   }
 }
 </script>
 
-<style scope>
-.v-application .mt-5 {
+<style scoped>
+.v-application .mx-3 {
   font-family: "KoPub Dotum";
   line-height: 1.5;
   font-weight: 500;

@@ -21,17 +21,21 @@
     <v-divider></v-divider>
 
     <v-card-text>
-      <v-list v-if="category === 'follower'">
+      <v-list
+        v-if="category === 'follower'"
+        two-line
+      >
         <v-list-item
-          v-for="person in followers"
+          v-for="person in follower_list_origin"
           :key="person.id"
         >
           <v-list-item-avatar>
-            <v-img :src="person.profileUrl" />
+            <v-img :src="person.userImg" />
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title v-text="person.name"></v-list-item-title>
+            <v-list-item-title v-text="person.userNick"></v-list-item-title>
+            <v-list-item-subtitle v-text="`@${person.userId}`"></v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-action>
@@ -39,17 +43,21 @@
           </v-list-item-action>
         </v-list-item>
       </v-list>
-      <v-list v-else-if="category === 'following'">
+      <v-list
+        v-else-if="category === 'following'"
+        two-line
+      >
         <v-list-item
-          v-for="person in followings"
+          v-for="person in following_list_origin"
           :key="person.id"
         >
           <v-list-item-avatar>
-            <v-img :src="person.profileUrl" />
+            <v-img :src="person.userImg" />
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title v-text="person.name"></v-list-item-title>
+            <v-list-item-title v-text="person.userNick"></v-list-item-title>
+            <v-list-item-subtitle v-text="`@${person.userId}`"></v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-action>
@@ -71,63 +79,13 @@ export default {
     dialog1: Boolean,
     dialog2: Boolean,
     category: String,
+    follower_list_origin: Array,
+    following_list_origin: Array
   },
 
   data () {
     return {
-      followers: [
-        {
-          profileUrl: 'https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm',
-          name: 'Harry',
-        },
-        {
-          profileUrl: "https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm",
-          name: 'Kevin',
-        },
-        {
-          profileUrl: "https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm",
-          name: 'John',
-        },
-        {
-          profileUrl: "https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm",
-          name: 'Steve',
-        },
-        {
-          profileUrl: "https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm",
-          name: 'Marry',
-        },
-        {
-          profileUrl: "https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm",
-          name: 'Alex',
-        },
-      ],
 
-      followings: [
-        {
-          profileUrl: 'https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm',
-          name: '홍길동',
-        },
-        {
-          profileUrl: "https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm",
-          name: '홍길동',
-        },
-        {
-          profileUrl: "https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm",
-          name: '홍길동',
-        },
-        {
-          profileUrl: "https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm",
-          name: '홍길동',
-        },
-        {
-          profileUrl: "https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm",
-          name: '홍길동',
-        },
-        {
-          profileUrl: "https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm",
-          name: '홍길동',
-        },
-      ],
     }
   },
 

@@ -36,6 +36,7 @@
                     solo
                     outlined
                     rounded
+                    @keypress.enter="$login(credentials)"
                   ></v-text-field>
                   <v-checkbox
                     class="mt-0 ml-3 pt-0"
@@ -59,7 +60,7 @@
                   </v-card-actions>
                   <v-card-actions class="d-flex justify-center mt-6 pa-0">
                     <span class="text-h7 grey--text mr-1">아직 계정이 없다면?</span>
-                    <router-link :to="{ name: 'Login' }">회원가입</router-link>
+                    <router-link :to="{ name: 'Signup' }">회원가입</router-link>
                   </v-card-actions>
                 </v-form>
               </v-card-text>

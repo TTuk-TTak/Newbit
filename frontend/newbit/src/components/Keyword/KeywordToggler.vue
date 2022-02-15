@@ -3,16 +3,19 @@
     column
   >
     <keyword-chip
-      v-for="(key, value) in keywords"
-      :key="value"
-      :text="key"
-      :isInToggler='true'
+      v-for="(shownName, key) in keywordDict"
+      :key="`keywordToggler` + shownName"
+      :text="shownName"
+      :isInToggler="true"
+      :isUserFavorite="keywordActivity[key]"
+      :variableName="key"
+      @toggle-chip="toggleChip"
     ></keyword-chip>
   </v-chip-group>
 </template>
 
 <script>
-import _ from 'lodash'
+import { mapGetters, mapState } from 'vuex'
 
 import KeywordChip from '@/components/Keyword/KeywordChip.vue'
 
@@ -23,20 +26,50 @@ export default {
   },
   data: () => {
     return {
+      keywordActivity: {},
     }
+  },
+  methods: {
+    setActivity: function () {
+      const userKeywordString = this.user.userKeyword
+      const userFavoriteKeyword = this.$parseKeyword(userKeywordString)
+
+      for (let keyword in this.keywordDict) {
+        if (userFavoriteKeyword.includes(keyword)) {
+          this.keywordActivity[keyword] = true
+        } else {
+          this.keywordActivity[keyword] = false
+        }
+      }
+    },
+    toggleChip: function (status) {
+      this.keywordActivity[status[0]] = status[1]
+      this.makeQueryString()
+    },
+    makeQueryString: function () {
+      let queryString = ''
+      for (let key in this.keywordActivity) {
+        if (this.keywordActivity[key]) {
+          queryString += '_' + key 
+        } 
+      }
+      queryString = queryString.slice(1)
+      this.$emit('query-string-changed', queryString)
+      return queryString
+    },
   },
   computed: {
-    // 키워드 中 소분류 키워드만 추출 후 반환.
-    keywords: function () {
-      const keywords = _.mapValues(this.$KEYWORDS, 'shownName')
-      return keywords
-    }
+    ...mapState([
+      'user',
+    ]),
+    ...mapGetters([
+        'keywordDict',
+      ]),
+
   },
-  // created: {
-    // 1. 
-    // 유저의 정보 중 '키워드' 정보만 파싱해
-    // 관심 있어한 keyword를 active하는 함수
-  // }
+  created () {
+    this.setActivity()
+  },
 }
 </script>
 

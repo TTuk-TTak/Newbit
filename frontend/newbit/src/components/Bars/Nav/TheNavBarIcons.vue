@@ -38,7 +38,7 @@
     </v-btn>
     <!-- 3-2. 로그인 된 사용자: 메뉴 확인 -->
     <v-menu
-      v-if="$store.state.user"
+      v-if="user"
       left
       bottom
     >
@@ -48,25 +48,19 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-avatar
-            color="indigo"
-            size="36"
-          >
-            <span>36</span>
+          <v-avatar size='36'>
+            <img :src="user.userImg">
           </v-avatar>
         </v-btn>
       </template>
       <v-list>
         <!-- 1) 프로필 사진 -->
-        <v-list-item>
-          <v-avatar
-            color="indigo"
-            size="24"
-          >
-            <span>SL</span>
+        <v-list-item @click="$goToMyProfile()">
+          <v-avatar size='24'>
+            <img :src="user.userImg">
           </v-avatar>
           <v-list-item-content class="ml-2">
-            <v-list-item-title>{{$store.state.username}}</v-list-item-title>
+            <v-list-item-title>{{user.userNick}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
@@ -90,7 +84,9 @@
 </template>
 
 <script>
+
 import SearchModal from '@/components/Modals/SearchModal.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'TheNavBarIcons',
@@ -102,6 +98,11 @@ export default {
 
     }
   },
+  computed: {
+    ...mapState([
+      'user',
+    ])
+  }
 }
 </script>
 
@@ -109,5 +110,10 @@ export default {
 #searchModal {
   position: absolute !important;
   top: 48px !important;
+}
+
+.v-list-item {
+  background-color: white;
+  width: 200px;
 }
 </style>

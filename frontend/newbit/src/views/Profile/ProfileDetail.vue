@@ -7,26 +7,31 @@
           align-self="center"
         >
           <v-img
+            v-if="user.userImg"
+            class="v-avatar image"
+            :src="user.userImg"
+          />
+          <v-img
+            v-else
             class="v-avatar image"
             src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
           />
         </v-col>
         <v-col
-          cols="8"
+          cols="7"
           align-self="center"
         >
-          <p>개발자 천모씨</p>
-          <p>재밌게 협업 진행해보고 싶습니다. 자기소개 하는 부분.</p>
+          <div class="text-h6 font-weight-bold">{{ user.userNick }}</div>
+          <div class="text-subtitle-1 font-weight-bold">{{ user.userIntro }}</div>
           <div>
             <v-btn
+              class="font-weight-black"
               elevation="0"
-              v-bind="attrs"
-              v-on="on"
               plain
               rounded
               shaped
             >
-              게시물
+              게시물 {{ user.userPostCount }}
             </v-btn>
             <v-dialog
               v-model="dialog1"
@@ -34,17 +39,20 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                  class="font-weight-black"
                   elevation="0"
                   v-bind="attrs"
                   v-on="on"
                   plain
                   rounded
                   shaped
+                  @click="openFollowerList($route.params.userCode)"
                 >
-                  팔로워
+                  팔로워 {{ user.userFollowerCount }}
                 </v-btn>
               </template>
               <follow-modal
+                :follower_list_origin="follower_list_origin"
                 :dialog1="dialog1"
                 @props-status-change="onClickChange"
                 category="follower"
@@ -56,17 +64,20 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                  class="font-weight-black"
                   elevation="0"
                   v-bind="attrs"
                   v-on="on"
                   plain
                   rounded
                   shaped
+                  @click="openFollowingList($route.params.userCode)"
                 >
-                  팔로잉
+                  팔로잉 {{ user.userFollowingCount }}
                 </v-btn>
               </template>
               <follow-modal
+                :following_list_origin="following_list_origin"
                 :dialog2="dialog2"
                 @props-status-change="onClickChange"
                 category="following"
@@ -75,13 +86,41 @@
           </div>
         </v-col>
         <v-col
+          v-if="$route.params.userCode != myUserCode"
+          cols="2"
+          align-self="center"
+        >
+          <v-btn
+            v-if="following_list.includes(Number($route.params.userCode))"
+            rounded
+            depressed
+            outlined
+            block
+            @click="[$unFollow($route.params.userCode), popFollow(Number($route.params.userCode)), minusOne()]"
+          >언팔로우</v-btn>
+          <v-btn
+            v-else
+            rounded
+            depressed
+            outlined
+            block
+            @click="[$follow($route.params.userCode), pushFollow(Number($route.params.userCode)), plusOne()]"
+          >
+            팔로우
+          </v-btn>
+        </v-col>
+        <v-col
+          v-else
           cols="2"
           align-self="center"
         >
           <v-btn
             rounded
+            depressed
+            outlined
             block
-          >팔로잉</v-btn>
+            @click="$goToProfileEdit()"
+          >프로필 수정</v-btn>
         </v-col>
       </v-row>
       <favored-keyword-bar :is-vertical="isVertical"></favored-keyword-bar>
@@ -91,8 +130,45 @@
         <v-tab @click="changeToActivity">내 활동</v-tab>
       </v-tabs>
       <v-divider></v-divider>
-      <div v-if="toggle ==='article'">
-        내가 쓴 게시물 나열
+      <div
+        v-if="toggle ==='article'"
+        class="mt-9"
+      >
+        <!-- SocialFeed.vue code 복붙 -->
+        <v-row
+          class="pa-2 px-4 fill-height"
+          align='start'
+        >
+          <v-row
+            class="pt-2"
+            justify='center'
+            align='start'
+            id='socialFeed'
+          >
+            <v-col
+              v-for="(post, index) in posts"
+              :key="`social` + index"
+              class="pa-1 pb-1"
+              cols=12
+            >
+              <post-card :post='post'></post-card>
+            </v-col>
+          </v-row>
+
+          <v-row class="mt-5 pt-5 justify-self-center align-self-end">
+            <v-spacer></v-spacer>
+            <infinite-loading
+              v-if='user'
+              class="mt-5 pt-5 justify-self-center align-self-center"
+              @infinite="infiniteHandler"
+            >
+              <template slot="no-more">
+                2022 - Newbit
+              </template>
+            </infinite-loading>
+            <v-spacer></v-spacer>
+          </v-row>
+        </v-row>
       </div>
       <div v-else-if="toggle ==='activity'">
         <profile-detail-daily-graph></profile-detail-daily-graph>
@@ -138,11 +214,18 @@
 </template>
 
 <script>
+import axios from 'axios'
+import _ from 'lodash'
+import InfiniteLoading from 'vue-infinite-loading'
+
 import FavoredKeywordBar from '@/components/Keyword/FavoredKeywordBar.vue'
 import ProfileDetailRadarGraph from '@/views/Profile/Detail/ProfileDetailRadarGraph.vue'
 import ProfileDetailDailyGraph from '@/views/Profile/Detail/ProfileDetailDailyGraph.vue'
 import FollowModal from '@/components/Modals/FollowModal/FollowModal.vue'
+import PostCard from '@/components/Cards/PostCard.vue'
 
+
+const myUserCode = localStorage.getItem('user_code')
 
 
 export default {
@@ -151,13 +234,26 @@ export default {
     ProfileDetailRadarGraph,
     ProfileDetailDailyGraph,
     FollowModal,
+    InfiniteLoading,
+    PostCard,
   },
   data: () => ({
     isVertical: false,
     toggle: 'article',
 
+    myUserCode: myUserCode,
+
     dialog1: false,
     dialog2: false,
+
+    user: {},
+    following_list: [],
+    following_list_origin: [],
+    follower_list_origin: [],
+
+    page: 1,
+    posts: [],
+    lastPostCode: 0,
 
     items: [
       { category: '프론트엔드', preference: 8 },
@@ -187,9 +283,100 @@ export default {
       else if (category === 'following') {
         this.dialog2 = changedStatus
       }
+    },
+    fetchUserInformation (user_code) {
+      if (this.$route.params.userCode !== myUserCode) {
+        axios({
+          url: `${this.$serverURL}/user?uid=${user_code}`,
+          method: 'get',
+        })
+          .then((res) => {
+            this.user = res.data
+            console.log(this.user)
+          })
+      }
+      else {
+        this.user = this.$store.state.user
+      }
+    },
+    fetchUserFollowingList (user_code) {
+      axios({
+        url: `${this.$serverURL}/follow/following?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.following_list = res.data.map((object) => {
+            return object['userCode']
+          })
+        })
+    },
+    openFollowingList (user_code) {
+      axios({
+        url: `${this.$serverURL}/follow/following?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.following_list_origin = res.data
+        })
+    },
+    openFollowerList (user_code) {
+      axios({
+        url: `${this.$serverURL}/follow/follower?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.follower_list_origin = res.data
+        })
+    },
+    pushFollow (user) {
+      this.following_list.push(user)
+    },
+    popFollow () {
+      this.following_list.pop()
+    },
+    plusOne () {
+      this.user.userFollowerCount += 1
+    },
+    minusOne () {
+      this.user.userFollowerCount -= 1
+    },
+    // SocialFeed.vue 함수 복붙
+    infiniteHandler ($state) {
+      const size = 8
+      axios({
+        method: 'get',
+        url: `${this.$serverURL}/post/user?`
+          + `uid=${myUserCode}`
+          + `&userid=${this.$route.params.userCode}`
+          + `&lastpostcode=${this.lastPostCode}`
+          + `&size=${size}`,
+      })
+        .then(res => {
+          if (res.data.length !== 0) {
+            this.page += 1;
+            this.lastPostCode = _.last(res.data).postCode
+            for (let key in res.data) {
+              this.posts.push(res.data[key])
+            }
+
+            $state.loaded();
+          } else {
+            $state.complete();
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+  },
+  created () {
+    if (this.$route.params.userCode !== myUserCode) {
+      this.fetchUserInformation(this.$route.params.userCode)
     }
+    this.fetchUserFollowingList(myUserCode)
   }
 }
+
 </script>
 
 <style>

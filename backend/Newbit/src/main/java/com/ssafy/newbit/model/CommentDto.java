@@ -8,12 +8,21 @@ import lombok.Setter;
 @Setter
 @ApiModel(value = "CommentDto : 댓글정보", description = "댓글 정보를 나타낸다.")
 public class CommentDto {
+	
 	@ApiModelProperty(value = "댓글 번호")
 	private int commentCode;
 	@ApiModelProperty(value = "댓글 작성자")
 	private int userCode;
+	@ApiModelProperty(value = "댓글 작성자 닉네임")
+	private String userNick;
+	@ApiModelProperty(value = "댓글 작성자 아이디")
+	private String userId;
+	@ApiModelProperty(value = "댓글 작성자 이미지 url")
+	private String userImg;
 	@ApiModelProperty(value = "댓글이 달린 글 번호")
 	private int postCode;
+	@ApiModelProperty(value = "댓글 작성일시")
+	private String commentDate;
 	@ApiModelProperty(value = "댓글 내용")
 	private String commentText;
 	//private int commentReport;

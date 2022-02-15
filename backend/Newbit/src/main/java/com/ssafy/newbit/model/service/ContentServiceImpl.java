@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.newbit.model.ContentDto;
+import com.ssafy.newbit.model.TechblogDto;
 import com.ssafy.newbit.model.mapper.ContentMapper;
 import com.ssafy.newbit.model.mapper.PostMapper;
+import com.ssafy.newbit.model.mapper.TechblogMapper;
 
 @Service
 public class ContentServiceImpl implements ContentService {
@@ -100,6 +102,24 @@ public class ContentServiceImpl implements ContentService {
 	public long getCursor(HashMap<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(ContentMapper.class).getCursor(map);
+	}
+
+	@Override
+	public boolean userReadContent(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(ContentMapper.class).userReadContent(map)==1;
+	}
+
+	@Override
+	public TechblogDto getTechblogInfo(int techblogcode) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(TechblogMapper.class).getTechblogInfo(techblogcode);
+	}
+
+	@Override
+	public List<ContentDto> techblogContent(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(ContentMapper.class).techblogContent(map);
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.newbit.model.service.PostService;
+import com.ssafy.newbit.model.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +19,7 @@ import io.swagger.annotations.ApiParam;
 
 import com.ssafy.newbit.model.PostDto;
 import com.ssafy.newbit.model.PostTextDto;
+import com.ssafy.newbit.model.UserDto;
 import com.ssafy.newbit.model.mapper.PostMapper;
 
 import org.slf4j.Logger;
@@ -35,7 +37,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@CrossOrigin(origins = { "http://localhost:8080" })
+@CrossOrigin(origins = { "http://localhost:8080"})
 @RestController
 @RequestMapping("/post")
 @Api("게시글 컨트롤러  API")
@@ -47,6 +49,8 @@ public class PostController {
 
 	@Autowired
 	private PostService postService;
+	@Autowired
+	private UserService userService;
 
 	@ApiOperation(value = "게시글 쓰기", notes = "새로운 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
@@ -59,14 +63,34 @@ public class PostController {
 	}
 
 	@ApiOperation(value = "특정 게시글 조회", notes = "게시글 코드에 해당하는 게시글의 정보를 반환한다.", response = PostDto.class)
-	@GetMapping("/{postCode}")
+	@GetMapping
 	public ResponseEntity<PostDto> getPost(
-			@PathVariable("postCode") @ApiParam(value = "얻어올 게시글의 코드", required = true) int postCode) throws Exception {
-		logger.info("getPost 호출 : " + postCode);
-		return new ResponseEntity<PostDto>(postService.getPost(postCode), HttpStatus.OK);
+			@RequestParam @ApiParam(value = "얻어올 게시글의 코드", required = true) int uid, int pid)
+			throws Exception {
+		logger.info("getPost 호출 : " + pid);
+
+		PostDto post = postService.getPost(pid);
+
+		// 게시글 좋아요 스크랩 정보 추가
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("userCode", uid); // 현재 로그인한 유저의 아이디
+		hm.put("postCode", pid);
+
+		post.setLiked(postService.userLikePost(hm)); // 좋아요 여부 설정
+		post.setScrapped(postService.userScrapPost(hm)); // 스크랩 여부 설정
+
+		// 게시글 작성자 정보 추가
+		UserDto u = userService.getUser(post.getUserCode());
+		if (u != null) {
+			post.setUserNick(u.getUserNick());
+			post.setUserImg(u.getUserImg());
+			post.setUserId(u.getUserId());
+		}
+
+		return new ResponseEntity<PostDto>(post, HttpStatus.OK);
 	}
 
-	@GetMapping
+	@GetMapping("/list")
 	@ApiOperation(value = "소셜 피드 전체 게시글 조회", notes = "내가 쓰거나 공유한 글 + 내가 팔로우하는 사람들 글 정보를 반환", response = List.class)
 	public ResponseEntity<List<PostDto>> listPost(
 			@RequestParam @ApiParam(value = "소셜 피드 목록을 얻기 위한 정보", required = true) int uid, int lastpostcode, int size)
@@ -78,30 +102,41 @@ public class PostController {
 		followingList.add(uid); // 본인 게시글 포함해서 가져와야 함
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("lastPostCode", lastpostcode); //페이지네이션을 위한 마지막으로 본 게시글 번호
-		map.put("size", size); //한 페이지당 가져올 게시글의 개수
+		map.put("lastPostCode", lastpostcode); // 페이지네이션을 위한 마지막으로 본 게시글 번호
+		map.put("size", size); // 한 페이지당 가져올 게시글의 개수
 
 		map.put("followingList", followingList); // in 조건에 넣기 위한 검색해 올 유저의 코드가 담긴 리스트
 
-		//현재 로그인한 유저가 게시글에 대해 좋아요와 스크랩 했는지 표시하기 위한 코드
+		// 현재 로그인한 유저가 게시글에 대해 좋아요와 스크랩 했는지 표시하기 위한 코드
+		// 게시글 작성자 정보 추가
 		List<PostDto> list = postService.listPost(map);
 		for (PostDto p : list) {
 			HashMap<String, Object> hm = new HashMap<String, Object>();
-			hm.put("userCode", uid); //현재 로그인한 유저의 아이디
+			hm.put("userCode", uid); // 현재 로그인한 유저의 아이디
 			hm.put("postCode", p.getPostCode());
-			
-			p.setLiked(postService.userLikePost(hm)); //좋아요 여부 설정 
-			p.setScrapped(postService.userScrapPost(hm)); //스크랩 여부 설정
+
+			p.setLiked(postService.userLikePost(hm)); // 좋아요 여부 설정
+			p.setScrapped(postService.userScrapPost(hm)); // 스크랩 여부 설정
+
+			// 게시글 작성자 정보
+
+			System.out.println(p.getUserCode());
+			UserDto u = userService.getUser(p.getUserCode());
+			if (u != null) {
+				p.setUserNick(u.getUserNick());
+				p.setUserImg(u.getUserImg());
+				p.setUserId(u.getUserId());
+			}
 		}
 
 		return new ResponseEntity<List<PostDto>>(list, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "특정 유저 전체 게시글 조회", notes = "특정 유저가 쓰거나 공유한 모든 글 정보를 반환", response = List.class)
-	@GetMapping("/user") 
+	@GetMapping("/user")
 	public ResponseEntity<List<PostDto>> listUserPost(
-			@RequestParam @ApiParam(value = "특정 유저의 게시글 목록을 얻기 위한 정보", required = true) int uid, int userid, int lastpostcode,
-			int size) throws Exception {
+			@RequestParam @ApiParam(value = "특정 유저의 게시글 목록을 얻기 위한 정보", required = true) int uid, int userid,
+			int lastpostcode, int size) throws Exception {
 
 		logger.info("listUserPost 호출 : " + userid);
 
@@ -110,15 +145,23 @@ public class PostController {
 		map.put("userCode", userid);
 		map.put("lastPostCode", lastpostcode);
 		map.put("size", size);
-		
+
 		List<PostDto> list = postService.listUserPost(map);
 		for (PostDto p : list) {
 			HashMap<String, Object> hm = new HashMap<String, Object>();
-			hm.put("userCode", uid); //현재 로그인한 유저의 아이디
+			hm.put("userCode", uid); // 현재 로그인한 유저의 아이디
 			hm.put("postCode", p.getPostCode());
-			
-			p.setLiked(postService.userLikePost(hm)); //좋아요 여부 설정 
-			p.setScrapped(postService.userScrapPost(hm)); //스크랩 여부 설정
+
+			p.setLiked(postService.userLikePost(hm)); // 좋아요 여부 설정
+			p.setScrapped(postService.userScrapPost(hm)); // 스크랩 여부 설정
+
+			// 게시글 작성자 정보
+			UserDto u = userService.getUser(p.getUserCode());
+			if (u != null) {
+				p.setUserNick(u.getUserNick());
+				p.setUserImg(u.getUserImg());
+				p.setUserId(u.getUserId());
+			}
 		}
 		return new ResponseEntity<List<PostDto>>(list, HttpStatus.OK);
 	}
@@ -205,29 +248,38 @@ public class PostController {
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
-	
+
 	// 포스트 검색
 	@ApiOperation(value = "포스트 검색", notes = "검색 키워드를 포함하는 게시글 목록을 반환", response = List.class)
 	@GetMapping("/search")
 	public ResponseEntity<List<PostDto>> searchPostList(
-			@RequestParam @ApiParam(value = "콘텐츠 목록을 가져오기 위해 필요한 정보", required = true)String search, int uid, int lastpostcode, int size) throws Exception {
+			@RequestParam @ApiParam(value = "콘텐츠 목록을 가져오기 위해 필요한 정보", required = true) String search, int uid,
+			int lastpostcode, int size) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		
+
 		map.put("search", search);
 		map.put("lastPostCode", lastpostcode);
-		map.put("size",size);
+		map.put("size", size);
 		logger.info("searchPostList 호출 : " + search);
-		
-		//포스트 목록 불러오기
+
+		// 포스트 목록 불러오기
 		List<PostDto> list = postService.searchPostList(map);
-		
-		//현재 로그인한 유저가 포스트에 대해 좋아요와 스크랩 했는지 체크
-		for(PostDto p : list) {
+
+		// 현재 로그인한 유저가 포스트에 대해 좋아요와 스크랩 했는지 체크
+		for (PostDto p : list) {
 			HashMap<String, Object> hm = new HashMap<String, Object>();
 			hm.put("userCode", uid);
 			hm.put("postCode", p.getPostCode());
 			p.setLiked(postService.userLikePost(hm));
 			p.setScrapped(postService.userScrapPost(hm));
+
+			// 게시글 작성자 정보 추가
+			UserDto u = userService.getUser(p.getUserCode());
+			if (u != null) {
+				p.setUserNick(u.getUserNick());
+				p.setUserImg(u.getUserImg());
+				p.setUserId(u.getUserId());
+			}
 		}
 		return new ResponseEntity<List<PostDto>>(list, HttpStatus.OK);
 	}

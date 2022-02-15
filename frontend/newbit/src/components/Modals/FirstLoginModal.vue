@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <v-dialog
-      v-model="dialog"
+      v-model="$store.state.modals.firstLoginModal"
       width="700"
     >
       <v-card class="rounded-xl ma-0 pa-0 firstlogin pb-4">
@@ -33,11 +33,9 @@
             <keyword-selector></keyword-selector>
           </div>
           <div v-else-if="page === 2">
-            <follow-recommendation></follow-recommendation>
+            <follow-recommendation :user="user"></follow-recommendation>
           </div>
-          <div
-            v-else-if="page === 3"
-          >
+          <div v-else-if="page === 3">
             <div class="d-flex justify-center">
               <img
                 class="v-avatar image"
@@ -46,21 +44,37 @@
               />
             </div>
             <div class="justify-center">
-            <v-textarea
-              v-model.trim="credentials.introduction"
-              name="introduction"
-              type="text"
-              outlined
-              rounded
-              flat
-              solo
-              class="mt-7 px-10"
-            ></v-textarea>
+              <v-textarea
+                v-model.trim="credentials.introduction"
+                name="introduction"
+                type="text"
+                outlined
+                rounded
+                flat
+                solo
+                class="mt-7 px-10"
+              ></v-textarea>
             </div>
           </div>
 
           <div
-            v-if="page === 1 || page === 2"
+            v-if="page === 1"
+            class="text-center mb-3 firstlogin"
+          >
+            <v-btn
+              @click="[saveUserKeyword(user.userCode), nextPage()]"
+              color="keywordChipText"
+              dark
+              depressed
+              large
+              rounded
+              width="88%"
+              class="font-weight-bold btn"
+            >다음으로
+            </v-btn>
+          </div>
+          <div
+            v-else-if="page === 2"
             class="text-center mb-3 firstlogin"
           >
             <v-btn
@@ -80,7 +94,7 @@
             class="text-center"
           >
             <v-btn
-              @click="dialog = false"
+              @click="[saveUserIntroImg(user.userCode), $store.dispatch('turnFirstLoginModalOFF')]"
               color="keywordChipText"
               dark
               depressed
@@ -110,7 +124,7 @@
             class="text-center"
           >
             <v-btn
-              @click="dialog = false"
+              @click="$store.dispatch('turnFirstLoginModalOFF')"
               large
               rounded
               width="88%"
@@ -126,15 +140,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import axios from 'axios'
+
 import KeywordSelector from '@/components/Keyword/KeywordSelector.vue'
 import FollowRecommendation from '@/components/Modals/FollowModal/FollowRecommendation.vue'
 
 
 export default {
   name: 'FirstLoginModal',
-  props: {
-    isLogged: Boolean,
-  },
   components: { KeywordSelector, FollowRecommendation },
   data () {
     return {
@@ -142,7 +156,6 @@ export default {
         introduction: '',
       },
       page: 1,
-      dialog: this.isLogged
     }
   },
   methods: {
@@ -155,41 +168,76 @@ export default {
       if (this.page === 2) {
         this.page -= 1
       }
+    },
+    saveUserKeyword: function (user_code) {
+      const headers = this.$setToken()
+      axios({
+        url: `${this.$serverURL}/user/setting/keywordset?uid=${user_code}&userkeyword=${this.user.userKeyword}`,
+        method: 'POST',
+        headers,
+      })
+        .then((res) => {
+          console.log(res)
+
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    saveUserIntroImg: function (user_code) {
+      const headers = this.$setToken()
+      axios({
+        url: `${this.$serverURL}/user/setting/introset?uid=${user_code}&userintro=${this.credentials.introduction}&userimg=${this.user.userImg}`,
+        method: 'POST',
+        headers,
+      })
+        .then((res) => {
+          console.log(res)
+
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
+  },
+  computed: {
+    ...mapState([
+      'user',
+    ]),
   }
 }
 </script>
 
 <style scope>
 /* 모달창 타이틀 (가장 큰 글씨) */
-.v-application .modal-title{
-  font-size : 2.0em !important;
+.v-application .modal-title {
+  font-size: 2em !important;
   margin-bottom: 0.3em;
 }
 
 /* 모달창 서브타이틀 (설명) */
-.v-application .modal-subtitle{
-  font-size : 1.4em !important;
+.v-application .modal-subtitle {
+  font-size: 1.4em !important;
   margin-bottom: 1em;
 }
 
 /* 첫번째 모달 탭 메뉴 */
 .v-application .firstlogin .v-tab {
   font-size: 1.2em;
-  font-weight: 300  !important;
-  color : #818181  !important;
+  font-weight: 300 !important;
+  color: #818181 !important;
 }
 
 /* 첫번째 모달 탭 메뉴(활성화) */
 .v-application .firstlogin .v-tab--active {
-  color : #0d0e23  !important;
-  font-weight: 600  !important;
+  color: #0d0e23 !important;
+  font-weight: 600 !important;
 }
 
 /* 버튼 글씨 */
 .v-application .firstlogin .btn {
   font-size: 1.3em;
-  font-weight: 500  !important;
+  font-weight: 500 !important;
 }
 </style>
 

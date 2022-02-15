@@ -6,39 +6,50 @@ const serverURL = process.env.VUE_APP_SERVER_URL
 export default {
   // 1. 모달 조작
   // 1) PostCreateModal
-  turnPostCreateModalOn: function ({ commit }) {
-    commit('TURN_POST_CREATE_MODAL_ON')
+  turnPostCreateModalOn: function ({commit}, payload) {
+    commit('TURN_POST_CREATE_MODAL_ON', payload)
   },
   turnPostCreateModalOFF: function ({ commit }) {
     commit('TURN_POST_CREATE_MODAL_OFF')
   },
-  /*
-  turnSearchModalOFF: function ({ commit }) {       // 윤수가 추가
-    commit('TURN_SEARCH_MODAL_OFF')
-  },*/
-  // 2. Feed조작
-  loadPosts: function ({ commit }) {
-    const size = 8
-    console.log(state.socialFeed)
-    axios({
-      method: 'get',
-      url: `${serverURL}/post?`
-        + `uid=${state.userCode}`
-        + `&lastpostcode=${state.socialFeed.lastPostCode}`
-        + `&size=${size}`,
-    })
-      .then(res => {
-        if (res.data.length) {
-          commit('LOAD_POSTS', res.data)
-        } else {
-          commit('REACHED_LAST_POST')
-        }
-        console.log('Actions-loadPost', res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+
+  // 2) FirstLoginModal
+  turnFirstLoginModalOn: function ({ commit }) {
+    commit('TURN_FIRST_LOGIN_MODAL_ON')
   },
+  turnFirstLoginModalOFF: function ({ commit }) {
+    commit('TURN_FIRST_LOGIN_MODAL_OFF')
+  },
+  // 3) LoginModal
+  turnLoginModalOn: function ({ commit }) {
+    commit('TURN_LOGIN_MODAL_ON')
+  },
+  turnLoginModalOFF: function ({ commit }) {
+    commit('TURN_LOGIN_MODAL_OFF')
+  },
+
+  // // 2. Feed조작
+  // loadPosts: function ({ commit }) {
+  //   const size = 8
+  //   axios({
+  //     method: 'get',
+  //     url: `${serverURL}/post/list?`
+  //       + `uid=${state.user.userCode}`
+  //       + `&lastpostcode=${state.socialFeed.lastPostCode}`
+  //       + `&size=${size}`,
+  //   })
+  //     .then(res => {
+  //       if (res.data.length) {
+  //         commit('LOAD_POSTS', res.data)
+  //       } else {
+  //         commit('REACHED_LAST_POST')
+  //       }
+  //       console.log('Actions-loadPost', res)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // },
 
   // 3. 유저 정보 저장 & 초기화
 
@@ -48,5 +59,39 @@ export default {
 
   resetUserInformation: function ({ commit }) {
     commit('RESET_USER_INFORMATION')
+  },
+
+  saveUserKeyword: function ({ commit }, keywordString) {
+    commit('SAVE_USER_KEYWORD', keywordString)
+  },
+
+
+  // 4. 추천피드 조작
+  getContentsHot: ({ commit }) => {
+    const size = 10
+    const keywordchip = "react"
+    console.log(state.curationFeed)
+    axios({
+      method: 'get',
+      url: `${serverURL}/content/list?sorting=hot&`
+        // + `uid=${state.userCode}`
+        // 로그인 안 한 사용자 테스트용 1
+        + `uid=1`
+        + `&lastcontentcode=0`
+        + `&size=${size}`
+        + `&keyword=${keywordchip}`
+    })
+      .then(res => {
+        if (res.data.length) {
+          commit('SET_CONTENTS', res.data)
+          console.log(res)
+        } else {
+          commit('REACHED_LAST_CONTENT')
+        }
+        console.log('Actions-loadContent', res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
 }

@@ -21,7 +21,8 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addMapping("/**")
 			.allowedOrigins("*")
 			.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-			.maxAge(6000);
+			.maxAge(6000)
+			.allowCredentials(true);
 	}
 
 //	Swagger UI 실행시 404처리

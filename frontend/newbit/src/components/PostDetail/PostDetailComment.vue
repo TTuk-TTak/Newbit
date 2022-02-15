@@ -1,18 +1,91 @@
 <template>
-  <v-container class="my-0 py-0">
+  <v-container 
+    v-if="comment"
+    class="my-0 py-0">
     <v-row class="ml-2 mt-0 my-1 align-center">
-      <user-profile-icon :imgUrl="`https://avatars0.githubusercontent.com/u/9064066?v=4&s=460`"></user-profile-icon>
+      <v-col
+        class="d-flex shrink"
+      >
+        <user-profile-icon :imgUrl="comment.userImg"></user-profile-icon>
+      </v-col>
       <v-col>
-        <span>HunHun</span>
-        <span class="mx-2">{{ comment.time }}</span>
-        <v-btn
-          @click="clickReplyBtn()" 
-          plain 
-          text
+        <v-row>
+          <v-col>
+            <span class="writer">{{ comment.userNick }}</span>
+            <span class="date mx-2">@{{ comment.userId }}</span>
+            <span class="date mx-2">·{{ $createdAt(comment.commentDate ) }}</span>
+          </v-col>
+          <v-col
+            class='d-flex shrink'
           >
-            {{ isReplying ? '작성 취소' : '답글 작성'}}
-          </v-btn>
-        <p class="mb-0">{{ comment.text }}</p>
+            <v-btn
+              class="d-flex shrink text-align-center"
+              @click="clickReplyBtn()" 
+              plain 
+              text
+              small
+              >
+                {{ isReplying ? '작성 취소' : '답글 작성'}}
+            </v-btn>
+
+            <!-- 삭제 버튼 및 모달 창 -->
+            <template>
+              <div class="text-center">
+                <v-dialog
+                  v-model="dialog"
+                  width="300"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="pb-2"
+                      v-if="user.userCode === comment.userCode"
+                      icon
+
+                      v-bind='attrs'
+                      v-on='on'
+                    >
+                      <v-icon small>mdi-trash-can-outline</v-icon>
+                    </v-btn>
+                  </template>
+                  <!-- 모달 카드 본문 -->
+                  <v-card>
+                    <v-card-title>
+                    </v-card-title>
+                    <v-card-text class="text-center pb-1">
+                      <p>
+                        댓글을 삭제하시면 복구할 수 없습니다.
+                        <br>
+                        삭제하시겠습니까?
+                        
+                      </p>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                      <v-btn
+                        text
+                        small
+                        @click="dialog=false"
+                      >
+                        아니오
+                      </v-btn>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="primary"
+                        text
+                        small
+                        @click="deleteComment()"
+                      >
+                        네
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </div>
+            </template>
+          </v-col>
+        </v-row>
+        <!-- 댓글 본문 -->
+        <p class="comment-text mb-0">{{ comment.commentText }}</p>
       </v-col>
     </v-row>
     <!-- 댓글 작성창 -->
@@ -21,7 +94,7 @@
       class="ml-5 my-2 px-5">
       <v-icon>mdi-arrow-right-bottom</v-icon>
       <v-textarea 
-        v-model="reply.text"
+        v-model="replyText"
         class="ml-2 py-0"
         placeholder="답글을 작성해주세요."
         rows=1
@@ -29,7 +102,7 @@
         maxlength='100'
         no-resize
         auto-grow
-        @keydown.enter="writeReply()"
+        @keydown.enter.prevent="writeReply()"
         ></v-textarea>
       <v-btn 
         @click="writeReply()"
@@ -40,20 +113,26 @@
     </v-row>
     <!-- 답글 -->
     <v-row 
-      v-if="showReply"
-      class="ml-5 mt-0">
-      <post-detail-reply></post-detail-reply>
+      v-if="showReplies && comment.replies"
+      class="ml-5 mt-0"
+      >
+      <post-detail-reply
+        v-for="(reply, index) in replies"
+        :key="`reply` + index"
+        :reply='reply'
+      ></post-detail-reply>
     </v-row>
     <v-row
       class="mt-0"
       justify='center'
     >
-      <v-btn 
+      <v-btn
+        v-if="replies && replies.length"
         @click="toggleReply()"
         text
         small
         >
-        {{ showReply ? '숨기기' : '답글 5개 보기'}}
+        {{ showReplies ? '숨기기' : `답글 ${replies.length}개 보기`}}
       </v-btn>
     </v-row>
     <v-divider class="mt-2"></v-divider>
@@ -75,60 +154,133 @@
         </v-btn>
       </template>
     </v-snackbar>
-
-
-
   </v-container>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import axios from 'axios'
 import UserProfileIcon from '@/components/Commons/UserProfileIcon.vue'
 import PostDetailReply from '@/components/PostDetail/PostDetailReply.vue'
 
 export default {
   name: 'PostDetailComment',
+  props: {
+    comment: Object,
+  },
   components: {
     UserProfileIcon,
     PostDetailReply,
+  },
+  data: () => {
+    return {
+      replies: [],
+      showReplies: false,
+      // 작성중인 답글 텍스트
+      // 답글창 토글 여부
+      isReplying: false,
+      replyText: '',
+      snackbar: {
+        show: false,
+        message: '',
+        timeout: '1000'
+      },
+      dialog: false,
+      isDeleted: false
+    }
+  },
+  computed: {
+    ...mapState([
+        "user",
+    ]),
   },
   methods: {
     clickReplyBtn () {
       this.isReplying = !this.isReplying
     },
     toggleReply () {
-      this.showReply = !this.showReply
+      this.showReplies = !this.showReplies
     },
     writeReply () {
-      console.log('엔터 누름')
-      this.snackbar.show = true
+      const writtenComment = this.replyText
+      axios({
+        method: 'POST',
+        url: `${this.$serverURL}/comment/`,
+        data: {
+          'userCode': this.user.userCode,
+          'postCode': this.comment.postCode,
+          'commentText': writtenComment,
+          'commentDepth': true,
+          'commentParent': this.comment.commentCode,
+        },
+      })
+        .then(res => {
+          this.replies.unshift({
+            'userCode': this.user.userCode,
+            'userNick': this.user.userNick, 
+            'postCode': 0,
+            'commentText': writtenComment,
+            'commentDepth': true,
+            'commentParent': this.comment.commentCode,
+            'commentDate': Date.now()
+          })
+            this.replyText = ''
+          this.snackbar.message = '답글을 달았습니다.'
+          this.snackbar.show = true
+          this.showReplies = true
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    clickDeleteBtn () {
+      console.log(this.dialog)
+      this.dialog = true
+      console.log(this.dialog)
+      console.log(1221323)
+      setTimeout(this.dialog = false, 1000)
+    },
+    deleteComment() {
+      axios({
+        method: 'DELETE',
+        url: `${this.$serverURL}/comment/${this.comment.commentCode}`,
+      })
+        .then(res => {
+          this.snackbar.message = '댓글을 삭제했습니다.'
+          this.snackbar.show = true
+          console.log(res)
+          this.comment = null
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
   },
-  data: () => {
-    return {
-      isReplying: false,
-      showReply: false,
-      comment: {
-        userCode: '',
-        postCode: '',
-        time: '25분 전',
-        text: '이 편지는 중국에서 시작되었으며...',
-        report: '',
-      }, 
-      reply: {
-        text: '',
-      },
-      snackbar: {
-        show: false,
-        message: '답글을 달았습니다.',
-        timeout: '1000'
-      },
+  mounted () {
+    console.log(this.comment.replies)
+    const replies = this.comment.replies.length
+    if ( replies ) {
+      for (let i = replies-1; i >= 0; i--) {
+        this.replies.push(this.comment.replies[i])
+      }
     }
-  },
-
-
+  }
 }
 </script>
 
-<style>
+<style scoped>
+
+.writer{
+  font-size : 1.1em;
+}
+
+/* 본문 글씨체 */
+.comment-text {
+  font-family: 'KoPub Dotum';
+  font-weight: 400;
+  color : #272727;
+}
+
 
 </style>

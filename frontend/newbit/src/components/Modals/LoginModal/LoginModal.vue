@@ -21,7 +21,7 @@
               cols="6"
               class="pa-0"
             >
-              <login-modal-default></login-modal-default>
+              <login-modal-default @click-change="closeModal()"></login-modal-default>
             </v-col>
           </v-row>
         </v-container>
@@ -36,18 +36,27 @@ import LoginModalDefault from '@/components/Modals/LoginModal/LoginModalDefault.
 
 export default {
   name: 'LoginModal',
-  props: {
-    isLogged: Boolean,
-  },
   components: { LoginModalDefault },
 
   data () {
     return {
-      dialog: !this.isLogged
+      dialog: this.isLogged()
     }
   },
-  methods: {
+  computed: {
 
+  },
+  methods: {
+    isLogged: function () {
+      const token = localStorage.getItem('jwt')
+      if (token) {
+        return false
+      }
+      return true
+    },
+    closeModal () {
+      this.dialog = false
+    }
   }
 }
 </script>

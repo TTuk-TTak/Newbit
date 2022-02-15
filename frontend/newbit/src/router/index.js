@@ -35,6 +35,7 @@ const routes = [
       },
       {
         path: 'social/:id',
+        name: 'PostDetail',
         component: PostDetail
       },
       {
@@ -63,7 +64,7 @@ const routes = [
 
       //Profile  
       {
-        path: 'profile/detail',
+        path: 'profile/:userCode',
         name: 'ProfileDetail',
         component: ProfileDetail
       },

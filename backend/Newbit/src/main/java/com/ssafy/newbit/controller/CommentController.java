@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.newbit.model.service.CommentService;
 import com.ssafy.newbit.model.service.PostService;
+import com.ssafy.newbit.model.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,7 @@ import io.swagger.annotations.ApiParam;
 
 import com.ssafy.newbit.model.CommentDto;
 import com.ssafy.newbit.model.PostDto;
+import com.ssafy.newbit.model.UserDto;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +33,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@CrossOrigin(origins = { "http://localhost:8080" })
+@CrossOrigin(origins = { "http://localhost:8080"})
 @RestController
 @RequestMapping("/comment")
 @Api("댓글 컨트롤러  API")
@@ -46,13 +48,15 @@ public class CommentController {
 	private PostService postService;
 	@Autowired
 	private CommentService commentService;
+	@Autowired
+	private UserService userService;
 	
 	@ApiOperation(value = "댓글 쓰기", notes = "새로운 댓글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)	
 	@PostMapping
-	public ResponseEntity<String> writeComment(@RequestBody @ApiParam(value = "댓글 정보.", required = true) CommentDto commentDto) throws Exception {
+	public ResponseEntity<String> writeComment(@RequestBody @ApiParam(value = "댓글 정보.", required = false) CommentDto commentDto) throws Exception {
 		logger.info("writeComment 호출 : " + commentDto.getCommentText());
 		if (commentService.writeComment(commentDto)) {
-			
+
 			//댓글 작성하면 댓글이 달린 게시글의 post_comment 1 증가 
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			map.put("postCode", commentDto.getPostCode());
@@ -67,7 +71,7 @@ public class CommentController {
 	@GetMapping
 	public ResponseEntity<List<CommentDto>> listComment(@RequestParam @ApiParam(value = "해당 게시글 코드에 달린 모든 댓글 반환", required = true) int pid) throws Exception {
 		logger.info("listComment 호출 : "+pid);
-		return new ResponseEntity<List<CommentDto>>(commentService.listComment(pid), HttpStatus.OK);
+ 		return new ResponseEntity<List<CommentDto>>(commentService.listComment(pid), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "댓글 삭제", notes = "댓글코드에 해당하는 게시글 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)

@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.newbit.model.ContentDto;
+import com.ssafy.newbit.model.TechblogDto;
 import com.ssafy.newbit.model.service.ContentService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@CrossOrigin(origins = { "http://localhost:8080" })
+@CrossOrigin(origins = { "http://localhost:8080"})
 @RestController
 @RequestMapping("/content")
 @Api("콘텐츠 컨트롤러  API")
@@ -41,9 +42,24 @@ public class ContentCotroller {
 	@GetMapping
 	@ApiOperation(value = "특정 콘텐츠 상세 조회", notes = "콘텐츠 번호에 해당하는 콘텐츠 내용을 반환", response = ContentDto.class)
 	public ResponseEntity<ContentDto> getPost(
-			@RequestParam @ApiParam(value = "특정 콘텐츠를 가져오기 위한 콘텐츠 번호", required = true) int cid) throws Exception {
+			@RequestParam @ApiParam(value = "특정 콘텐츠를 가져오기 위한 콘텐츠 번호", required = true)int uid, int cid) throws Exception {
 		logger.info("getContent 호출 : " + cid);
-		return new ResponseEntity<ContentDto>(contentService.getContent(cid), HttpStatus.OK);
+		ContentDto c = contentService.getContent(cid);
+		
+		//좋아요스크랩 정보
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("userCode", uid);
+		hm.put("contentCode", c.getContentCode());
+		c.setLiked(contentService.userLikeContent(hm));
+		c.setScrapped(contentService.userScrapContent(hm));
+		c.setRead(contentService.userReadContent(hm));
+		
+		//테크블로그 정보 포함시키기
+		TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
+		c.setTechblogImg(t.getTechblogImg());
+		c.setTechblogName(t.getTechblogName());
+		
+		return new ResponseEntity<ContentDto>(c, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "추천 피드 콘텐츠 목록 조회", notes = "키워드에 해당하는 콘텐츠 목록을 정렬 기준으로 반환", response = List.class)
@@ -53,6 +69,7 @@ public class ContentCotroller {
 			int lastcontentcode, int size, String keyword) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
+		//키워드칩 파싱
 		List<String> keywordList = new ArrayList<>();
 
 		StringTokenizer st = new StringTokenizer(keyword, "_");
@@ -90,6 +107,12 @@ public class ContentCotroller {
 			hm.put("contentCode", c.getContentCode());
 			c.setLiked(contentService.userLikeContent(hm));
 			c.setScrapped(contentService.userScrapContent(hm));
+			c.setRead(contentService.userReadContent(hm));
+			
+			//테크블로그 정보 포함시키기
+			TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
+			c.setTechblogImg(t.getTechblogImg());
+			c.setTechblogName(t.getTechblogName());
 		}
 		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
 	}
@@ -143,7 +166,7 @@ public class ContentCotroller {
 		logger.info("deleteScrapContent 호출 : ");
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("uid", uid);
-		map.put("pid", cid);
+		map.put("cid", cid);
 		map.put("count", -1);
 		if (contentService.deleteScrapContent(map)) {
 			contentService.updateScrap(map);
@@ -198,8 +221,55 @@ public class ContentCotroller {
 			hm.put("contentCode", c.getContentCode());
 			c.setLiked(contentService.userLikeContent(hm));
 			c.setScrapped(contentService.userScrapContent(hm));
+			
+			//테크블로그 정보 포함시키기
+			TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
+			c.setTechblogImg(t.getTechblogImg());
+			c.setTechblogName(t.getTechblogName());
 		}
 		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
 	}
+	@ApiOperation(value = "특정 기술블로그의 콘텐츠 모아보기", notes = "기술 블로그의 콘텐츠를 최신순으로 반환", response = List.class)
+	@GetMapping("/techblog")
+	public ResponseEntity<List<ContentDto>> techblogContentList(
+			@RequestParam @ApiParam(value = "", required = true) int uid, int tid, int lastcontentcode, int size) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("techblogCode", tid);
+		map.put("lastContentCode", lastcontentcode);
+		map.put("size", size);
+		logger.info("techblogContentList 호출 : " + tid);
+
+		// 커서 기반 페이지네이션을 위한 커서 생성, listContent()호출할 때 커서로 넣어줌
+		if (lastcontentcode != 0) {
+			HashMap<String, Object> cursormap = new HashMap<String, Object>();
+			cursormap.put("contentCode", lastcontentcode);
+			cursormap.put("type", "new");
+			long cursor = contentService.getCursor(cursormap);
+			map.put("cursor", cursor);
+			//System.out.println(cursor);
+		}
+
+		// 콘텐츠 목록 불러오기
+		List<ContentDto> list = contentService.techblogContent(map);
+
+		String img = contentService.getTechblogInfo(tid).getTechblogImg();
+		String name = contentService.getTechblogInfo(tid).getTechblogName();
+			
+		// 현재 로그인한 유저가 콘텐츠에 대해 좋아요와 스크랩 했는지 체크
+		for (ContentDto c : list) {
+			HashMap<String, Object> hm = new HashMap<String, Object>();
+			hm.put("userCode", uid);
+			hm.put("contentCode", c.getContentCode());
+			c.setLiked(contentService.userLikeContent(hm));
+			c.setScrapped(contentService.userScrapContent(hm));
+			c.setRead(contentService.userReadContent(hm));
+			
+			//테크블로그 정보 포함시키기
+			c.setTechblogImg(img);
+			c.setTechblogName(name);
+		}
+		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
+	}
+	
 
 }
