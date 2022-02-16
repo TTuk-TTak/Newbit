@@ -54,9 +54,9 @@
         <v-list-item v-else
           v-for="(notification, index) in notiCenter.notifications"
           :key="index"
-          class ="itemhover ma-0 pa-0 pl-1"
+          class ="itemhover ma-0 pa-0"
         >
-          <v-list-item-content class="my-1 ml-2 px-4" @click="goTo(notification.moving, notification.type)" style="width:380px; font-size:1.05em; white-space:nowrap; overflow:visible">'{{ notification.userNick}}'{{notification.type | doing}} · {{$createdAt(notification.date)}}
+          <v-list-item-content class="my-1 pl-6 px-4" @click="goTo(notification.moving, notification.type)" style="width:380px; font-size:1.05em; white-space:nowrap; overflow:visible">'{{ notification.userNick}}'{{notification.type | doing}} · {{$createdAt(notification.date)}}
           <div class="singleline-ellipsis" style="color : rgb(170 170 170); font-weight: 100;"> {{ notification.text}}</div>
           </v-list-item-content>
         </v-list-item>
@@ -180,7 +180,6 @@ export default {
 
 .v-list-item {
   background-color: white;
-  width: 200px;
 }
 
 .singleline-ellipsis {
