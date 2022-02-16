@@ -53,7 +53,7 @@ public class GraphController {
 	private static final int VERTEX = 6;
 	private static final int TERM = 150;
 	private static String[] key = { "java", "python", "javascript", "react", "vuejs", "angular", "android", "ios",
-			"uiux", "nodejs", "php", "database", "springboot", "git", "infrastructure", "aiml", "generaldev",
+			"uiux", "node", "php", "database", "springboot", "git", "infra", "aiml", "generaldev",
 			"webdev" };
 
 	@Autowired
