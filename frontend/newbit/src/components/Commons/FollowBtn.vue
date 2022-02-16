@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'FollowBtn',
   props: {
@@ -29,11 +31,19 @@ export default {
       this.followStatus = !this.followStatus
       if (this.followStatus) {
         this.$follow(this.userCode)
+        this.plusOne()
       }
       else {
         this.$unFollow(this.userCode)
+        this.minusOne()
       }
-    }
+    },
+    plusOne () {
+      this.user.userFollowingCount += 1
+    },
+    minusOne () {
+      this.user.userFollowingCount -= 1
+    },
   },
   computed: {
     message: function () {
@@ -44,7 +54,10 @@ export default {
     },
     fontcolor: function () {
       return this.followStatus ? '"#0D0E23"--text' : 'btnLiteText--text'
-    }
+    },
+    ...mapState([
+      'user',
+    ])
   }
 }
 </script>
