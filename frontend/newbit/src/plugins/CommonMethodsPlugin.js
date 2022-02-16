@@ -33,32 +33,9 @@ CommonMethodsPlugin.install = function (Vue) {
   Vue.prototype.$goToProfileEdit = function () {
     this.$router.push({ name: 'ProfileEdit' })
   }
-  // 8) 검색페이지로 이동     /////////////////////////////이거 윤수가 추가
-  Vue.prototype.$goToSearchFeed = function (search) {//search
-
-    this.$router.push({
-      name: 'Search',
-      params: {
-        search: search,
-        uid: '1',
-        lastpostcode: '0',
-        size: '10'
-      },
-    })
-    /*
-    axios.get(`${this.$serverURL}/post/search`, {params: {
-     size:'10',     // 받아오는 글 개수
-     uid:'1',
-     search:'test',
-     lastpostcode:'0',
-       
-     }})    //post/search  // params
-   .then(() => {
-     console.log("도달~")
-   })
-   .catch((err) => {
-     console.log(err)
-   })*/
+  // 8) 검색페이지로 이동 
+  Vue.prototype.$goToSearchFeed = function () {
+    this.$router.push({ name: 'Search' })
   }
 
   // 8) 포스트 상세 페이지로 이동
@@ -168,7 +145,6 @@ CommonMethodsPlugin.install = function (Vue) {
   // 7. 팔로우
   // 1) 팔로잉 추가
   Vue.prototype.$follow = function (userCode, userNick) {
-    console.log(userNick)
     const myUserCode = localStorage.getItem('user_code')
     axios({
       url: `${this.$serverURL}/follow`,
@@ -181,16 +157,22 @@ CommonMethodsPlugin.install = function (Vue) {
       .then((res) => {
         console.log(res)
       })
-  }
+        .then((res) => {
+          const snackbarText = `${userNick}님을 팔로우했습니다.`
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
+          console.log(res)
+        })
+    }
   // 2) 팔로잉 취소
   Vue.prototype.$unFollow = function (userCode, userNick) {
-    console.log(userNick)
     const myUserCode = localStorage.getItem('user_code')
     axios({
       url: `${this.$serverURL}/follow?from=${myUserCode}&to=${userCode}`,
       method: 'delete',
     })
       .then((res) => {
+        const snackbarText = `${userNick}님을 팔로우 취소했습니다.`
+        this.$store.dispatch('turnSnackBarOn', snackbarText)
         console.log(res)
       })
   }
