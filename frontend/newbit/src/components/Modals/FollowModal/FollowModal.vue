@@ -40,7 +40,8 @@
 
           <v-list-item-action>
             <follow-btn
-              :isFollowwed="isFollowed"
+              v-if="myUserCode != person.userCode"
+              :isFollowwed="following_list.includes(person.userCode)"
               :userCode="person.userCode"
             ></follow-btn>
           </v-list-item-action>
@@ -65,6 +66,7 @@
 
           <v-list-item-action>
             <follow-btn
+              v-if="myUserCode != person.userCode"
               :isFollowed="following_list.includes(person.userCode)"
               :userCode="person.userCode"
             ></follow-btn>
@@ -87,7 +89,8 @@ export default {
     category: String,
     following_list: Array,
     follower_list_origin: Array,
-    following_list_origin: Array
+    following_list_origin: Array,
+    myUserCode: Number
   },
 
   data () {
