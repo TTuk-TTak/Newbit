@@ -2,8 +2,8 @@
   <div id="chart">
     <apexchart
       type="radar"
-      height="400"
-      width="400"
+      height="300"
+      width="300"
       :options="chartOptions"
       :series="series"
     ></apexchart>

@@ -21,7 +21,8 @@
           cols="7"
           align-self="center"
         >
-          <div class="text-h6 font-weight-bold">{{ user.userNick }}</div>
+          <span class="text-h6 font-weight-bold">{{ user.userNick }}</span>
+          <span class="text-h7 grey--text font-weight-bold"> {{ `@${user.userId}` }}</span>
           <div class="text-subtitle-1 font-weight-bold">{{ user.userIntro }}</div>
           <div>
             <v-btn
@@ -125,7 +126,7 @@
           >프로필 수정</v-btn>
         </v-col>
       </v-row>
-      <favored-keyword-bar :is-vertical="isVertical"></favored-keyword-bar>
+      <favored-keyword-bar2 :parsed="$parseKeyword(user.userKeyword)"></favored-keyword-bar2>
       <v-tabs>
         <v-tabs-slider color="primary"></v-tabs-slider>
         <v-tab @click="changeToArticle">게시물</v-tab>
@@ -185,8 +186,8 @@
             <v-sheet>
               <v-list>
                 <div class="d-flex justify-space-between px-4">
-                  <v-text class="font-weight-bold">키워드</v-text>
-                  <v-text class="font-weight-bold">관심도</v-text>
+                  <div class="font-weight-bold">키워드</div>
+                  <div class="font-weight-bold">관심도</div>
                 </div>
 
                 <v-divider></v-divider>
@@ -220,7 +221,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import InfiniteLoading from 'vue-infinite-loading'
 
-import FavoredKeywordBar from '@/components/Keyword/FavoredKeywordBar.vue'
+import FavoredKeywordBar2 from '@/components/Keyword/FavoredKeywordBar2.vue'
 import ProfileDetailRadarGraph from '@/views/Profile/Detail/ProfileDetailRadarGraph.vue'
 import ProfileDetailDailyGraph from '@/views/Profile/Detail/ProfileDetailDailyGraph.vue'
 import FollowModal from '@/components/Modals/FollowModal/FollowModal.vue'
@@ -232,7 +233,7 @@ const myUserCode = localStorage.getItem('user_code')
 
 export default {
   components: {
-    FavoredKeywordBar,
+    FavoredKeywordBar2,
     ProfileDetailRadarGraph,
     ProfileDetailDailyGraph,
     FollowModal,
@@ -240,7 +241,6 @@ export default {
     PostCard,
   },
   data: () => ({
-    isVertical: false,
     toggle: 'article',
 
     myUserCode: myUserCode,
@@ -287,19 +287,14 @@ export default {
       }
     },
     fetchUserInformation (user_code) {
-      if (this.$route.params.userCode !== myUserCode) {
-        axios({
-          url: `${this.$serverURL}/user?uid=${user_code}`,
-          method: 'get',
+      axios({
+        url: `${this.$serverURL}/user?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.user = res.data
+          console.log(this.user)
         })
-          .then((res) => {
-            this.user = res.data
-            console.log(this.user)
-          })
-      }
-      else {
-        this.user = this.$store.state.user
-      }
     },
     fetchUserFollowingList (user_code) {
       axios({
@@ -372,9 +367,7 @@ export default {
     },
   },
   created () {
-    if (this.$route.params.userCode !== myUserCode) {
-      this.fetchUserInformation(this.$route.params.userCode)
-    }
+    this.fetchUserInformation(this.$route.params.userCode)
     this.fetchUserFollowingList(myUserCode)
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <profile-own-info></profile-own-info>
-    <favored-keyword-bar :is-vertical="isVertical"></favored-keyword-bar>
+    <favored-keyword-bar></favored-keyword-bar>
     <profile-follow-rec></profile-follow-rec>
   </div>
 </template>
@@ -19,7 +19,6 @@ export default {
     ProfileFollowRec
   },
   data: () => ({
-    isVertical: true
   }),
 }
 </script>

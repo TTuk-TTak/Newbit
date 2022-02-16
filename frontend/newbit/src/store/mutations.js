@@ -7,6 +7,7 @@ export default {
   RESET_USER_INFORMATION: function (state) {
     state.user = null
     state.recommendedPeople = []
+    state.favoredKeyword = []
   },
   // 2) 유저 정보 저장
   SAVE_USER_INFORMATION: function (state, userData) {
