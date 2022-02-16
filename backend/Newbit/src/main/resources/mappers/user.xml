@@ -144,7 +144,7 @@
 	<!-- 유저 검색 -->
 	<select id="searchUserList" parameterType="HashMap"
 		resultType="UserDto">
-		select u.user_id `userId`, u.user_nick `userNick`, u.user_img
+		select u.user_code `userCode`, u.user_id `userId`, u.user_nick `userNick`, u.user_img
 		`userImg`, u.user_postcount `userPostCount`, u.user_followercount
 		`userFollowerCount`, u.user_followingcount `userFollowingCount`,
 		u.user_intro `userIntro`, u.user_keyword `userKeyword`,
