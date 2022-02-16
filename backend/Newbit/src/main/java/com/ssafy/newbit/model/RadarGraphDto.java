@@ -7,12 +7,14 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 
-@ApiModel(value = "UserDto : 회원정보", description = "회원의 상세 정보를 나타낸다.")
+@ApiModel(value = "RadarGraphDto : 방사형 그래프 정보", description = "방사형 그래프 정보를 나타낸다.")
 @Getter
 @Setter
+@AllArgsConstructor
 //@Data
 public class RadarGraphDto {
-	@ApiModelProperty(value = "회원 코드")
+	@ApiModelProperty(value = "카테고리")
 	private List<String> category;
+	@ApiModelProperty(value = "수")
 	private List<Integer> data;
 }

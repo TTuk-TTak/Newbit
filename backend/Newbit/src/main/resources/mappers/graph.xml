@@ -4,13 +4,35 @@
 <mapper namespace="com.ssafy.newbit.model.mapper.GraphMapper">
 
 
-	<select id="getKeyword" parameterType="String">
-		select c.content_keyword
+	<select id="getKeyword" parameterType="int" resultType="String">
+		select
+		c.content_keyword
 		from content c
-		where (content_code in (select content_code from contentscrap where
-		user_code = #{uid}))
-		or (content_code in ( select content_code from post where user_code =
-		7));
+		where (c.content_code in (select
+		s.content_code from contentscrap s where
+		s.user_code = #{uid}))
+		or
+		(c.content_code in ( select p.content_code from post p where
+		p.user_code =
+		#{uid}));
+	</select>
+	<select id="getDailyData" parameterType="HashMap"
+		resultType="com.ssafy.newbit.model.DailyDataDto">
+		select date, count(date)
+		from
+		(select DATE_FORMAT(content_scrap_time ,'%Y-%m-%d') as date from contentscrap
+		as s where user_code=#{uid} and content_scrap_time >
+		str_to_date(#{enddate}, '%Y-%m-%d')
+		union all
+		select DATE_FORMAT(post_scrap_time ,'%Y-%m-%d') as date from postscrap as s
+		where user_code=#{uid} and post_scrap_time > str_to_date(#{enddate},
+		'%Y-%m-%d')
+		union all
+		select DATE_FORMAT(post_date ,'%Y-%m-%d') as date from post as p where
+		user_code=#{uid} and post_date > str_to_date(#{enddate}, '%Y-%m-%d')
+		order by date 
+		) A
+		group by date;
 	</select>
 
 </mapper>
