@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'FollowBtn',
   props: {
@@ -29,22 +31,33 @@ export default {
       this.followStatus = !this.followStatus
       if (this.followStatus) {
         this.$follow(this.userCode)
+        this.plusOne()
       }
       else {
         this.$unFollow(this.userCode)
+        this.minusOne()
       }
-    }
+    },
+    plusOne () {
+      this.user.userFollowingCount += 1
+    },
+    minusOne () {
+      this.user.userFollowingCount -= 1
+    },
   },
   computed: {
     message: function () {
       return this.followStatus ? '언팔로우' : '팔로우'
     },
     color: function () {
-      return this.followStatus ? 'btnDarkBackground' : 'btnLiteBackground'
+      return this.followStatus ? '"#C4C4C4"' : 'btnLiteBackground'
     },
     fontcolor: function () {
-      return this.followStatus ? 'btnDarkText--text' : 'btnLiteText--text'
-    }
+      return this.followStatus ? '"#0D0E23"--text' : 'btnLiteText--text'
+    },
+    ...mapState([
+      'user',
+    ])
   }
 }
 </script>

@@ -48,4 +48,6 @@ export default {
   embeddedContent: {
     contentCode: 0
   },
+  favoredKeyword: [],
+  recommendedPeople: []
 }

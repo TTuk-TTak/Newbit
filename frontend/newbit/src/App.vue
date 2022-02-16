@@ -28,6 +28,7 @@ export default {
     const user_code = localStorage.getItem('user_code')
     if (token) {
       this.$fetchMyInformation(user_code)
+      this.$fetchFollowRecommendation(user_code)
     }
   }
 

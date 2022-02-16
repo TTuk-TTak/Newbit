@@ -39,7 +39,11 @@
           </v-list-item-content>
 
           <v-list-item-action>
-            <follow-btn></follow-btn>
+            <follow-btn
+              v-if="myUserCode != person.userCode"
+              :isFollowwed="following_list.includes(person.userCode)"
+              :userCode="person.userCode"
+            ></follow-btn>
           </v-list-item-action>
         </v-list-item>
       </v-list>
@@ -61,7 +65,11 @@
           </v-list-item-content>
 
           <v-list-item-action>
-            <follow-btn></follow-btn>
+            <follow-btn
+              v-if="myUserCode != person.userCode"
+              :isFollowed="following_list.includes(person.userCode)"
+              :userCode="person.userCode"
+            ></follow-btn>
           </v-list-item-action>
         </v-list-item>
       </v-list>
@@ -79,8 +87,10 @@ export default {
     dialog1: Boolean,
     dialog2: Boolean,
     category: String,
+    following_list: Array,
     follower_list_origin: Array,
-    following_list_origin: Array
+    following_list_origin: Array,
+    myUserCode: Number
   },
 
   data () {
@@ -100,7 +110,7 @@ export default {
         this.$emit('props-status-change', this.dialog2, this.category)
       }
     }
-  }
+  },
 }
 </script>
 

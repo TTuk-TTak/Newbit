@@ -62,7 +62,7 @@
             class="text-center mb-3 firstlogin"
           >
             <v-btn
-              @click="[saveUserKeyword(user.userCode), nextPage()]"
+              @click="[sendUserKeyword(user.userCode), $store.dispatch('saveFavoredKeyword', $parseKeyword(user.userKeyword)) ,nextPage()]"
               color="keywordChipText"
               dark
               depressed
@@ -94,7 +94,7 @@
             class="text-center"
           >
             <v-btn
-              @click="[saveUserIntroImg(user.userCode), $store.dispatch('turnFirstLoginModalOFF')]"
+              @click="[sendUserIntroImg(user.userCode), $store.dispatch('turnFirstLoginModalOFF')]"
               color="keywordChipText"
               dark
               depressed
@@ -169,7 +169,7 @@ export default {
         this.page -= 1
       }
     },
-    saveUserKeyword: function (user_code) {
+    sendUserKeyword: function (user_code) {
       const headers = this.$setToken()
       axios({
         url: `${this.$serverURL}/user/setting/keywordset?uid=${user_code}&userkeyword=${this.user.userKeyword}`,
@@ -184,7 +184,7 @@ export default {
           console.log(err)
         })
     },
-    saveUserIntroImg: function (user_code) {
+    sendUserIntroImg: function (user_code) {
       const headers = this.$setToken()
       axios({
         url: `${this.$serverURL}/user/setting/introset?uid=${user_code}&userintro=${this.credentials.introduction}&userimg=${this.user.userImg}`,
