@@ -27,7 +27,11 @@ export default {
   turnLoginModalOFF: function ({ commit }) {
     commit('TURN_LOGIN_MODAL_OFF')
   },
-
+  // 4) SnackBar
+  turnSnackBarOn: function ({ commit }, snackbarText) {
+    console.log(snackbarText, '스낵스낵')
+    commit('TURN_SNACKBAR_ON', snackbarText)
+  },
   // // 2. Feed조작
   // loadPosts: function ({ commit }) {
   //   const size = 8

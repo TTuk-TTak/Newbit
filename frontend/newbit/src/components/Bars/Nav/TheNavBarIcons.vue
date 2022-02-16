@@ -1,7 +1,9 @@
 <template>
   <div>
     <!-- 1. 검색 아이콘 및 다이얼로그 -->
-    <v-dialog overlay-opacity=0.1>
+    <v-dialog 
+      v-model="isSearchModalRendered"
+      overlay-opacity=0.2>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           class="mr-3"
@@ -95,14 +97,19 @@ export default {
   },
   data: () => {
     return {
-
+      isSearchModalRendered: false,
     }
   },
   computed: {
     ...mapState([
       'user',
     ])
-  }
+  },
+  methods: {
+    turnModalOff () {
+      
+    }
+  },
 }
 </script>
 

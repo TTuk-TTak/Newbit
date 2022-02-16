@@ -1,28 +1,41 @@
 <template>
   <v-card
     outlined
-    class="mx-auto mt-1 contentCard-Item"
+    class="mx-auto mt-1 contentCard-Item d-flex flex-column"
     style="position: relative; "
+    height="450"
   >
     <!-- 상단 이미지 -->
-    <v-img
-      max-height="170"
-      :src="`${content.contentImg}`"
-      @click="selectContent()"
-    ></v-img>
+    <a href="#none">
+      <v-img
+        max-height="170"
+        class="contentcardImg"
+        :src="`${content.contentImg}`"
+        @click="selectContent()"
+      ></v-img>
+    </a>
     <!-- 1. 컨텐츠 타이틀 -->
-    <a href="#none"></a>
-    <v-card-title
-      class="py-1 mt-2"
-      @click="selectContent()"
-    >{{ content.contentTitle }}</v-card-title>
+
+      <v-card-title
+        class="py-1 mt-2"
+        @click="selectContent()"
+      >
+        <a href="#none" class="ma-0 pa-0 underlineOff">
+          {{ content.contentTitle }}
+        </a>
+      </v-card-title>
     <!-- 컨텐츠 본문 -->
     <v-card-text 
       class="px-4 mb-0 pb-0"
       @click="selectContent()"
       >
-      <div class="content-text">{{ content.contentText }}</div>
+      <div class="content-text">
+        <a href="#none" class="underlineOff">
+          {{ content.contentText }}
+        </a>
+      </div>
     </v-card-text>
+    <v-spacer></v-spacer>
     <!-- 키워드 -->
     <v-card-text
       class="pt-2 pl-3 pb-0"
@@ -50,14 +63,18 @@
     <v-card-actions
       class='pt-0 justify-space-between'
     >
-      <div class="pl-3 mt-0">
+      <div class="d-flex pl-3 mt-0">
         <v-avatar
           rounded
           size="20"
+          class=""
         >
           <v-img :src="content.techblogImg"></v-img>
         </v-avatar>
-        <span class="ml-2">{{ content.techblogName }}</span>
+        <span 
+          class="ml-2 d-inline-block text-bottom text-truncate"
+          style="max-width: 140px"
+          >{{ content.techblogName }}</span>
       </div>
 
       <div>
@@ -182,13 +199,15 @@ export default {
         console.log('archived', res)
         if (res.data === 'success') {
           this.content.scrapped = true
+          const snackbarText = '컨텐츠를 아카이빙했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
         }
       })
       .catch((err) => {
         console.log(err)
       })  
     },
-    // 컨텐츠 아카이브 취소 요청
+    // 컨텐츠 아카이브 취소하기.
     unarchiveContent() {
       axios({
         method: 'DELETE',
@@ -200,6 +219,9 @@ export default {
         console.log('unarchived', res)
         if (res.data === 'success') {
           this.content.scrapped = false
+          const snackbarText = '컨텐츠 아카이빙을 취소했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
+
         }
       })
       .catch((err) => {
@@ -219,6 +241,8 @@ export default {
       .then((res) => {
         console.log('likedContent', res)
         if (res.data === 'success') {
+          const snackbarText = '컨텐츠를 좋아요 했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           this.content.liked = true
           this.content.contentLike ++
         }
@@ -238,6 +262,8 @@ export default {
       .then((res) => {
         console.log('unliked', res)
         if (res.data === 'success') {
+          const snackbarText = '컨텐츠 좋아요를 취소했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           this.content.liked = false
           this.content.contentLike --
         }
@@ -282,6 +308,14 @@ export default {
 /* a 태그 언더라인 제거 */
 .underlineOff {
   text-decoration: none;
+}
+
+.contentcardImg {
+  border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+.blogName {
+  text-align: center;
 }
 
 </style>

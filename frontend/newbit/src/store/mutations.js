@@ -61,7 +61,12 @@ export default {
   TURN_LOGIN_MODAL_OFF: function (state) {
     state.modals.loginModal = false
   },
-
+  // 1) 스낵바
+  TURN_SNACKBAR_ON: function (state, snackbarText) {
+    state.snackbar.isRendered = false
+    state.snackbar.text = snackbarText
+    setTimeout(state.snackbar.isRendered = true, 100)
+  },
 
   //4. 추천 피드
   // 1) 인기콘텐츠 로딩

@@ -119,8 +119,8 @@ export default {
         url: `${this.$serverURL}/comment/${this.reply.commentCode}`,
       })
         .then(res => {
-          this.snackbar.message = '답글을 삭제했습니다.'
-          this.snackbar.show = true
+          const snackbarText = '답글을 삭제했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           console.log(res)
           this.reply = null
         })
