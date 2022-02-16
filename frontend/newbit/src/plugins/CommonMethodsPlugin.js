@@ -35,30 +35,30 @@ CommonMethodsPlugin.install = function (Vue) {
   }
   // 8) 검색페이지로 이동     /////////////////////////////이거 윤수가 추가
   Vue.prototype.$goToSearchFeed = function (search) {//search
-    
+
     this.$router.push({
       name: 'Search',
       params: {
         search: search,
-        uid:'1',
-        lastpostcode:'0',
-        size:'10'
+        uid: '1',
+        lastpostcode: '0',
+        size: '10'
       },
+    })
+    /*
+    axios.get(`${this.$serverURL}/post/search`, {params: {
+     size:'10',     // 받아오는 글 개수
+     uid:'1',
+     search:'test',
+     lastpostcode:'0',
+       
+     }})    //post/search  // params
+   .then(() => {
+     console.log("도달~")
    })
-   /*
-   axios.get(`${this.$serverURL}/post/search`, {params: {
-    size:'10',     // 받아오는 글 개수
-    uid:'1',
-    search:'test',
-    lastpostcode:'0',
-      
-    }})    //post/search  // params
-  .then(() => {
-    console.log("도달~")
-  })
-  .catch((err) => {
-    console.log(err)
-  })*/
+   .catch((err) => {
+     console.log(err)
+   })*/
   }
 
   // 8) 포스트 상세 페이지로 이동
@@ -119,6 +119,7 @@ CommonMethodsPlugin.install = function (Vue) {
       .then((res) => {
         localStorage.setItem('user_code', res)
         this.$fetchMyInformation(res)
+        this.$fetchFollowRecommendation(res)
         this.$goToSocialFeed()
       })
       .catch((err) => {
@@ -155,42 +156,58 @@ CommonMethodsPlugin.install = function (Vue) {
         if (!res.data['userKeyword']) {
           this.$store.dispatch('turnFirstLoginModalOn')
         }
+        this.$store.dispatch('saveFavoredKeyword', this.$parseKeyword(res.data.userKeyword))
         this.$store.dispatch('saveUserInformation', res.data)
+
       })
       .catch((err) => {
         console.log(err)
       })
-  },
+  }
 
-    // 7. 팔로우
-    // 1) 팔로잉 추가
-    Vue.prototype.$follow = function (userCode) {
-      const myUserCode = localStorage.getItem('user_code')
-      axios({
-        url: `${this.$serverURL}/follow`,
-        method: 'post',
-        data: {
-          from: myUserCode,
-          to: userCode
-        }
+  // 7. 팔로우
+  // 1) 팔로잉 추가
+  Vue.prototype.$follow = function (userCode, userNick) {
+    const myUserCode = localStorage.getItem('user_code')
+    axios({
+      url: `${this.$serverURL}/follow`,
+      method: 'post',
+      data: {
+        from: myUserCode,
+        to: userCode
+      }
+    })
+      .then((res) => {
+        console.log(res)
       })
         .then((res) => {
-          const snackbarText = '님을 팔로우했습니다.'
+          const snackbarText = `${userNick}님을 팔로우했습니다.`
           this.$store.dispatch('turnSnackBarOn', snackbarText)
           console.log(res)
         })
     }
   // 2) 팔로잉 취소
-  Vue.prototype.$unFollow = function (userCode) {
+  Vue.prototype.$unFollow = function (userCode, userNick) {
     const myUserCode = localStorage.getItem('user_code')
     axios({
       url: `${this.$serverURL}/follow?from=${myUserCode}&to=${userCode}`,
       method: 'delete',
     })
       .then((res) => {
-        const snackbarText = '팔로우 취소했습니다.'
+        const snackbarText = `${userNick}님을 팔로우 취소했습니다.`
         this.$store.dispatch('turnSnackBarOn', snackbarText)
         console.log(res)
+      })
+  }
+
+  // 3) 팔로우 추천
+  Vue.prototype.$fetchFollowRecommendation = function (user_code) {
+    axios({
+      url: `${this.$serverURL}/follow/recommendation?uid=${user_code}`,
+      method: 'get',
+    })
+      .then((res) => {
+        this.$store.dispatch('saveRecommendedPeople', res.data)
       })
   }
 

@@ -10,6 +10,7 @@ import com.ssafy.newbit.model.DailyDataDto;
 import com.ssafy.newbit.model.PostDto;
 import com.ssafy.newbit.model.PostTextDto;
 import com.ssafy.newbit.model.mapper.GraphMapper;
+import com.ssafy.newbit.model.mapper.InfoMapper;
 import com.ssafy.newbit.model.mapper.PostMapper;
 
 import org.springframework.stereotype.Service;
@@ -17,23 +18,29 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class GraphServiceImpl implements GraphService{
+public class InfoServiceImpl implements InfoService{
 	
 	@Autowired
 	private SqlSession sqlSession;
 
 	@Override
-	public List<String> getKeyword(int uid) throws Exception {
+	public int getMembers() throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.getMapper(GraphMapper.class).getKeyword(uid);
+		return sqlSession.getMapper(InfoMapper.class).getMembers();
 	}
 
 	@Override
-	public List<DailyDataDto> getDailyData(HashMap<String, Object> map) throws Exception {
+	public int getContents() throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.getMapper(GraphMapper.class).getDailyData(map);
+		return sqlSession.getMapper(InfoMapper.class).getContents();
 	}
-	
+
+	@Override
+	public int getPosts() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(InfoMapper.class).getPosts();
+	}
+
 	
 	
 

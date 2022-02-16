@@ -31,6 +31,7 @@
 
         <v-list-item-action>
           <follow-btn
+            :userNick="recommendedPerson.userNick"
             :isFollowed="isFollowed"
             :userCode="recommendedPerson.userCode"
           ></follow-btn>
@@ -41,41 +42,25 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapState } from 'vuex'
 import FollowBtn from '@/components/Commons/FollowBtn.vue'
 
 
-const myUserCode = localStorage.getItem('user_code')
-
 export default {
   components: { FollowBtn },
   data: () => ({
-    recommendedPeople: [],
     isFollowed: false
   }),
   methods: {
-    fetchFollowRecommendation (user_code) {
-      axios({
-        url: `${this.$serverURL}/follow/recommendation?uid=${user_code}`,
-        method: 'get',
-      })
-        .then((res) => {
-          this.recommendedPeople = res.data
-        })
-    },
+
   },
   computed: {
     ...mapState([
-      'user',
+      'recommendedPeople',
     ])
   },
-  created () {
-    this.fetchFollowRecommendation(myUserCode)
-  }
 }
 </script>
-
 <style scoped>
 .profileBar {
   background-color: #f2f2f4;

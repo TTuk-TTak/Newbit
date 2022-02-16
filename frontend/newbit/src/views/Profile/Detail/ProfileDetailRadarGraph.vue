@@ -2,8 +2,8 @@
   <div id="chart">
     <apexchart
       type="radar"
-      height="400"
-      width="400"
+      height="300"
+      width="300"
       :options="chartOptions"
       :series="series"
     ></apexchart>
@@ -11,28 +11,38 @@
 </template>
 
 <script>
+
 export default {
-  data: () => ({
-    series: [{
-      name: 'Series 1',
-      data: [8, 3, 2, 6, 9, 1],
-    }],
-    chartOptions: {
-      chart: {
-        type: 'radar',
-        // height: 350,
-        toolbar: {
-          show: false
+  props: {
+    category: Array,
+    preference: Array,
+  },
+
+  data: function () {
+    return {
+      series: [{
+        name: 'Series 1',
+        data: this.preference
+      }],
+      chartOptions: {
+        chart: {
+          type: 'radar',
+          toolbar: {
+            show: false
+          },
         },
+        yaxis: {
+          // 최대, 최소 및 간격 개수
+          // tickAmount: 5,
+          // max: 5,
+          // min: 0,
+        },
+        xaxis: {
+          categories: this.category
+        }
       },
-      // title: {
-      //   text: 'Basic Radar Chart'
-      // },
-      xaxis: {
-        categories: ['FrontEnd', 'BackEnd', 'Data', 'AI', 'Algorithm', 'Mobile']
-      }
-    },
-  }),
+    }
+  },
 }
 </script>
 

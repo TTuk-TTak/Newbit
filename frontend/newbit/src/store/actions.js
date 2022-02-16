@@ -6,7 +6,7 @@ const serverURL = process.env.VUE_APP_SERVER_URL
 export default {
   // 1. 모달 조작
   // 1) PostCreateModal
-  turnPostCreateModalOn: function ({commit}, payload) {
+  turnPostCreateModalOn: function ({ commit }, payload) {
     commit('TURN_POST_CREATE_MODAL_ON', payload)
   },
   turnPostCreateModalOFF: function ({ commit }) {
@@ -75,7 +75,13 @@ export default {
     commit('SAVE_USER_KEYWORD', keywordString)
   },
 
+  saveFavoredKeyword: function ({ commit }, parsedKeyword) {
+    commit('SAVE_FAVORED_KEYWORD', parsedKeyword)
+  },
 
+  saveRecommendedPeople: function ({ commit }, recommended) {
+    commit('SAVE_RECOMMENDED_PEOPLE', recommended)
+  },
   // 4. 추천피드 조작
   getContentsHot: ({ commit }) => {
     const size = 10
@@ -104,4 +110,9 @@ export default {
         console.log(err)
       })
   },
+  // 5. 추천 피드 - 키워드 미리 선택
+  presetCurationKeyword: ({ commit }, keyword) => {
+    commit('PRESET_CURATION_KEYWORD', keyword)
+  }
+
 }

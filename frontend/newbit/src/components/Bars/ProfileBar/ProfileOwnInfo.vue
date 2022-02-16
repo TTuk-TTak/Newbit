@@ -70,7 +70,7 @@
         로그인 후 SNS 기능을 이용해보세요. <br />
         아직 회원이 아니시라면, 회원가입 후 아래의 서비스들과 함께하세요! <br /><br />
         <!-- ToDo : 숫자 부분은 후에 {{}}로 수정 -->
-        총게시물 100개 | 총회원수 200명 | 컨텐츠 300개 <br />
+        총게시물 {{ allInfo.posts }}개 | 총회원수 {{ allInfo.users }}명 | 컨텐츠 {{ allInfo.contents }}개 <br />
       </v-col>
     </v-row>
     <v-btn
@@ -101,24 +101,37 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { mapMutations } from 'vuex'
 import { mapState } from 'vuex'
 
 export default {
   data: () => {
     return {
-
+      allInfo: {}
     }
   },
   methods: {
     ...mapMutations([
       'TURN_POST_CREATE_MODAL_ON'
-    ])
+    ]),
+    fetchAllInformation () {
+      axios({
+        url: `${this.$serverURL}/info`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.allInfo = res.data
+        })
+    },
   },
   computed: {
     ...mapState([
       'user',
     ])
+  },
+  created () {
+    this.fetchAllInformation()
   }
 }
 </script>

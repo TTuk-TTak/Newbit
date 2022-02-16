@@ -8,7 +8,7 @@
       <v-divider></v-divider>
       <v-row
         justify="center"
-        class="mt-6"
+        class="mt-6 textsize"
       >
         <v-col cols="10">
           <v-form>
@@ -23,18 +23,18 @@
                 align-self="center"
                 cols="10"
               >
-                <p class="text-h6 grey--text mb-0">{{ `@${$store.state.user.userId}` }}</p>
-                <p class="text-h6 mb-0 font-weight-bold">프로필 사진 바꾸기</p>
+                <span class="font-weight-bold mr-1">{{ credentials.userNick }}</span>
+                <span class="grey--text">{{ `@${credentials.userId}` }}</span>
+                <p class="mb-0 font-weight-bold">프로필 사진 바꾸기 넣는 부분</p>
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="2">
-                <p class="text-h6 font-weight-bold mt-3 text-center">아이디</p>
+                <p class="font-weight-bold mt-3 text-center">아이디</p>
               </v-col>
               <v-col cols="10">
                 <v-text-field
                   v-model.trim="credentials.userId"
-                  name="userId"
                   type="text"
                   outlined
                   rounded
@@ -42,12 +42,11 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="2">
-                <p class="text-h6 font-weight-bold mt-3 text-center">닉네임</p>
+                <p class="font-weight-bold mt-3 text-center">닉네임</p>
               </v-col>
               <v-col cols="10">
                 <v-text-field
-                  v-model.trim="credentials.nickname"
-                  name="nickname"
+                  v-model.trim="credentials.userNick"
                   type="text"
                   outlined
                   rounded
@@ -55,12 +54,12 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="2">
-                <p class="text-h6 font-weight-bold mt-3 text-center">비밀번호</p>
+                <p class="font-weight-bold mb-0 text-center">비밀번호</p>
+                <p class="font-weight-bold mb-0 text-center">변경</p>
               </v-col>
               <v-col cols="10">
                 <v-text-field
-                  v-model.trim="credentials.password"
-                  name="password"
+                  v-model.trim="credentials.userPassword"
                   type="password"
                   outlined
                   rounded
@@ -68,13 +67,12 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="2">
-                <p class="text-h6 font-weight-bold mb-0 text-center">비밀번호</p>
-                <p class="text-h6 font-weight-bold mb-0 text-center">확인</p>
+                <p class="font-weight-bold mb-0 text-center">비밀번호</p>
+                <p class="font-weight-bold mb-0 text-center">변경확인</p>
               </v-col>
               <v-col cols="10">
                 <v-text-field
-                  v-model.trim="credentials.passwordConfirmation"
-                  name="passwordConfirmation"
+                  v-model.trim="rePassword"
                   type="password"
                   outlined
                   rounded
@@ -82,12 +80,11 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="2">
-                <p class="text-h6 font-weight-bold mt-3 text-center">소개</p>
+                <p class="font-weight-bold mt-15 text-center">소개</p>
               </v-col>
               <v-col cols="10">
                 <v-textarea
-                  v-model.trim="credentials.introduction"
-                  name="introduction"
+                  v-model.trim="credentials.userIntro"
                   type="text"
                   outlined
                   rounded
@@ -95,11 +92,7 @@
                 ></v-textarea>
               </v-col>
             </v-row>
-            <v-row>
-              <v-col>
-                <first-login-modal></first-login-modal>
-              </v-col>
-            </v-row>
+
             <v-row justify="center">
               <v-col cols="6">
                 <v-btn
@@ -120,21 +113,48 @@
   </v-card>
 </template>
 <script>
-import FirstLoginModal from '@/components/Modals/FirstLoginModal.vue'
+import axios from 'axios'
+
+const myUserCode = localStorage.getItem('user_code')
+
 export default {
-  components: { FirstLoginModal },
   name: 'ProfileEdit',
-  data: () => ({
-    credentials: {
-      userId: '',
-      nickname: '',
-      password: '',
-      passwordConfirmation: '',
-      introduction: '',
-    },
-  })
+  data: function () {
+    return {
+      credentials: {
+        userId: '',
+        userNick: '',
+        userPassword: '',
+        userIntro: '',
+      },
+      rePassword: '',
+    }
+  },
+  methods: {
+    // Vuex 사용해서 연결하면 새로고침하면 초기화되서 빈화면 뜸
+    fetchMyInformation (user_code) {
+      axios({
+        url: `${this.$serverURL}/user?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.credentials.userId = res.data.userId
+          this.credentials.userNick = res.data.userNick
+          this.credentials.userIntro = res.data.userIntro
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  },
+  created () {
+    this.fetchMyInformation(myUserCode)
+  }
 }
 </script>
 
-<style>
+<style scoped>
+.textsize {
+  font-size: 1.2em;
+}
 </style>

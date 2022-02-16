@@ -41,6 +41,7 @@ export default {
     sorting: "hot",
     isAtLast: false,
     contents: [],
+    preSelectedKeyword: null,
   },
   archivingFeed: {
 
@@ -50,5 +51,7 @@ export default {
   },
   searchModal: {
     input: '',
-  }
+  },
+  favoredKeyword: [],
+  recommendedPeople: [],
 }
