@@ -76,8 +76,6 @@ export default {
   saveRecommendedPeople: function ({ commit }, recommended) {
     commit('SAVE_RECOMMENDED_PEOPLE', recommended)
   },
-
-
   // 4. 추천피드 조작
   getContentsHot: ({ commit }) => {
     const size = 10
@@ -106,4 +104,9 @@ export default {
         console.log(err)
       })
   },
+  // 5. 추천 피드 - 키워드 미리 선택
+  presetCurationKeyword: ({ commit }, keyword) => {
+    commit('PRESET_CURATION_KEYWORD', keyword)
+  }
+
 }
