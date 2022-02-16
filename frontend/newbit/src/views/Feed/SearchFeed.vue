@@ -3,6 +3,33 @@
     class="pa-2"
     color="feedBackground"
   >
+    <v-card
+      outlined
+      class="pa-5 my-2 mx-2"
+    >
+      <v-row
+        align='center'
+      >
+        <v-col
+          cols=auto
+        >
+          <v-icon
+            class="align-self-center"
+            large
+            @click="searchbtn()"   
+          >mdi-magnify</v-icon>
+        </v-col>
+        <v-col>
+          <v-text-field
+            class="mb-2 mx-2"
+            hide-details
+            type="String"
+            v-model="search"      
+          ></v-text-field>  
+        </v-col>
+      </v-row>
+    </v-card>
+
       <!-- 탭전환 -->
       <v-tabs
         slider-color='#C4C4C4'
@@ -50,9 +77,11 @@
 </template>
 
 <script>
+
+
 import { mapState } from 'vuex'
 import PostCard from '@/components/Cards/PostCard.vue'
-///import ContentCard from '@/components/Cards/ContentCard.vue'
+// import ContentCard from '@/components/Cards/ContentCard.vue'
 import axios from 'axios'
 //import _ from 'lodash'
 
@@ -78,7 +107,6 @@ export default {
     
     getAllSearched() {
       //const postId = _.split(this.$route.path, '/')[2]
-      // 일단 처음 띄우기로 한 검색 페이지를 띄움 
       axios.get(`${this.$serverURL}/post/search`, {params:this.params})   //`http://localhost:9999/post/search`
       .then((response) => {
         console.log("도달~")

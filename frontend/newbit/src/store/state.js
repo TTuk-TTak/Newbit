@@ -5,14 +5,35 @@ export default {
     firstLoginModal: false,
     loginModal: false,
   },
-  // socialFeedLoadedAt: null,
-  // socialFeed: {
-  //   lastPostCode: 0,
-  //   pageNum: -1,
-  //   isAtLast: false,
-  //   posts: {
-  //   },
-  // },
+  snackbar:{
+    isRendered: false,
+    timeout: 1000,
+    text: '',
+    // messagePresets: {
+    //   content: {
+    //     "liked": '컨텐츠를 좋아요 했습니다.',
+    //     "unliked": '컨텐츠 좋아요를 취소했습니다.',
+    //     'archived': '컨텐츠를 아카이빙했습니다.',
+    //     'unarchived': '컨텐츠 아카이빙을 취소했습니다.',
+    //   },
+    //   post: {
+    //     "liked": '게시글을 좋아요 했습니다.',
+    //     "unliked": '게시글 좋아요를 취소했습니다.',
+    //     'archived': '게시글에 댓글을 남겼습니다.',
+    //     'unarchived': '게시글 아카이빙을 취소했습니다.',
+    //     'wrote': '게시글을 작성했습니다.',
+    //     'deleted': '게시글을 삭제했습니다.',
+    //   },
+    //   comment: {
+    //     'wrote': '댓글을 작성했습니다.',
+    //     'deleted': '댓글을 삭제했습니다.',
+    //   },
+    //   reply: {
+    //     'wrote': '답글을 작성했습니다.',
+    //     'deleted': '답글을 삭제했습니다.',
+    //   }
+    // }
+  }, 
   curationFeed: {
 
     lastContentCode: 0,

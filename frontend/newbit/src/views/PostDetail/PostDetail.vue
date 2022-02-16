@@ -348,8 +348,8 @@ export default {
       if (this.user && 0 < this.commentText <= 100 ) {
         this.writeComment()
       } else {
-        this.snackbar.message = '댓글을 작성해주세요.'
-        this.snackbar.show = true
+        const snackbarText = '댓글을 작성해주세요.'
+        this.$store.dispatch('turnSnackBarOn', snackbarText)
       }
     },
     writeComment () {
@@ -376,8 +376,8 @@ export default {
       })
         .then(res => {
           this.commentText = ''
-          this.snackbar.message = '댓글을 달았습니다.'
-          this.snackbar.show = true
+          const snackbarText = '댓글을 작성했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           this.getComments()
 
           console.log(res)
@@ -391,8 +391,9 @@ export default {
     copyLink () {
       const link = this.$clientURL + this.$route.path
       this.$copyText(link)
-      this.snackbar.message = '게시물 주소를 클립보드에 복사했습니다.'
-      this.snackbar.show = true
+      const snackbarText = '게시물 주소를 클립보드에 복사했습니다.'
+      this.$store.dispatch('turnSnackBarOn', snackbarText)
+
     },
 
     editPost: function () {
