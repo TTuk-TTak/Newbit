@@ -433,10 +433,12 @@ export default {
           console.log(res, 'editSuccess')
           this.post.postText = this.postEditText
           this.toggleEdit()
-          this.snackbar.message = '게시글을 수정했습니다.'
-          this.snackbar.show = true
+          const snackbarText = '게시글을 수정했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
         })
         .catch((err) => {
+          const snackbarText = '일시적 오류로 게시글을 수정하지 못했습니다.\n 문제가 계속될 경우 관리자에게 문의하세요.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           console.log(err)
         })
     },

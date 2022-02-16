@@ -175,6 +175,8 @@ CommonMethodsPlugin.install = function (Vue) {
         }
       })
         .then((res) => {
+          const snackbarText = '님을 팔로우했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           console.log(res)
         })
     }
@@ -186,6 +188,8 @@ CommonMethodsPlugin.install = function (Vue) {
       method: 'delete',
     })
       .then((res) => {
+        const snackbarText = '팔로우 취소했습니다.'
+        this.$store.dispatch('turnSnackBarOn', snackbarText)
         console.log(res)
       })
   }

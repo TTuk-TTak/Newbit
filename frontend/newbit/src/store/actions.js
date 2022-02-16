@@ -32,6 +32,12 @@ export default {
     console.log(snackbarText, '스낵스낵')
     commit('TURN_SNACKBAR_ON', snackbarText)
   },
+  // 4) SearchModal
+  setSearchInput: function ({ commit }, searchInput) {
+    console.log(searchInput, '검색어 이동!')
+    commit('SET_SEARCH_INPUT', searchInput)
+  },
+
   // // 2. Feed조작
   // loadPosts: function ({ commit }) {
   //   const size = 8

@@ -75,34 +75,34 @@ export default {
     keywordString : null,
     recentResponse: null,
   }),
-  // created () {
-  //   this.getContentsHot()
-  // },
+
   computed: {
     ...mapState([
-      // 'curationFeed'
       'user',
     ])
   },
   methods: {
+    resetFeed () {
+      this.lastContentCode = 0
+      this.contents = []
+    },
     setHot () {
       this.sortingType = "hot"
-      this.lastContentCode= 0
       console.log(this.sortingType)
     },
     setNew () {
       this.sortingType = "new"
-      this.lastContentCode= 0
       console.log(this.sortingType)
+
     },
     changeType (queryString) {
       queryString ? this.keywordString = queryString : this.keywordString = null
       console.log("changeType")
       this.contents= [],
       this.lastContentCode= 0
-      this.infinityHandlerRendered = false
+      // this.infinityHandlerRendered = false
       this.infiniteHandler()
-      setTimeout(this.infinityHandlerRendered = true, 300)
+      // setTimeout(this.infinityHandlerRendered = true, 300)
     },
     infiniteHandler ($state) {
       const size = 8
@@ -116,10 +116,9 @@ export default {
           + `&keyword=${this.keywordString}`,
       })
       .then(res => {
-        if (res.data.length !== 0 && res.data !== this.recentResponse) {
+        if (res.data.length !== 0 &&(!this.recentResponse || res.data[0] !== this.recentResponse[0])) {
           this.lastContentCode = _.last(res.data).contentCode
           this.recentResponse = res.data
-          // console.log(this.lastContentCode)
           console.log('핸들러', res.data)
           for (let key in res.data) {
             this.contents.push(res.data[key])
@@ -150,4 +149,10 @@ export default {
     color : #0d0e23;
     font-weight: 700;
   }
+
+/* 폰트 안티앨리어싱 */
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
 </style>

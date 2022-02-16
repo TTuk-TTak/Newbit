@@ -48,4 +48,7 @@ export default {
   embeddedContent: {
     contentCode: 0
   },
+  searchModal: {
+    input: '',
+  }
 }

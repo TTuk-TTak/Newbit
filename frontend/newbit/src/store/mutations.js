@@ -67,6 +67,11 @@ export default {
     state.snackbar.text = snackbarText
     setTimeout(state.snackbar.isRendered = true, 100)
   },
+  SET_SEARCH_INPUT: function (state, searchInput) {
+    state.searchModal.input = searchInput
+    console.log('검색어 도착!', searchInput, state.searchModal.input)
+  },
+
 
   //4. 추천 피드
   // 1) 인기콘텐츠 로딩

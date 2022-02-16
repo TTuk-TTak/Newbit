@@ -18,7 +18,9 @@
       <!-- color="rgba(26, 26, 26, 0.2)">마지막으로 본 게시글 중 가장 낮은 번호 혹은 0,  -->
       <v-card>
         <v-card-text>
-          <search-modal></search-modal>
+          <search-modal
+            @close-search-modal="closeSearchModal"
+          ></search-modal>
         </v-card-text>
       </v-card>
 
@@ -106,8 +108,8 @@ export default {
     ])
   },
   methods: {
-    turnModalOff () {
-      
+    closeSearchModal () {
+      this.isSearchModalRendered = false
     }
   },
 }
