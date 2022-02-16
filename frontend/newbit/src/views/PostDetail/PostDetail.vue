@@ -52,30 +52,12 @@
               </v-list-item-content>
             </v-list-item>
             <!-- 2) 삭제 -->
-            <!-- <v-dialog
-              v-model="dialog"
-              width="500"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  color="red lighten-2"
-                  dark
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  Click Me
-                </v-btn> -->
-                <v-list-item @click="clickDelete()">
+                <v-list-item @click.stop="dialog=true">
                   <v-icon>mdi-delete</v-icon>
                   <v-list-item-content class="ml-2 mr-1">
                     <v-list-item-subtitle>게시글 삭제</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
-              <!-- </template>
-              
-              <delete-warning-modal></delete-warning-modal>
-
-              </v-dialog> -->
           </v-list>
         </v-menu>
       </v-col>
@@ -212,6 +194,7 @@
         v-for="(comment, index) in comments"
         :key="`comment` + index"
         :comment="comment"
+        @
       ></post-detail-comment>
     </div>
 
@@ -232,6 +215,46 @@
         </v-btn>
       </template>
     </v-snackbar>
+  <!-- 삭제 경고 모달 -->
+    <div class="text-center">
+      <v-dialog
+        v-model="dialog"
+        width="300"
+      >
+        <!-- 모달 카드 본문 -->
+        <v-card>
+          <v-card-title>
+          </v-card-title>
+          <v-card-text class="text-center pb-1">
+            <p>
+              게시글을 삭제하시면 복구할 수 없습니다.
+              <br>
+              삭제하시겠습니까?
+              
+            </p>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-btn
+              text
+              small
+              @click="dialog=false"
+            >
+              아니오
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              text
+              small
+              @click="clickDelete()"
+            >
+              네
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
   </v-card>
 </template>
 
@@ -428,6 +451,8 @@ export default {
         url: `${this.$serverURL}/post/${this.post.postCode}`,
       })
         .then((res) => {
+          const snackbarText = '게시글을 삭제했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           console.log(res, 'deleteSuccess')
           console.log(this.$goToSocialFeed())
         })

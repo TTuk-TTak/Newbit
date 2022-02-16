@@ -1,13 +1,15 @@
 <template>
   <v-card
     outlined
-    class="mx-auto mt-1 contentCard-Item"
+    class="mx-auto mt-1 contentCard-Item d-flex flex-column"
     style="position: relative; "
+    height="450"
   >
     <!-- 상단 이미지 -->
     <a href="#none">
       <v-img
         max-height="170"
+        class="contentcardImg"
         :src="`${content.contentImg}`"
         @click="selectContent()"
       ></v-img>
@@ -33,6 +35,7 @@
         </a>
       </div>
     </v-card-text>
+    <v-spacer></v-spacer>
     <!-- 키워드 -->
     <v-card-text
       class="pt-2 pl-3 pb-0"
@@ -60,14 +63,18 @@
     <v-card-actions
       class='pt-0 justify-space-between'
     >
-      <div class="pl-3 mt-0">
+      <div class="d-flex pl-3 mt-0">
         <v-avatar
           rounded
           size="20"
+          class=""
         >
           <v-img :src="content.techblogImg"></v-img>
         </v-avatar>
-        <span class="ml-2">{{ content.techblogName }}</span>
+        <span 
+          class="ml-2 d-inline-block text-bottom text-truncate"
+          style="max-width: 140px"
+          >{{ content.techblogName }}</span>
       </div>
 
       <div>
@@ -301,6 +308,14 @@ export default {
 /* a 태그 언더라인 제거 */
 .underlineOff {
   text-decoration: none;
+}
+
+.contentcardImg {
+  border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+.blogName {
+  text-align: center;
 }
 
 </style>

@@ -20,4 +20,6 @@ export const keywords = {
   'aiml': {category: '일반', shownName: 'AI/머신러닝', defaultImg: '',},
   'cloud': {category: '일반', shownName: '클라우드', defaultImg: '',},
   'blockchain': {category: '일반', shownName: '블록체인', defaultImg: '',},
+  'webdev': {category: '일반', shownName: '웹 개발', defaultImg: '',},
+  'generaldev': {category: '일반', shownName: '일반 개발', defaultImg: '',},
 }

@@ -11,7 +11,7 @@
         >
         <a href="#none">
           <v-img 
-            class="rounded-l mb-0"
+            class="embeddedContentCardImg rounded-l mb-0"
             height="100%"
             :src="content.contentImg ? content.contentImg : defaultImg"
           ></v-img>
@@ -354,6 +354,8 @@ export default {
   text-decoration: none;
 }
 
-
+.embeddedContentCardImg {
+  border-right: 1px solid rgb(221, 221, 221);
+}
 
 </style>

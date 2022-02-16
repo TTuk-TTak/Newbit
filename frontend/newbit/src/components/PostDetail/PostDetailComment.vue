@@ -192,17 +192,9 @@ export default {
         },
       })
         .then(res => {
-          this.replies.unshift({
-            'userCode': this.user.userCode,
-            'userNick': this.user.userNick, 
-            'postCode': 0,
-            'commentText': writtenComment,
-            'commentDepth': true,
-            'commentParent': this.comment.commentCode,
-            'commentDate': Date.now()
-          })
           const snackbarText = '답글을 작성했습니다.'
           this.$store.dispatch('turnSnackBarOn', snackbarText)
+          this.$emit('reply-added', this.comment.commentCode)
           this.replyText = ''
           this.showReplies = true
           console.log(res)
