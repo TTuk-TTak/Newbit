@@ -11,7 +11,7 @@
         <the-profile-bar></the-profile-bar>
       </v-col>
       <v-col cols="6">
-        <router-view></router-view>
+        <router-view :key="$route.fullPath"></router-view>
       </v-col>
       <v-col
         cols='2'

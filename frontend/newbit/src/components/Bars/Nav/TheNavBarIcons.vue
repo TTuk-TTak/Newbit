@@ -26,10 +26,11 @@
       <template v-slot:activator="{ on, attrs }">
         <v-badge
           color="grey"
-          content="2"
           offset-x="38"
-          offset-y="23"
+          offset-y="0"
         >
+          <span slot="badge"> {{ notiCenter.notifications.length }} </span>
+        </v-badge>
         <v-btn
           icon
           class="mr-4"
@@ -38,24 +39,26 @@
         >
           <v-icon>mdi-bell</v-icon>
         </v-btn>
-        </v-badge>
       </template>
-      <v-list min-width=300px>
+      <v-list min-width=380px>
         
-        <v-list-item 
+        <v-list-item
           v-if="!$store.state.user">
-          <v-list-item-title style="width:300px">알림이 존재하지 않습니다.</v-list-item-title>
+          <v-list-item-content style="width:380px; white-space:nowrap; overflow:visible">로그인 후 Newbit의 모든 기능을 이용해보세요!</v-list-item-content>
         </v-list-item>
         <v-list-item 
           v-else-if="notiCenter.notifications<1">
-          <v-list-item-title style="width:300px">알림이 존재하지 않습니다.</v-list-item-title>
+          <v-list-item-content style="width:380px; white-space:nowrap; overflow:visible">알림이 존재하지 않습니다.</v-list-item-content>
         </v-list-item>
 
         <v-list-item v-else
           v-for="(notification, index) in notiCenter.notifications"
           :key="index"
+          class ="itemhover ma-0 pa-0 pl-1"
         >
-          <v-list-item-content style="width:300px; white-space:nowrap; overflow:visible">{{ notification.userNick | follow }}</v-list-item-content>
+          <v-list-item-content class="my-1 ml-2 px-4" @click="goTo(notification.moving, notification.type)" style="width:380px; font-size:1.05em; white-space:nowrap; overflow:visible">'{{ notification.userNick}}'{{notification.type | doing}} · {{$createdAt(notification.date)}}
+          <div class="singleline-ellipsis" style="color : rgb(170 170 170); font-weight: 100;"> {{ notification.text}}</div>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -142,13 +145,26 @@ export default {
     ...mapState([
       'user', 'notiCenter'
     ]),
-    
+  },
+  methods: {
+    goTo(moving, type) {
+      if(type=="follow") this.$router.push({ name: 'ProfileDetail', params: { userCode: moving } })
+      else this.$router.replace({name: 'PostDetail', params: {id: moving}})
+    },
+    getNotification() {
+      this.$store.dispatch('getNotification')
+    }
   },
   filters: {
-    follow(nickName) {
-      return ("'"+nickName + "' 님이 팔로우 했습니다.")
+    doing(type) {
+      if (type == "follow") return "님이 나를 팔로우 했습니다."
+      else if (type == "comment") return "님이 내 글에 댓글을 남겼습니다."
+      else if (type == "like") return "님이 내 글에 좋아요 했습니다."
     },
-  }
+  },
+  mounted() {
+    setInterval(this.getNotification, 60000); //1분마다 실행
+  },
 }
 </script>
 
@@ -161,5 +177,16 @@ export default {
 .v-list-item {
   background-color: white;
   width: 200px;
+}
+
+.singleline-ellipsis {
+  white-space: nowrap;
+  width:320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemhover :hover{
+  background-color:#f3f3f3 !important;
 }
 </style>

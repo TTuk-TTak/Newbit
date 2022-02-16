@@ -7,20 +7,20 @@
 	<select id="getNoti" parameterType="int"
 		resultType="com.ssafy.newbit.model.NotiDto">
 		
-		select distinct '팔로우' `type`, u.user_code `userCode`, u.user_nick `userNick`, f.follow_date `date`, u.user_code `moving`, null `text`, f.is_read `isRead`
+		select distinct 'follow' `type`, u.user_code `userCode`, u.user_nick `userNick`, f.follow_date `date`, u.user_code `moving`, null `text`, f.is_read `isRead`
 				from user u join follow f using(user_code)
 				where f.following_code = #{userCode} and f.follow_date BETWEEN DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()
 		union all
-		select '댓글' `type`, c.user_code `userCode`, u.user_nick `userNick`, c.comment_date `date`, p.post_code `moving`, c.comment_text `text`, c.is_read `isRead`
+		select 'comment' `type`, c.user_code `userCode`, u.user_nick `userNick`, c.comment_date `date`, p.post_code `moving`, c.comment_text `text`, c.is_read `isRead`
 				from comment c join user u on c.user_code=u.user_code 
 		        join post p on c.post_code = p.post_code
 		where p.user_code = #{userCode} and c.comment_date BETWEEN DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()
 		union all
-		select '좋아요' `type`, u.user_code `userCode`, u.user_nick `userNick`, l.post_like_time `date`, p.post_code `moving`, p.post_text `text`, l.is_read `isRead`
+		select 'like' `type`, u.user_code `userCode`, u.user_nick `userNick`, l.post_like_time `date`, p.post_code `moving`, p.post_text `text`, l.is_read `isRead`
 				from postlike l join post p on l.post_code=p.post_code
 		        join user u on l.user_code = u.user_code
 		where p.user_code = #{userCode} and l.post_like_time BETWEEN DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()
-		order by date;
+		order by date desc;
 		
 	</select>
 	

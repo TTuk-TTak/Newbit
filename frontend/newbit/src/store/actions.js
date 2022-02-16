@@ -95,7 +95,7 @@ export default {
     const user_code = localStorage.getItem('user_code')
     axios({
       method: 'get',
-      url: `http://localhost:9999/follow/notification?`
+      url: `http://localhost:9999/noti?`
         + `uid=${user_code}`
         // + `uid=1`
     })
