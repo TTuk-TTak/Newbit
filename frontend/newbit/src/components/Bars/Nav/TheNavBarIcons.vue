@@ -26,21 +26,21 @@
       <template v-slot:activator="{ on, attrs }">
         <v-badge
           color="grey"
-          offset-x="38"
-          offset-y="0"
+          offset-x="51"
+          offset-y="-1"
         >
           <span slot="badge"> {{ notiCenter.notifications.length }} </span>
         </v-badge>
         <v-btn
           icon
-          class="mr-4"
+          class="mr-7"
           v-bind="attrs"
           v-on="on"
         >
           <v-icon>mdi-bell</v-icon>
         </v-btn>
       </template>
-      <v-list min-width=380px>
+      <v-list class="scrollbox" min-width=380px style="height: 600px;">
         
         <v-list-item
           v-if="!$store.state.user">
@@ -169,6 +169,10 @@ export default {
 </script>
 
 <style scoped>
+.v-menu__content--fixed::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera*/
+}
+
 #searchModal {
   position: absolute !important;
   top: 48px !important;
