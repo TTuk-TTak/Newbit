@@ -36,16 +36,19 @@
         </v-chip-bar>
       </v-col>
     </v-row>
+    <btn-dark></btn-dark>
   </v-container>
 </template>
 
 <script>
 import KeywordChip from '@/components/Keyword/KeywordChip.vue'
+import BtnDark from '@/components/Commons/BtnDark.vue'
 
 export default {
   name: 'SearchModal',
   components: {
     KeywordChip,
+    BtnDark,
   },
   data: () => {
     return {
@@ -58,7 +61,8 @@ export default {
     }
   },
   methods:{
-    searchbtn() {
+    searchbtn() { 
+      this.$emit('close-search-modal')
       this.$goToSearchFeed(this.search)
     }
   } 

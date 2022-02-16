@@ -11,7 +11,7 @@
         >
         <a href="#none">
           <v-img 
-            class="rounded-l mb-0"
+            class="embeddedContentCardImg rounded-l mb-0"
             height="100%"
             :src="content.contentImg ? content.contentImg : defaultImg"
           ></v-img>
@@ -224,6 +224,8 @@ export default {
         console.log('archived', res)
         if (res.data === 'success') {
           this.content.scrapped = true
+          const snackbarText = '컨텐츠를 아카이빙했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
         }
       })
       .catch((err) => {
@@ -242,6 +244,8 @@ export default {
         console.log('unarchived', res)
         if (res.data === 'success') {
           this.content.scrapped = false
+          const snackbarText = '컨텐츠 아카이빙을 취소했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
         }
       })
       .catch((err) => {
@@ -261,6 +265,8 @@ export default {
       .then((res) => {
         console.log('likedContent', res)
         if (res.data === 'success') {
+          const snackbarText = '컨텐츠를 좋아요 했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           this.content.liked = true
           this.content.contentLike ++
         }
@@ -269,7 +275,7 @@ export default {
         console.log(err)
       })  
     },
-    // 컨텐츠 아카이브 취소 요청
+    // 컨텐츠 좋아요 취소 요청
     unlikeContent() {
       axios({
         method: 'DELETE',
@@ -280,6 +286,8 @@ export default {
       .then((res) => {
         console.log('unliked', res)
         if (res.data === 'success') {
+          const snackbarText = '컨텐츠 좋아요를 취소했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           this.content.liked = false
           this.content.contentLike --
         }
@@ -288,9 +296,6 @@ export default {
         console.log(err)
       })
     },
-
-
-
 
 
     makeKeywordChip: function () {
@@ -349,6 +354,8 @@ export default {
   text-decoration: none;
 }
 
-
+.embeddedContentCardImg {
+  border-right: 1px solid rgb(221, 221, 221);
+}
 
 </style>

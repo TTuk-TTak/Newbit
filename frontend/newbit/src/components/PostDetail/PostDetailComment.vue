@@ -136,24 +136,6 @@
       </v-btn>
     </v-row>
     <v-divider class="mt-2"></v-divider>
-
-    <!-- 작성 완료 팝업 -->
-    <v-snackbar
-      v-model="snackbar.show"
-      :timeout="snackbar.timeout"
-    >
-      {{ snackbar.message }}
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="blue"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
   </v-container>
 </template>
 
@@ -180,11 +162,6 @@ export default {
       // 답글창 토글 여부
       isReplying: false,
       replyText: '',
-      snackbar: {
-        show: false,
-        message: '',
-        timeout: '1000'
-      },
       dialog: false,
       isDeleted: false
     }
@@ -215,18 +192,10 @@ export default {
         },
       })
         .then(res => {
-          this.replies.unshift({
-            'userCode': this.user.userCode,
-            'userNick': this.user.userNick, 
-            'postCode': 0,
-            'commentText': writtenComment,
-            'commentDepth': true,
-            'commentParent': this.comment.commentCode,
-            'commentDate': Date.now()
-          })
-            this.replyText = ''
-          this.snackbar.message = '답글을 달았습니다.'
-          this.snackbar.show = true
+          const snackbarText = '답글을 작성했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
+          this.$emit('reply-added', this.comment.commentCode)
+          this.replyText = ''
           this.showReplies = true
           console.log(res)
         })
@@ -247,8 +216,8 @@ export default {
         url: `${this.$serverURL}/comment/${this.comment.commentCode}`,
       })
         .then(res => {
-          this.snackbar.message = '댓글을 삭제했습니다.'
-          this.snackbar.show = true
+          const snackbarText = '댓글을 삭제했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           console.log(res)
           this.comment = null
         })

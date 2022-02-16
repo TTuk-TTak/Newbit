@@ -72,7 +72,8 @@ export default {
     lastContentCode: 0,
     sortingType : "hot",
     infinityHandlerRendered: true,
-    keywordString : null
+    keywordString : null,
+    recentResponse: null,
   }),
   // created () {
   //   this.getContentsHot()
@@ -84,17 +85,14 @@ export default {
     ])
   },
   methods: {
-    // getContentsHot () {
-    //   if (!this.curationFeed.isAtLast)
-    //   this.$store.dispatch('getContentsHot')
-    //   console.log("뇸",this.curationFeed.contents);
-    // },
     setHot () {
       this.sortingType = "hot"
+      this.lastContentCode= 0
       console.log(this.sortingType)
     },
     setNew () {
       this.sortingType = "new"
+      this.lastContentCode= 0
       console.log(this.sortingType)
     },
     changeType (queryString) {
@@ -107,7 +105,7 @@ export default {
       setTimeout(this.infinityHandlerRendered = true, 300)
     },
     infiniteHandler ($state) {
-      const size = 10
+      const size = 8
       axios({
         method: 'get',
         url: `${this.$serverURL}/content/list?`
@@ -118,13 +116,14 @@ export default {
           + `&keyword=${this.keywordString}`,
       })
       .then(res => {
-        if (res.data.length !== 0) {
+        if (res.data.length !== 0 && res.data !== this.recentResponse) {
           this.lastContentCode = _.last(res.data).contentCode
-          console.log(res.data)
+          this.recentResponse = res.data
+          // console.log(this.lastContentCode)
+          console.log('핸들러', res.data)
           for (let key in res.data) {
             this.contents.push(res.data[key])
           }
-          
           $state.loaded();
         } else {
           $state.complete();
