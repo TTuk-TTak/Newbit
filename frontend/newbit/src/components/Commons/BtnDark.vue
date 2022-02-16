@@ -3,7 +3,7 @@
     color='btnDarkBackground'
     class='btnDarkText--text'
   > 
-    {{ message }}
+    {{ message }} 
   </v-btn>
 </template>
 

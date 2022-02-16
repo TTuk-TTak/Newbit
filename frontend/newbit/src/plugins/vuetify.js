@@ -21,11 +21,11 @@ export default new Vuetify({
         info: '#2196F3',
         success: '#4CAF50',
         warning: '#FFC107',
-        // 임시.. 
+        // 임의대로 바꾸지 마세요..부탁드립니다..... 
         btnLiteBackground: '#C4C4C4',
         btnLiteText: '#0D0E23',
-        btnDarkBackground: '#C4C4C4',
-        btnDarkText: '#0D0E23',
+        btnDarkBackground: '#0D0E23',
+        btnDarkText: '#FFFFFF',
         keywordChipBackground: '#E0E0E0',
         keywordChipText: '#0d0e23',
       },

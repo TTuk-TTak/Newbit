@@ -3,14 +3,45 @@
     class="pa-2"
     color="feedBackground"
   >
-      <!-- 탭전환 -->
-      <v-tabs
-        slider-color='#C4C4C4'
+    <!-- 검색창  -->
+    <v-card
+      outlined
+      class="pa-5 my-2 mx-2"
+    >
+      <v-row
+        align='center'
       >
-        <v-tab>소셜피드</v-tab>
-        <v-tab>큐레이션</v-tab>
-        <v-tab>아카이빙</v-tab>
+        <v-col
+          cols=auto
+        >
+          <v-icon
+            class="align-self-center"
+            large
+            @click="searchbtn()"   
+          >mdi-magnify</v-icon>
+        </v-col>
+        <v-col>
+          <v-text-field
+            class="mb-2 mx-2"
+            hide-details
+            type="String"
+            v-model="search"      
+          ></v-text-field>  
+        </v-col>
+      </v-row>
+    </v-card>
+    <!-- 탭전환 -->
+    <div class="mx-2" style="border-bottom:1px solid lightgray">
+      <v-tabs
+        class="ml-1 mr-3"
+        slider-color='#0d0e23'
+      >
+        <v-tab class="contentTab" @click="[setHot(), changeType()]">게시글</v-tab>
+        <v-tab class="contentTab" @click="[setNew(), changeType()]">컨텐츠</v-tab>
+        <v-tab class="contentTab" @click="[setNew(), changeType()]">사용자</v-tab>
+        <hr>
       </v-tabs>
+    </div>
 
   <!-- 소셜피드-->
   <v-row
@@ -44,23 +75,44 @@
         <content-card></content-card>
       </v-col>
   </!--v-row-->
-
-
+  <!-- 무한 스크롤 -->
+  <v-row
+    class="mt-5 pt-5 justify-self-center align-self-end"
+  >
+    <v-spacer></v-spacer>
+    <infinite-loading
+      v-if='user && infinityHandlerRendered'
+      class="mt-5 pt-5 justify-self-center align-self-center"
+      @infinite="infiniteHandler" 
+      >
+      <template slot="no-more">
+        2022 - Newbit
+      </template>
+      </infinite-loading>
+      <v-spacer></v-spacer>
+  </v-row>
 </v-card>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import PostCard from '@/components/Cards/PostCard.vue'
-///import ContentCard from '@/components/Cards/ContentCard.vue'
+// 3rd party
+// import _ from 'lodash'
 import axios from 'axios'
-//import _ from 'lodash'
+import InfiniteLoading from 'vue-infinite-loading'
+
+// Vue
+import { mapState } from 'vuex'
+
+// Local
+import PostCard from '@/components/Cards/PostCard.vue'
+// import ContentCard from '@/components/Cards/ContentCard.vue'
 
 export default {
   name: 'Search',       
   components: {
-    PostCard,     // post 카드를 표출함 
+    PostCard,
     //ContentCard,
+    InfiniteLoading,
   },
   data: function() {
       return{
@@ -78,7 +130,6 @@ export default {
     
     getAllSearched() {
       //const postId = _.split(this.$route.path, '/')[2]
-      // 일단 처음 띄우기로 한 검색 페이지를 띄움 
       axios.get(`${this.$serverURL}/post/search`, {params:this.params})   //`http://localhost:9999/post/search`
       .then((response) => {
         console.log("도달~")

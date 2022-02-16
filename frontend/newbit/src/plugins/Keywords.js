@@ -14,10 +14,14 @@ export const keywords = {
   'node' : {category: 'Back-end', shownName: 'Node.js', defaultImg: '',},
   'php' : {category: 'Back-end', shownName: 'PHP', defaultImg: '',}, 
   'database' : {category: 'Back-end', shownName: 'Database', defaultImg: '',},
+  'springboot' : {category: 'Back-end', shownName: 'SpringBoot', defaultImg: '',},
   // 일반
   'git': {category: '일반', shownName: 'Git', defaultImg: '',},
   'testing': {category: '일반', shownName: '테스팅', defaultImg: '',},
   'aiml': {category: '일반', shownName: 'AI/머신러닝', defaultImg: '',},
+  'infrastructure': {category: '일반', shownName: 'Infra structure', defaultImg: '',},
   'cloud': {category: '일반', shownName: '클라우드', defaultImg: '',},
   'blockchain': {category: '일반', shownName: '블록체인', defaultImg: '',},
+  'webdev': {category: '일반', shownName: '웹 개발', defaultImg: '',},
+  'generaldev': {category: '일반', shownName: '일반 개발', defaultImg: '',},
 }

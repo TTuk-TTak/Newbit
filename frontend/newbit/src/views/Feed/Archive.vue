@@ -21,7 +21,7 @@
           justify='end'
         >
           <v-switch
-            v-model="showUnreadContentsOnly"
+            v-model="unreadOnly"
             label="읽지 않은 글만 보기"
           ></v-switch>
         </v-row>
@@ -42,7 +42,7 @@
         cols=6
       >
         <content-card
-          v-if="!showUnreadContentsOnly || content.read === false"
+          v-if="!unreadOnly || content.read === false"
           :content='content'
         ></content-card>
       </v-col>
@@ -91,7 +91,7 @@ export default {
       contents: [],
       lastContentCode: 0,
       lastPostCode: 0,
-      showUnreadContentsOnly: false,
+      unreadOnly: false,
       infinityHandlerRendered: true,
       keywordString: null
     }
@@ -114,7 +114,8 @@ export default {
       const size = 8
       axios({
         method: 'get',
-        url: `${this.$serverURL}/scrap/content?`
+        url: `${this.$serverURL}/scrap/content`
+          + (this.unreadOnly ? `/unread?` : `?`)
           + `uid=${this.user.userCode}`
           + `&lastcontentcode=${this.lastContentCode}`
           + `&size=${size}`
@@ -164,7 +165,18 @@ export default {
     //   })  
     // },
 
-  }
+  },
+  watch: {
+    unreadOnly: {
+      handler() {
+        this.lastContentCode = 0
+        this.lastPostCode = 0
+        this.posts = []
+        this.contents = []
+        this.infiniteHandler()
+      }
+    }
+  },
 }
 </script>
 
