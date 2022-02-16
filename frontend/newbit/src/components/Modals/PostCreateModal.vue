@@ -158,8 +158,8 @@ export default {
         },
       })
         .then((res) => {
-          this.snackbar.message = '게시물을 작성했습니다.'
-          this.snackbar.show = true
+          const snackbarText = '게시물을 작성했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           console.log(res, '게시물 등록 완료')
           this.resetModal()
           this.$store.dispatch('turnPostCreateModalOFF')

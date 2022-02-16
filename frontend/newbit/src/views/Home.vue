@@ -20,12 +20,14 @@
         <the-keyword-bar></the-keyword-bar>
       </v-col>
     </v-row>
+    <the-snackbar></the-snackbar>
   </v-container>
 </template>
 
 <script>
 import TheProfileBar from '@/views/Bars/TheProfileBar.vue'
 import TheKeywordBar from '@/views/Bars/TheKeywordBar.vue'
+import TheSnackbar from '@/components/Modals/TheSnackbar.vue'
 
 import PostCreateModal from '@/components/Modals/PostCreateModal.vue'
 import LoginModal from '@/components/Modals/LoginModal/LoginModal.vue'
@@ -37,6 +39,7 @@ export default {
   components: {
     TheProfileBar,
     TheKeywordBar,
+    TheSnackbar,
 
     LoginModal,
     FirstLoginModal,

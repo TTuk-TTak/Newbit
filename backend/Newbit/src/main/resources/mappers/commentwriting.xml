@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.newbit.model.mapper.CommentWriteMapper">
+
+
+	<insert id="writeComment2"
+		parameterType="com.ssafy.newbit.model.CommentDto">
+		insert into comment (user_code, post_code, comment_date,
+		comment_text, comment_depth, comment_parent)
+		values (#{userCode},
+		#{postCode}, now(), #{commentText}, #{commentDepth},
+		#{commentParent})
+	</insert>
+
+
+</mapper>
