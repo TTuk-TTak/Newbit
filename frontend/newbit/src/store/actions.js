@@ -32,6 +32,12 @@ export default {
     console.log(snackbarText, '스낵스낵')
     commit('TURN_SNACKBAR_ON', snackbarText)
   },
+  // 4) SearchModal
+  setSearchInput: function ({ commit }, searchInput) {
+    console.log(searchInput, '검색어 이동!')
+    commit('SET_SEARCH_INPUT', searchInput)
+  },
+
   // // 2. Feed조작
   // loadPosts: function ({ commit }) {
   //   const size = 8
@@ -76,8 +82,6 @@ export default {
   saveRecommendedPeople: function ({ commit }, recommended) {
     commit('SAVE_RECOMMENDED_PEOPLE', recommended)
   },
-
-
   // 4. 추천피드 조작
   getContentsHot: ({ commit }) => {
     const size = 10
@@ -106,4 +110,9 @@ export default {
         console.log(err)
       })
   },
+  // 5. 추천 피드 - 키워드 미리 선택
+  presetCurationKeyword: ({ commit }, keyword) => {
+    commit('PRESET_CURATION_KEYWORD', keyword)
+  }
+
 }

@@ -76,6 +76,11 @@ export default {
     state.snackbar.text = snackbarText
     setTimeout(state.snackbar.isRendered = true, 100)
   },
+  SET_SEARCH_INPUT: function (state, searchInput) {
+    state.searchModal.input = searchInput
+    console.log('검색어 도착!', searchInput, state.searchModal.input)
+  },
+
 
   //4. 추천 피드
   // 1) 인기콘텐츠 로딩
@@ -91,9 +96,10 @@ export default {
     state.curationFeed.contents = data
     // state.curationFeed.lastPostCode = lastPostCode
   },
-  /*
-  TURN_SEARCH_MODAL_OFF: function () {       // 윤수가 추가
-    state.modals.searchModal = false
-  },*/
+  PRESET_CURATION_KEYWORD: function (state, keyword) {
+    console.log(state.curationFeed.preSelectedKeyword, '선택된 키워드')
+    state.curationFeed.preSelectedKeyword = keyword
+  }
+
 
 }
