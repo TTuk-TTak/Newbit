@@ -27,7 +27,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@CrossOrigin(origins = { "http://localhost:8080"})
+@CrossOrigin(origins = { "http://localhost:8080" })
 @RestController
 @RequestMapping("/scrap")
 @Api("아카이브 컨트롤러  API")
@@ -50,8 +50,8 @@ public class ArchiveCotroller {
 	@ApiOperation(value = "아카이빙 - 스크랩한 콘텐츠 목록 조회", notes = "유저가 스크랩한 콘텐츠 목록을 반환", response = List.class)
 	@GetMapping("/content")
 	public ResponseEntity<List<ContentDto>> contentScrapList(
-			@RequestParam @ApiParam(value = "최신 게시글 목록을 가져오기 위해 필요한 정보", required = true) int uid, int lastcontentcode,
-			int size, String keyword) throws Exception {
+			@RequestParam @ApiParam(value = "스크랩한 콘텐츠 목록을 가져오기 위해 필요한 정보", required = true) int uid,
+			int lastcontentcode, int size, String keyword) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		logger.info("contentScrapList 호출 : " + keyword);
@@ -96,7 +96,72 @@ public class ArchiveCotroller {
 				c.setLiked(contentService.userLikeContent(hm));
 				c.setRead(contentService.userReadContent(hm));
 				c.setScrapped(true);
-				//테크블로그 정보 포함시키기
+				// 테크블로그 정보 포함시키기
+				TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
+				c.setTechblogImg(t.getTechblogImg());
+				c.setTechblogName(t.getTechblogName());
+			}
+		}
+
+		return new ResponseEntity<List<ContentDto>>(list, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "아카이빙 - 스크랩한 콘텐츠 목록 조회", notes = "유저가 스크랩한 콘텐츠 목록을 반환", response = List.class)
+	@GetMapping("/content/unread")
+	public ResponseEntity<List<ContentDto>> unreadContentScrapList(
+			@RequestParam @ApiParam(value = "스크랩한 콘텐츠 중 읽지 않은 목록을 가져오기 위해 필요한 정보", required = true) int uid,
+			int lastcontentcode, int size, String keyword) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+
+		logger.info("contentScrapList 호출 : " + keyword);
+
+		// 키워드 처리하는 부분
+		List<String> keywordList = new ArrayList<>();
+
+		StringTokenizer st = new StringTokenizer(keyword, "_");
+		while (st.hasMoreTokens()) {
+			String str = st.nextToken();
+			if (!str.equals("null"))
+				keywordList.add(str);
+		}
+		map.put("keywordList", keywordList);
+
+		// 스크랩한 목록 받아오는 부분
+		List<Integer> contentScrapList = archiveService.getContentScrapList(uid);
+		map.put("contentScrapList", contentScrapList);
+
+		map.put("userCode", uid);
+		map.put("lastContentCode", lastcontentcode);
+		map.put("size", size);
+
+		// 커서 기반 페이지네이션을 위한 커서 생성, listContent()호출할 때 커서로 넣어줌
+		if (lastcontentcode != 0) {
+			HashMap<String, Object> cursormap = new HashMap<String, Object>();
+			cursormap.put("contentCode", lastcontentcode);
+			cursormap.put("type", "new");
+			long cursor = contentService.getCursor(cursormap);
+			map.put("cursor", cursor);
+			// System.out.println(cursor);
+		}
+		List<ContentDto> list = new ArrayList<>();
+
+		if (contentScrapList.size() > 0) {
+			list = archiveService.listContent(map);
+			int length = list.size();
+			for (int i = 0; i < length; i++) {
+				ContentDto c = list.get(i);
+				// 현재 로그인한 유저가 콘텐츠에 대해 좋아요와 스크랩 했는지 체크
+				HashMap<String, Object> hm = new HashMap<String, Object>();
+				hm.put("userCode", uid);
+				hm.put("contentCode", c.getContentCode());
+				c.setLiked(contentService.userLikeContent(hm));
+
+				if (contentService.userReadContent(hm)) {
+					list.remove(i);
+					length--;
+				}
+				c.setScrapped(true);
+				// 테크블로그 정보 포함시키기
 				TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());
 				c.setTechblogImg(t.getTechblogImg());
 				c.setTechblogName(t.getTechblogName());
