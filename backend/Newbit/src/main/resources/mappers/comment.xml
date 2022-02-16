@@ -6,7 +6,7 @@
 
 	<insert id="writeComment"
 		parameterType="com.ssafy.newbit.model.CommentDto">
-		insert into comment (user_code, post_code, comment_time,
+		insert into comment (user_code, post_code, comment_date	,
 		comment_text, comment_depth, comment_parent)
 		values (#{userCode},
 		#{postCode}, now(), #{commentText}, #{commentDepth},
