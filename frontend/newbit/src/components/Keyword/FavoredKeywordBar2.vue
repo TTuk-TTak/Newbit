@@ -19,13 +19,18 @@ export default {
 
   }),
   methods: {
-    matchName (favoredKeyword) {
+    matchName (string) {
+      let found = false
       for (let keyword in this.keywordDict) {
-        if (favoredKeyword === keyword) {
+        if (string === keyword) {
+          found = true
           return this.keywordDict[keyword]
         }
       }
-    }
+      if (!found) {
+        return string
+      }
+    },
   },
   props: {
     parsed: Array

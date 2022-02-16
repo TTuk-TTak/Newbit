@@ -27,22 +27,18 @@ export default {
       chartOptions: {
         chart: {
           type: 'radar',
-          // height: 350,
           toolbar: {
             show: false
           },
         },
-        // title: {
-        //   text: 'Basic Radar Chart'
-        // },
         yaxis: {
-          tickAmount: 5,
-          max: 5,
-          min: 0,
+          // 최대, 최소 및 간격 개수
+          // tickAmount: 5,
+          // max: 5,
+          // min: 0,
         },
         xaxis: {
           categories: this.category
-          // categories: ['FrontEnd', 'BackEnd', 'Data', 'AI', 'Algorithm', 'Mobile']
         }
       },
     }

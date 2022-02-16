@@ -174,14 +174,14 @@
         </v-row>
       </div>
       <div v-else-if="toggle ==='activity'">
-        <profile-detail-daily-graph></profile-detail-daily-graph>
+        <profile-detail-daily-graph :week="week"></profile-detail-daily-graph>
         <v-row
           align="center"
           justify="space-around"
         >
           <v-col cols="5">
             <profile-detail-radar-graph
-              :category="radarGraphData.category"
+              :category="matchArray(radarGraphData.category)"
               :preference="radarGraphData.preference"
             ></profile-detail-radar-graph>
           </v-col>
@@ -265,7 +265,17 @@ export default {
       category: [],
       preference: [],
     },
+    daily_data: {},
     changedRadarGraphData: [],
+    week: {
+      mon: '',
+      tue: '',
+      wed: '',
+      thu: '',
+      fri: '',
+      sat: '',
+      sun: ''
+    }
   }),
   methods: {
     changeToArticle () {
@@ -366,15 +376,25 @@ export default {
         })
     },
     matchName (string) {
+      let found = false
       for (let keyword in this.keywordDict) {
         if (string === keyword) {
+          found = true
           return this.keywordDict[keyword]
         }
+      }
+      if (!found) {
+        return string
       }
     },
     matchArray (keywords) {
       return keywords.map((keyword) => {
-        return this.matchName(keyword)
+        if (this.matchName(keyword)) {
+          return this.matchName(keyword)
+        }
+        else {
+          return keyword
+        }
       })
     },
     fetchRadarGraphData (user_code) {
@@ -388,10 +408,78 @@ export default {
           this.changedRadarGraphData = this.radardataChange(this.radarGraphData)
         })
     },
+    fetchDailyGraphData (user_code) {
+      axios({
+        url: `${this.$serverURL}/graph/daily?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.daily_data = res.data
+          const maxLength = this.dailydataLength(this.daily_data)
+          for (let day in this.daily_data) {
+            if (day === "mon") {
+              this.week.mon = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.mon.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+            else if (day === "tue") {
+              this.week.tue = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.tue.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+            else if (day === "wed") {
+              this.week.wed = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.wed.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+            else if (day === "thu") {
+              this.week.thu = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.thu.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+            else if (day === "fri") {
+              this.week.fri = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.fri.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+            else if (day === "sat") {
+              this.week.sat = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.sat.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+            else if (day === "sun") {
+              this.week.sun = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.sun.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+          }
+        })
+    },
     radardataChange (object) {
       return object['category'].map((e, idx) => {
         return { 'category': e, 'preference': object['preference'][idx] }
       })
+    },
+    dailydataChange (array) {
+      return array.map((value, idx) => {
+        return { 'x': idx + 1, 'y': value }
+      })
+    },
+    dailydataLength (object) {
+      let long = 0
+      for (let key in object) {
+        if (object[key].length > long) {
+          long = object[key].length
+        }
+      }
+      return long
     }
   },
   computed: {
@@ -403,6 +491,7 @@ export default {
     this.fetchUserInformation(this.$route.params.userCode)
     this.fetchUserFollowingList(myUserCode)
     this.fetchRadarGraphData(this.$route.params.userCode)
+    this.fetchDailyGraphData(this.$route.params.userCode)
   }
 }
 
