@@ -2,6 +2,7 @@
     <v-list
       class="pa-0"
     >
+
       <v-list-group
         class="keywordBar ml-0"
         active-class='feedBackground rounded-lg'
@@ -18,12 +19,14 @@
           </v-list-item-content>
         </template>
         <v-list-item
-          v-for="keyword in category.data"
+          v-for="(keyword, variableName) in category.data"
           :key="`keywordBar` + keyword.shownName"
         >
           <v-list-item-content>
             <a href="#none" class="keywordBarBtn">
-              <v-list-item-title v-text="keyword.shownName"></v-list-item-title>
+              <v-list-item-title 
+                @click="clickKeyword(variableName)"
+                v-text="keyword.shownName"></v-list-item-title>
             </a>
           </v-list-item-content>
         </v-list-item>
@@ -33,6 +36,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 import { mapGetters } from 'vuex'
 
 export default {
@@ -49,6 +54,14 @@ export default {
     ...mapGetters([
       'categorizedKeywords',
     ])
+  },
+  methods: {
+    clickKeyword (keyword) {
+      this.$store.dispatch('presetCurationKeyword', keyword)
+      if (!_.startsWith('/content',this.$route.path, 0)) {
+        this.$goToCurationFeed()
+      }
+    }
   },
 }
 </script>

@@ -51,10 +51,10 @@ export default {
     clickFollowBtn () {
       if (this.userInfo.isFollow) {
         this.userInfo.isFollow = false
-        this.$unFollow(this.userInfo.userCode)
+        this.$unFollow(this.userInfo.userCode, this.userInfo.userNick)
       } else {
         this.userInfo.isFollow = true
-        this.$follow(this.userInfo.userCode)
+        this.$follow(this.userInfo.userCode, this.userInfo.userNick)
       }
     }
   },

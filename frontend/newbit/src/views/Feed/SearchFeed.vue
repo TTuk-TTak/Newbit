@@ -22,6 +22,7 @@
         </v-col>
         <v-col>
           <v-text-field
+            :autofocus="true"
             placeholder="게시글, 컨텐츠, 사용자 검색이 가능합니다."
             v-model="searchString"      
             class="mb-2 mx-2"
@@ -32,7 +33,7 @@
       </v-row>
     </v-card>
     <!-- 탭전환 -->
-    <div class="mx-2" style="border-bottom:1px solid lightgray">
+    <div class="mx-2 mb-3" style="border-bottom:1px solid lightgray">
       <v-tabs
         class="ml-1 mr-3"
         slider-color='#0d0e23'
@@ -224,8 +225,8 @@ export default {
             }
           } else if (this.searchType === 'user') {
             // 오타같지만 오타 아닙니다..
-            console.log(_.last(res.data).userCode)
-            this.lastPostCode = _.last(res.data).userCode
+            console.log(_.head(res.data).userCode)
+            this.lastPostCode = _.head(res.data).userCode
             for (let key in res.data) {
               this.users.push(res.data[key])
             }
@@ -237,6 +238,7 @@ export default {
       })
       .catch((err) => {
         console.log(err)
+        $state.complete();
       })
     },
 

@@ -79,6 +79,7 @@ export default {
   computed: {
     ...mapState([
       'user',
+      'curationFeed',
     ])
   },
   methods: {
@@ -93,7 +94,6 @@ export default {
     setNew () {
       this.sortingType = "new"
       console.log(this.sortingType)
-
     },
     changeType (queryString) {
       queryString ? this.keywordString = queryString : this.keywordString = null
@@ -133,6 +133,12 @@ export default {
       })
     }
   },
+  mounted () {
+    if (this.curationFeed.preSelectedKeyword) {
+      this.keywordString = this.curationFeed.preSelectedKeyword
+      this.$store.dispatch('presetCurationKeyword', null)
+    }
+  },
 }
 </script>
 <style scope>
@@ -149,10 +155,5 @@ export default {
     color : #0d0e23;
     font-weight: 700;
   }
-
-/* 폰트 안티앨리어싱 */
-* {
-  -webkit-font-smoothing: antialiased;
-}
 
 </style>

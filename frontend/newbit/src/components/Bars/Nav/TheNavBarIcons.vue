@@ -1,21 +1,22 @@
 <template>
   <div>
     <!-- 1. 검색 아이콘 및 다이얼로그 -->
-    <v-dialog 
+    <!-- <v-dialog 
       v-model="isSearchModalRendered"
       overlay-opacity=0.2>
-      <template v-slot:activator="{ on, attrs }">
+      <template v-slot:activator="{ on, attrs }"> -->
         <v-btn
           class="mr-3"
           elevation="0"
           v-bind="attrs"
           v-on="on"
           icon
+          @click="$goToSearchFeed()"
         >
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
-      </template>
-      <!-- color="rgba(26, 26, 26, 0.2)">마지막으로 본 게시글 중 가장 낮은 번호 혹은 0,  -->
+      <!-- </template>
+      color="rgba(26, 26, 26, 0.2)">마지막으로 본 게시글 중 가장 낮은 번호 혹은 0,  
       <v-card>
         <v-card-text>
           <search-modal
@@ -24,7 +25,7 @@
         </v-card-text>
       </v-card>
 
-    </v-dialog>
+    </v-dialog> -->
     <!-- 2. 알람 아이콘 -->
     <v-btn
       icon
@@ -89,13 +90,13 @@
 
 <script>
 
-import SearchModal from '@/components/Modals/SearchModal.vue'
+// import SearchModal from '@/components/Modals/SearchModal.vue'
 import { mapState } from 'vuex'
 
 export default {
   name: 'TheNavBarIcons',
   components: {
-    SearchModal,
+    // SearchModal,
   },
   data: () => {
     return {

@@ -31,7 +31,12 @@ export default {
   },
   methods: {
     setActivity: function () {
-      const userKeywordString = this.user.userKeyword
+      let userKeywordString = ''
+      if (this.curationFeed.preSelectedKeyword) {
+        userKeywordString = this.curationFeed.preSelectedKeyword
+      } else {
+        userKeywordString = this.user.userKeyword
+      }
       const userFavoriteKeyword = this.$parseKeyword(userKeywordString)
 
       for (let keyword in this.keywordDict) {
@@ -61,6 +66,7 @@ export default {
   computed: {
     ...mapState([
       'user',
+      'curationFeed',
     ]),
     ...mapGetters([
         'keywordDict',
@@ -70,6 +76,13 @@ export default {
   created () {
     this.setActivity()
   },
+  watch: {
+    deep: true,
+    handler () {
+      if (this.curationFeed.preSelectedKeyword)
+      this.setActivity()
+    }
+  }
 }
 </script>
 

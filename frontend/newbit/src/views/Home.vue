@@ -78,4 +78,10 @@ export default {
   font-weight: 400;
   color : #272727;
 }
+
+/* 폰트 안티앨리어싱 */
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
 </style>
