@@ -26,6 +26,7 @@
 
       <v-list-item-action>
         <follow-btn
+          :userNick="recommendedPerson.userNick"
           :isFollowed="isFollowed"
           :userCode="recommendedPerson.userCode"
         ></follow-btn>
