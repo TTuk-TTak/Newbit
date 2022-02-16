@@ -39,7 +39,10 @@
           </v-list-item-content>
 
           <v-list-item-action>
-            <follow-btn></follow-btn>
+            <follow-btn
+              :isFollowwed="isFollowed"
+              :userCode="person.userCode"
+            ></follow-btn>
           </v-list-item-action>
         </v-list-item>
       </v-list>
@@ -61,7 +64,10 @@
           </v-list-item-content>
 
           <v-list-item-action>
-            <follow-btn></follow-btn>
+            <follow-btn
+              :isFollowed="following_list.includes(person.userCode)"
+              :userCode="person.userCode"
+            ></follow-btn>
           </v-list-item-action>
         </v-list-item>
       </v-list>
@@ -79,6 +85,7 @@ export default {
     dialog1: Boolean,
     dialog2: Boolean,
     category: String,
+    following_list: Array,
     follower_list_origin: Array,
     following_list_origin: Array
   },
@@ -100,7 +107,7 @@ export default {
         this.$emit('props-status-change', this.dialog2, this.category)
       }
     }
-  }
+  },
 }
 </script>
 

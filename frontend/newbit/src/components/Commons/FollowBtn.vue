@@ -40,10 +40,10 @@ export default {
       return this.followStatus ? '언팔로우' : '팔로우'
     },
     color: function () {
-      return this.followStatus ? 'btnDarkBackground' : 'btnLiteBackground'
+      return this.followStatus ? '"#C4C4C4"' : 'btnLiteBackground'
     },
     fontcolor: function () {
-      return this.followStatus ? 'btnDarkText--text' : 'btnLiteText--text'
+      return this.followStatus ? '"#0D0E23"--text' : 'btnLiteText--text'
     }
   }
 }

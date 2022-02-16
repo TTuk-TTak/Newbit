@@ -6,7 +6,7 @@ const serverURL = process.env.VUE_APP_SERVER_URL
 export default {
   // 1. 모달 조작
   // 1) PostCreateModal
-  turnPostCreateModalOn: function ({commit}, payload) {
+  turnPostCreateModalOn: function ({ commit }, payload) {
     commit('TURN_POST_CREATE_MODAL_ON', payload)
   },
   turnPostCreateModalOFF: function ({ commit }) {
@@ -63,6 +63,14 @@ export default {
 
   saveUserKeyword: function ({ commit }, keywordString) {
     commit('SAVE_USER_KEYWORD', keywordString)
+  },
+
+  saveFavoredKeyword: function ({ commit }, parsedKeyword) {
+    commit('SAVE_FAVORED_KEYWORD', parsedKeyword)
+  },
+
+  saveRecommendedPeople: function ({ commit }, recommended) {
+    commit('SAVE_RECOMMENDED_PEOPLE', recommended)
   },
 
 

@@ -91,6 +91,7 @@ CommonMethodsPlugin.install = function (Vue) {
       .then((res) => {
         localStorage.setItem('user_code', res)
         this.$fetchMyInformation(res)
+        this.$fetchFollowRecommendation(res)
         this.$goToSocialFeed()
       })
       .catch((err) => {
@@ -127,29 +128,31 @@ CommonMethodsPlugin.install = function (Vue) {
         if (!res.data['userKeyword']) {
           this.$store.dispatch('turnFirstLoginModalOn')
         }
+        this.$store.dispatch('saveFavoredKeyword', this.$parseKeyword(res.data.userKeyword))
         this.$store.dispatch('saveUserInformation', res.data)
+
       })
       .catch((err) => {
         console.log(err)
       })
-  },
+  }
 
-    // 7. 팔로우
-    // 1) 팔로잉 추가
-    Vue.prototype.$follow = function (userCode) {
-      const myUserCode = localStorage.getItem('user_code')
-      axios({
-        url: `${this.$serverURL}/follow`,
-        method: 'post',
-        data: {
-          from: myUserCode,
-          to: userCode
-        }
+  // 7. 팔로우
+  // 1) 팔로잉 추가
+  Vue.prototype.$follow = function (userCode) {
+    const myUserCode = localStorage.getItem('user_code')
+    axios({
+      url: `${this.$serverURL}/follow`,
+      method: 'post',
+      data: {
+        from: myUserCode,
+        to: userCode
+      }
+    })
+      .then((res) => {
+        console.log(res)
       })
-        .then((res) => {
-          console.log(res)
-        })
-    }
+  }
   // 2) 팔로잉 취소
   Vue.prototype.$unFollow = function (userCode) {
     const myUserCode = localStorage.getItem('user_code')
@@ -159,6 +162,17 @@ CommonMethodsPlugin.install = function (Vue) {
     })
       .then((res) => {
         console.log(res)
+      })
+  }
+
+  // 3) 팔로우 추천
+  Vue.prototype.$fetchFollowRecommendation = function (user_code) {
+    axios({
+      url: `${this.$serverURL}/follow/recommendation?uid=${user_code}`,
+      method: 'get',
+    })
+      .then((res) => {
+        this.$store.dispatch('saveRecommendedPeople', res.data)
       })
   }
 

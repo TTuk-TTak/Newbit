@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import { mapState } from 'vuex'
 
 
-const myUserCode = localStorage.getItem('user_code')
+// const myUserCode = localStorage.getItem('user_code')
 
 export default {
   name: 'FavoredKeywordBar',
@@ -32,31 +32,12 @@ export default {
     isVertical: Boolean
   },
   data: () => ({
-    favoredKeyword: [],
-    userKeyword: ''
+
   }),
-  methods: {
-    saveFavoredKeyword () {
-      this.favoredKeyword = this.$parseKeyword(this.userKeyword)
-    },
-    fetchUserKeyword (user_code) {
-      axios({
-        url: `${this.$serverURL}/user?uid=${user_code}`,
-        method: 'get',
-      })
-        .then((res) => {
-          this.userKeyword = res.data['userKeyword']
-          this.saveFavoredKeyword(this.userKeyword)
-        })
-    }
-  },
   computed: {
     ...mapState([
-      'user',
+      'favoredKeyword',
     ]),
-  },
-  created () {
-    this.fetchUserKeyword(myUserCode)
   },
 }
 </script>

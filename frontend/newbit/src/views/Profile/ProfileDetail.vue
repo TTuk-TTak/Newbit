@@ -52,6 +52,7 @@
                 </v-btn>
               </template>
               <follow-modal
+                :following_list="following_list"
                 :follower_list_origin="follower_list_origin"
                 :dialog1="dialog1"
                 @props-status-change="onClickChange"
@@ -77,6 +78,7 @@
                 </v-btn>
               </template>
               <follow-modal
+                :following_list="following_list"
                 :following_list_origin="following_list_origin"
                 :dialog2="dialog2"
                 @props-status-change="onClickChange"
