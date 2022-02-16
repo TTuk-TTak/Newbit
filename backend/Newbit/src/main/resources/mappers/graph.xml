@@ -4,13 +4,13 @@
 <mapper namespace="com.ssafy.newbit.model.mapper.GraphMapper">
 
 
-	<select id="getKeyword" parameterType="String">
+	<select id="getKeyword" parameterType="int" resultType="String">
 		select c.content_keyword
 		from content c
-		where (content_code in (select content_code from contentscrap where
-		user_code = #{uid}))
-		or (content_code in ( select content_code from post where user_code =
-		7));
+		where (c.content_code in (select s.content_code from contentscrap s where
+		s.user_code = #{uid}))
+		or (c.content_code in ( select p.content_code from post p where p.user_code =
+		#{uid}));
 	</select>
 
 </mapper>
