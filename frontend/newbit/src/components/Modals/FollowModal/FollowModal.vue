@@ -40,6 +40,7 @@
 
           <v-list-item-action>
             <follow-btn
+              :userNick="person.userNick"
               v-if="myUserCode != person.userCode"
               :isFollowwed="following_list.includes(person.userCode)"
               :userCode="person.userCode"
@@ -66,6 +67,7 @@
 
           <v-list-item-action>
             <follow-btn
+              :userNick="person.userNick"
               v-if="myUserCode != person.userCode"
               :isFollowed="following_list.includes(person.userCode)"
               :userCode="person.userCode"

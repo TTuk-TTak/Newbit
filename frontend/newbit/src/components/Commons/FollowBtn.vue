@@ -20,6 +20,7 @@ export default {
   props: {
     isFollowed: Boolean,
     userCode: Number,
+    userNick: String,
   },
   data () {
     return {
@@ -30,11 +31,11 @@ export default {
     onClick () {
       this.followStatus = !this.followStatus
       if (this.followStatus) {
-        this.$follow(this.userCode)
+        this.$follow(this.userCode, this.userNick)
         this.plusOne()
       }
       else {
-        this.$unFollow(this.userCode)
+        this.$unFollow(this.userCode, this.userNick)
         this.minusOne()
       }
     },

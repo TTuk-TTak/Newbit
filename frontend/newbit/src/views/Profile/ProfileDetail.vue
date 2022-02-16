@@ -101,7 +101,7 @@
             depressed
             outlined
             block
-            @click="[$unFollow($route.params.userCode), popFollow(Number($route.params.userCode)), minusOne()]"
+            @click="[$unFollow($route.params.userCode, user.userNick), popFollow(Number($route.params.userCode)), minusOne()]"
           >언팔로우</v-btn>
           <v-btn
             v-else
@@ -109,7 +109,7 @@
             depressed
             outlined
             block
-            @click="[$follow($route.params.userCode), pushFollow(Number($route.params.userCode)), plusOne()]"
+            @click="[$follow($route.params.userCode, user.userNick), pushFollow(Number($route.params.userCode)), plusOne()]"
           >
             팔로우
           </v-btn>
