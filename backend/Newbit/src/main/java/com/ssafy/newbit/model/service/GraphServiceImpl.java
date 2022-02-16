@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ssafy.newbit.model.DailyDataDto;
 import com.ssafy.newbit.model.PostDto;
 import com.ssafy.newbit.model.PostTextDto;
 import com.ssafy.newbit.model.mapper.GraphMapper;
@@ -25,6 +26,12 @@ public class GraphServiceImpl implements GraphService{
 	public List<String> getKeyword(int uid) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(GraphMapper.class).getKeyword(uid);
+	}
+
+	@Override
+	public List<DailyDataDto> getDailyData(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(GraphMapper.class).getDailyData(map);
 	}
 	
 	

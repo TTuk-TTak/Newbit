@@ -11,10 +11,11 @@ import lombok.*;
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 //@Data
 public class DailyDataDto {
+	@ApiModelProperty(value = "날짜")
+	private String date;
 	@ApiModelProperty(value = "개수")
 	private int count;
-	@ApiModelProperty(value = "날짜")
-	private String data;
 }
