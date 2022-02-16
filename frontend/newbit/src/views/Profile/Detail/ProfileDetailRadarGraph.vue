@@ -11,28 +11,42 @@
 </template>
 
 <script>
+
 export default {
-  data: () => ({
-    series: [{
-      name: 'Series 1',
-      data: [8, 3, 2, 6, 9, 1],
-    }],
-    chartOptions: {
-      chart: {
-        type: 'radar',
-        // height: 350,
-        toolbar: {
-          show: false
+  props: {
+    category: Array,
+    preference: Array,
+  },
+
+  data: function () {
+    return {
+      series: [{
+        name: 'Series 1',
+        data: this.preference
+      }],
+      chartOptions: {
+        chart: {
+          type: 'radar',
+          // height: 350,
+          toolbar: {
+            show: false
+          },
         },
+        // title: {
+        //   text: 'Basic Radar Chart'
+        // },
+        yaxis: {
+          tickAmount: 5,
+          max: 5,
+          min: 0,
+        },
+        xaxis: {
+          categories: this.category
+          // categories: ['FrontEnd', 'BackEnd', 'Data', 'AI', 'Algorithm', 'Mobile']
+        }
       },
-      // title: {
-      //   text: 'Basic Radar Chart'
-      // },
-      xaxis: {
-        categories: ['FrontEnd', 'BackEnd', 'Data', 'AI', 'Algorithm', 'Mobile']
-      }
-    },
-  }),
+    }
+  },
 }
 </script>
 

@@ -5,20 +5,35 @@
       <v-chip
         v-for="(keyword, index) in parsed"
         :key="index"
-      >{{ keyword }}</v-chip>
+      >{{ matchName(keyword) }}</v-chip>
     </v-chip-group>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'FavoredKeywordBar2',
   data: () => ({
 
   }),
+  methods: {
+    matchName (favoredKeyword) {
+      for (let keyword in this.keywordDict) {
+        if (favoredKeyword === keyword) {
+          return this.keywordDict[keyword]
+        }
+      }
+    }
+  },
   props: {
     parsed: Array
+  },
+  computed: {
+    ...mapGetters([
+      'keywordDict',
+    ]),
   },
 }
 </script>

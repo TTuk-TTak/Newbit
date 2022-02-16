@@ -5,13 +5,13 @@
       <v-chip
         v-for="(keyword, index) in favoredKeyword"
         :key="index"
-      >{{ keyword }}</v-chip>
+      >{{ matchName(keyword) }}</v-chip>
     </v-chip-group>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 
 export default {
@@ -20,9 +20,21 @@ export default {
   data: () => ({
 
   }),
+  methods: {
+    matchName (favoredKeyword) {
+      for (let keyword in this.keywordDict) {
+        if (favoredKeyword === keyword) {
+          return this.keywordDict[keyword]
+        }
+      }
+    }
+  },
   computed: {
     ...mapState([
       'favoredKeyword',
+    ]),
+    ...mapGetters([
+      'keywordDict',
     ]),
   },
 }

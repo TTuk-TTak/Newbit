@@ -180,7 +180,10 @@
           justify="space-around"
         >
           <v-col cols="5">
-            <profile-detail-radar-graph></profile-detail-radar-graph>
+            <profile-detail-radar-graph
+              :category="radarGraphData.category"
+              :preference="radarGraphData.preference"
+            ></profile-detail-radar-graph>
           </v-col>
           <v-col cols="5">
             <v-sheet>
@@ -192,11 +195,11 @@
 
                 <v-divider></v-divider>
                 <v-list-item
-                  v-for="item in items"
+                  v-for="item in changedRadarGraphData"
                   :key="item.category"
                 >
                   <v-list-item-content>
-                    <v-list-item-title v-text="item.category"></v-list-item-title>
+                    <v-list-item-title v-text="matchName(item.category)"></v-list-item-title>
                   </v-list-item-content>
 
                   <v-list-item-content>
@@ -220,6 +223,7 @@
 import axios from 'axios'
 import _ from 'lodash'
 import InfiniteLoading from 'vue-infinite-loading'
+import { mapGetters } from 'vuex'
 
 import FavoredKeywordBar2 from '@/components/Keyword/FavoredKeywordBar2.vue'
 import ProfileDetailRadarGraph from '@/views/Profile/Detail/ProfileDetailRadarGraph.vue'
@@ -257,15 +261,11 @@ export default {
     posts: [],
     lastPostCode: 0,
 
-    items: [
-      { category: '프론트엔드', preference: 8 },
-      { category: '모바일', preference: 1 },
-      { category: '알고리즘', preference: 9 },
-      { category: '백엔드', preference: 3 },
-      { category: '데이터', preference: 2 },
-      { category: 'AI', preference: 6 },
-    ],
-
+    radarGraphData: {
+      category: [],
+      preference: [],
+    },
+    changedRadarGraphData: [],
   }),
   methods: {
     changeToArticle () {
@@ -293,7 +293,7 @@ export default {
       })
         .then((res) => {
           this.user = res.data
-          console.log(this.user)
+
         })
     },
     fetchUserFollowingList (user_code) {
@@ -365,10 +365,44 @@ export default {
           console.log(err)
         })
     },
+    matchName (string) {
+      for (let keyword in this.keywordDict) {
+        if (string === keyword) {
+          return this.keywordDict[keyword]
+        }
+      }
+    },
+    matchArray (keywords) {
+      return keywords.map((keyword) => {
+        return this.matchName(keyword)
+      })
+    },
+    fetchRadarGraphData (user_code) {
+      axios({
+        url: `${this.$serverURL}/graph/radar?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.radarGraphData.category = res.data.category
+          this.radarGraphData.preference = res.data.data
+          this.changedRadarGraphData = this.radardataChange(this.radarGraphData)
+        })
+    },
+    radardataChange (object) {
+      return object['category'].map((e, idx) => {
+        return { 'category': e, 'preference': object['preference'][idx] }
+      })
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'keywordDict',
+    ]),
   },
   created () {
     this.fetchUserInformation(this.$route.params.userCode)
     this.fetchUserFollowingList(myUserCode)
+    this.fetchRadarGraphData(this.$route.params.userCode)
   }
 }
 

@@ -21,8 +21,7 @@
                 <v-form>
                   <v-text-field
                     v-model.trim="credentials.userEmail"
-                    label="아이디 or 이메일"
-                    name="username"
+                    label="이메일"
                     type="text"
                     solo
                     outlined
@@ -31,7 +30,6 @@
                   <v-text-field
                     v-model.trim="credentials.userPassword"
                     label="비밀번호"
-                    name="password"
                     type="password"
                     solo
                     outlined
