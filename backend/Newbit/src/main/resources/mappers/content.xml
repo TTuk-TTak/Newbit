@@ -49,8 +49,8 @@
 		</if>
 
 		<if test="type== 'hot'">
-			CONCAT(DATE_FORMAT(content_date, '%y%m%d'),
-			LPAD(content_code, 10,0)) as cur
+			CONCAT(LPAD(content_read, 10,0),DATE_FORMAT(content_date,
+			'%y%m%d'), LPAD(content_code, 10,0)) as cur
 		</if>
 		from content
 
