@@ -6,15 +6,24 @@ export default {
   // 1) 유저 정보 초기화
   RESET_USER_INFORMATION: function (state) {
     state.user = null
+    state.recommendedPeople = []
+    state.favoredKeyword = []
   },
   // 2) 유저 정보 저장
   SAVE_USER_INFORMATION: function (state, userData) {
     state.user = userData
-    console.log(state.user)
   },
   // 3) 유저 키워드 저장
   SAVE_USER_KEYWORD: function (state, keywordString) {
     state.user.userKeyword = keywordString
+  },
+  // 4) 유저 선호 키워드 파싱 후 저장
+  SAVE_FAVORED_KEYWORD: function (state, parsedKeyword) {
+    state.favoredKeyword = parsedKeyword
+  },
+  // 5) 유저 추천 목록 저장
+  SAVE_RECOMMENDED_PEOPLE: function (state, recommended) {
+    state.recommendedPeople = recommended
   },
 
 

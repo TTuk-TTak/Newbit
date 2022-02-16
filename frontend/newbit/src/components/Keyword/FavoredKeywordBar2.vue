@@ -1,9 +1,9 @@
 <template>
-  <div class="ml-3 mb-5">
-    <h2>관심키워드</h2>
-    <v-chip-group column>
+  <div>
+    <v-chip-group>
+      <h2 class="d-flex align-center mr-3">관심키워드</h2>
       <v-chip
-        v-for="(keyword, index) in favoredKeyword"
+        v-for="(keyword, index) in parsed"
         :key="index"
       >{{ matchName(keyword) }}</v-chip>
     </v-chip-group>
@@ -11,12 +11,10 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'FavoredKeywordBar',
-
+  name: 'FavoredKeywordBar2',
   data: () => ({
 
   }),
@@ -34,10 +32,10 @@ export default {
       }
     },
   },
+  props: {
+    parsed: Array
+  },
   computed: {
-    ...mapState([
-      'favoredKeyword',
-    ]),
     ...mapGetters([
       'keywordDict',
     ]),

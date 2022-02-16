@@ -21,7 +21,8 @@
           cols="7"
           align-self="center"
         >
-          <div class="text-h6 font-weight-bold">{{ user.userNick }}</div>
+          <span class="text-h6 font-weight-bold">{{ user.userNick }}</span>
+          <span class="text-h7 grey--text font-weight-bold"> {{ `@${user.userId}` }}</span>
           <div class="text-subtitle-1 font-weight-bold">{{ user.userIntro }}</div>
           <div>
             <v-btn
@@ -52,6 +53,8 @@
                 </v-btn>
               </template>
               <follow-modal
+                :myUserCode="myUserCode"
+                :following_list="following_list"
                 :follower_list_origin="follower_list_origin"
                 :dialog1="dialog1"
                 @props-status-change="onClickChange"
@@ -77,6 +80,8 @@
                 </v-btn>
               </template>
               <follow-modal
+                :myUserCode="myUserCode"
+                :following_list="following_list"
                 :following_list_origin="following_list_origin"
                 :dialog2="dialog2"
                 @props-status-change="onClickChange"
@@ -123,7 +128,7 @@
           >프로필 수정</v-btn>
         </v-col>
       </v-row>
-      <favored-keyword-bar :is-vertical="isVertical"></favored-keyword-bar>
+      <favored-keyword-bar2 :parsed="$parseKeyword(user.userKeyword)"></favored-keyword-bar2>
       <v-tabs>
         <v-tabs-slider color="primary"></v-tabs-slider>
         <v-tab @click="changeToArticle">게시물</v-tab>
@@ -171,29 +176,32 @@
         </v-row>
       </div>
       <div v-else-if="toggle ==='activity'">
-        <profile-detail-daily-graph></profile-detail-daily-graph>
+        <profile-detail-daily-graph :week="week"></profile-detail-daily-graph>
         <v-row
           align="center"
           justify="space-around"
         >
           <v-col cols="5">
-            <profile-detail-radar-graph></profile-detail-radar-graph>
+            <profile-detail-radar-graph
+              :category="matchArray(radarGraphData.category)"
+              :preference="radarGraphData.preference"
+            ></profile-detail-radar-graph>
           </v-col>
           <v-col cols="5">
             <v-sheet>
               <v-list>
                 <div class="d-flex justify-space-between px-4">
-                  <v-text class="font-weight-bold">키워드</v-text>
-                  <v-text class="font-weight-bold">관심도</v-text>
+                  <div class="font-weight-bold">키워드</div>
+                  <div class="font-weight-bold">관심도</div>
                 </div>
 
                 <v-divider></v-divider>
                 <v-list-item
-                  v-for="item in items"
+                  v-for="item in changedRadarGraphData"
                   :key="item.category"
                 >
                   <v-list-item-content>
-                    <v-list-item-title v-text="item.category"></v-list-item-title>
+                    <v-list-item-title v-text="matchName(item.category)"></v-list-item-title>
                   </v-list-item-content>
 
                   <v-list-item-content>
@@ -217,8 +225,9 @@
 import axios from 'axios'
 import _ from 'lodash'
 import InfiniteLoading from 'vue-infinite-loading'
+import { mapGetters } from 'vuex'
 
-import FavoredKeywordBar from '@/components/Keyword/FavoredKeywordBar.vue'
+import FavoredKeywordBar2 from '@/components/Keyword/FavoredKeywordBar2.vue'
 import ProfileDetailRadarGraph from '@/views/Profile/Detail/ProfileDetailRadarGraph.vue'
 import ProfileDetailDailyGraph from '@/views/Profile/Detail/ProfileDetailDailyGraph.vue'
 import FollowModal from '@/components/Modals/FollowModal/FollowModal.vue'
@@ -230,7 +239,7 @@ const myUserCode = localStorage.getItem('user_code')
 
 export default {
   components: {
-    FavoredKeywordBar,
+    FavoredKeywordBar2,
     ProfileDetailRadarGraph,
     ProfileDetailDailyGraph,
     FollowModal,
@@ -238,7 +247,6 @@ export default {
     PostCard,
   },
   data: () => ({
-    isVertical: false,
     toggle: 'article',
 
     myUserCode: myUserCode,
@@ -255,15 +263,21 @@ export default {
     posts: [],
     lastPostCode: 0,
 
-    items: [
-      { category: '프론트엔드', preference: 8 },
-      { category: '모바일', preference: 1 },
-      { category: '알고리즘', preference: 9 },
-      { category: '백엔드', preference: 3 },
-      { category: '데이터', preference: 2 },
-      { category: 'AI', preference: 6 },
-    ],
-
+    radarGraphData: {
+      category: [],
+      preference: [],
+    },
+    daily_data: {},
+    changedRadarGraphData: [],
+    week: {
+      mon: '',
+      tue: '',
+      wed: '',
+      thu: '',
+      fri: '',
+      sat: '',
+      sun: ''
+    }
   }),
   methods: {
     changeToArticle () {
@@ -285,19 +299,14 @@ export default {
       }
     },
     fetchUserInformation (user_code) {
-      if (this.$route.params.userCode !== myUserCode) {
-        axios({
-          url: `${this.$serverURL}/user?uid=${user_code}`,
-          method: 'get',
+      axios({
+        url: `${this.$serverURL}/user?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.user = res.data
+
         })
-          .then((res) => {
-            this.user = res.data
-            console.log(this.user)
-          })
-      }
-      else {
-        this.user = this.$store.state.user
-      }
     },
     fetchUserFollowingList (user_code) {
       axios({
@@ -368,12 +377,123 @@ export default {
           console.log(err)
         })
     },
+    matchName (string) {
+      let found = false
+      for (let keyword in this.keywordDict) {
+        if (string === keyword) {
+          found = true
+          return this.keywordDict[keyword]
+        }
+      }
+      if (!found) {
+        return string
+      }
+    },
+    matchArray (keywords) {
+      return keywords.map((keyword) => {
+        if (this.matchName(keyword)) {
+          return this.matchName(keyword)
+        }
+        else {
+          return keyword
+        }
+      })
+    },
+    fetchRadarGraphData (user_code) {
+      axios({
+        url: `${this.$serverURL}/graph/radar?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.radarGraphData.category = res.data.category
+          this.radarGraphData.preference = res.data.data
+          this.changedRadarGraphData = this.radardataChange(this.radarGraphData)
+        })
+    },
+    fetchDailyGraphData (user_code) {
+      axios({
+        url: `${this.$serverURL}/graph/daily?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.daily_data = res.data
+          const maxLength = this.dailydataLength(this.daily_data)
+          for (let day in this.daily_data) {
+            if (day === "mon") {
+              this.week.mon = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.mon.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+            else if (day === "tue") {
+              this.week.tue = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.tue.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+            else if (day === "wed") {
+              this.week.wed = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.wed.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+            else if (day === "thu") {
+              this.week.thu = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.thu.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+            else if (day === "fri") {
+              this.week.fri = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.fri.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+            else if (day === "sat") {
+              this.week.sat = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.sat.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+            else if (day === "sun") {
+              this.week.sun = this.dailydataChange(this.daily_data[day])
+              if (this.daily_data[day].length < maxLength) {
+                this.week.sun.push({ 'x': maxLength, 'y': 0 })
+              }
+            }
+          }
+        })
+    },
+    radardataChange (object) {
+      return object['category'].map((e, idx) => {
+        return { 'category': e, 'preference': object['preference'][idx] }
+      })
+    },
+    dailydataChange (array) {
+      return array.map((value, idx) => {
+        return { 'x': idx + 1, 'y': value }
+      })
+    },
+    dailydataLength (object) {
+      let long = 0
+      for (let key in object) {
+        if (object[key].length > long) {
+          long = object[key].length
+        }
+      }
+      return long
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'keywordDict',
+    ]),
   },
   created () {
-    if (this.$route.params.userCode !== myUserCode) {
-      this.fetchUserInformation(this.$route.params.userCode)
-    }
+    this.fetchUserInformation(this.$route.params.userCode)
     this.fetchUserFollowingList(myUserCode)
+    this.fetchRadarGraphData(this.$route.params.userCode)
+    this.fetchDailyGraphData(this.$route.params.userCode)
   }
 }
 
