@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-    <the-nav v-if="$route.name !== 'Login' && $route.name !== 'Signup'"></the-nav>
+    <the-nav v-if="$route.name !== 'Login' && $route.name !== 'Signup' && $route.name !== 'SignupComplete'"></the-nav>
     <v-main
       id="main"
       class="container"
