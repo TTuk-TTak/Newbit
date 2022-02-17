@@ -43,7 +43,7 @@ import java.time.*;
 import java.util.Calendar;
 import java.util.Date;
 
-@CrossOrigin(origins = { "http://localhost:8080" })
+@CrossOrigin(origins = { "http://localhost:8080", "http://i6a101.p.ssafy.io:8080"})
 @RestController
 @RequestMapping("/info")
 public class InfoController {

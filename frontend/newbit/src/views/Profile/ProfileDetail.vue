@@ -91,7 +91,7 @@
           </div>
         </v-col>
         <v-col
-          v-if="$route.params.userCode != myUserCode"
+          v-if="$route.params.userCode != $store.state.user.userCode"
           cols="2"
           align-self="center"
         >
