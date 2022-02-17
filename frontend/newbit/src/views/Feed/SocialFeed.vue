@@ -13,7 +13,7 @@
       <v-col
         v-for="(post, index) in posts"
         :key="`social` + index"    
-        class="pa-1 pb-1"
+        class="pa-1 pb-1 py-2"
         cols=12
       >
         <post-card :post='post'></post-card>

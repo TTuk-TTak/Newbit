@@ -20,11 +20,11 @@
       <v-col 
         class="align-between"
         cols=8>
-        <v-row class="px-2 pt-3">
+        <v-row class="px-2 pt-3 pr-2">
           <v-col class='py-0' cols=12>
-            <a href="#none" class="textDecoOff  ma-0 pa-0">
+            <a href="#none" class="textDecoOff ma-0 pa-0">
               <h3
-                class="pa-0"
+                class="text-truncate pa-0"
                 @click="openContent()"
               >{{ content.contentTitle }}</h3>
             </a>

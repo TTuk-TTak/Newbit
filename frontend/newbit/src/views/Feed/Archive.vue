@@ -2,13 +2,8 @@
   <v-card
     outlined
     class="pa-4 pt-2 cardMargin"
-    color="feedBackground"
   >
-    <!-- <v-btn
-      @click="archiveAll()"      
-    >
-      전체 컨텐츠 아카이브
-    </v-btn> -->
+    <!-- color="feedBackground" -->
     <div class="mx-2" style="border-bottom:1px solid lightgray">
       <v-tabs
         class="ml-1 mr-3"
@@ -36,7 +31,7 @@
       class="pa-2 pt-3"
     >
       <v-col
-        class="pa-1 pb-0"
+        class="pa-2"
         v-for="content in contents"
         :key="`archived` + content.contentCode"    
         cols=6

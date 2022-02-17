@@ -1,11 +1,13 @@
 <template>
+    <!-- depressed -->
   <v-card
+    :elevation='0'
     v-if="post"
     class="px-2 pl-8 pr-8"
   >
     <!-- 1. 카드 상단부 -->
     <div
-      class='pa-3 pb-0 justify-space-between align-end'
+      class='pt-4 pa-3 pb-0 justify-space-between align-end'
     >
       <div>
         <v-avatar

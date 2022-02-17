@@ -2,6 +2,7 @@
   <v-list-item
     class="border mb-3 ml-10 firstlogin-follow"
   >
+    {{ userInfo.userCode}}
     <v-list-item-avatar>
       <v-img
         class="v-avatar image"
