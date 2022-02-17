@@ -172,13 +172,14 @@
 		from user
 		u
 		where (u.user_nick like concat('%',#{search},'%')
-		or u.user_intro like
+		or u.user_id like
 		concat('%',#{search},'%')) and u.user_code !=
 		#{userCode}
 		<if test="lastPostCode != null and lastPostCode != 0">
-			and (post_code  <![CDATA[<]]>
+			and (user_code  <![CDATA[>]]>
 			#{lastPostCode})
 		</if>
+		order by user_code
 		limit #{size}
 	</select>
 
