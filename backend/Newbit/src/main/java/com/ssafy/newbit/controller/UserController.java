@@ -196,8 +196,6 @@ public class UserController{
 	public ResponseEntity<String> editUserInfo(
 			@RequestBody @ApiParam(value = "수정 가능한 정보 : 아이디, 닉네임, 비밀번호, 한줄 소개, 프로필 사진, 관심 키워드", required = true) UserDto userDto) throws Exception {
 		logger.info("editUserInfo - 호출");
-		System.out.println(userService.editUserInfo(userDto));
-	
 		if (userService.editUserInfo(userDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
