@@ -43,9 +43,11 @@ export default {
     contents: [],
     preSelectedKeyword: null,
   },
+  
   archivingFeed: {
 
   },
+
   embeddedContent: {
     contentCode: 0
   },
@@ -54,4 +56,8 @@ export default {
   },
   favoredKeyword: [],
   recommendedPeople: [],
+
+  notiCenter:{
+    notifications : []
+  }
 }

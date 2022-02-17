@@ -36,6 +36,9 @@ public class UserDto {
 	private String userKeyword;
 	@ApiModelProperty(value = "팔로우여부")
 	private Boolean isFollow;
+	@ApiModelProperty(value = "알림 확인여부")
+	private Boolean isRead;
+	
 	
 	/*
 	public UserDto(String userEmail, String userId, String userNick, String userPassword) {
@@ -84,7 +87,6 @@ public class UserDto {
 		this.userKeyword = userKeyword;
 	}*/
 
-	
 	
 	public int getUserCode() {
 		return userCode;
@@ -188,6 +190,14 @@ public class UserDto {
 
 	public void setIsFollow(Boolean isFollow) {
 		this.isFollow = isFollow;
+	}
+	
+	public Boolean getIsRead() {
+		return isRead;
+	}
+	
+	public void setIsRead(Boolean isRead) {
+		this.isRead = isRead;
 	}
 	
 }

@@ -99,7 +99,15 @@ export default {
   PRESET_CURATION_KEYWORD: function (state, keyword) {
     console.log(state.curationFeed.preSelectedKeyword, '선택된 키워드')
     state.curationFeed.preSelectedKeyword = keyword
-  }
+  },
 
+
+  //5. 알림센터
+  SET_NOTIFICATION: function (state, data) {
+    state.notiCenter.notifications = data
+  },
+  DELETE_NOTIFICATION: function (state) {
+    state.notiCenter = null
+  }
 
 }

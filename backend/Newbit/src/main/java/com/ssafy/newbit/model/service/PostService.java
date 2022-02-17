@@ -29,4 +29,5 @@ public interface PostService {
 	public boolean userLikePost(HashMap<String, Object> map) throws Exception;
 	public boolean userScrapPost(HashMap<String, Object> map) throws Exception;
 	public List<PostDto> searchPostList(HashMap<String, Object> map) throws Exception;
+	public List<PostDto> getPostNoti(int userCode) throws Exception;
 }

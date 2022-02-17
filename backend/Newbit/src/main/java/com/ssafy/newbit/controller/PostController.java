@@ -61,6 +61,13 @@ public class PostController {
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
+	
+	// 게시글 좋아요 알림 조회
+	@GetMapping("/notification")
+	public ResponseEntity<List<PostDto>> getPostNoti(@RequestParam("uid") int userCode) throws Exception {
+		logger.info("getPostNoti - 호출 : " + userCode);
+		return new ResponseEntity<List<PostDto>>(postService.getPostNoti(userCode), HttpStatus.OK);
+	}
 
 	@ApiOperation(value = "특정 게시글 조회", notes = "게시글 코드에 해당하는 게시글의 정보를 반환한다.", response = PostDto.class)
 	@GetMapping

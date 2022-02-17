@@ -130,6 +130,11 @@ public class PostServiceImpl implements PostService{
 	public List<PostDto> searchPostList(HashMap<String, Object> map) throws Exception {
 		return sqlSession.getMapper(PostMapper.class).searchPostList(map);
 	}
+
+	@Override
+	public List<PostDto> getPostNoti(int userCode) throws Exception {
+		return sqlSession.getMapper(PostMapper.class).getPostNoti(userCode);
+	}
 	
 
 }

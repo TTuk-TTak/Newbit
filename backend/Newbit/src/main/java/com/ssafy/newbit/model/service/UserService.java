@@ -32,5 +32,6 @@ public interface UserService{
 	public List<UserDto> followRecommendation(HashMap<String, Object> map) throws Exception;
 	
 	public List<UserDto> getRandomUser(HashMap<String, Object> map) throws Exception;
+	public List<UserDto> getFollowNoti(int userCode) throws Exception;
 	
 }

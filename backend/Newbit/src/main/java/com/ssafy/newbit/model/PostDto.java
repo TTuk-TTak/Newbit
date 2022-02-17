@@ -44,4 +44,9 @@ public class PostDto {
 	@ApiModelProperty(value = "작성자 사진 url")
 	private String userImg;
 	
+	//좋아요 한 사용자 정보
+	private int likeUserCode; //좋아요 한 사용자 코드
+	private String likeUserNick; //좋아요 한 사용자 닉
+	
+	
 }

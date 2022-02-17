@@ -110,9 +110,33 @@ export default {
         console.log(err)
       })
   },
+  
   // 5. 추천 피드 - 키워드 미리 선택
   presetCurationKeyword: ({ commit }, keyword) => {
     commit('PRESET_CURATION_KEYWORD', keyword)
-  }
+  },
 
+  //6. 알림
+  getNotification: ({ commit }) => {
+    const user_code = localStorage.getItem('user_code')
+    axios({
+      method: 'get',
+      url: `http://localhost:9999/api/noti?`
+        + `uid=${user_code}`
+        // + `uid=1`
+    })
+      .then(res => {
+        if (res.data.length) {
+          commit('SET_NOTIFICATION', res.data)
+          console.log('알림센터', res)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+
+  deleteNotifications: function ({ commit }) {
+    commit('DELETE_NOTIFICATION')
+  },
 }

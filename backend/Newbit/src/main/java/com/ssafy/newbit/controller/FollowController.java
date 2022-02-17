@@ -57,6 +57,13 @@ public class FollowController {
 		logger.info("getFollowerList - 호출 : " + userCode);
 		return new ResponseEntity<List<UserDto>>(userService.getFollowerList(userCode), HttpStatus.OK);
 	}
+	
+	// 팔로워 알림 조회
+	@GetMapping("/notification")
+	public ResponseEntity<List<UserDto>> getFollowNoti(@RequestParam("uid") int userCode) throws Exception {
+		logger.info("getFollowNoti - 호출 : " + userCode);
+		return new ResponseEntity<List<UserDto>>(userService.getFollowNoti(userCode), HttpStatus.OK);
+	}
 
 	// 팔로잉 추가
 	@ApiOperation(value = "팔로잉 추가", notes = "follow 테이블에 팔로잉하는 유저(from)-팔로잉할 유저(to) 코드 데이터 추가, 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
