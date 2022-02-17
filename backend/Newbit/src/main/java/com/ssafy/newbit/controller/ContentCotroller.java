@@ -198,8 +198,9 @@ public class ContentCotroller {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		map.put("search", search);
-		// 키워드칩 파싱부분
+		//키워드칩 파싱
 		List<String> keywordList = new ArrayList<>();
+
 		StringTokenizer st = new StringTokenizer(keyword, "_");
 		while (st.hasMoreTokens()) {
 			String str = st.nextToken();
@@ -207,9 +208,23 @@ public class ContentCotroller {
 				keywordList.add(str);
 		}
 		map.put("keywordList", keywordList);
+
+		// 정렬 기준 (최신순 - "new", 인기순 = "hot")
+		map.put("type", "new");
+
 		map.put("lastContentCode", lastcontentcode);
 		map.put("size", size);
-		logger.info("searchContentList 호출 : " + search);
+		logger.info("contentList 호출 : " + keyword);
+
+		// 커서 기반 페이지네이션을 위한 커서 생성, listContent()호출할 때 커서로 넣어줌
+		if (lastcontentcode != 0) {
+			HashMap<String, Object> cursormap = new HashMap<String, Object>();
+			cursormap.put("contentCode", lastcontentcode);
+			cursormap.put("type", "new");
+			long cursor = contentService.getCursor(cursormap);
+			map.put("cursor", cursor);
+			//System.out.println(cursor);
+		}
 
 		// 콘텐츠 목록 불러오기
 		List<ContentDto> list = contentService.searchContentList(map);
@@ -221,6 +236,7 @@ public class ContentCotroller {
 			hm.put("contentCode", c.getContentCode());
 			c.setLiked(contentService.userLikeContent(hm));
 			c.setScrapped(contentService.userScrapContent(hm));
+			c.setRead(contentService.userReadContent(hm));
 			
 			//테크블로그 정보 포함시키기
 			TechblogDto t = contentService.getTechblogInfo(c.getTechblogCode());

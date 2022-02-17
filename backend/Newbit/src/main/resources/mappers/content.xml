@@ -115,7 +115,8 @@
 	</insert>
 
 	<delete id="deleteLikeContent" parameterType="Hashmap">
-		delete from contentlike
+		delete from
+		contentlike
 		where user_code = #{uid} and content_code = #{cid}
 	</delete>
 
@@ -129,7 +130,8 @@
 	</insert>
 
 	<delete id="deleteScrapContent" parameterType="Hashmap">
-		delete from contentscrap
+		delete from
+		contentscrap
 		where user_code = #{uid} and content_code = #{cid}
 	</delete>
 
@@ -178,10 +180,13 @@
 		`contentText`, content_url
 		`contentUrl`,
 		content_img `contentImg`, content_date `contentDate`,
-		content_keyword `contentKeyword`
+		content_keyword `contentKeyword`,
+		CONCAT(DATE_FORMAT(content_date,'%y%m%d'),LPAD(content_code, 10,0)) as cur
+
 		from content
 		where (content_title like
-		concat('%',#{search},'%') or content_text like
+		concat('%',#{search},'%') or
+		content_text like
 		concat('%',#{search},'%'))
 		<if test="keywordList.size != 0">
 			and(
@@ -193,9 +198,10 @@
 			)
 		</if>
 		<if test="lastContentCode != null and lastContentCode != 0">
-			and ((content_code  <![CDATA[<]]>
-			#{lastContentCode}))
+			having cur  <![CDATA[<]]>
+			#{cursor}
 		</if>
+		order by content_date desc, content_code desc
 		limit #{size}
 	</select>
 
