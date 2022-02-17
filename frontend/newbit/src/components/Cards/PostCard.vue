@@ -51,12 +51,14 @@
         <v-icon>mdi-message-outline</v-icon>
       </v-btn>
       <span class="post-btn-nums" >{{ post.postComment }}</span>
-      <v-btn 
+      <v-btn
+        @click="toggleBookmark()"
         class="px-0"
         icon>
         <v-icon v-if="post.scrapped">mdi-bookmark</v-icon>
         <v-icon v-else>mdi-bookmark-outline</v-icon>
       </v-btn>
+      <span class="post-btn-nums" >{{ post.postScrap }}</span>
       <v-btn
         class="ml-0"
         @click="toggleLike()"
@@ -93,6 +95,7 @@ export default {
     ])
   },
   methods: {
+    // 포스트 임베드
     embedPost(contentCode) {
       axios.get(`${this.$serverURL}/content?uid=${this.user.userCode}&cid=${contentCode}`)
         .then(response => {
@@ -103,9 +106,11 @@ export default {
           console.log(err)
       })
     },
+    // 디폴트 프로필
     defaultProfile(e) {
       e.target.src = `https://cdn.vuetifyjs.com/images/john.jpg`
     },
+    // 1. 좋아요
     toggleLike() {
       if (!this.post.liked) {
         this.likePost()
@@ -153,6 +158,57 @@ export default {
         console.log(err)
       })  
     },
+
+    // 2. 북마크
+    toggleBookmark() {
+      if (!this.post.scrapped) {
+        this.bookmarkPost()
+      } else {
+        this.unbookmarkPost()
+      }
+    },
+    bookmarkPost() {      
+      axios({
+        method: 'POST',
+        url: `${this.$serverURL}/post/scrap`,
+        data: {
+          'uid': this.user.userCode,
+          'pid': this.post.postCode,
+        },
+      })
+      .then((res) => {
+        console.log('liked', res)
+        if (res.data === 'success') {
+          const snackbarText = '게시글을 아카이빙 했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
+          this.post.postScrap++
+          this.post.scrapped = !this.post.scrapped
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })  
+    },
+    unbookmarkPost() {
+      axios({
+        method: 'DELETE',
+        url: `${this.$serverURL}/post/scrap?uid=${this.user.userCode}&pid=${this.post.postCode}`,
+      })
+      .then((res) => {
+        console.log('unbookmark', res)
+        if (res.data === 'success') {
+          const snackbarText = '게시글 아카이빙을 취소했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
+          this.post.scrapped = !this.post.scrapped
+          this.post.postScrap--
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })  
+    },
+
+
   },
   created () {
     if (this.post.contentCode){

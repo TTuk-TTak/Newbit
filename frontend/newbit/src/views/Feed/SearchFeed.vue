@@ -60,7 +60,7 @@
       <v-col
         v-for="(post, index) in posts"
         :key="`social` + index" 
-        class="pa-1 pb-1 test"
+        class="pa-1 pb-1 bottomBorder"
         cols=12
       >
         <post-card :post='post'></post-card>
@@ -278,7 +278,7 @@ export default {
 
 <style scoped>
 
-.test {
+.bottomBorder {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 

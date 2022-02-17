@@ -2,7 +2,9 @@
   <div v-if="$store.state.user">
     <v-row class="text-center">
       <v-col class="pb-0">
+        <a href="#none">
         <v-avatar
+          @click="$goToProfile(user.userCode)"
           size="150"
           class="mt-5"
         >
@@ -12,12 +14,17 @@
             :src="user.userImg"
           />
         </v-avatar>
+        </a>
       </v-col>
     </v-row>
     <v-row class="text-center">
       <v-col class="">
-        <div class="text-h6">{{ user.userNick }}</div>
-        <div class="grey--text">{{ `@${user.userId}` }}</div>
+        <a href="#none" class="underlineOff">
+          <div class="text-h6 underlineOff" @click="$goToProfile(user.userCode)">{{ user.userNick }}</div>
+        </a>
+        <a href="#none" class="underlineOff">
+          <div class="grey--text underlineOff" @click="$goToProfile(user.userCode)">{{ `@${user.userId}` }}</div>
+        </a>
       </v-col>
       <!-- <v-col class="d-flex justify-end">
         <v-btn
@@ -260,4 +267,9 @@ export default {
   line-height: 1.5;
   font-weight: 500;
 }
+
+.underlineOff {
+  text-decoration: none;
+}
+
 </style>
