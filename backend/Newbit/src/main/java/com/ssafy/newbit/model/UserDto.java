@@ -38,54 +38,6 @@ public class UserDto {
 	private Boolean isFollow;
 	@ApiModelProperty(value = "알림 확인여부")
 	private Boolean isRead;
-	
-	
-	/*
-	public UserDto(String userEmail, String userId, String userNick, String userPassword) {
-		this.userEmail = userEmail;
-		this.userId = userId;
-		this.userNick = userNick;
-		this.userPassword = userPassword;
-	}
-
-	public UserDto(String userId, String userNick, String userImg, String userIntro, Boolean isFollow) {
-		this.userId = userId;
-		this.userNick = userNick;
-		this.userImg = userImg;
-		this.userIntro = userIntro;
-		this.isFollow = isFollow;
-	}
-	
-	public UserDto(String userEmail, String userId, String userNick, String userPassword, String userDate) {
-		this.userEmail = userEmail;
-		this.userId = userId;
-		this.userNick = userNick;
-		this.userPassword = userPassword;
-		this.userDate = userDate;
-	}
-	
-	public UserDto(int userCode, String userId, String userNick, String userPassword, String userImg, String userIntro,
-			String userKeyword) {
-		this.userCode = userCode;
-		this.userId = userId;
-		this.userNick = userNick;
-		this.userPassword = userPassword;
-		this.userImg = userImg;
-		this.userIntro = userIntro;
-		this.userKeyword = userKeyword;
-	}
-	
-	//select user_id `userId`, user_nick `userNick`, user_img `userImg`, user_postcount `userPostCount`, user_followercount `userFollowerCount`, user_followingcount `userFollowingCount`, user_intro `userIntro`, user_keyword `userKeyword`
-	public UserDto(String userId, String userNick, String userImg, int userPostCount, int userFollowerCount, int userFollowingCount, String userIntro, String userKeyword) {
-		this.userId = userId;
-		this.userNick = userNick;
-		this.userImg = userImg;
-		this.userPostCount = userPostCount;
-		this.userFollowerCount = userFollowerCount;
-		this.userFollowingCount = userFollowingCount;
-		this.userIntro = userIntro;
-		this.userKeyword = userKeyword;
-	}*/
 
 	
 	public int getUserCode() {
