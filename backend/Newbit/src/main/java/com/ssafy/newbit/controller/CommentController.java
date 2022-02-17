@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@CrossOrigin(origins = { "http://localhost:8080", "http://i6a101.p.ssafy.io:8080"})
+@CrossOrigin(origins = { "http://localhost:8080", "https://i6a101.p.ssafy.io"})
 @RestController
 @RequestMapping("/comment")
 @Api("댓글 컨트롤러  API")
