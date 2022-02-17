@@ -1,7 +1,7 @@
 <template>
   <apexchart
     type="heatmap"
-    height="300"
+    height="225"
     :options="chartOptions"
     :series="series"
   ></apexchart>

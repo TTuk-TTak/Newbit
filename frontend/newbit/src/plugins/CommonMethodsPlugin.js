@@ -26,8 +26,8 @@ CommonMethodsPlugin.install = function (Vue) {
     this.$router.push({ name: 'Login' })
   }
   // 6) 내 프로필 상세페이지 이동
-  Vue.prototype.$goToMyProfile = function () {
-    this.$router.push({ name: 'ProfileDetail', params: { userCode: this.$store.state.user.userCode } })
+  Vue.prototype.$goToMyProfile = function (my_user_code) {
+    this.$router.push({ name: 'ProfileDetail', params: { userCode: my_user_code } })
   }
   // 7) 프로필 수정페이지 이동
   Vue.prototype.$goToProfileEdit = function () {
@@ -36,6 +36,10 @@ CommonMethodsPlugin.install = function (Vue) {
   // 8) 검색페이지로 이동 
   Vue.prototype.$goToSearchFeed = function () {
     this.$router.push({ name: 'Search' })
+  }
+  // 9) 회원가입 완료 페이지 이동 
+  Vue.prototype.$goToSignupCompletePage = function () {
+    this.$router.push({ name: 'SignupComplete' })
   }
 
   // 8) 포스트 상세 페이지로 이동
@@ -90,14 +94,24 @@ CommonMethodsPlugin.install = function (Vue) {
   Vue.prototype.$login = function (credentials) {
     axios.post(`${this.$serverURL}/user/login`, credentials)
       .then((res) => {
-        localStorage.setItem('jwt', res.data['access-token'])
-        return res.data.userCode
+        if (res.data.message === 'success') {
+          localStorage.setItem('jwt', res.data['access-token'])
+          return res.data.userCode
+        }
+        else {
+          return false
+        }
       })
       .then((res) => {
-        localStorage.setItem('user_code', res)
-        this.$fetchMyInformation(res)
-        this.$fetchFollowRecommendation(res)
-        this.$goToSocialFeed()
+        if (res) {
+          localStorage.setItem('user_code', res)
+          this.$fetchMyInformation(res)
+          this.$fetchFollowRecommendation(res)
+          this.$goToSocialFeed()
+        }
+        else {
+          alert('이메일 또는 비밀번호를 다시 입력해주세요')
+        }
       })
       .catch((err) => {
         console.log(err)
@@ -120,6 +134,7 @@ CommonMethodsPlugin.install = function (Vue) {
     const config = {
       'X-AUTH-TOKEN': `${token}`,
     }
+    console.log(config)
     return config
   }
 
@@ -158,12 +173,12 @@ CommonMethodsPlugin.install = function (Vue) {
       .then((res) => {
         console.log(res)
       })
-        .then((res) => {
-          const snackbarText = `${userNick}님을 팔로우했습니다.`
-          this.$store.dispatch('turnSnackBarOn', snackbarText)
-          console.log(res)
-        })
-    }
+      .then((res) => {
+        const snackbarText = `${userNick}님을 팔로우했습니다.`
+        this.$store.dispatch('turnSnackBarOn', snackbarText)
+        console.log(res)
+      })
+  }
   // 2) 팔로잉 취소
   Vue.prototype.$unFollow = function (userCode, userNick) {
     const myUserCode = localStorage.getItem('user_code')
