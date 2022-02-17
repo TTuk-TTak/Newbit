@@ -5,17 +5,22 @@
         <v-col
           cols="2"
           align-self="center"
-        >
-          <v-img
-            v-if="user.userImg"
-            class="v-avatar image"
-            :src="user.userImg"
-          />
-          <v-img
-            v-else
-            class="v-avatar image"
-            src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
-          />
+          >
+          <v-list-item-avatar
+            size=80
+            class="ml-2"
+          >
+            <v-img
+              v-if="user.userImg"
+              class="v-avatar image"
+              :src="user.userImg"
+            />
+            <v-img
+              v-else
+              class="v-avatar image"
+              src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
+            />
+          </v-list-item-avatar>
         </v-col>
         <v-col
           cols="7"

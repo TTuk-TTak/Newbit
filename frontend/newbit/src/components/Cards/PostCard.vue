@@ -13,11 +13,12 @@
         <a href="#none">
         <v-avatar
           @click="$goToProfile(post.userCode)"
-          size='32'
+          size='42'
         >
           <img
             :src="post.userImg"
             @error='defaultProfile'
+            style="object-fit:cover"
           >
         </v-avatar>
         </a>
