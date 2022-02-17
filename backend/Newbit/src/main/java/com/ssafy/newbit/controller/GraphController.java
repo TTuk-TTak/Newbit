@@ -41,7 +41,7 @@ import java.time.*;
 import java.util.Calendar;
 import java.util.Date;
 
-@CrossOrigin(origins = { "http://localhost:8080", "http://i6a101.p.ssafy.io:8080"})
+@CrossOrigin(origins = { "http://localhost:8080", "https://i6a101.p.ssafy.io"})
 @RestController
 @RequestMapping("/graph")
 @Api("그래프 컨트롤러  API")
