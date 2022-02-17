@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 
-@CrossOrigin(origins = { "http://localhost:8080" })
+@CrossOrigin(origins = { "http://localhost:8080", "http://i6a101.p.ssafy.io:8080"})
 @RequestMapping("/noti")		
 @RestController
 public class NotiController{
