@@ -174,14 +174,13 @@ export default {
       const data = { userCode: user_code, userKeyword: this.user.userKeyword }
       // axios.post(`${this.$serverURL}/user/setting/keywordset`, { userCode: user_code, userKeyword: this.user.userKeyword }, { headers: headers })
       axios({
-        url: `${this.$serverURL}/user/setting/keywordset`,
+        url: `${this.$serverURL}/user/keywordset`,
         method: 'post',
         data,
         headers,
       })
         .then((res) => {
           console.log(res)
-
         })
         .catch((err) => {
           console.log(err)
@@ -189,9 +188,11 @@ export default {
     },
     sendUserIntroImg: function (user_code) {
       const headers = this.$setToken()
+      const data = { userCode: user_code, userIntro: this.credentials.introduction, userImg: this.user.userImg } // userImg 업로드 방법을 몰라 일단 vuex user.userImg
       axios({
-        url: `${this.$serverURL}/user/setting/introset?uid=${user_code}&userintro=${this.credentials.introduction}&userimg=${this.user.userImg}`,
-        method: 'POST',
+        url: `${this.$serverURL}/user/introset`,
+        method: 'post',
+        data,
         headers,
       })
         .then((res) => {
