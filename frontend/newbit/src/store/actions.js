@@ -121,7 +121,7 @@ export default {
     const user_code = localStorage.getItem('user_code')
     axios({
       method: 'get',
-      url: `http://localhost:9999/api/noti?`
+      url: `${serverURL}/noti?`
         + `uid=${user_code}`
         // + `uid=1`
     })
