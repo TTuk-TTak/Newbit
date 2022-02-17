@@ -176,6 +176,7 @@
 			and (post_code  <![CDATA[<]]>
 			#{lastPostCode})
 		</if>
+		order by post_code desc
 		limit #{size}
 	</select>
 	
