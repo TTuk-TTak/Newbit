@@ -52,10 +52,14 @@
         <v-card-actions
           @click="clickWriteBtn()"
         >
-          <btn-dark
-            class='grow my-2'
-            message='글 작성'
-          ></btn-dark>
+            <v-btn
+              class='btnDarkText--text grow my-2'
+              color='btnDarkBackground'
+              rounded
+              x-large
+            > 
+              작성 완료 
+            </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -85,13 +89,13 @@ import _ from 'lodash'
 import axios from 'axios'
 
 import { mapState } from 'vuex'
-import BtnDark from '@/components/Commons/BtnDark.vue'
+// import BtnDark from '@/components/Commons/BtnDark.vue'
 import EmbeddedContentCard from '@/components/Cards/EmbeddedContentCard.vue'
 
 export default {
   name: 'PostCreateModal',
   components: {
-    BtnDark,
+    // BtnDark,
     EmbeddedContentCard,
   },
   data: () => {
@@ -161,8 +165,9 @@ export default {
           const snackbarText = '게시물을 작성했습니다.'
           this.$store.dispatch('turnSnackBarOn', snackbarText)
           console.log(res, '게시물 등록 완료')
-          this.resetModal()
           this.$store.dispatch('turnPostCreateModalOFF')
+          this.$store.dispatch('socialFeedLoadedAt')
+          this.resetModal()
         })
         .catch((err) => {
           console.log(err)

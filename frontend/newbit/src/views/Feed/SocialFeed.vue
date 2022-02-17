@@ -58,40 +58,15 @@ export default {
     page: 1,
     posts: [],
     lastPostCode: 0,
-    // isINFLoaderRendered: false,
   }),
-  // created () {
-  //   const lastPage = this.socialFeed.pageNum
-  //   if (this.socialFeed.pageNum !== -1) {
-  //     for (let pageNum = 0; pageNum <= lastPage; pageNum ++) {
-  //       this.renderPost(pageNum)
-  //     } 
-  //   } else {
-  //     console.log('ㅋㅋㅋ')
-  //     // this.loadPost()
-  //   }
-  // },
+
   computed: {
     ...mapState([
-      // 'socialFeedLoadedAt',
-      // 'socialFeed',
       'user',
+      'socialFeedLoadedAt',
     ])
   },
   methods: {
-    // loadPost () {
-    //   if (!this.socialFeed.isAtLast){
-    //     this.$store.dispatch('loadPosts')
-    //     return true
-    //   }
-    //   return false
-    // },
-    // renderPost (page) {
-    //   for (let postKey in this.socialFeed.posts[page]) {
-    //     const post = this.socialFeed.posts[page][postKey]
-    //     this.posts.push(post)
-    //   }
-    // },
     infiniteHandler ($state) {
       const size = 8
       axios({
@@ -118,52 +93,26 @@ export default {
         .catch((err) => {
           console.log(err)
         })
-      // setTimeout($state.loaded(), 1000)
-      // $state.complete()
-      // console.log('InfiniteHandler')
-      // if (this.socialFeed.isAtLast) {
-      //   $state.complete()
-      // } else {
-      //   this.loadPost()
-      //   setTimeout($state.loaded(), 1000)
-
-      
-      // if (this.socialFeed.isAtLast) {
-      //   $state.complete()
-      // } else {
-      //   if (this.loadPost()) {
-      //     setTimeout($state.loaded(), 1000)
-      //     // $state.loaded()
-      //   } else {
-      //     $state.complete()
-      //   }
-      // }
-      // if (!this.socialFeed.isAtLast){
-      //   // 로딩 구현 완료시 활성화 할 것.
-      //   if (!this.socialFeed.isAtLast) {
-      //   }
-      //   console.log(1111)
-      // } else {
-      //   $state.complete()
-      // }
     }
   },
-  mounted () {    
-    // this.isINFLoaderRendered = true
-  }
-  // watch: {
-  //   socialFeedLoadedAt: {
-  //     handler () {
-  //       const newPage = this.socialFeed.pageNum
-  //       this.renderPost(newPage)
-  //     }
-  //   },
-  //   user: {
-  //     handler() {
-  //       this.loadPost()
-  //     }
-  //   }
+  // mounted () {    
+  //   // this.isINFLoaderRendered = true
   // },
+  watch: {
+    socialFeedLoadedAt: {
+      handler () {
+        console.log(this.socialFeedLoadedAt)
+        this.posts = []
+        this.lastPostCode = 0
+        this.infiniteHandler()
+      }
+    },
+    // user: {
+    //   handler() {
+    //     this.loadPost()
+    //   }
+    // }
+  },
 
 }
 </script>

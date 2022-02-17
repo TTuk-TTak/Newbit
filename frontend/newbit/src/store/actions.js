@@ -39,6 +39,10 @@ export default {
   },
 
   // // 2. Feed조작
+  socialFeedLoadedAt: function ({ commit }) {
+    commit('SOCIAL_FEED_LOADED_AT')
+  },
+
   // loadPosts: function ({ commit }) {
   //   const size = 8
   //   axios({

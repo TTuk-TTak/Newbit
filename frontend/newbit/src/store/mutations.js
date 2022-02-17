@@ -26,8 +26,12 @@ export default {
     state.recommendedPeople = recommended
   },
 
-
   // 2. SocialFeed 조작
+  SOCIAL_FEED_LOADED_AT: function (state) {
+    state.socialFeedLoadedAt = new Date()
+    console.log(state.socialFeedLoadedAt)
+  },
+
   // 1) 포스트 로딩
   // LOAD_POSTS: function (state, data) {
   //   // (1) 선언

@@ -34,6 +34,9 @@ export default {
     //   }
     // }
   }, 
+
+  socialFeedLoadedAt: null,
+
   curationFeed: {
 
     lastContentCode: 0,
@@ -51,9 +54,12 @@ export default {
   embeddedContent: {
     contentCode: 0
   },
+
   searchModal: {
     input: '',
   },
+
+
   favoredKeyword: [],
   recommendedPeople: [],
 

@@ -9,7 +9,7 @@
     <a href="#none">
       <v-img
         max-height="170"
-        class="contentcardImg"
+        class="contentcardImg rounded-sm rounded-b-0"
         :src="`${content.contentImg}`"
         @click="selectContent()"
       ></v-img>
@@ -134,7 +134,7 @@ export default {
     }
   },
   props: {
-    content: Object
+    content: Object,
   },
   methods: {
     selectContent(){
