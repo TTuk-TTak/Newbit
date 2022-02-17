@@ -78,23 +78,57 @@
       </div>
 
       <div>
-        <v-btn 
-          @click="clickShareBtn()"
-          icon>
-          <v-icon>mdi-autorenew</v-icon>
-        </v-btn>
-        <v-btn 
-          @click="clickArchiveBtn()"
-          icon>
-          <v-icon v-if="content.scrapped">mdi-bookmark</v-icon>
-          <v-icon v-else>mdi-bookmark-outline</v-icon>
-        </v-btn>        
-        <v-btn 
-          @click="clickLikeBtn()"
-          icon>
+        <!-- 1. 공유 버튼 -->
+        <v-tooltip
+          :disabled='user ? true : false '
+          bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn 
+              v-bind="attrs"
+              v-on="on"
+              @click="clickShareBtn()"
+              icon>
+              <v-icon>mdi-autorenew</v-icon>
+            </v-btn>
+          </template>
+          <span>로그인이 필요한 기능입니다.</span>
+        </v-tooltip>
+
+
+        <!-- 2. 북마크  -->
+        <v-tooltip
+          :disabled='user ? true : false '
+          bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn 
+              v-bind="attrs"
+              v-on="on"
+              @click="clickArchiveBtn()"
+              icon>
+              <v-icon v-if="content.scrapped">mdi-bookmark</v-icon>
+              <v-icon v-else>mdi-bookmark-outline</v-icon>
+            </v-btn>
+          </template>
+          <span>로그인이 필요한 기능입니다.</span>
+        </v-tooltip>
+
+
+        <!-- 3. 좋아요  -->
+        <v-tooltip
+          :disabled='user ? true : false '
+          bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn 
+              v-bind="attrs"
+              v-on="on"
+              @click="clickLikeBtn()"
+              icon>
           <v-icon v-if="content.liked">mdi-heart</v-icon>
           <v-icon v-else>mdi-heart-outline</v-icon>
-        </v-btn>        
+            </v-btn>
+          </template>
+          <span>로그인이 필요한 기능입니다.</span>
+        </v-tooltip>
       </div>
     </v-card-actions>
   </v-card>

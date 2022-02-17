@@ -3,7 +3,17 @@
     <v-tabs
       class="backgroundDark"
     >
+    <!-- 2. 추천 피드  -->
+    <v-tab
+      @click="clickContent()"
+      class="backgroundDark"
+      :ripple='false'
+      text
+      >
+      추천피드
+    </v-tab>
 
+  <!-- 1. 소셜피드 -->
     <v-tooltip
       :disabled='user ? true : false '
       bottom>
@@ -22,15 +32,7 @@
       <span>로그인이 필요한 기능입니다.</span>
     </v-tooltip>
 
-    <!-- 2. 추천 피드  -->
-    <v-tab
-      @click="clickContent()"
-      class="backgroundDark"
-      :ripple='false'
-      text
-      >
-      추천피드
-    </v-tab>
+
 
 
     <v-tooltip
