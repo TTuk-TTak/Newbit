@@ -21,7 +21,10 @@
               cols="6"
               class="pa-0"
             >
-              <login-modal-default @click-change="closeModal()"></login-modal-default>
+              <login-modal-default
+                :dialog="dialog"
+                @click-change="closeModal()"
+              ></login-modal-default>
             </v-col>
           </v-row>
         </v-container>
@@ -54,8 +57,8 @@ export default {
       }
       return true
     },
-    closeModal () {
-      this.dialog = false
+    closeModal (changedStatus) {
+      this.dialog = changedStatus
     }
   }
 }

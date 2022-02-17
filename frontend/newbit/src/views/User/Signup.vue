@@ -64,6 +64,7 @@
                   <v-text-field
                     v-model.trim="rePassword"
                     :rules="[passwordConfirmationRule]"
+                    class="mb-5"
                     label="비밀번호 확인"
                     type="password"
                     solo
@@ -71,10 +72,6 @@
                     rounded
                     @keypress.enter="signup(credentials)"
                   ></v-text-field>
-                  <v-checkbox
-                    class="mt-0 ml-3 pt-0"
-                    label="이용약관 동의"
-                  ></v-checkbox>
                   <v-btn
                     @click="signup(credentials)"
                     class="font-weight-bold"
@@ -157,7 +154,7 @@ export default {
       if (validate) {
         axios.post(`${this.$serverURL}/user/signup`, credentials)
           .then(() => {
-            this.$goToLoginPage()
+            this.$goToSignupCompletePage()
           })
           .catch((err) => {
             console.log(err)

@@ -3,7 +3,7 @@
     style="padding-left:25px; padding-right:25px"
     rounded
     depressed
-    outlined
+    :outlined="this.followStatus"
     :color="color"
     :class="fontcolor"
     @click="onClick()"
@@ -51,10 +51,10 @@ export default {
       return this.followStatus ? '언팔로우' : '팔로우'
     },
     color: function () {
-      return this.followStatus ? '"#C4C4C4"' : 'btnLiteBackground'
+      return this.followStatus ? "'#C4C4C4'" : '#0d0e23'
     },
     fontcolor: function () {
-      return this.followStatus ? '"#0D0E23"--text' : 'btnLiteText--text'
+      return this.followStatus ? '"#0D0E23"--text' : 'white--text'
     },
     ...mapState([
       'user',

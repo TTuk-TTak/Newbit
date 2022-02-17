@@ -171,9 +171,12 @@ export default {
     },
     sendUserKeyword: function (user_code) {
       const headers = this.$setToken()
+      const data = { userCode: user_code, userKeyword: this.user.userKeyword }
+      // axios.post(`${this.$serverURL}/user/setting/keywordset`, { userCode: user_code, userKeyword: this.user.userKeyword }, { headers: headers })
       axios({
-        url: `${this.$serverURL}/user/setting/keywordset?uid=${user_code}&userkeyword=${this.user.userKeyword}`,
-        method: 'POST',
+        url: `${this.$serverURL}/user/setting/keywordset`,
+        method: 'post',
+        data,
         headers,
       })
         .then((res) => {

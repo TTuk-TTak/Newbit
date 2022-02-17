@@ -5,7 +5,7 @@
       justify="center"
       dense
     >
-      <v-col cols="4">
+      <v-col cols="5">
         <v-card
           class="rounded-xl"
           elevation="3"
@@ -13,20 +13,23 @@
         >
           <v-row justify="center">
             <v-col cols="10">
-              <v-card-title class="d-flex justify-center mb-9">
+              <v-card-title class="d-flex justify-center mt-6 mb-15">
                 <p class="text-h3 font-weight-bold">Newbit</p>
               </v-card-title>
               <v-card-text class="text-center">
-                <p class="text-h5 font-weight-bold mb-9">회원가입이 완료되었습니다!</p>
+                <p class="text-h5 font-weight-bold mb-12">회원가입이 완료되었습니다!</p>
                 <v-icon
-                  large
-                  color="green darken-2"
-                >mdi-domain
+                  class="mb-12"
+                  x-large
+                  color="orange"
+                >mdi-party-popper
                 </v-icon>
-                <p class="text-h6 font-weight-bold ma-0 grey--text">환영합니다!</p>
-                <p class="text-h6 font-weight-bold mb-15 grey--text">로그인 하고 Newbit의 모든 서비스를 이용하세요.</p>
+                <div class="text-h6 font-weight-bold">환영합니다!</div>
+                <div class="text-h6 font-weight-bold mb-15">로그인 하고 Newbit의 모든 서비스를 이용하세요.</div>
+                <v-card-actions>
+                </v-card-actions>
                 <v-btn
-                  @click="login(credentials)"
+                  @click="$goToLoginPage()"
                   class="font-weight-bold mb-6"
                   color="black"
                   dark
@@ -35,7 +38,7 @@
                   rounded
                 >로그인</v-btn>
                 <v-btn
-                  to="/"
+                  @click="$goToSocialFeed()"
                   class="font-weight-bold"
                   color="white"
                   x-large
