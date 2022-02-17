@@ -5,7 +5,6 @@
     v-if="post"
     class="px-2 pl-8 pr-8"
   >
-    {{ post.scrapped }}
     <!-- 1. 카드 상단부 -->
     <div
       class='pt-4 pa-3 pb-0 justify-space-between align-end'
