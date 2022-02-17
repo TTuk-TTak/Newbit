@@ -43,7 +43,7 @@ export default {
     contents: [],
     preSelectedKeyword: null,
   },
-  
+
   archivingFeed: {
 
   },

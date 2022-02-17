@@ -108,6 +108,7 @@ export default {
   },
   DELETE_NOTIFICATION: function (state) {
     state.notiCenter = null
-  }
+  },
+
 
 }
