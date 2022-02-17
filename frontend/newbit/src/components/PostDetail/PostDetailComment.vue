@@ -24,7 +24,7 @@
               plain 
               text
               small
-              >
+              > 
                 {{ isReplying ? '작성 취소' : '답글 작성'}}
             </v-btn>
 
