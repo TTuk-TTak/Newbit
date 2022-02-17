@@ -3,19 +3,25 @@
     outlined
     class="pa-4 pt-2 cardMargin"
   >
-    <!-- color="feedBackground" -->
     <div class="mx-2" style="border-bottom:1px solid lightgray">
       <v-tabs
         class="ml-1 mr-3"
         slider-color='#0d0e23'
       >
-        <v-tab class="contentTab">컨텐츠</v-tab>
-        <!-- <v-tab class="contentTab">게시글</v-tab> -->
+        <v-tab 
+          class="contentTab"
+          @click="setContent()"
+          >컨텐츠</v-tab>
+        <v-tab 
+          class="contentTab"
+          @click="setPost()"
+          >게시글</v-tab>
         <v-row
           class="pt-2 pr-4"
           justify='end'
         >
           <v-switch
+            v-show="searchType==='content'"
             v-model="unreadOnly"
             label="읽지 않은 글만 보기"
           ></v-switch>
@@ -23,10 +29,12 @@
         <hr>
       </v-tabs>
     </div>
-    <keyword-toggler 
+    <keyword-toggler
+      v-show="searchType==='content'"
       class="px-1 mt-3"
-      @query-string-changed = 'resetContents'
+      @query-string-changed = 'resetFeed'
       ></keyword-toggler>
+    <!-- 컨텐츠 카드 -->
     <v-row
       class="pa-2 pt-3"
     >
@@ -42,6 +50,29 @@
         ></content-card>
       </v-col>
     </v-row>
+    <!-- 게시글 카드 -->
+    <v-row
+      class=" pa-2 px-4"
+    >
+      <v-row
+        v-if='posts'
+        class="pt-2"
+        justify='center'
+        align='start'
+        cols=12
+      >
+        <!-- id='socialFeed' -->
+        <v-col
+          v-for="(post, index) in posts"
+          :key="`social` + index" 
+          class="pa-1 pb-1 bottomBorder"
+          cols=12
+        >
+          <post-card :post='post'></post-card>
+        </v-col>
+      </v-row>
+    </v-row>
+
     <!-- 무한 스크롤 -->
     <v-row
       class="mt-5 pt-5 justify-self-center align-self-end"
@@ -72,6 +103,7 @@ import { mapState } from 'vuex'
 // local
 import KeywordToggler from '@/components/Keyword/KeywordToggler.vue'
 import ContentCard from '@/components/Cards/ContentCard.vue'
+import PostCard from '@/components/Cards/PostCard.vue'
 
 export default {
   name: 'Archive',
@@ -79,6 +111,7 @@ export default {
     InfiniteLoading,
     KeywordToggler,
     ContentCard,
+    PostCard,
   },
   data () {
     return {
@@ -86,9 +119,14 @@ export default {
       contents: [],
       lastContentCode: 0,
       lastPostCode: 0,
-      unreadOnly: false,
+
+      searchType: 'content',
+      showKeywordToggler: false,
+      unreadOnly: false,  
       infinityHandlerRendered: true,
-      keywordString: null
+      keywordString: null,
+
+      query: ''
     }
   },
   computed: {
@@ -98,31 +136,66 @@ export default {
     ])
   },
   methods: {
-    resetContents (queryString) {
+    resetFeed (queryString) {
       queryString ? this.keywordString = queryString : this.keywordString = null
-      this.contents = []
       this.lastContentCode = 0
-      this.infinityHandlerRendered = false
+      this.lastPostCode = 0
+      this.posts = []
+      this.contents = []
+    },
+
+    async setPost () {
+      this.searchType = 'post'
+      await this.resetFeed()
       this.infiniteHandler()
-      setTimeout(this.infinityHandlerRendered = true, 300)
+    },
+
+    async setContent() {
+      this.searchType = 'content'
+      await this.resetFeed()
+      this.infiniteHandler()
+    },
+    
+    makeQueryString () {
+      let queryString = ''
+      const size = 8
+      if (this.searchType === 'content') {
+        queryString = `${this.$serverURL}/scrap/content`
+            + (this.unreadOnly ? `/unread?` : `?`)
+            + `uid=${this.user.userCode}`
+            + `&lastcontentcode=${this.lastContentCode}`
+            + `&size=${size}`
+            + `&keyword=${this.keywordString}`
+      } else {
+        // /scrap/post?uid={user_code}&lastpostcode={lastpostcode}&size={size}&keyword={keywordchip}
+        queryString = `${this.$serverURL}/scrap/post?`
+            + `uid=${this.user.userCode}`
+            + `&lastpostcode=${this.lastPostCode}`
+            + `&size=${size}`
+            + `&keyword=null`
+      }
+      this.query = queryString
     },
     infiniteHandler ($state) {
-      const size = 8
+      this.makeQueryString()
+      console.log(this.query)
       axios({
         method: 'get',
-        url: `${this.$serverURL}/scrap/content`
-          + (this.unreadOnly ? `/unread?` : `?`)
-          + `uid=${this.user.userCode}`
-          + `&lastcontentcode=${this.lastContentCode}`
-          + `&size=${size}`
-          + `&keyword=${this.keywordString}`
+        url: this.query
       })
         .then(res => {
           if (res.data.length !== 0) {
             console.log(res.data)
-            this.lastContentCode = _.last(res.data).contentCode
-            for (let key in res.data) {
-              this.contents.push(res.data[key])
+            if (this.searchType === 'post') {
+              this.lastPostCode = _.last(res.data).postCode
+              for (let key in res.data) {
+                this.posts.push(res.data[key])
+              }
+            } else {
+              this.lastContentCode = _.last(res.data).contentCode
+              for (let key in res.data) {
+                this.contents.push(res.data[key])
+              }
             }
             $state.loaded();
           } else {
@@ -133,54 +206,21 @@ export default {
           console.log(err)
         })
     },
-    // archiveAll() {
-    //   console.log(11111)
-    //   for (let i=0; i <=700; i++) {
-    //     console.log(i)
-    //     this.archiveContent(i)
-    //   }
-    // },
-    // archiveContent(contentCode) {
-    //   console.log(contentCode)
-    //   axios({
-    //     method: 'POST',
-    //     url: `${this.$serverURL}/content/scrap`,
-    //     data: {
-    //       'uid': this.user.userCode,
-    //       'cid': contentCode,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log('archived', res)
-    //     if (res.data === 'success') {
-    //       this.content.scrapped = true
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })  
-    // },
-
   },
   watch: {
     unreadOnly: {
-      handler() {
-        this.lastContentCode = 0
-        this.lastPostCode = 0
-        this.posts = []
-        this.contents = []
+      async handler() {
+        await this.resetFeed()
         this.infiniteHandler()
       }
     },
     archivingFeedLoadedAt: {
-      handler() {
-      this.lastContentCode = 0
-      this.lastPostCode = 0
-      this.posts = []
-      this.contents = []
-      this.infiniteHandler()
+      async handler() {
+        await this.resetFeed()      
+        this.infiniteHandler()
       }
-    }
+    },
+
   },
 }
 </script>
@@ -190,5 +230,8 @@ export default {
   padding-left: 1000px; 
 }
 
+.bottomBorder {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
 
 </style>

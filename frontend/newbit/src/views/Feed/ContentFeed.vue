@@ -8,7 +8,7 @@
         class="ml-1 mr-3"
         slider-color='#0d0e23'
       >
-        <v-tab class="contentTab" @click="[setHot(), changeType(), ]">인기 컨텐츠</v-tab>
+        <v-tab class="contentTab" @click="[setHot(), changeType()]">인기 컨텐츠</v-tab>
         <v-tab class="contentTab" @click="[setNew(), changeType()]">최신 컨텐츠</v-tab>
         <hr>
       </v-tabs>
@@ -140,7 +140,7 @@ export default {
       this.keywordString = this.curationFeed.preSelectedKeyword
       this.$store.dispatch('presetCurationKeyword', null)
     }
-    this.infiniteHandler()
+    // this.infiniteHandler()
   },
   watch: {
     contentFeedLoadedAt: {

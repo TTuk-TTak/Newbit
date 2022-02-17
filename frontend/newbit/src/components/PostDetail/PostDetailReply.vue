@@ -11,8 +11,8 @@
         class="underlineOff"
         @click="$goToProfile(reply.userCode)"
         >      
-        </a>
         <user-profile-icon :imgUrl="reply.userImg"></user-profile-icon>
+      </a>
 
       </v-col>
       <v-col>

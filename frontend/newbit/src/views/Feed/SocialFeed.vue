@@ -95,9 +95,7 @@ export default {
         })
     }
   },
-  // mounted () {    
-  //   // this.isINFLoaderRendered = true
-  // },
+
   watch: {
     socialFeedLoadedAt: {
       handler () {
@@ -110,9 +108,8 @@ export default {
     user: {
       deep: true,
       handler() {
-        this.posts = []
-        this.lastPostCode = 0
-        this.infiniteHandler()
+        this.$store.dispatch('socialFeedLoadedAt')
+        // this.infiniteHandler()
       }
     }
   },

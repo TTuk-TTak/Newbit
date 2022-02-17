@@ -141,22 +141,22 @@
       >
         <!-- SocialFeed.vue code 복붙 -->
         <v-row
-          class="pa-2 px-4 fill-height"
+          class="pa-2 fill-height"
           align='start'
         >
           <v-row
             class="pt-2"
             justify='center'
             align='start'
-            id='socialFeed'
           >
             <v-col
               v-for="(post, index) in posts"
               :key="`social` + index"
-              class="pa-1 pb-1"
+              class="pa-1"
               cols=12
             >
               <post-card :post='post'></post-card>
+              <v-divider class="mr-8"></v-divider>
             </v-col>
           </v-row>
 
@@ -304,6 +304,9 @@ export default {
         method: 'get',
       })
         .then((res) => {
+          if (!res.data) {
+            this.$goToCurationFeed()
+          }
           this.user = res.data
 
         })
@@ -499,5 +502,9 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
+
+.borderBottom {
+  border-bottom: 1px solid rgb(221, 221, 221);
+}
 </style>
