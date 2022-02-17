@@ -15,11 +15,13 @@
             v-if="recommendedPerson.userImg"
             class="v-avatar image"
             :src="recommendedPerson.userImg"
+            @click="$goToProfile(recommendedPerson.userCode)"
           />
           <v-img
             v-else
             class="v-avatar image"
             src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
+            @click="$goToProfile(recommendedPerson.userCode)"
           />
         </v-list-item-avatar>
 

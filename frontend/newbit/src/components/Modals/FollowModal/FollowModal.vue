@@ -30,7 +30,10 @@
           :key="person.id"
         >
           <v-list-item-avatar>
-            <v-img :src="person.userImg" />
+            <v-img
+              @click="[$goToProfile(person.userCode), onClick()]"
+              :src="person.userImg"
+            />
           </v-list-item-avatar>
 
           <v-list-item-content>
@@ -57,7 +60,10 @@
           :key="person.id"
         >
           <v-list-item-avatar>
-            <v-img :src="person.userImg" />
+            <v-img
+              @click="[$goToProfile(person.userCode), onClick()]"
+              :src="person.userImg"
+            />
           </v-list-item-avatar>
 
           <v-list-item-content>
