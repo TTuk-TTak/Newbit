@@ -187,7 +187,7 @@ export default {
       const headers = this.$setToken()
       const data = { ...this.credentials, userCode: user_code, userImg: user_img, userKeyword: user_keyword }
       axios({
-        url: `${this.$serverURL}/user/setting`,
+        url: `${this.$serverURL}/user`,
         method: 'patch',
         data,
         headers,
