@@ -30,7 +30,7 @@
     <v-menu offset-y left >
       <template v-slot:activator="{ on, attrs }">
         <v-badge
-          color="grey"
+          color="red"
           offset-x="51"
           offset-y="-1"
         >
