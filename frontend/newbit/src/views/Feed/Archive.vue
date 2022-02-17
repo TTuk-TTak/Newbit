@@ -93,7 +93,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'user'
+      'user',
+      'archivingFeedLoadedAt',
     ])
   },
   methods: {
@@ -169,6 +170,15 @@ export default {
         this.posts = []
         this.contents = []
         this.infiniteHandler()
+      }
+    },
+    archivingFeedLoadedAt: {
+      handler() {
+      this.lastContentCode = 0
+      this.lastPostCode = 0
+      this.posts = []
+      this.contents = []
+      this.infiniteHandler()
       }
     }
   },

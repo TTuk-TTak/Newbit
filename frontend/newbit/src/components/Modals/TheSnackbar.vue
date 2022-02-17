@@ -2,18 +2,21 @@
   <v-snackbar
     v-model="snackbar.isRendered"
     :timeout="snackbar.timeout"
+    :color="`btnDarkBackground`"
+    :class="`btnDarkText--text pa-0 ma-0`"
     >
     {{ snackbar.text }}
-    <template v-slot:action="{ attrs }">
+    <!-- <p class="text-center ma-0 pa-0">{{ snackbar.text }}</p> -->
+    <!-- <template v-slot:action="{ attrs }">
       <v-btn
         color="blue"
         text
         v-bind="attrs"
         @click="snackbar = false"
         >
-        Close
+        닫기
       </v-btn>
-    </template>
+    </template> -->
   </v-snackbar>
 </template>
 

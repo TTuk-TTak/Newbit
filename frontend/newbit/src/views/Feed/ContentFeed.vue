@@ -80,8 +80,10 @@ export default {
     ...mapState([
       'user',
       'curationFeed',
+      'contentFeedLoadedAt',
     ])
   },
+
   methods: {
     resetFeed () {
       this.lastContentCode = 0
@@ -110,7 +112,7 @@ export default {
         method: 'get',
         url: `${this.$serverURL}/content/list?`
           + `sorting=${this.sortingType}`
-          + `&uid=${this.user.userCode}`
+          + `&uid=${this.user ? this.user.userCode : 0}`
           + `&lastcontentcode=${this.lastContentCode}`
           + `&size=${size}`
           + `&keyword=${this.keywordString}`,
@@ -138,7 +140,17 @@ export default {
       this.keywordString = this.curationFeed.preSelectedKeyword
       this.$store.dispatch('presetCurationKeyword', null)
     }
+    this.infiniteHandler()
   },
+  watch: {
+    contentFeedLoadedAt: {
+      async handler () {
+        await this.resetFeed ()
+        this.infiniteHandler() 
+      }
+    }
+  }
+
 }
 </script>
 <style scope>

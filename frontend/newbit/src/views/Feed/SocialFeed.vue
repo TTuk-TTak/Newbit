@@ -107,11 +107,14 @@ export default {
         this.infiniteHandler()
       }
     },
-    // user: {
-    //   handler() {
-    //     this.loadPost()
-    //   }
-    // }
+    user: {
+      deep: true,
+      handler() {
+        this.posts = []
+        this.lastPostCode = 0
+        this.infiniteHandler()
+      }
+    }
   },
 
 }

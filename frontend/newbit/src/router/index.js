@@ -34,14 +34,14 @@ const routes = [
         component: SocialFeed
       },
       {
-        path: 'social/:id',
-        name: 'PostDetail',
-        component: PostDetail
-      },
-      {
         path: 'content',
         name: 'Curation',
         component: ContentFeed
+      },
+      {
+        path: 'social/:id',
+        name: 'PostDetail',
+        component: PostDetail
       },
       {
         path: 'archive',
@@ -50,9 +50,8 @@ const routes = [
       },
       {
         path: '',
-        redirect: 'social' // default 
+        redirect: 'content' // default 
       },
-      // 윤수 made Search Feed here
       {
         path: 'search',
         name: 'Search',

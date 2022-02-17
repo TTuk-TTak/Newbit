@@ -12,11 +12,11 @@
         align='center'
       >
         <v-col
+          class="ml-2 pr-0"
           cols=auto
         >
           <v-icon
             class="align-self-center"
-            large
             @click="searchbtn()"   
           >mdi-magnify</v-icon>
         </v-col>
@@ -25,7 +25,7 @@
             :autofocus="true"
             placeholder="게시글, 컨텐츠, 사용자 검색이 가능합니다."
             v-model="searchString"      
-            class="mb-2 mx-2"
+            class="mb-2 mr-2 pt-0"
             hide-details
             type="String"
           ></v-text-field>  

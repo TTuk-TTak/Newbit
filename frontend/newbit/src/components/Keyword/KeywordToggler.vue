@@ -34,8 +34,10 @@ export default {
       let userKeywordString = ''
       if (this.curationFeed.preSelectedKeyword) {
         userKeywordString = this.curationFeed.preSelectedKeyword
-      } else {
+      } else if (this.user ){
         userKeywordString = this.user.userKeyword
+      } else {
+        userKeywordString = "null"
       }
       const userFavoriteKeyword = this.$parseKeyword(userKeywordString)
 

@@ -20,7 +20,7 @@
       <v-col 
         class="align-between"
         cols=8>
-        <v-row class="px-2 pt-3 pr-2">
+        <v-row class="px-2 pt-3 pr-6">
           <v-col class='py-0' cols=12>
             <a href="#none" class="textDecoOff ma-0 pa-0">
               <h3
@@ -100,23 +100,6 @@
         </v-row>
       </v-col>
     </v-row>
-    <!-- 링크 복사 및 좋아요 팝업 -->
-    <v-snackbar
-      v-model="snackbar.show"
-      :timeout="snackbar.timeout"
-    >
-      {{ snackbar.message }}
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="blue"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
   </v-card>
 </template>
 
@@ -139,11 +122,6 @@ export default {
   data: () => ({
     defaultImg: 'https://cdn.vuetifyjs.com/images/cards/cooking.png', 
     chips: {},
-    snackbar: {
-      show: false,
-      message: '',
-      timeout: '1000'
-    },
     renderChip: false
   }),
   computed: {
