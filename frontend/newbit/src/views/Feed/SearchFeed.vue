@@ -59,8 +59,8 @@
       <!-- id='socialFeed' -->
       <v-col
         v-for="(post, index) in posts"
-        :key="`social` + index"    
-        class="pa-1 pb-1"
+        :key="`social` + index" 
+        class="pa-1 pb-1 test"
         cols=12
       >
         <post-card :post='post'></post-card>
@@ -276,5 +276,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+.test {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 </style>

@@ -95,15 +95,18 @@
     <v-row 
       v-if="isEditing"
       class="pt-2 mx-3" 
-      justify='space-between'>
+      justify='end'>
       <v-btn
+        class="mr-2"
+        outlined
         @click="toggleEdit()"
-        text
       >
         수정 취소
       </v-btn>
       <v-btn
-        class="keywordChipBackground"
+        depressed
+        class="btnDarkBackground btnDarkText--text"
+        style="font-weight: 100"
         @click="editPost()"
       >
         수정 완료
@@ -114,12 +117,12 @@
     </div>
     <!-- 3. 카드 하단부 -->
     <v-row
-      class="container justify-between mt-1 py-0"
+      class="container justify-between mt-1 py-0 mr-0 pr-0"
     >
       <!-- 3-1. 카드 조작 -->
-      <v-col class="py-1">
+      <v-col class="py-1 px-0">
         <v-card-actions
-          class="ml-2 "
+          class="ml-2 px-0"
         >
           <!-- 1) 좋아요 버튼 -->
           <v-btn 
@@ -148,8 +151,8 @@
       <!-- 3-2. 생성 시간 -->
       <v-col class="py-1 ma-0">
         <v-card-text
-          class="text-end date"
-        >{{ post.postDate + (post.postEdit ? '(수정됨)' : '') }}</v-card-text>
+          class="text-end date pr-0"
+        >{{ post.postDate + (post.postEdit ? '  (수정됨)' : '') }}</v-card-text>
       </v-col>
     </v-row>
 
@@ -549,6 +552,8 @@ export default {
   color : #272727;
     font-size : 1em;
 }
+
+
 
 
 </style>

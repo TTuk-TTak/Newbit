@@ -24,7 +24,7 @@
               plain 
               text
               small
-              >
+              > 
                 {{ isReplying ? '작성 취소' : '답글 작성'}}
             </v-btn>
 
@@ -123,16 +123,17 @@
       ></post-detail-reply>
     </v-row>
     <v-row
-      class="mt-0"
-      justify='center'
+      class="mt-0 mb-2 ml-6"
+      justify='start'
     >
       <v-btn
+        class="ml-10 replyBtnText"
         v-if="replies && replies.length"
         @click="toggleReply()"
         text
         small
         >
-        {{ showReplies ? '숨기기' : `답글 ${replies.length}개 보기`}}
+        {{ showReplies ? '▲ 숨기기' : `▼ 답글 ${replies.length}개 보기`}}
       </v-btn>
     </v-row>
     <v-divider class="mt-2"></v-divider>
@@ -251,5 +252,12 @@ export default {
   color : #272727;
 }
 
+.replyBtnText {
+  -webkit-font-smoothing: antialiased;
+  font-size : 0.90em;
+  font-family: 'KoPub Dotum';
+  font-weight: 400;
+  color : #909090;
+}
 
 </style>
