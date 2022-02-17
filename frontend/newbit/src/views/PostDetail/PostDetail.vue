@@ -82,7 +82,7 @@
       @keyup.esc='toggleEdit()'
       :autofocus='true'
       v-model='postEditText'
-      class="post-edit-text mx-3 pa-0"
+      class="post-edit-text mx-3 pa-0 mt-4"
       placeholder="게시글을 작성해주세요."
       rows='8'
       maxlength='500'

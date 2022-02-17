@@ -19,7 +19,8 @@
                 @error="defaultProfile"
               >
             </v-avatar>
-            <span class="ml-2">{{ user.userNick }}</span>
+            <span class="ml-4">{{ user.userNick }}</span>
+            <span class="ml-2 date">@{{ user.userId }}</span>
           </div>
           <!-- 닫기 버튼 -->
           <v-btn 
