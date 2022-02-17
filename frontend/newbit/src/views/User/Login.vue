@@ -13,9 +13,9 @@
         >
           <v-row justify="center">
             <v-col cols="10">
-              <v-card-title class="d-flex justify-center mb-3">
+              <v-card-title class="d-flex justify-center mt-3 mb-9">
                 <span class="text-h3 font-weight-bold">Newbit</span>
-                <span class="text-h6 font-weight-bold mt-6 mb-15">로그인 후 다양한 서비스를 이용해보세요.</span>
+                <span class="text-h6 font-weight-bold mt-9 mb-9">로그인 후 다양한 서비스를 이용해보세요.</span>
               </v-card-title>
               <v-card-text>
                 <v-form>
@@ -36,27 +36,22 @@
                     rounded
                     @keypress.enter="$login(credentials)"
                   ></v-text-field>
-                  <v-checkbox
-                    class="mt-0 ml-3 pt-0"
-                    label="내 정보 기억하기"
-                  ></v-checkbox>
+                  <v-card-actions>
+                  </v-card-actions>
                   <v-btn
                     @click="$login(credentials)"
-                    class="font-weight-bold"
+                    class="font-weight-bold mt-15"
                     color="black"
                     dark
                     x-large
                     block
                     rounded
                   >로그인</v-btn>
-                  <v-card-actions class="mt-6">
-                    <social-login></social-login>
-                  </v-card-actions>
-                  <v-card-actions class="d-flex justify-center mt-6 pa-0">
+                  <v-card-actions class="d-flex justify-center mt-10 pa-0">
                     <v-divider></v-divider>
                     <!-- <span class="text-h7 font-weight-bold">Or</span> -->
                   </v-card-actions>
-                  <v-card-actions class="d-flex justify-center mt-6 pa-0">
+                  <v-card-actions class="d-flex justify-center mt-10 pa-0">
                     <span class="text-h7 grey--text mr-1">아직 계정이 없다면?</span>
                     <router-link :to="{ name: 'Signup' }">회원가입</router-link>
                   </v-card-actions>
@@ -71,9 +66,7 @@
 </template>
 
 <script>
-import SocialLogin from '@/components/Commons/SocialLogin.vue'
 export default {
-  components: { SocialLogin },
   name: 'Login',
   data: function () {
     return {

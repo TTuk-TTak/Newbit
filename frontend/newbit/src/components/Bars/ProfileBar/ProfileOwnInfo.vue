@@ -1,21 +1,25 @@
 <template>
   <div v-if="$store.state.user">
-    <v-row>
+    <v-row class="text-center">
       <v-col class="pb-0">
         <v-avatar
           size="150"
-          class="mt-5 ml-3"
+          class="mt-5"
         >
-          <v-img src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm" />
+          <v-img
+            v-if="user.userImg"
+            class="v-avatar image"
+            :src="user.userImg"
+          />
         </v-avatar>
       </v-col>
     </v-row>
-    <v-row class="align-center">
-      <v-col class="mx-3">
-        <div>{{ user.userNick }}</div>
+    <v-row class="text-center">
+      <v-col class="">
+        <div class="text-h6">{{ user.userNick }}</div>
         <div class="grey--text">{{ `@${user.userId}` }}</div>
       </v-col>
-      <v-col class="d-flex justify-end">
+      <!-- <v-col class="d-flex justify-end">
         <v-btn
           width="150"
           rounded
@@ -27,11 +31,72 @@
         >
           프로필 수정
         </v-btn>
-      </v-col>
+      </v-col> -->
     </v-row>
-    <div class="mt-5 mb-5 mx-3">
-      <div>{{ user.userIntro }}</div>
-      <div class="text-center">게시물 {{ user.userPostCount }}개 | 팔로워 {{ user.userFollowerCount }}명 | 팔로잉 {{ user.userFollowingCount }}명</div>
+    <div class="text-center mt-2 mb-3">
+      <v-btn
+        class="font-weight-black"
+        elevation="0"
+        plain
+        rounded
+        shaped
+      >
+        게시물 {{ user.userPostCount }}
+      </v-btn>
+      <v-dialog
+        v-model="dialog1"
+        width="500"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            class="font-weight-black"
+            elevation="0"
+            v-bind="attrs"
+            v-on="on"
+            plain
+            rounded
+            shaped
+            @click="openFollowerList(user.userCode)"
+          >
+            팔로워 {{ user.userFollowerCount }}
+          </v-btn>
+        </template>
+        <follow-modal
+          :myUserCode="myUserCode"
+          :following_list="following_list"
+          :follower_list_origin="follower_list_origin"
+          :dialog1="dialog1"
+          @props-status-change="onClickChange"
+          category="follower"
+        ></follow-modal>
+      </v-dialog>
+      <v-dialog
+        v-model="dialog2"
+        width="500"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            class="font-weight-black"
+            elevation="0"
+            v-bind="attrs"
+            v-on="on"
+            plain
+            rounded
+            shaped
+            @click="openFollowingList(user.userCode)"
+          >
+            팔로잉 {{ user.userFollowingCount }}
+          </v-btn>
+        </template>
+        <follow-modal
+          :myUserCode="myUserCode"
+          :following_list="following_list"
+          :following_list_origin="following_list_origin"
+          :dialog2="dialog2"
+          @props-status-change="onClickChange"
+          category="following"
+        ></follow-modal>
+      </v-dialog>
     </div>
     <v-btn
       rounded
@@ -51,11 +116,11 @@
     v-else
     style="margin-bottom:30px"
   >
-    <v-row>
+    <v-row class="text-center">
       <v-col class="pb-0">
         <v-avatar
           size="150"
-          class="mt-5 ml-3"
+          class="mt-5"
         >
           <v-img
             class="v-avatar image"
@@ -104,11 +169,25 @@
 import axios from 'axios'
 import { mapMutations } from 'vuex'
 import { mapState } from 'vuex'
+import FollowModal from '@/components/Modals/FollowModal/FollowModal.vue'
+
+
+const myUserCode = localStorage.getItem('user_code')
+
 
 export default {
+  components: {
+    FollowModal
+  },
   data: () => {
     return {
-      allInfo: {}
+      dialog1: false,
+      dialog2: false,
+      allInfo: {},
+      following_list: [],
+      following_list_origin: [],
+      follower_list_origin: [],
+      myUserCode: myUserCode,
     }
   },
   methods: {
@@ -124,6 +203,43 @@ export default {
           this.allInfo = res.data
         })
     },
+    fetchUserFollowingList (user_code) {
+      axios({
+        url: `${this.$serverURL}/follow/following?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.following_list = res.data.map((object) => {
+            return object['userCode']
+          })
+        })
+    },
+    openFollowingList (user_code) {
+      axios({
+        url: `${this.$serverURL}/follow/following?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.following_list_origin = res.data
+        })
+    },
+    openFollowerList (user_code) {
+      axios({
+        url: `${this.$serverURL}/follow/follower?uid=${user_code}`,
+        method: 'get',
+      })
+        .then((res) => {
+          this.follower_list_origin = res.data
+        })
+    },
+    onClickChange (changedStatus, category) {
+      if (category === 'follower') {
+        this.dialog1 = changedStatus
+      }
+      else if (category === 'following') {
+        this.dialog2 = changedStatus
+      }
+    },
   },
   computed: {
     ...mapState([
@@ -132,6 +248,7 @@ export default {
   },
   created () {
     this.fetchAllInformation()
+    this.fetchUserFollowingList(myUserCode)
   }
 }
 </script>
