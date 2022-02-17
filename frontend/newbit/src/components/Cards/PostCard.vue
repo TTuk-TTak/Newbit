@@ -5,6 +5,7 @@
     v-if="post"
     class="px-2 pl-8 pr-8"
   >
+    {{ post.scrapped }}
     <!-- 1. 카드 상단부 -->
     <div
       class='pt-4 pa-3 pb-0 justify-space-between align-end'
@@ -41,22 +42,26 @@
     <!--  -->
     <v-card-actions>
       <v-btn 
-        @click="toggleLike()"
-        icon>
-        <v-icon v-if="post.liked === true">mdi-cards-heart</v-icon>
-        <v-icon v-else>mdi-cards-heart-outline</v-icon>
-      </v-btn>
-      <span class="post-btn-nums">{{ post.postLike }}</span>
-      <v-btn 
         @click="$goToPostDetail(post.postCode)"
         icon
       >
         <v-icon>mdi-message-outline</v-icon>
       </v-btn>
       <span class="post-btn-nums" >{{ post.postComment }}</span>
-      <v-btn icon>
-        <v-icon>mdi-share</v-icon>
+      <v-btn 
+        class="px-0"
+        icon>
+        <v-icon v-if="post.scrapped">mdi-bookmark</v-icon>
+        <v-icon v-else>mdi-bookmark-outline</v-icon>
       </v-btn>
+      <v-btn
+        class="ml-0"
+        @click="toggleLike()"
+        icon>
+        <v-icon v-if="post.liked === true">mdi-heart</v-icon>
+        <v-icon v-else>mdi-heart-outline</v-icon>
+      </v-btn>
+      <span class="post-btn-nums">{{ post.postLike }}</span>
     </v-card-actions>
   </v-card>
 </template>

@@ -122,11 +122,6 @@ export default {
   data: () => ({
     defaultImg: 'https://cdn.vuetifyjs.com/images/cards/cooking.png', 
     chips: {},
-    snackbar: {
-      show: false,
-      message: '',
-      timeout: '1000'
-    },
     renderChip: false
   }),
   computed: {

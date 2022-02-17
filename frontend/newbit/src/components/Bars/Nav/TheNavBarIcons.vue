@@ -67,11 +67,10 @@
         </v-list-item>
       </v-list>
     </v-menu>
-
-
     <!-- 3-1. 비 로그인 사용자: 로그인 버튼 -->
     <v-btn
       v-if="!$store.state.user"
+      :key="loginIconKey"
       icon
       @click="$goToLoginPage()"
     >
@@ -90,7 +89,9 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-avatar size='36'>
+          <v-avatar 
+            :key='profileIconKey'
+            size='36'>
             <img :src="user.userImg">
           </v-avatar>
         </v-btn>
@@ -102,15 +103,17 @@
             <img :src="user.userImg">
           </v-avatar>
           <v-list-item-content class="ml-2">
-            <v-list-item-title>{{user.userNick}}</v-list-item-title>
+            <v-list-item-title>{{ user.userNick }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
         <!-- 2. 설정 -->
-        <v-list-item>
+        <v-list-item
+          @click="$goToProfileEdit()"
+        >
           <v-icon>mdi-cog</v-icon>
           <v-list-item-content class="ml-2">
-            <v-list-item-title>설정</v-list-item-title>
+            <v-list-item-title>프로필 수정</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <!-- 3) 로그아웃 -->
@@ -138,10 +141,11 @@ export default {
   data: () => {
     return {
       isSearchModalRendered: false,
-       notifications: [
+      notifications: [
         { title: '알림이 존재하지 않습니다.' },
       ],
-
+      loginIconKey: 0,
+      profileIconKey: 0,
     }
   },
   created() {
@@ -149,7 +153,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'user', 'notiCenter'
+      'user', 
+      'notiCenter',
     ]),
   },
   methods: {
@@ -174,6 +179,16 @@ export default {
   mounted() {
     setInterval(this.getNotification, 60000); //1분마다 실행
   },
+  watch: {
+    user: {
+      deep: true,
+      immediate: true,
+      handler() {
+        this.loginIconKey += 1
+        this.profileIconKey += 1
+      }
+    }
+  }
 }
 </script>
 
