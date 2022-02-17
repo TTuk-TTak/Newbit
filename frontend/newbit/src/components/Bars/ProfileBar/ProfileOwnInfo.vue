@@ -35,6 +35,7 @@
     </v-row>
     <div class="text-center mt-2 mb-3">
       <v-btn
+        @click="$goToSocialFeed()"
         class="font-weight-black"
         elevation="0"
         plain
