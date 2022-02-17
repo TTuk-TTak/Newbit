@@ -45,15 +45,11 @@
 	<!-- 로그인 유저체크 -->
 	<select id="checkLogin" parameterType="String"
 		resultType="String">
-		<!--select COUNT(user_email) FROM USER WHERE user_email= #{userEmail} AND 
-			user_password= #{userPassword} -->
 		select user_password from user where user_email = #{userEmail}
 	</select>
 	<!-- 로그인 유저코드 조회 -->
 	<select id="getUserCode" parameterType="String"
 		resultType="String">
-		<!--select COUNT(user_email) FROM USER WHERE user_email= #{userEmail} AND 
-			user_password= #{userPassword} -->
 		select user_code `userCode`
 		from user
 		where user_email = #{userEmail}
@@ -172,13 +168,14 @@
 		from user
 		u
 		where (u.user_nick like concat('%',#{search},'%')
-		or u.user_intro like
+		or u.user_id like
 		concat('%',#{search},'%')) and u.user_code !=
 		#{userCode}
 		<if test="lastPostCode != null and lastPostCode != 0">
-			and (post_code  <![CDATA[<]]>
+			and (user_code  <![CDATA[>]]>
 			#{lastPostCode})
 		</if>
+		order by user_code
 		limit #{size}
 	</select>
 

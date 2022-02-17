@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 @Api("유저 컨트롤러  API")
-@CrossOrigin(origins = { "http://localhost:8080"})
+@CrossOrigin(origins = { "http://localhost:8080", "http://i6a101.p.ssafy.io:8080"})
 @RequestMapping("/user")		
 @RestController
 public class UserController{
@@ -90,12 +90,12 @@ public class UserController{
 	@ApiOperation(value = "관심 키워드 추가", notes = "최초 로그인 시, 유저의 관심키워드를 입력받는다", response = String.class)	
 	@PostMapping("/setting/keywordset")
 	public ResponseEntity<String> addUserKeyword(
-			@RequestParam("uid") @ApiParam(value = "관심키워드", required = true) int usercode, String userkeyword){  	
-		logger.info("addUserKeyword 호출 : " + userkeyword);
+			@RequestBody @ApiParam(value = "관심키워드", required = true) UserDto userDto){  	//int usercode, String userkeyword
+		logger.info("addUserKeyword 호출 : " + userDto.getUserKeyword());
 
     	HashMap<String, Object> map = new HashMap<String,Object>();
-    	map.put("userCode",usercode);
-    	map.put("userKeyword",userkeyword);
+    	map.put("userCode",userDto.getUserCode());
+    	map.put("userKeyword",userDto.getUserKeyword());
 		
 		try {
 			if (userService.addUserKeyword(map)) {// userDto 자체 업데이트가 불가능해서 userService.editUserInfo 못사용 
@@ -113,14 +113,14 @@ public class UserController{
 	@ApiOperation(value = "자기소개 추가", notes = "최초 로그인 시, 유저의 자기소개 및 프로필 사진을 입력받는다", response = String.class)	
 	@PostMapping("/setting/introset")		
 	public ResponseEntity<String> addUserIntro(
-			@RequestParam("uid") @ApiParam(value = "자기소개 , 프로필사진", required = true) int userCode, String userIntro, String userImg){  		
+			@RequestBody @ApiParam(value = "자기소개 , 프로필사진", required = true) UserDto userDto){  		// int userCode, String userIntro, String userImg
 		// 사진 입력시 지정 폴더/ img 타입 변경 등 후작업 필요
 		logger.info("addUserIntro 호출 : " );
 		 
     	HashMap<String, Object> map = new HashMap<String,Object>();
-    	map.put("userIntro",userIntro);
-    	map.put("userImg",userImg);
-    	map.put("userCode",userCode);
+    	map.put("userIntro",userDto.getUserIntro());
+    	map.put("userImg",userDto.getUserImg());
+    	map.put("userCode",userDto.getUserCode());
 		
 		try {
 			if (userService.addUserIntro(map)) {
@@ -196,8 +196,6 @@ public class UserController{
 	public ResponseEntity<String> editUserInfo(
 			@RequestBody @ApiParam(value = "수정 가능한 정보 : 아이디, 닉네임, 비밀번호, 한줄 소개, 프로필 사진, 관심 키워드", required = true) UserDto userDto) throws Exception {
 		logger.info("editUserInfo - 호출");
-		System.out.println(userService.editUserInfo(userDto));
-	
 		if (userService.editUserInfo(userDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}

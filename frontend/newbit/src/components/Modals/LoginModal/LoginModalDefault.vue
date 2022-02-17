@@ -11,8 +11,7 @@
         <v-form>
           <v-text-field
             v-model.trim="credentials.userEmail"
-            label="아이디 or 이메일"
-            name="username"
+            label="이메일"
             type="text"
             solo
             outlined
@@ -21,19 +20,14 @@
           <v-text-field
             v-model.trim="credentials.userPassword"
             label="비밀번호"
-            name="password"
             type="password"
             solo
             outlined
             rounded
-            @keypress.enter="[$login(credentials), onClick()]"
+            @keypress.enter="modalLogin(credentials)"
           ></v-text-field>
-          <v-checkbox
-            class="mt-0 ml-3 pt-0"
-            label="내 정보 기억하기"
-          ></v-checkbox>
           <v-btn
-            @click="[$login(credentials), onClick()]"
+            @click="modalLogin(credentials)"
             class="font-weight-bold"
             color="black"
             dark
@@ -41,9 +35,6 @@
             block
             rounded
           >로그인</v-btn>
-          <v-card-actions class="mt-6">
-            <social-login></social-login>
-          </v-card-actions>
           <v-card-actions class="d-flex justify-center mt-6 pa-0">
             <v-divider></v-divider>
           </v-card-actions>
@@ -58,9 +49,12 @@
 </template>
 
 <script>
-import SocialLogin from '@/components/Commons/SocialLogin.vue'
+import axios from 'axios'
+
 export default {
-  components: { SocialLogin },
+  props: {
+    dialog: Boolean
+  },
   name: 'LoginModalDefault',
   data: function () {
     return {
@@ -71,10 +65,36 @@ export default {
     }
   },
   methods: {
-    onClick: function () {
-      this.$emit('click-change')
+    modalLogin: function (credentials) {
+      axios.post(`${this.$serverURL}/user/login`, credentials)
+        .then((res) => {
+          if (res.data.message === 'success') {
+            this.dialog = false
+            this.$emit('click-change', this.dialog)
+            localStorage.setItem('jwt', res.data['access-token'])
+            return res.data.userCode
+          }
+          else {
+            return false
+          }
+        })
+        .then((res) => {
+          if (res) {
+            localStorage.setItem('user_code', res)
+            this.$fetchMyInformation(res)
+            this.$fetchFollowRecommendation(res)
+            this.$goToSocialFeed()
+          }
+          else {
+            alert('이메일 또는 비밀번호를 다시 입력해주세요')
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
-  }
+  },
+
 }
 </script>
 
