@@ -41,11 +41,15 @@ CommonMethodsPlugin.install = function (Vue) {
   Vue.prototype.$goToSignupCompletePage = function () {
     this.$router.push({ name: 'SignupComplete' })
   }
-
-  // 8) 포스트 상세 페이지로 이동
+  // 10) 포스트 상세 페이지로 이동
   Vue.prototype.$goToPostDetail = function (postCode) {
     this.$router.push({ name: 'PostDetail', params: { id: postCode } })
   }
+  // 11) 사용자 상세 페이지로 이동
+  Vue.prototype.$goToProfile = function (userCode) {
+    this.$router.push({ name: 'ProfileDetail', params: { userCode: userCode } })
+  }
+
 
   // 2. 키워드 관련
   // 1) 키워드 string 을 array로 파싱.

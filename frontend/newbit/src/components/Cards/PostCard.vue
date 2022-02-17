@@ -11,7 +11,9 @@
       class='pt-4 pa-3 pb-0 justify-space-between align-end'
     >
       <div>
+        <a href="#none">
         <v-avatar
+          @click="$goToProfile(post.userCode)"
           size='32'
         >
           <img
@@ -19,8 +21,9 @@
             @error='defaultProfile'
           >
         </v-avatar>
-      <span class="ml-3 writer">{{ post.userNick }}</span>
-      <span class="ml-2 date">{{ '@' + post.userId }}</span>
+        </a>
+      <a href="#none" class="underlineOff"><span class="ml-3 writer">{{ post.userNick }}</span></a>
+      <a href="#none" class="underlineOff"><span class="ml-2 date">{{ '@' + post.userId }}</span></a>
       <span class="ml-2 date">·{{ $createdAt(post.postDate) }}</span>
       <span class ="ml-2 date" v-if="post.postEdit">(수정됨)</span>
       </div>
@@ -122,6 +125,8 @@ export default {
       .then((res) => {
         console.log('liked', res)
         if (res.data === 'success') {
+          const snackbarText = '게시글을 좋아요 했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           this.post.postLike++
           this.post.liked = !this.post.liked
         }
@@ -138,6 +143,8 @@ export default {
       .then((res) => {
         console.log('unliked', res)
         if (res.data === 'success') {
+          const snackbarText = '게시글 좋아요를 취소했습니다.'
+          this.$store.dispatch('turnSnackBarOn', snackbarText)
           this.post.liked = !this.post.liked
           this.post.postLike--
         }
@@ -162,4 +169,10 @@ export default {
   font-weight: 100;
   font-size : 0.9em;
 }
+
+.underlineOff {
+  text-decoration: none;
+}
+
+
 </style>

@@ -98,7 +98,7 @@
       </template>
       <v-list>
         <!-- 1) 프로필 사진 -->
-        <v-list-item @click="$goToMyProfile()">
+        <v-list-item @click="$goToMyProfile(user.userCode)">
           <v-avatar size='24'>
             <img :src="user.userImg">
           </v-avatar>

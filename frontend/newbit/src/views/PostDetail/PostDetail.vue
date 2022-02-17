@@ -295,6 +295,7 @@ export default {
     },
     getComments () {
       const postId = _.split(this.$route.path, '/')[2]
+      console.log(12313123)
       axios({
         method: 'GET',
         // headers: this.$setToken(),

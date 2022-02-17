@@ -6,13 +6,29 @@
       <v-col
         class="d-flex shrink"
       >
-        <user-profile-icon :imgUrl="comment.userImg"></user-profile-icon>
+        <a href="#none" class="underlineOff">
+          <user-profile-icon 
+            @click="$goToProfile( comment.userCode )"
+            :imgUrl="comment.userImg"
+          ></user-profile-icon>
+        </a>
       </v-col>
       <v-col>
         <v-row>
           <v-col>
-            <span class="writer">{{ comment.userNick }}</span>
-            <span class="date mx-2">@{{ comment.userId }}</span>
+            <!-- 유저 닉네임 -->
+            <a href="#none" 
+              class="underlineOff"
+              @click="$goToProfile( comment.userCode )"
+              ><span class="writer">
+                {{ comment.userNick }}
+              </span></a>
+            <!-- 유저 id -->
+            <a href="#none"
+              class="underlineOff"
+              @click="$goToProfile( comment.userCode )"
+              ><span class="date mx-2">@{{ comment.userId }}</span></a>
+              <!-- 댓글 생성일 -->
             <span class="date mx-2">·{{ $createdAt(comment.commentDate ) }}</span>
           </v-col>
           <v-col
@@ -258,6 +274,10 @@ export default {
   font-family: 'KoPub Dotum';
   font-weight: 400;
   color : #909090;
+}
+
+.underlineOff {
+  text-decoration: none;
 }
 
 </style>

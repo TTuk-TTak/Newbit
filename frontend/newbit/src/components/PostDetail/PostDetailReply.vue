@@ -7,13 +7,29 @@
       <v-col
         class="d-flex shrink"
       >
+      <a href="#none" 
+        class="underlineOff"
+        @click="$goToProfile(reply.userCode)"
+        >      
+        </a>
         <user-profile-icon :imgUrl="reply.userImg"></user-profile-icon>
+
       </v-col>
       <v-col>
         <v-row>
           <v-col>
-            <span class="writer">{{ reply.userNick }}</span>
-            <span class="date ml-2">@{{ reply.userId }}</span>
+            <a href="#none" 
+              class="underlineOff"
+              @click="$goToProfile(reply.userCode)"
+              >
+              <span class="writer">{{ reply.userNick }}</span>
+            </a>
+            <a href="#none" 
+              class="underlineOff"
+              @click="$goToProfile(reply.userCode)"
+              >
+              <span class="date ml-2">@{{ reply.userId }}</span>
+            </a>
             <span class="date mx-2">·{{ $createdAt(reply.commentDate ) }}</span>
           </v-col>
           <v-col
@@ -71,13 +87,6 @@
                 </v-dialog>
               </div>
             </template>          
-            <!-- <v-btn
-              v-if="user.userCode === reply.userCode"
-              icon
-              @click="deleteComment()"
-            >
-              <v-icon small>mdi-trash-can-outline</v-icon>
-            </v-btn> -->
           </v-col>
         </v-row>
         <p class="comment-text mb-0">{{ reply.commentText }}</p>
@@ -144,4 +153,11 @@ export default {
   font-weight: 400;
   color : #272727;
 }
+
+/* 하이퍼링크 밑줄 해제 */
+.underlineOff {
+  text-decoration: none;
+}
+
+
 </style>

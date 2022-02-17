@@ -42,6 +42,13 @@ export default {
   socialFeedLoadedAt: function ({ commit }) {
     commit('SOCIAL_FEED_LOADED_AT')
   },
+  contentFeedLoadedAt: function ({ commit }) {
+    commit('CONTENT_FEED_LOADED_AT')
+  },
+  archivingFeedLoadedAt: function ({ commit }) {
+    commit('ARCHIVING_FEED_LOADED_AT')
+  },
+
 
   // loadPosts: function ({ commit }) {
   //   const size = 8

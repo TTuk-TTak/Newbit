@@ -1,5 +1,7 @@
 <template>
-    <div class="text-center">
+    <div 
+    v-if="user"
+    class="text-center">
     <v-dialog
       v-model="$store.state.modals.postCreateModal"
       max-width="800"

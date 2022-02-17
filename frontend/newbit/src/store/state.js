@@ -34,8 +34,12 @@ export default {
     //   }
     // }
   }, 
-  // 
+
+  //  
   socialFeedLoadedAt: null,
+  contentFeedLoadedAt: null,
+  archivingFeedLoadedAt: null,
+
   preSelectedKeyword: null,
 
   curationFeed: {

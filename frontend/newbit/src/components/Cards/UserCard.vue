@@ -2,7 +2,9 @@
   <v-list-item
     class="border mb-3 ml-10 firstlogin-follow"
   >
-    <v-list-item-avatar>
+    <v-list-item-avatar
+      @click="$goToProfile(userInfo.userCode)"
+    >
       <v-img
         class="v-avatar image"
         :src="userInfo.userImg"
@@ -10,22 +12,28 @@
     </v-list-item-avatar>
 
     <v-list-item-content>
-      <v-list-item-title v-text="userInfo.userNick"></v-list-item-title>
-      <v-list-item-subtitle v-text="`@${userInfo.userId}`"></v-list-item-subtitle>
+      <v-list-item-title 
+        @click="$goToProfile(userInfo.userCode)"
+        v-text="userInfo.userNick"></v-list-item-title>
+      <v-list-item-subtitle
+        @click="$goToProfile(userInfo.userCode)" 
+        v-text="`@${userInfo.userId}`"></v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action>
       <v-btn
         v-if="userInfo.isFollow"
         @click="clickFollowBtn()"
+        color="btnDarkBackground"
+        class="white--text"
         rounded
         depressed
-        outlined
       >
       언팔로우
       </v-btn>
       <v-btn
         v-if="!userInfo.isFollow"
         @click="clickFollowBtn()"
+        class="btnDarkBackground--text"
         rounded
         depressed
         outlined
