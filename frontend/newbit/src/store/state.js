@@ -35,7 +35,12 @@ export default {
     // }
   }, 
 
+  //  
   socialFeedLoadedAt: null,
+  contentFeedLoadedAt: null,
+  archivingFeedLoadedAt: null,
+
+  preSelectedKeyword: null,
 
   curationFeed: {
 
@@ -47,6 +52,7 @@ export default {
     preSelectedKeyword: null,
   },
 
+
   archivingFeed: {
 
   },
@@ -54,6 +60,7 @@ export default {
   embeddedContent: {
     contentCode: 0
   },
+
 
   searchModal: {
     input: '',

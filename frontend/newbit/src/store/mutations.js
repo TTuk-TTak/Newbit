@@ -26,32 +26,22 @@ export default {
     state.recommendedPeople = recommended
   },
 
-  // 2. SocialFeed 조작
+  // 2. Feed 조작
+  // 1) 소셜 피드
   SOCIAL_FEED_LOADED_AT: function (state) {
     state.socialFeedLoadedAt = new Date()
     console.log(state.socialFeedLoadedAt)
   },
-
-  // 1) 포스트 로딩
-  // LOAD_POSTS: function (state, data) {
-  //   // (1) 선언
-  //   // a. pageNum: 인덱싱을 위한 변수
-  //   // b. lastPostCode: postCode 중 가장 작은 값.  
-  //   const pageNum = state.socialFeed.pageNum
-  //   const lastPostCode = _.last(data).postCode
-
-  //   // (2) State 갱신
-  //   state.socialFeed.pageNum += 1
-  //   state.socialFeed.posts[pageNum + 1] = data
-  //   state.socialFeed.lastPostCode = lastPostCode
-  //   console.log('LOADPOST', state.socialFeedLoadedAt)
-  //   state.socialFeedLoadedAt = Date.now()
-  //   console.log('LOADPOST', state.socialFeedLoadedAt)
-  // },
-  // // 2) 마지막 포스트 도달.
-  // REACHED_LAST_POST: function (state) {
-  //   state.socialFeed.isAtLast = true
-  // },
+  // 2) 콘텐츠 피드
+  CONTENT_FEED_LOADED_AT: function (state) {
+    state.contentFeedLoadedAt = new Date()
+    console.log(state.contentFeedLoadedAt)
+  },
+  // 3) 아카이빙 피드 
+  ARCHIVING_FEED_LOADED_AT: function (state) {
+    state.archivingFeedLoadedAt = new Date()
+    console.log(state.archivingFeedLoadedAt)
+  },
 
   // 3. 컴포넌트 조작
   TURN_POST_CREATE_MODAL_ON: function (state, payload) {

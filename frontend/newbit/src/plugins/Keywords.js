@@ -11,7 +11,7 @@ export const keywords = {
   'ios' : {category: 'Front-end', shownName: 'iOS', defaultImg: '',},
   'uiux' : {category: 'Front-end', shownName: 'UI/UX', defaultImg: '',},
   // 백엔드
-  'node' : {category: 'Back-end', shownName: 'Node.js', defaultImg: '',},
+  'nodejs' : {category: 'Back-end', shownName: 'Node.js', defaultImg: '',},
   // 'php' : {category: 'Back-end', shownName: 'PHP', defaultImg: '',}, 
   'database' : {category: 'Back-end', shownName: 'Database', defaultImg: '',},
   'springboot' : {category: 'Back-end', shownName: 'SpringBoot', defaultImg: '',},

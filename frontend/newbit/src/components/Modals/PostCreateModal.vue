@@ -1,5 +1,7 @@
 <template>
-    <div class="text-center">
+    <div 
+    v-if="user"
+    class="text-center">
     <v-dialog
       v-model="$store.state.modals.postCreateModal"
       max-width="800"
@@ -19,7 +21,8 @@
                 @error="defaultProfile"
               >
             </v-avatar>
-            <span class="ml-2">{{ user.userNick }}</span>
+            <span class="ml-4">{{ user.userNick }}</span>
+            <span class="ml-2 date">@{{ user.userId }}</span>
           </div>
           <!-- 닫기 버튼 -->
           <v-btn 
@@ -63,24 +66,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <!-- 스낵바 팝업 -->
-    <v-snackbar
-      v-model="snackbar.show"
-      :timeout="snackbar.timeout"
-    >
-      {{ snackbar.message }}
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="blue"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
-
   </div>
 </template>
 
@@ -103,11 +88,6 @@ export default {
       btnSize: 'large',
       postText: '',
       content: null,
-      snackbar: {
-        show: false,
-        message: '',
-        timeout: '1000'
-      },
     }
   },
   computed: {
@@ -144,8 +124,8 @@ export default {
       if (this.user && this.content || (this.postText && 0 < this.postText.length <= 500)) {
         this.writePost()
       } else {
-        this.snackbar.message = '게시물 내용을 입력해주세요.'
-        this.snackbar.show = true
+        const snackbarText = '게시물을 작성해주세요.'
+        this.$store.dispatch('turnSnackBarOn', snackbarText)
       }
     },
 

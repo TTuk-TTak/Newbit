@@ -82,7 +82,7 @@
       @keyup.esc='toggleEdit()'
       :autofocus='true'
       v-model='postEditText'
-      class="post-edit-text mx-3 pa-0"
+      class="post-edit-text mx-3 pa-0 mt-4"
       placeholder="게시글을 작성해주세요."
       rows='8'
       maxlength='500'
@@ -197,27 +197,10 @@
         v-for="(comment, index) in comments"
         :key="`comment` + index"
         :comment="comment"
-        @
+        @reply-added="getComments"
       ></post-detail-comment>
     </div>
 
-    <!-- 작성 완료 팝업 -->
-    <v-snackbar
-      v-model="snackbar.show"
-      :timeout="snackbar.timeout"
-    >
-      {{ snackbar.message }}
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="blue"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
   <!-- 삭제 경고 모달 -->
     <div class="text-center">
       <v-dialog
@@ -289,11 +272,6 @@ export default {
       comments: [],
       isEditing: false,
       postEditText: '',
-      snackbar: {
-        show: false,
-        message: '',
-        timeout: '1000'
-      },
       commentText: '',
       dialog: false,
     }
@@ -317,6 +295,7 @@ export default {
     },
     getComments () {
       const postId = _.split(this.$route.path, '/')[2]
+      console.log(12313123)
       axios({
         method: 'GET',
         // headers: this.$setToken(),
@@ -448,8 +427,6 @@ export default {
 
 
     deletePost: function () {
-      this.snackbar.message = '게시글을 삭제했습니다.'
-      this.snackbar.show = true
       axios({
         method: 'DELETE',
         // headers: this.$setToken(),
