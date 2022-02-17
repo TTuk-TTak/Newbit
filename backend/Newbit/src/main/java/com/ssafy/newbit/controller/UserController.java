@@ -87,15 +87,16 @@ public class UserController{
 	}
 
 	/////////////////////////////	 최초 로그인 시 로직  	//////////////////////////////////////////////////////////
+	
 	@ApiOperation(value = "관심 키워드 추가", notes = "최초 로그인 시, 유저의 관심키워드를 입력받는다", response = String.class)	
-	@PostMapping("/setting/keywordset")
+	@PostMapping("/keywordset")
 	public ResponseEntity<String> addUserKeyword(
 			@RequestBody @ApiParam(value = "관심키워드", required = true) UserDto userDto){  	//int usercode, String userkeyword
 		logger.info("addUserKeyword 호출 : " + userDto.getUserKeyword());
-
-    	HashMap<String, Object> map = new HashMap<String,Object>();
-    	map.put("userCode",userDto.getUserCode());
-    	map.put("userKeyword",userDto.getUserKeyword());
+		
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("userCode",userDto.getUserCode());
+		map.put("userKeyword",userDto.getUserKeyword());
 		
 		try {
 			if (userService.addUserKeyword(map)) {// userDto 자체 업데이트가 불가능해서 userService.editUserInfo 못사용 
@@ -105,13 +106,14 @@ public class UserController{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 	
 	
+	
 	@ApiOperation(value = "자기소개 추가", notes = "최초 로그인 시, 유저의 자기소개 및 프로필 사진을 입력받는다", response = String.class)	
-	@PostMapping("/setting/introset")		
+	@PostMapping("/introset")		
 	public ResponseEntity<String> addUserIntro(
 			@RequestBody @ApiParam(value = "자기소개 , 프로필사진", required = true) UserDto userDto){  		// int userCode, String userIntro, String userImg
 		// 사진 입력시 지정 폴더/ img 타입 변경 등 후작업 필요
@@ -192,7 +194,7 @@ public class UserController{
 	
 	// 회원정보 수정
 	@ApiOperation(value = "회원 정보 수정", notes = "수정할 회원 정보를 입력한다. DB 수정 성공 여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PatchMapping("/setting")
+	@PatchMapping
 	public ResponseEntity<String> editUserInfo(
 			@RequestBody @ApiParam(value = "수정 가능한 정보 : 아이디, 닉네임, 비밀번호, 한줄 소개, 프로필 사진, 관심 키워드", required = true) UserDto userDto) throws Exception {
 		logger.info("editUserInfo - 호출");
