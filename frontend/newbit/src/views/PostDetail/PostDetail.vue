@@ -191,12 +191,14 @@
     </v-card-text>
     <div
       v-if='comments'
+      :key='commentKey'
     >
       <post-detail-comment
         class="ml-2"
         v-for="(comment, index) in comments"
         :key="`comment` + index"
         :comment="comment"
+        :preOpenedReply="preOpenReply"
         @reply-added="getComments"
       ></post-detail-comment>
     </div>
@@ -274,6 +276,8 @@ export default {
       postEditText: '',
       commentText: '',
       dialog: false,
+      commentKey: 0,
+      preOpenReply: 0,
     }
   },
   methods: {
@@ -293,15 +297,19 @@ export default {
           console.log(err)
       })
     },
-    getComments () {
+    getComments (repliedCommentCode) {
+      if (repliedCommentCode) {
+        this.preOpenReply = repliedCommentCode
+        console.log(repliedCommentCode)
+      }
       const postId = _.split(this.$route.path, '/')[2]
-      console.log(12313123)
       axios({
         method: 'GET',
         // headers: this.$setToken(),
         url: `${this.$serverURL}/comment?pid=${postId}`,
       })
         .then((res) => {
+          this.commentKey += 1
           const commentObject = {}
           let parentComments = 0
           this.comments.length = 0

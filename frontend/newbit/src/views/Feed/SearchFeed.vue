@@ -3,7 +3,7 @@
     class="pa-2"
     color="feedBackground"
   >
-    <!-- 검색창  -->
+    <!-- 0. 검색창  -->
     <v-card
       outlined
       class="pa-5 my-2 mx-2"
@@ -93,11 +93,6 @@
       :key="`userCard` + index"
       :userInfo = userInfo
     ></user-card>
-    <!-- <user-card
-      v-for="(userInfo, index) in users"
-      :key="`userCard` + index"
-      :userInfo = userInfo
-    ></user-card> -->
   </v-list>
 
   <!-- 무한 스크롤 -->
@@ -113,6 +108,12 @@
       <template slot="no-more">
         2022 - Newbit
       </template>
+      <div
+        class="mb-10"
+        slot="no-results">
+        <p>2022 - Newbit</p>
+        
+      </div>
       </infinite-loading>
       <v-spacer></v-spacer>
   </v-row>
@@ -157,7 +158,7 @@ export default {
   computed: {
     ...mapState([
       'user',
-      'searchModal',
+      'preSelectedKeyword',
     ]),
   },
 
@@ -244,17 +245,17 @@ export default {
 
   },
   watch: {
-    searchModal: {
-      deep: true,
-      // immediate: true,
+    preSelectedKeyword: {
+      immediate: true,
       handler () {
-        this.infinityHandlerRendered = true
-        if (this.searchModal && this.searchModal.input) {
-          this.searchInput = this.searchModal.input
-          console.log(this.searchInput)
+        console.log(this.preSelectedKeyword)
+        if (this.preSelectedKeyword) {
+          this.searchString = this.preSelectedKeyword
+          console.log(11111, this.searchString)
         }
       }
     },
+
     searchString: {
       async handler () {
         await this.setQueryUrl()
@@ -262,6 +263,7 @@ export default {
         this.infiniteHandler()
       }
     },
+
     searchType: {
       async handler () {
         await this.setQueryUrl()

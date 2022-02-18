@@ -13,8 +13,10 @@
         <hr>
       </v-tabs>
     </div>
-    <keyword-toggler class="px-1 mt-3"
-    @query-string-changed = 'changeType'></keyword-toggler>
+    <keyword-toggler 
+      :isInCurationFeed="true"
+      class="px-1 mt-3"
+      @query-string-changed = 'changeType'></keyword-toggler>
     <v-row
       class='pa-2 pt-3'
     >
@@ -35,7 +37,7 @@
     >
       <v-spacer></v-spacer>
       <infinite-loading
-        v-if='user && infinityHandlerRendered'
+        v-if='infinityHandlerRendered'
         class="mt-5 pt-5 justify-self-center align-self-center"
         @infinite="infiniteHandler" 
         >
@@ -107,12 +109,14 @@ export default {
       // setTimeout(this.infinityHandlerRendered = true, 300)
     },
     infiniteHandler ($state) {
+      // console.log(this.user)
       const size = 8
+      const userCode = this.user ? this.user.userCode : 0
       axios({
         method: 'get',
         url: `${this.$serverURL}/content/list?`
           + `sorting=${this.sortingType}`
-          + `&uid=${this.user ? this.user.userCode : 0}`
+          + `&uid=${userCode}`
           + `&lastcontentcode=${this.lastContentCode}`
           + `&size=${size}`
           + `&keyword=${this.keywordString}`,
