@@ -3,7 +3,7 @@
     class="ma-1"
     :color='isActive ? `keywordChipText` : `keywordChipBackground`'
     :text-color='isActive ? `keywordChipBackground` : `keywordChipText`'
-    @click="toggleChip"
+    @click="toggleChip()"
     small
   >{{text}}</v-chip>
 </template>
@@ -26,6 +26,8 @@ export default {
         this.isActive = !this.isActive
         const status = [this.variableName, this.isActive]
         this.$emit('toggle-chip', status)
+      } else {
+        this.$clickKeywordChip(this.variableName)
       }
     },
     setDefaultActivation: function () {

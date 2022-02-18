@@ -57,6 +57,23 @@ CommonMethodsPlugin.install = function (Vue) {
     const keywordArray = _.split(keywordString, '_')
     return keywordArray
   }
+
+  // 2) 키워드 칩 클릭
+  Vue.prototype.$clickKeywordChip = function (keyword) {
+    this.$store.dispatch('presetCurationKeyword', keyword)
+    if (!_.startsWith('/content',this.$route.path, 0)) {
+      this.$router.push({ name: 'Curation' })
+    }
+  }
+
+  // 3) 해시태그 클릭 
+  Vue.prototype.$clickHashtag = function (keyword) {
+    this.$store.dispatch('presetSearchKeyword', keyword)
+    if (!_.startsWith('/search',this.$route.path, 0))
+    this.$router.push({ name: 'Search' })
+  }
+
+
   // 3. 컨텐츠 관련
   // 1) 컨텐츠로 이동
   Vue.prototype.$openContent = function (contentURL) {

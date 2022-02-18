@@ -2,6 +2,7 @@
   <v-chip
     outlined
     small
+    @click="$clickHashtag(text)"
   >
     #{{ text }}
   </v-chip>

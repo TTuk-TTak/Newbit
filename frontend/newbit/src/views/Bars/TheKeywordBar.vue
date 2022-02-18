@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+// import _ from 'lodash'
 
 import { mapGetters } from 'vuex'
 
@@ -57,10 +57,7 @@ export default {
   },
   methods: {
     clickKeyword (keyword) {
-      this.$store.dispatch('presetCurationKeyword', keyword)
-      if (!_.startsWith('/content',this.$route.path, 0)) {
-        this.$goToCurationFeed()
-      }
+      this.$clickKeywordChip(keyword)
     }
   },
 }
