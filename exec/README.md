@@ -80,3 +80,77 @@ cd {클론 받은 폴더}/frontend/newbit
 npm install
 npm run serve
 ```
+
+# 3. 배포하기
+- AWS EC2를 이용하여 배포하였습니다.
+- 사전에 AWS EC2 계정과 인스턴스를 생성해주세요.
+
+* backend
+  ```
+  Maven Build
+  ```
+  * 명령어 통해서 .jar 파일로 빌드합니다.
+
+  * S06P12A101\backend\Newbit\target 이하에 생성된 .jar 파일을 EC2의 Ubuntu 환경으로 이동시킵니다. (mobaxterm사용)
+
+  * 실행 방법
+
+  ```
+  sudo apt-get install openjdk-8-jdk
+  java -jar [생성된 jar파일명.jar] &
+  ```
+
+  * 프로세스 종료 방법
+  
+  ```
+  ps -ef | grep java
+  sudo kill -9 [pid]
+  ```
+
+* front
+  ```
+  npm run Build
+  ```
+  * 명령어를 통해 S06P12A101\frontend\newbit 이하에 dist 폴더를 빌드합니다.
+  * 해당 폴더를 EC2의 Ubuntu 환경으로 이동시킵니다. (mobaxterm사용)
+  
+  * nginx 설치
+  ```
+    sudo apt-get install nginx
+  ```
+
+  * nginx 설정
+  ```
+    server {
+      listen 80;
+      location / {
+        root /home/ubuntu/dist;
+        index index.html index.htm;
+        try_files $uri $uri/ /index.html =404;
+      }
+    }
+      
+    server {
+      listen 443;
+      listen [::]:443;
+      ssl on;
+      server_name i6a101.p.ssafy.io www.i6a101.p.ssafy.io;
+
+      ssl_certificate /etc/letsencrypt/live/i6a101.p.ssafy.io/fullchain.pem;
+      ssl_certificate_key /etc/letsencrypt/live/i6a101.p.ssafy.io/privkey.pem;
+
+      location / {
+        root /home/ubuntu/dist;
+        index index.html index.htm;
+        try_files $uri $uri/ /index.html =404;
+      }
+
+      location /api {
+        proxy_pass http://localhost:9999;
+      }
+    }
+  ```
+
+
+
+
