@@ -30,8 +30,8 @@ CommonMethodsPlugin.install = function (Vue) {
     this.$router.push({ name: 'ProfileDetail', params: { userCode: my_user_code } })
   }
   // 7) 프로필 수정페이지 이동
-  Vue.prototype.$goToProfileEdit = function () {
-    this.$router.push({ name: 'ProfileEdit' })
+  Vue.prototype.$goToProfileEdit = function (my_user_code) {
+    this.$router.push({ name: 'ProfileEdit', params: { userCode: my_user_code } })
   }
   // 8) 검색페이지로 이동 
   Vue.prototype.$goToSearchFeed = function () {
