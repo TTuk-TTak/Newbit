@@ -22,7 +22,7 @@
               class="pa-0"
             >
               <login-modal-default
-                :dialog="dialog"
+                :modal="dialog"
                 @click-change="closeModal()"
               ></login-modal-default>
             </v-col>
