@@ -53,7 +53,7 @@ import axios from 'axios'
 
 export default {
   props: {
-    dialog: Boolean
+    modal: Boolean
   },
   name: 'LoginModalDefault',
   data: function () {
@@ -62,6 +62,7 @@ export default {
         userEmail: '',
         userPassword: '',
       },
+      dialog: this.modal
     }
   },
   methods: {

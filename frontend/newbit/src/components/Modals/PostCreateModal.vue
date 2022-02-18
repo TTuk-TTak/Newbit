@@ -3,6 +3,7 @@
     v-if="user"
     class="text-center">
     <v-dialog
+      v-if='user'
       v-model="$store.state.modals.postCreateModal"
       max-width="800"
     >
@@ -168,7 +169,7 @@ export default {
       immediate: true,
       handler () {
         console.log('크리에이티드', this.embeddedContent)
-        if (this.embeddedContent) {
+        if (this.embeddedContent && this.user ) {
           this.embedPost(this.embeddedContent.contentCode)
     }
       }

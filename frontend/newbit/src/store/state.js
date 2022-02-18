@@ -41,6 +41,7 @@ export default {
   archivingFeedLoadedAt: null,
 
   preSelectedKeyword: null,
+  searchKeywordPreset: null,
 
   curationFeed: {
 
@@ -59,11 +60,6 @@ export default {
 
   embeddedContent: {
     contentCode: 0
-  },
-
-
-  searchModal: {
-    input: '',
   },
 
 

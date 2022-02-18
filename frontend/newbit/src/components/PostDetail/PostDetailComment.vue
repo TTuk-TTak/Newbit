@@ -2,6 +2,7 @@
   <v-container 
     v-if="comment"
     class="my-0 py-0">
+    <!-- {{ comment }} -->
     <v-row class="ml-2 mt-0 my-1 align-center">
       <v-col
         class="d-flex shrink"
@@ -110,6 +111,7 @@
       class="ml-5 my-2 px-5">
       <v-icon>mdi-arrow-right-bottom</v-icon>
       <v-textarea 
+        autofocus
         v-model="replyText"
         class="ml-2 py-0"
         placeholder="답글을 작성해주세요."
@@ -166,6 +168,7 @@ export default {
   name: 'PostDetailComment',
   props: {
     comment: Object,
+    preOpenReply: Number,
   },
   components: {
     UserProfileIcon,
@@ -244,12 +247,17 @@ export default {
     },
   },
   mounted () {
+    console.log(this.preOpenReply, this.comment.commentCode)
     console.log(this.comment.replies)
     const replies = this.comment.replies.length
     if ( replies ) {
       for (let i = replies-1; i >= 0; i--) {
         this.replies.push(this.comment.replies[i])
       }
+    }
+    if (this.preOpenReply && this.preOpenReply === this.comment.commentCode) {
+      this.showReplies = true
+      this.isReplying = true
     }
   }
 }
