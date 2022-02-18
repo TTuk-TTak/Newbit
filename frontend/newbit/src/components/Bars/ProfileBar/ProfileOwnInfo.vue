@@ -3,27 +3,39 @@
     <v-row class="text-center">
       <v-col class="pb-0">
         <a href="#none">
-        <v-avatar
-          @click="$goToProfile(user.userCode)"
-          size="150"
-          class="mt-5"
-        >
-          <v-img
-            v-if="user.userImg"
-            class="v-avatar image"
-            :src="user.userImg"
-          />
-        </v-avatar>
+          <v-avatar
+            @click="$goToProfile(user.userCode)"
+            size="150"
+            class="mt-5"
+          >
+            <v-img
+              v-if="user.userImg"
+              class="v-avatar image"
+              :src="user.userImg"
+            />
+          </v-avatar>
         </a>
       </v-col>
     </v-row>
     <v-row class="text-center">
       <v-col class="">
-        <a href="#none" class="underlineOff">
-          <div class="text-h6 underlineOff" @click="$goToProfile(user.userCode)">{{ user.userNick }}</div>
+        <a
+          href="#none"
+          class="underlineOff"
+        >
+          <div
+            class="text-h6 underlineOff"
+            @click="$goToProfile(user.userCode)"
+          >{{ user.userNick }}</div>
         </a>
-        <a href="#none" class="underlineOff">
-          <div class="grey--text underlineOff" @click="$goToProfile(user.userCode)">{{ `@${user.userId}` }}</div>
+        <a
+          href="#none"
+          class="underlineOff"
+        >
+          <div
+            class="grey--text underlineOff"
+            @click="$goToProfile(user.userCode)"
+          >{{ `@${user.userId}` }}</div>
         </a>
       </v-col>
       <!-- <v-col class="d-flex justify-end">
@@ -256,7 +268,9 @@ export default {
   },
   created () {
     this.fetchAllInformation()
-    this.fetchUserFollowingList(myUserCode)
+    if (myUserCode) {
+      this.fetchUserFollowingList(myUserCode)
+    }
   }
 }
 </script>
@@ -271,5 +285,4 @@ export default {
 .underlineOff {
   text-decoration: none;
 }
-
 </style>
