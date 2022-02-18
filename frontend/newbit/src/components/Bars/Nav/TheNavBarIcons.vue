@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    :key="reRenderBtns"
+  >
     <!-- 1. 검색 아이콘 및 다이얼로그 -->
     <!-- <v-dialog 
       v-model="isSearchModalRendered"
@@ -98,7 +100,9 @@
       </template>
       <v-list>
         <!-- 1) 프로필 사진 -->
-        <v-list-item @click="$goToMyProfile(user.userCode)">
+        <v-list-item 
+          v-if="user"
+          @click="$goToMyProfile(user.userCode)">
           <v-avatar size='24'>
             <img :src="user.userImg">
           </v-avatar>
@@ -146,10 +150,13 @@ export default {
       ],
       loginIconKey: 0,
       profileIconKey: 0,
+      reRenderBtns: 0,
     }
   },
   created() {
-    this.$store.dispatch('getNotification')
+    if (this.user) {
+      this.$store.dispatch('getNotification')
+    }
   },
   computed: {
     ...mapState([
@@ -166,7 +173,9 @@ export default {
       else this.$router.replace({name: 'PostDetail', params: {id: moving}})
     },
     getNotification() {
-      this.$store.dispatch('getNotification')
+      if (this.user) {
+        this.$store.dispatch('getNotification')
+      }
     }
   },
   filters: {
@@ -177,6 +186,9 @@ export default {
     },
   },
   mounted() {
+    this.loginIconKey += 1
+    this.profileIconKey += 1
+    this.reRenderBtns += 1
     setInterval(this.getNotification, 60000); //1분마다 실행
   },
   watch: {
@@ -186,6 +198,7 @@ export default {
       handler() {
         this.loginIconKey += 1
         this.profileIconKey += 1
+        this.reRenderBtns += 1
       }
     }
   }

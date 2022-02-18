@@ -70,10 +70,7 @@ export default {
     state.snackbar.text = snackbarText
     setTimeout(state.snackbar.isRendered = true, 100)
   },
-  SET_SEARCH_INPUT: function (state, searchInput) {
-    state.searchModal.input = searchInput
-    console.log('검색어 도착!', searchInput, state.searchModal.input)
-  },
+
 
 
   //4. 추천 피드
@@ -91,8 +88,12 @@ export default {
     // state.curationFeed.lastPostCode = lastPostCode
   },
   PRESET_CURATION_KEYWORD: function (state, keyword) {
-    console.log(state.curationFeed.preSelectedKeyword, '선택된 키워드')
-    state.curationFeed.preSelectedKeyword = keyword
+    console.log(state.preSelectedKeyword, '선택된 키워드')
+    state.preSelectedKeyword = keyword
+  },
+  PRESET_SEARCH_KEYWORD: function (state, searchKeyword) {
+    state.preSelectedKeyword = searchKeyword
+    console.log('검색어 도착!', state.preSelectedKeyword)
   },
 
 

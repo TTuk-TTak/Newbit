@@ -24,9 +24,7 @@
       class="mt-5 pt-5 justify-self-center align-self-end"
       cols=12
     >
-
       <infinite-loading
-        v-if='user'
         class="mt-5 pt-5 justify-self-center align-self-center"
         @infinite="infiniteHandler" 
         >

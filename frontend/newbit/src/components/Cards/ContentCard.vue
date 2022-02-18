@@ -47,6 +47,8 @@
         <keyword-chip
           class="embeddedKeyword"
           v-for="(value, key) in chips.keywords"
+          :isInToggler='false'
+          :variableName='key'
           :key="key"
           :text="value"
           :isActive="false"

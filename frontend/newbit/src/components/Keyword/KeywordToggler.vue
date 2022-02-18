@@ -1,6 +1,7 @@
 <template>
   <v-chip-group
     column
+    :key='togglerRerenderKey'
   >
     <keyword-chip
       v-for="(shownName, key) in keywordDict"
@@ -24,23 +25,26 @@ export default {
   components: {
     KeywordChip,
   },
+  props: {
+    isInCurationFeed: Boolean
+  },
   data: () => {
     return {
       keywordActivity: {},
+      togglerRerenderKey: 0,
     }
   },
   methods: {
     setActivity: function () {
       let userKeywordString = ''
-      if (this.curationFeed.preSelectedKeyword) {
-        userKeywordString = this.curationFeed.preSelectedKeyword
-      } else if (this.user ){
-        userKeywordString = this.user.userKeyword
+      if (this.isInCurationFeed && this.preSelectedKeyword) {
+        userKeywordString = this.preSelectedKeyword
+      // } else if (this.user){
+      //   userKeywordString = this.user.userKeyword
       } else {
         userKeywordString = "null"
       }
       const userFavoriteKeyword = this.$parseKeyword(userKeywordString)
-
       for (let keyword in this.keywordDict) {
         if (userFavoriteKeyword.includes(keyword)) {
           this.keywordActivity[keyword] = true
@@ -68,7 +72,7 @@ export default {
   computed: {
     ...mapState([
       'user',
-      'curationFeed',
+      'preSelectedKeyword',
     ]),
     ...mapGetters([
         'keywordDict',
@@ -79,10 +83,15 @@ export default {
     this.setActivity()
   },
   watch: {
-    deep: true,
-    handler () {
-      if (this.curationFeed.preSelectedKeyword)
-      this.setActivity()
+    preSelectedKeyword: {
+      async handler () {
+        if (this.preSelectedKeyword) {
+          console.log(this.preSelectedKeyword, 12312323)
+          await this.setActivity()
+          this.makeQueryString()
+          this.$store.dispatch("presetCurationKeyword", '')
+        }
+      }
     }
   }
 }

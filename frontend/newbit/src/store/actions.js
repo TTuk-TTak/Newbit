@@ -32,11 +32,7 @@ export default {
     console.log(snackbarText, '스낵스낵')
     commit('TURN_SNACKBAR_ON', snackbarText)
   },
-  // 4) SearchModal
-  setSearchInput: function ({ commit }, searchInput) {
-    console.log(searchInput, '검색어 이동!')
-    commit('SET_SEARCH_INPUT', searchInput)
-  },
+
 
   // // 2. Feed조작
   socialFeedLoadedAt: function ({ commit }) {
@@ -48,29 +44,6 @@ export default {
   archivingFeedLoadedAt: function ({ commit }) {
     commit('ARCHIVING_FEED_LOADED_AT')
   },
-
-
-  // loadPosts: function ({ commit }) {
-  //   const size = 8
-  //   axios({
-  //     method: 'get',
-  //     url: `${serverURL}/post/list?`
-  //       + `uid=${state.user.userCode}`
-  //       + `&lastpostcode=${state.socialFeed.lastPostCode}`
-  //       + `&size=${size}`,
-  //   })
-  //     .then(res => {
-  //       if (res.data.length) {
-  //         commit('LOAD_POSTS', res.data)
-  //       } else {
-  //         commit('REACHED_LAST_POST')
-  //       }
-  //       console.log('Actions-loadPost', res)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
-  // },
 
   // 3. 유저 정보 저장 & 초기화
 
@@ -126,6 +99,12 @@ export default {
   presetCurationKeyword: ({ commit }, keyword) => {
     commit('PRESET_CURATION_KEYWORD', keyword)
   },
+  // 4) SearchModal
+  presetSearchKeyword: function ({ commit }, searchKeyword) {
+    console.log(searchKeyword, '검색어 이동!')
+    commit('PRESET_SEARCH_KEYWORD', searchKeyword)
+  },
+
 
   //6. 알림
   getNotification: ({ commit }) => {
