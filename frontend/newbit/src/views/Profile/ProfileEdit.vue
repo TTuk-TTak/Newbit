@@ -16,16 +16,15 @@
               <v-col cols="2">
                 <v-img
                   class="v-avatar image"
-                  src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm"
+                  :src="user.userImg"
                 />
               </v-col>
               <v-col
                 align-self="center"
                 cols="10"
               >
-                <span class="font-weight-bold mr-1">{{ credentials.userNick }}</span>
-                <span class="grey--text">{{ `@${credentials.userId}` }}</span>
-                <p class="mb-0 font-weight-bold">프로필 사진 바꾸기 넣는 부분</p>
+                <span class="text-h6 font-weight-bold mr-1">{{ user.userNick }}</span>
+                <span class="grey--text">{{ `@${user.userId}` }}</span>
               </v-col>
             </v-row>
             <v-row>
@@ -124,12 +123,12 @@
             </v-row>
             <div class="mb-7">
               <div class="font-weight-bold mb-3">관심키워드</div>
-              <keyword-toggler></keyword-toggler>
+              <keyword-toggler @query-string-changed="changeKeywordString"></keyword-toggler>
             </div>
             <v-row justify="center">
               <v-col cols="6">
                 <v-btn
-                  @click="changeMyInformation('???')"
+                  @click="changeMyInformation(user.userCode, user.userImg)"
                   class="font-weight-bold"
                   color="black"
                   dark
@@ -162,6 +161,7 @@ export default {
         userNick: '',
         userPassword: '',
         userIntro: '',
+        userKeyword: '',
       },
       rePassword: '',
     }
@@ -183,11 +183,11 @@ export default {
           console.log(err)
         })
     },
-    changeMyInformation (user_code, user_img, user_keyword) {
+    changeMyInformation (user_code, user_img) {
       const headers = this.$setToken()
-      const data = { ...this.credentials, userCode: user_code, userImg: user_img, userKeyword: user_keyword }
+      const data = { ...this.credentials, userCode: user_code, userImg: user_img }
       axios({
-        url: `${this.$serverURL}/user/setting`,
+        url: `${this.$serverURL}/user`,
         method: 'patch',
         data,
         headers,
@@ -195,6 +195,9 @@ export default {
         .then((res) => {
           console.log(res)
         })
+    },
+    changeKeywordString (changed) {
+      this.userKeyword = changed
     }
   },
   created () {
