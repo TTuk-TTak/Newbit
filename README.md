@@ -29,6 +29,10 @@
 
 👉 [구글 스프레드시트](https://docs.google.com/spreadsheets/d/1GGnTYjv8SSciVGHimomYVWOcoFF7jOWctjheaAZ9cTI/edit#gid=138943330) 링크
 
+**시연 UCC** (최종발표ver)
+
+👉 [영상](https://youtu.be/3QaFYLFoz3U) 으로 확인하기
+
 
 ## 4) 팀 소개
 
