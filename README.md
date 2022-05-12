@@ -1,6 +1,7 @@
 # 1. 서비스 소개
 
-![Untitled 1](README.assets/Untitled 1-164432150692766.png)
+![Untitled 1-164432150692766](https://user-images.githubusercontent.com/67628725/167992397-197cc4b7-64af-4a66-99f6-f01e2d039de2.png)
+
 
 ## 1) Newbit이란?
 
