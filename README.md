@@ -115,7 +115,7 @@
 
 ## 6) 기술 스택
 
-![Untitled 2](README.assets/Untitled 2-164432161993871.png)
+![Untitled 2-164432161993871](https://user-images.githubusercontent.com/67628725/167992412-4daf77fc-39bb-4ca5-976b-01c71a366ce1.png)
 
 🖱**Backend**
 
@@ -147,11 +147,10 @@
 
 ## 1) 화면정의서
 
-![Untitled 3](README.assets/Untitled 3-164432162498272.png)
+![Untitled 3-164432162498272](https://user-images.githubusercontent.com/67628725/167992461-beef3bb3-71ad-4a52-976a-9bdb3d919b38.png)
 
 ## 2) 와이어프레임
-
-![Untitled 4](README.assets/Untitled 4-164432162814773.png)
+![Untitled 4-164432162814773](https://user-images.githubusercontent.com/67628725/167992470-e599cfa9-e897-4f41-9eca-bfc94f86b302.png)
 
 Figma 에서 살펴보기
 
@@ -163,7 +162,7 @@ Figma 에서 살펴보기
 
 ## 3) 컴포넌트 구조도(FE)
 
-![Untitled 5](README.assets/Untitled 5-164432163630574.png)
+![Untitled 5-164432163630574](https://user-images.githubusercontent.com/67628725/167992484-73edbf12-47b5-4961-bde9-7de9e17b88b3.png)
 
 Figma 에서 살펴보기
 
