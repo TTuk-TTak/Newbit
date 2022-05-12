@@ -172,33 +172,34 @@ Figma 에서 살펴보기
 
 ## 1) 시퀀스 다이어그램
 
-![Untitled 6](README.assets/Untitled 6-164432164149475.png)
+![Untitled 6-164432164149475](https://user-images.githubusercontent.com/67628725/167993506-a4f1dc26-3c08-4c1f-901b-3b3494649236.png)
 
 ## 2) 유스케이스 다이어그램
 
-![Untitled 7](README.assets/Untitled 7-164432164638276.png)
+![Untitled 7-164432164638276](https://user-images.githubusercontent.com/67628725/167993520-d04c6b22-8d15-4074-8fe6-11b94f8499d5.png)
 
 ## 3) ERD
-
-![Untitled 8](README.assets/Untitled 8-164432165173677.png)
+![Untitled 8-164432165173677](https://user-images.githubusercontent.com/67628725/167993530-f25b36fc-7c92-48a4-b76d-cad839fbbc73.png)
 
 ## 4) 요구사항 정의서
 
-![Untitled 9](README.assets/Untitled 9-164432167186878.png)
+![Untitled 9-164432167186878](https://user-images.githubusercontent.com/67628725/167993538-5b686abb-0c80-444b-bb32-93c7c45c3f02.png)
 
-![Untitled 10](README.assets/Untitled 10-164432167186880.png)
+![Untitled 10-164432167186880](https://user-images.githubusercontent.com/67628725/167993545-aa7d3694-2ecb-412c-a8a8-f4da2d3e959d.png)
 
-![Untitled 11](README.assets/Untitled 11-164432167186879.png)
+![Untitled 11-164432167186879](https://user-images.githubusercontent.com/67628725/167993554-675a8bc2-9e8f-48a7-b254-e923cea6a17b.png)
 
-![Untitled 12](README.assets/Untitled 12-164432167186881.png)
+![Untitled 12-164432167186881](https://user-images.githubusercontent.com/67628725/167993567-fb82988d-e18e-4a6d-9d97-346a33183aa8.png)
+
+
 
 ## 5) API 설계서
 
-![Untitled 13](README.assets/Untitled 13-164432167810782.png)
+![Untitled 13-164432167810782](https://user-images.githubusercontent.com/67628725/167993578-b1b0e6e8-de72-4c3f-9d70-1bfd865d7c11.png)
 
 ## 6) 시스템 구성도
 
-![Untitled 14](README.assets/Untitled 14-164432168280583.png)
+![Untitled 14-164432168280583](https://user-images.githubusercontent.com/67628725/167993584-2785e120-7f27-4cdf-90c3-8a858fed4c86.png)
 
 # 3. 설치 및 사용법
 
